@@ -19,10 +19,20 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnTouchListener(new View.OnTouchListener()
+        Button btn_zone_1 = (Button) findViewById(R.id.btn_zone_1);
+        Button btn_zone_2 = (Button) findViewById(R.id.btn_zone_2);
+        Button btn_zone_3 = (Button) findViewById(R.id.btn_zone_3);
+        Button btn_zone_4 = (Button) findViewById(R.id.btn_zone_4);
+        Button btn_zone_5 = (Button) findViewById(R.id.btn_zone_4);
+        Button btn_zone_6 = (Button) findViewById(R.id.btn_zone_6);
+        Button btn_zone_7 = (Button) findViewById(R.id.btn_zone_7);
+        Button btn_zone_8 = (Button) findViewById(R.id.btn_zone_8);
+
+
+
+
+        View.OnTouchListener myTouchListener = new View.OnTouchListener()
         {
-            @Override
             public boolean onTouch(View v, MotionEvent event)
             {
                 if(event.getAction() == MotionEvent.ACTION_DOWN)
@@ -32,9 +42,23 @@ public class MainActivity extends ActionBarActivity {
                 }
                 return true;//Return true, so there will be no onClick-event
             }
-        });
+        };
+
+        btn_zone_1.setOnTouchListener(myTouchListener);
+        btn_zone_2.setOnTouchListener(myTouchListener);
+        btn_zone_3.setOnTouchListener(myTouchListener);
+        btn_zone_4.setOnTouchListener(myTouchListener);
+        btn_zone_5.setOnTouchListener(myTouchListener);
+        btn_zone_6.setOnTouchListener(myTouchListener);
+        btn_zone_7.setOnTouchListener(myTouchListener);
+        btn_zone_8.setOnTouchListener(myTouchListener);
+
     }
 
+    private void action() {
+
+
+    }
 
 
     @Override
