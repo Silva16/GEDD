@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SpikeBaseDados.iml" filepath="$PROJECT_DIR$/SpikeBaseDados.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpikeBaseDados - Cópia.iml" filepath="$PROJECT_DIR$/SpikeBaseDados - Cópia.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
