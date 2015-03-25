@@ -268,6 +268,17 @@
         android:focusable="false">
 
         <ImageButton
+            android:src="@drawable/substituicao"
+            android:layout_width="63dp"
+            android:layout_height="50dp"
+            android:id="@+id/imgbtn_subs"
+            android:scaleType="fitCenter"
+            android:background="#0fffffff"
+            android:layout_alignBottom="@+id/imageButton"
+            android:layout_toLeftOf="@+id/imgbtn_player6"
+            android:layout_toStartOf="@+id/imgbtn_player6" />
+
+        <Button
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:id="@+id/imgbtn_player1"
@@ -275,9 +286,10 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginRight="7dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:text="11" />
 
-        <ImageButton
+        <Button
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:id="@+id/imgbtn_player2"
@@ -285,9 +297,10 @@
             android:layout_toRightOf="@+id/imgbtn_player1"
             android:layout_toEndOf="@+id/imgbtn_player1"
             android:layout_marginRight="7dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:text="9" />
 
-        <ImageButton
+        <Button
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:id="@+id/imgbtn_player3"
@@ -295,42 +308,57 @@
             android:layout_toRightOf="@+id/imgbtn_player2"
             android:layout_toEndOf="@+id/imgbtn_player2"
             android:layout_marginRight="7dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:text="17" />
 
-        <ImageButton
+        <Button
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:id="@+id/imgbtn_player4"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/imgbtn_player3"
             android:layout_toEndOf="@+id/imgbtn_player3"
-            android:layout_marginRight="7dp" />
+            android:layout_marginRight="7dp"
+            android:text="2" />
 
-        <ImageButton
+        <Button
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:id="@+id/imgbtn_player5"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/imgbtn_player4"
             android:layout_toEndOf="@+id/imgbtn_player4"
-            android:layout_marginRight="7dp" />
+            android:layout_marginRight="7dp"
+            android:text="34" />
 
-        <ImageButton
+        <Button
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:id="@+id/imgbtn_player6"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/imgbtn_player5"
-            android:layout_toEndOf="@+id/imgbtn_player5" />
+            android:layout_toEndOf="@+id/imgbtn_player5"
+            android:text="56" />
 
-        <ImageButton
+        <Button
             android:layout_width="100dp"
             android:layout_height="63dp"
             android:id="@+id/imageButton"
             android:layout_below="@+id/imgbtn_player4"
             android:layout_toRightOf="@+id/imgbtn_player2"
             android:layout_alignRight="@+id/imgbtn_player4"
-            android:layout_alignEnd="@+id/imgbtn_player4" />
+            android:layout_alignEnd="@+id/imgbtn_player4"
+            android:text="1 - GR" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Substituição"
+            android:id="@+id/textViewSub"
+            android:layout_above="@+id/imgbtn_subs"
+            android:layout_alignLeft="@+id/imgbtn_subs"
+            android:layout_alignStart="@+id/imgbtn_subs" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -676,5 +704,25 @@
             android:layout_below="@+id/textView4"
             android:layout_toRightOf="@+id/button7" />
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Baliza"
+        android:id="@+id/textView_baliza"
+        android:layout_below="@+id/textView_time"
+        android:layout_alignLeft="@+id/textView_time"
+        android:layout_alignStart="@+id/textView_time" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Zona Inicio de Jogada"
+        android:id="@+id/textView_zonaInicioJogada"
+        android:layout_below="@+id/imgbtn_undo"
+        android:layout_toLeftOf="@+id/imgbtn_undo"
+        android:layout_toStartOf="@+id/imgbtn_undo" />
 
 </RelativeLayout>
