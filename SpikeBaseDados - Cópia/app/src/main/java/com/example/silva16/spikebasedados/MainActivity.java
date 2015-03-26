@@ -1,12 +1,17 @@
 package com.example.silva16.spikebasedados;
 
+import android.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -17,7 +22,32 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
+
+        // ActionBar Test
+        android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+
+        View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
+        mTitleTextView.setText("My Own Title");
+
+        ImageButton imageButton = (ImageButton) mCustomView
+                .findViewById(R.id.imageButton10);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Refresh Clicked!",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
+
+        //------------------------//
 
         Button btn_zone_1 = (Button) findViewById(R.id.btn_zone_1);
         Button btn_zone_2 = (Button) findViewById(R.id.btn_zone_2);
