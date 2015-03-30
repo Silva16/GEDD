@@ -33,8 +33,6 @@ public class MainActivity extends ActionBarActivity {
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
-        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
-        mTitleTextView.setText("My Own Title");
 
         ImageButton imageButton = (ImageButton) mCustomView
                 .findViewById(R.id.imgbtn_play);
