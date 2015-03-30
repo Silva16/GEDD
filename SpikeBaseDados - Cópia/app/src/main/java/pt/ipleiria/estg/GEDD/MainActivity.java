@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
         mTitleTextView.setText("My Own Title");
 
         ImageButton imageButton = (ImageButton) mCustomView
-                .findViewById(R.id.imageButton10);
+                .findViewById(R.id.imgbtn_play);
         imageButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -192,7 +192,7 @@ public class MainActivity extends ActionBarActivity {
         Button btnZone;
         if((btnOffAct = isChildrenPressed(offensiveAction)) != null && (btnFinalization = isChildrenPressed(finalization)) != null && (btnZone = isChildrenPressed(zones))!= null ) {
             player1.setTeste(btnOffAct.getText().toString() + " " + btnFinalization.getText().toString() + " " + btnZone.getText().toString());
-            player1.refreshPlayerStats(btnFinalization.getTag().toString(),btnZone.getTag().toString(), btnOffAct.getTag().toString());
+            //player1.refreshPlayerStats(btnFinalization.getTag().toString(),btnZone.getTag().toString(), btnOffAct.getTag().toString());
         }
         return null;
     }

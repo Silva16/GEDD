@@ -15,24 +15,33 @@
         android:textStyle="bold" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="50px"
-        android:layout_height="50px"
+        android:id="@+id/imgbtn_play"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="8px"
+        android:layout_marginLeft="8dp"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
         android:src="@drawable/play" />
 
     <ImageButton
-        android:id="@+id/imageButton10"
-        android:layout_width="63px"
-        android:layout_height="50px"
+        android:id="@+id/imgbtn_undo"
+        android:layout_width="63dp"
+        android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="8px"
+        android:layout_marginRight="8dp"
         android:background="?android:selectableItemBackground"
         android:src="@drawable/undo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textView_teste"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/imgbtn_undo"
+        android:layout_toStartOf="@+id/imgbtn_undo" />
 
 </RelativeLayout>

@@ -9,7 +9,6 @@
         android:layout_width="fill_parent"
         android:layout_height="315dp"
         android:id="@+id/field"
-        android:layout_below="@+id/textView_time"
         android:layout_margin="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -642,122 +641,30 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scoreLayout"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Benfica"
-            android:id="@+id/textView_team1"
-            android:paddingEnd="5px"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/scoreLayout"
-            android:layout_toStartOf="@+id/scoreLayout" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="0"
-            android:id="@+id/textView_score1"
-            android:layout_alignTop="@+id/textView3"
-            android:layout_alignLeft="@+id/btn_b2"
-            android:layout_alignStart="@+id/btn_b2" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=":"
-            android:id="@+id/textView3"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="0"
-            android:id="@+id/textView_score2"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/btn_b3"
-            android:layout_toStartOf="@+id/btn_b3" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Leiria"
-            android:id="@+id/textView_team2"
-            android:layout_toRightOf="@+id/btn_out"
-            android:layout_toEndOf="@+id/btn_out"
-            android:layout_alignTop="@+id/textView_team1"
-            android:password="false" />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="30:00"
-        android:id="@+id/textView_time"
-        android:textAlignment="center"
-        android:height="40px"
-        android:textSize="32sp"
-        android:gravity="center_vertical"
-        android:layout_alignTop="@+id/imgbtn_play"
-        android:layout_toRightOf="@+id/imgbtn_play"
-        android:layout_toEndOf="@+id/imgbtn_play"
-        android:layout_alignBottom="@+id/imgbtn_play" />
-
-    <ImageButton
-        android:layout_width="63dp"
-        android:layout_height="63dp"
-        android:id="@+id/imgbtn_undo"
-        android:src="@drawable/undo"
-        android:background="#0fffffff"
-        android:scaleType="fitCenter"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/field"
-        android:layout_alignEnd="@+id/field" />
-
-    <ImageButton
-        android:src="@drawable/play"
-        android:layout_width="63dp"
-        android:layout_height="63dp"
-        android:id="@+id/imgbtn_play"
-        android:scaleType="fitCenter"
-        android:background="@null"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/field"
-        android:layout_alignStart="@+id/field" />
-
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/otherActions"
-        android:layout_alignBottom="@+id/button8"
         android:layout_toEndOf="@+id/defensiveAction"
         android:layout_below="@+id/defensiveAction"
         android:layout_alignLeft="@+id/defensiveAction"
-        android:layout_alignStart="@+id/defensiveAction">
+        android:layout_alignStart="@+id/defensiveAction"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Outras Acções"
-            android:id="@+id/textView4"
+            android:id="@+id/txtview_otherActions"
             android:textAlignment="center"
-            android:layout_above="@+id/button7"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@id/otherActions"
+            android:layout_toStartOf="@id/otherActions"
+            android:layout_alignParentTop="true"
+            android:gravity="center" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -765,10 +672,11 @@
             android:layout_height="63dp"
             android:text="Assistência"
             android:id="@+id/button7"
-            android:layout_alignParentBottom="true"
+            android:layout_alignTop="@+id/button8"
             android:layout_toRightOf="@+id/button8"
             android:layout_toEndOf="@+id/button8"
-            android:layout_marginRight="60dp" />
+            android:layout_marginLeft="22dp"
+            android:layout_marginStart="22dp" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -776,10 +684,10 @@
             android:layout_height="63dp"
             android:text="Falha Técnica"
             android:id="@+id/button8"
-            android:layout_alignParentBottom="true"
+            android:layout_alignBaseline="@+id/button6"
+            android:layout_alignBottom="@+id/button6"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginRight="20dp" />
+            android:layout_alignParentStart="true" />
 
         <ImageButton
             android:layout_width="63dp"
@@ -788,7 +696,7 @@
             android:src="@drawable/cards"
             android:background="#0fffffff"
             android:scaleType="fitCenter"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/txtview_otherActions"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
@@ -797,39 +705,11 @@
             android:layout_height="63dp"
             android:text="Falha Técnica Adversária"
             android:id="@+id/button6"
-            android:layout_below="@+id/textView4"
-            android:layout_toRightOf="@+id/button7" />
+            android:layout_marginRight="27dp"
+            android:layout_marginEnd="27dp"
+            android:layout_below="@+id/txtview_otherActions"
+            android:layout_toLeftOf="@+id/imgbtn_cards"
+            android:layout_toStartOf="@+id/imgbtn_cards" />
     </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Baliza"
-        android:id="@+id/textView_baliza"
-        android:layout_below="@+id/textView_time"
-        android:layout_toRightOf="@+id/imgbtn_play"
-        android:layout_toEndOf="@+id/imgbtn_play" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Zona Inicio de Jogada"
-        android:id="@+id/textView_zonaInicioJogada"
-        android:layout_below="@+id/imgbtn_undo"
-        android:layout_toLeftOf="@+id/imgbtn_undo"
-        android:layout_toStartOf="@+id/imgbtn_undo" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView_teste"
-        android:layout_alignBottom="@+id/scoreLayout"
-        android:layout_toLeftOf="@+id/imgbtn_undo"
-        android:layout_toStartOf="@+id/imgbtn_undo"
-        android:layout_marginRight="17dp"
-        android:layout_marginEnd="17dp" />
 
 </RelativeLayout>
