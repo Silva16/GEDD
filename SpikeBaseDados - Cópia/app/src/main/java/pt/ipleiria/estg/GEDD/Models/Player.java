@@ -11,6 +11,9 @@ public class Player {
     private boolean yellowCard;
     private boolean redCard;
 
+    //teste
+    private String teste;
+
     //Remates
     private int[] sixShotGoal;
     private int[] sixShotBlocked;
@@ -54,6 +57,8 @@ public class Player {
         this.disarm = 0;
         this.interception = 0;
         this.technicalFailure = 0;
+
+        setTeste("teste 1");
     }
 
     public boolean isYellowCard() {
@@ -270,5 +275,13 @@ public class Player {
 
     public void setAssistance(int assistance) {
         this.assistance = assistance;
+    }
+
+    public String getTeste() {
+        return teste;
+    }
+
+    public void setTeste(String teste) {
+        this.teste = teste;
     }
 }

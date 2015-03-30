@@ -80,7 +80,13 @@ public class MainActivity extends ActionBarActivity {
         Button btn_out = (Button) findViewById(R.id.btn_out);
         Button btn_defense = (Button) findViewById(R.id.btn_defense);
 
+        final TextView textViewTeste = (TextView) findViewById(R.id.textView_teste);
 
+        final RelativeLayout zones = (RelativeLayout) findViewById(R.id.zones);
+        final RelativeLayout finalization = (RelativeLayout) findViewById(R.id.finalization);
+        final RelativeLayout offensiveAction = (RelativeLayout) findViewById(R.id.offensiveAction);
+
+        final Player player1 = new Player(1);
 
 
         final View.OnTouchListener zoneTouchListener = new View.OnTouchListener()
@@ -92,10 +98,18 @@ public class MainActivity extends ActionBarActivity {
                     if(!(v.isPressed())) {
                         ViewGroup container = (ViewGroup) v.getParent();
                         for (int i=0 ; i < container.getChildCount(); i++){
-                            container.getChildAt(i);
                             container.getChildAt(i).setPressed(false);
                         }
                         ((Button) v).setPressed(true);
+
+                        allPressed(offensiveAction,finalization,zones,player1);
+
+                        textViewTeste.setText(player1.getTeste());
+
+
+
+
+
                     }else{
                         ((Button) v).setPressed(false);
                     }
@@ -136,8 +150,26 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-            Player player1 = new Player(1);
 
+
+
+        textViewTeste.setText(player1.getTeste());
+
+    }
+
+    private Button isChildrenPressed(RelativeLayout container){
+        for (int i=0 ; i < container.getChildCount(); i++){
+            if(container.getChildAt(i).isPressed() == true)
+                return (Button) container.getChildAt(i);
+        }
+        return null;
+    }
+
+    private Player allPressed(RelativeLayout offensiveAction, RelativeLayout finalization, RelativeLayout zones, Player player1){
+        if(isChildrenPressed(offensiveAction) != null && isChildrenPressed(finalization) != null && isChildrenPressed(zones)!= null ) {
+            player1.setTeste(isChildrenPressed(offensiveAction).getText().toString() + " " + isChildrenPressed(finalization).getText().toString() + " " + isChildrenPressed(zones).getText().toString());
+        }
+        return null;
     }
 
     private void action() {
