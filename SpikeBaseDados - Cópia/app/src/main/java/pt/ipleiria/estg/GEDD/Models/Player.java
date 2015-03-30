@@ -284,4 +284,15 @@ public class Player {
     public void setTeste(String teste) {
         this.teste = teste;
     }
+
+    public void refreshPlayer(String finalization, String zone, String offAction){
+        if(finalization=="btn_ca"){
+            switch (offAction)
+            {
+
+            }
+        }
+    }
+
+    //public void selectFinalizationResult(result)
 }
