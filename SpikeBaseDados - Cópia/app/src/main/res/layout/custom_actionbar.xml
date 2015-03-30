@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="50px"
     android:background="@drawable/abc_item_background_holo_dark" >
 
     <TextView
@@ -14,23 +14,25 @@
         android:textColor="#fff"
         android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="50px"
+        android:layout_height="50px"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
-        android:src="@drawable/undo" />
+        android:layout_marginLeft="8px"
+        android:background="?android:selectableItemBackground"
+        android:scaleType="fitCenter"
+        android:src="@drawable/play" />
 
     <ImageButton
         android:id="@+id/imageButton10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="63px"
+        android:layout_height="50px"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
-        android:background="@null"
-        android:src="@drawable/play" />
+        android:layout_marginRight="8px"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/undo" />
 
 </RelativeLayout>
