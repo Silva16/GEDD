@@ -9,11 +9,10 @@
         android:layout_width="fill_parent"
         android:layout_height="315dp"
         android:id="@+id/field"
-        android:layout_margin="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp">
+        android:layout_alignParentTop="true">
 
         <RelativeLayout
             android:layout_width="315dp"
@@ -522,7 +521,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="140dp"
+            android:layout_width="138dp"
             android:layout_height="63dp"
             android:text="Contra-Ataque"
             android:id="@+id/btn_ca"
@@ -533,7 +532,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="140dp"
+            android:layout_width="138dp"
             android:layout_height="63dp"
             android:text="6 metros"
             android:id="@+id/btn_6m"
@@ -543,7 +542,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="140dp"
+            android:layout_width="138dp"
             android:layout_height="63dp"
             android:text="7 metros"
             android:id="@+id/btn_7m"
@@ -554,7 +553,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="140dp"
+            android:layout_width="138dp"
             android:layout_height="63dp"
             android:text="9 metros"
             android:id="@+id/btn_9m"
@@ -694,13 +693,11 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="85dp"
+        android:layout_height="90dp"
         android:id="@+id/otherActions"
-        android:layout_toEndOf="@+id/defensiveAction"
         android:layout_below="@+id/defensiveAction"
         android:layout_alignLeft="@+id/defensiveAction"
-        android:layout_alignStart="@+id/defensiveAction"
-        android:layout_marginTop="10dp">
+        android:layout_alignStart="@+id/defensiveAction">
 
         <TextView
             android:layout_width="wrap_content"
@@ -709,13 +706,12 @@
             android:text="Outras Acções"
             android:id="@+id/txtview_otherActions"
             android:textAlignment="center"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentEnd="true"
-            android:layout_alignStart="@id/otherActions"
-            android:layout_toStartOf="@id/otherActions"
+            android:gravity="center"
             android:layout_alignParentTop="true"
-            android:gravity="center" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -726,7 +722,7 @@
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/button8"
             android:layout_toEndOf="@+id/button8"
-            android:layout_marginRight="25dp" />
+            android:layout_marginRight="15dp" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -736,7 +732,7 @@
             android:id="@+id/button8"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="15dp" />
 
         <ImageButton
             android:layout_width="63dp"
@@ -755,9 +751,8 @@
             android:text="Falha Técnica Adversária"
             android:id="@+id/button6"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/space3"
-            android:layout_toStartOf="@+id/space3"
-            android:layout_marginRight="145dp" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <Space
             android:layout_width="0px"
