@@ -3,6 +3,7 @@ package pt.ipleiria.estg.GEDD;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,12 +62,12 @@ public class MainActivity extends ActionBarActivity {
         final Button btn_zone_8 = (Button) findViewById(R.id.btn_zone_8);
         final Button btn_zone_9 = (Button) findViewById(R.id.btn_zone_9);
 
-        ImageButton btn_player1 = (ImageButton) findViewById(R.id.imgbtn_player1);
-        ImageButton btn_player2 = (ImageButton) findViewById(R.id.imgbtn_player2);
-        ImageButton btn_player3 = (ImageButton) findViewById(R.id.imgbtn_player3);
-        ImageButton btn_player4 = (ImageButton) findViewById(R.id.imgbtn_player4);
-        ImageButton btn_player5 = (ImageButton) findViewById(R.id.imgbtn_player5);
-        ImageButton btn_player6 = (ImageButton) findViewById(R.id.imgbtn_player6);
+        final ImageButton btn_player1 = (ImageButton) findViewById(R.id.imgbtn_player1);
+        final ImageButton btn_player2 = (ImageButton) findViewById(R.id.imgbtn_player2);
+        final ImageButton btn_player3 = (ImageButton) findViewById(R.id.imgbtn_player3);
+        final ImageButton btn_player4 = (ImageButton) findViewById(R.id.imgbtn_player4);
+        final ImageButton btn_player5 = (ImageButton) findViewById(R.id.imgbtn_player5);
+        final ImageButton btn_player6 = (ImageButton) findViewById(R.id.imgbtn_player6);
 
         TextView lbl_player1 = (TextView) findViewById(R.id.lbl_player1);
         TextView lbl_player2 = (TextView) findViewById(R.id.lbl_player2);
@@ -109,6 +110,15 @@ public class MainActivity extends ActionBarActivity {
         final Player player5 = new Player(Integer.parseInt(player5Number));
         final Player player6 = new Player(Integer.parseInt(player6Number));
 
+        final Player[] players = new Player[6];
+
+        players[0] = player1;
+        players[1] = player2;
+        players[2] = player3;
+        players[3] = player4;
+        players[4] = player5;
+        players[5] = player6;
+
         final View.OnTouchListener zoneTouchListener = new View.OnTouchListener()
         {
             public boolean onTouch(View v, MotionEvent event)
@@ -116,31 +126,53 @@ public class MainActivity extends ActionBarActivity {
                 if(event.getAction() == MotionEvent.ACTION_DOWN)
                 {
                     if(!(v.isPressed())) {
+                        Log.i("botão", "foi pressioado o botão com a tag "+v.getTag());
+
                         ViewGroup container = (ViewGroup) v.getParent();
                         for (int i=0 ; i < container.getChildCount(); i++){
                             container.getChildAt(i).setPressed(false);
                         }
                         v.setPressed(true);
+                        Player player;
+                        if ((player = allPressed(offensiveAction, finalization, zones, teamPlayer, players)) != null){
+                            refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player);
+                        }
 
                         // Fiquei aqui. O objectivo era quando carrega-se num jogador soubesse que o v era um btn_player1 e fazer o get tag
-                        /*switch (v.getTag){
+                        /*switch ((int) v.getTag()){
                             case 1:
-                                allPressed(offensiveAction,finalization,zones, teamPlayer, player1);
+                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
+                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
+                                }
+                                break;
                             case 2:
-                                allPressed(offensiveAction,finalization,zones, teamPlayer, player2);
+                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
+                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
+                                }
+                                break;
                             case 3:
-                                allPressed(offensiveAction,finalization,zones, teamPlayer, player3);
+                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
+                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
+                                }
+                                break;
                             case 4:
-                                allPressed(offensiveAction,finalization,zones, teamPlayer, player4);
+                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
+                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
+                                }
+                                break;
                             case 5:
-                                allPressed(offensiveAction,finalization,zones, teamPlayer, player5);
+                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
+                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
+                                }
+                                break;
                             case 6:
-                                allPressed(offensiveAction,finalization,zones, teamPlayer, player6);
+                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
+                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
+                                }
+                                break;
                         }*/
 
-                        if(allPressed(offensiveAction,finalization,zones, teamPlayer, player1)){
-                            refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
-                        }
+
 
                         textViewTeste.setText(player1.getTeste());
 
@@ -157,6 +189,8 @@ public class MainActivity extends ActionBarActivity {
                 return true;//Return true, so there will be no onClick-event
             }
         };
+
+
 
         btn_zone_1.setOnTouchListener(zoneTouchListener);
         btn_zone_2.setOnTouchListener(zoneTouchListener);
@@ -191,7 +225,6 @@ public class MainActivity extends ActionBarActivity {
         btn_player4.setTag(4);
         btn_player5.setTag(5);
         btn_player6.setTag(6);
-
 
 
         btn_ca.setOnTouchListener(zoneTouchListener);
@@ -236,23 +269,22 @@ public class MainActivity extends ActionBarActivity {
         return null;
     }
 
-    private Boolean allPressed(RelativeLayout offensiveAction, RelativeLayout finalization, RelativeLayout zones, RelativeLayout teamPlayer, Player player){
+    private Player allPressed(RelativeLayout offensiveAction, RelativeLayout finalization, RelativeLayout zones, RelativeLayout teamPlayer, Player[] players){
         Button btnOffAct;
         Button btnFinalization;
         Button btnZone;
         ImageButton btnPlayer;
 
-        if((btnOffAct = isChildrenButtonPressed(offensiveAction)) != null && (btnFinalization = isChildrenButtonPressed(finalization)) != null && (btnZone = isChildrenButtonPressed(zones))!= null){
-            player.setTeste(btnOffAct.getText().toString() + " " + btnFinalization.getText().toString() + " " + btnZone.getText().toString());
-            player.refreshPlayerStats(btnFinalization.getTag().toString(),(int) btnZone.getTag(), btnOffAct.getTag().toString());
-            //player.setTeste(btnPlayer);
+        if((btnOffAct = isChildrenButtonPressed(offensiveAction)) != null && (btnFinalization = isChildrenButtonPressed(finalization)) != null && (btnZone = isChildrenButtonPressed(zones))!= null && (btnPlayer = isChildrenImgButtonPressed(teamPlayer)) != null){
+            players[(int) btnPlayer.getTag()].setTeste(btnOffAct.getText().toString() + " " + btnFinalization.getText().toString() + " " + btnZone.getText().toString());
+            players[(int) btnPlayer.getTag()].refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
             refreshLabels(btnOffAct, btnFinalization, btnZone);
 
-            return true;
+            return players[(int) btnPlayer.getTag()];
 
 
         }
-        return false;
+        return null;
     }
 
 
