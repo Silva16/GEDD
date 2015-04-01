@@ -390,15 +390,17 @@
             android:gravity="center"
             android:id="@+id/lbl_player1"
             android:textColor="#FFFFFF"
+            android:numeric="integer"
+            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@+id/imgbtn_player1"
+            android:layout_alignRight="@+id/imgbtn_player1"
+            android:layout_alignTop="@+id/imgbtn_player1"
             android:layout_alignLeft="@+id/imgbtn_player1"
             android:layout_alignStart="@+id/imgbtn_player1"
-            android:layout_toLeftOf="@+id/imgbtn_player2"
-            android:layout_toStartOf="@+id/imgbtn_player2"
-            android:layout_alignParentStart="false"
-            android:layout_alignBottom="@+id/imgbtn_player1"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="15dp"
-            android:numeric="integer" />
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginLeft="20dp" />
 
         <TextView
             android:layout_width="25dp"
@@ -408,13 +410,16 @@
             android:gravity="center"
             android:id="@+id/lbl_player2"
             android:textColor="#FFFFFF"
-            android:layout_alignTop="@+id/lbl_player1"
-            android:layout_toLeftOf="@+id/imgbtn_player3"
-            android:layout_toRightOf="@+id/imgbtn_player1"
+            android:layout_alignTop="@+id/imgbtn_player2"
             android:layout_toEndOf="@+id/imgbtn_player1"
-            android:layout_above="@+id/imageButton"
-            android:layout_marginRight="15dp"
-            android:numeric="integer" />
+            android:layout_marginRight="36dp"
+            android:numeric="integer"
+            android:layout_alignBottom="@+id/imgbtn_player2"
+            android:layout_alignRight="@+id/imgbtn_player2"
+            android:layout_alignLeft="@+id/imgbtn_player2"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp" />
 
         <TextView
             android:layout_width="25dp"
@@ -424,13 +429,16 @@
             android:gravity="center"
             android:id="@+id/lbl_player3"
             android:textColor="#FFFFFF"
-            android:layout_alignTop="@+id/lbl_player2"
-            android:layout_toLeftOf="@+id/imgbtn_player4"
-            android:layout_toRightOf="@+id/imgbtn_player2"
+            android:layout_alignTop="@+id/imgbtn_player3"
             android:layout_toEndOf="@+id/imgbtn_player2"
-            android:layout_above="@+id/imageButton"
-            android:layout_marginRight="15dp"
-            android:numeric="integer" />
+            android:layout_marginRight="36dp"
+            android:numeric="integer"
+            android:layout_alignLeft="@+id/imgbtn_player3"
+            android:layout_alignBottom="@+id/imgbtn_player3"
+            android:layout_alignRight="@+id/imgbtn_player3"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp" />
 
         <TextView
             android:layout_width="25dp"
@@ -440,12 +448,15 @@
             android:gravity="center"
             android:id="@+id/lbl_player4"
             android:textColor="#FFFFFF"
-            android:layout_alignTop="@+id/lbl_player3"
-            android:layout_toLeftOf="@+id/imgbtn_player5"
-            android:layout_toRightOf="@+id/imgbtn_player3"
+            android:layout_alignTop="@+id/imgbtn_player4"
             android:layout_toEndOf="@+id/imgbtn_player3"
-            android:layout_above="@+id/imageButton"
-            android:layout_marginRight="15dp" />
+            android:layout_marginRight="36dp"
+            android:layout_alignLeft="@+id/imgbtn_player4"
+            android:layout_alignBottom="@+id/imgbtn_player4"
+            android:layout_alignRight="@+id/imgbtn_player4"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp" />
 
         <TextView
             android:layout_width="25dp"
@@ -455,13 +466,16 @@
             android:gravity="center"
             android:id="@+id/lbl_player5"
             android:textColor="#FFFFFF"
-            android:layout_alignTop="@+id/lbl_player4"
-            android:layout_toRightOf="@+id/imgbtn_player4"
-            android:layout_toLeftOf="@+id/imgbtn_player6"
             android:layout_toStartOf="@+id/imgbtn_player6"
-            android:layout_above="@+id/imageButton"
-            android:layout_marginRight="15dp"
-            android:numeric="integer" />
+            android:layout_marginRight="36dp"
+            android:numeric="integer"
+            android:layout_alignTop="@+id/imgbtn_player5"
+            android:layout_alignBottom="@+id/imgbtn_player5"
+            android:layout_alignLeft="@+id/imgbtn_player5"
+            android:layout_alignRight="@+id/imgbtn_player5"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp" />
 
         <TextView
             android:layout_width="25dp"
@@ -471,13 +485,16 @@
             android:gravity="center"
             android:id="@+id/lbl_player6"
             android:textColor="#FFFFFF"
-            android:layout_alignTop="@+id/lbl_player5"
-            android:layout_toRightOf="@+id/imgbtn_player5"
+            android:layout_alignTop="@+id/imgbtn_player6"
             android:layout_alignBottom="@+id/imgbtn_player6"
             android:layout_alignRight="@+id/imgbtn_player6"
             android:layout_alignEnd="@+id/imgbtn_player6"
-            android:layout_marginRight="15dp"
-            android:numeric="integer" />
+            android:layout_marginRight="36dp"
+            android:numeric="integer"
+            android:layout_alignLeft="@+id/imgbtn_player6"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp" />
 
         <Space
             android:layout_width="0dp"
