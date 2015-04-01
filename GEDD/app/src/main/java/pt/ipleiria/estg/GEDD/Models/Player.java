@@ -58,7 +58,7 @@ public class Player {
         this.interception = 0;
         this.technicalFailure = 0;
 
-        setTeste("teste 1");
+        setTeste("Ultima Ação");
     }
 
     public boolean isYellowCard() {
