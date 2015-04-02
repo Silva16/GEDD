@@ -383,7 +383,7 @@
             android:layout_toEndOf="@+id/imageButton" />
 
         <TextView
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="3"
@@ -403,7 +403,7 @@
             android:layout_marginLeft="20dp" />
 
         <TextView
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="7"
@@ -422,7 +422,7 @@
             android:layout_marginBottom="30dp" />
 
         <TextView
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="10"
@@ -441,7 +441,7 @@
             android:layout_marginBottom="30dp" />
 
         <TextView
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="14"
@@ -459,7 +459,7 @@
             android:layout_marginBottom="30dp" />
 
         <TextView
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="21"
@@ -478,7 +478,7 @@
             android:layout_marginBottom="30dp" />
 
         <TextView
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="99"

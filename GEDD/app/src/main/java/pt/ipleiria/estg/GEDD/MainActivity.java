@@ -1,6 +1,6 @@
 package pt.ipleiria.estg.GEDD;
 
-import android.media.Image;
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +16,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+
 import pt.ipleiria.estg.GEDD.Models.Player;
 
 
@@ -27,6 +33,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         // ActionBar Test
         android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
@@ -51,6 +59,7 @@ public class MainActivity extends ActionBarActivity {
         mActionBar.setDisplayShowCustomEnabled(true);
 
         //------------------------//
+
 
         final Button btn_zone_1 = (Button) findViewById(R.id.btn_zone_1);
         final Button btn_zone_2 = (Button) findViewById(R.id.btn_zone_2);
@@ -96,7 +105,7 @@ public class MainActivity extends ActionBarActivity {
         String player6Number = lbl_player6.getText().toString();
 
 
-        final TextView textViewTeste = (TextView) findViewById(R.id.textView_teste);
+        final TextView lastAction = (TextView) findViewById(R.id.lastAction);
 
         final RelativeLayout zones = (RelativeLayout) findViewById(R.id.zones);
         final RelativeLayout finalization = (RelativeLayout) findViewById(R.id.finalization);
@@ -111,6 +120,21 @@ public class MainActivity extends ActionBarActivity {
         final Player player6 = new Player(Integer.parseInt(player6Number));
 
         final Player[] players = new Player[6];
+
+        try{
+            FileInputStream fin = openFileInput("mydata");
+            int c;
+            String temp="";
+            while( (c = fin.read()) != -1){
+                temp = temp + Character.toString((char)c);
+            }
+            lastAction.setText(temp);
+            /* A toast foi so pra testar */ Toast.makeText(getBaseContext(),"file read", Toast.LENGTH_SHORT).show();
+
+        }catch(Exception e){
+
+        }
+
 
         players[0] = player1;
         players[1] = player2;
@@ -136,45 +160,22 @@ public class MainActivity extends ActionBarActivity {
                         Player player;
                         if ((player = allPressed(offensiveAction, finalization, zones, teamPlayer, players)) != null){
                             refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player);
+                            lastAction.setText(player.getTeste());
+
+                            String saveData = player.getTeste();
+
+                            try {
+                                FileOutputStream fOut = openFileOutput("mydata" ,MODE_WORLD_READABLE);
+                                fOut.write(saveData.getBytes());
+                                fOut.close();
+                                Toast.makeText(getBaseContext(),"File saved",
+                                        Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+
                         }
-
-                        // Fiquei aqui. O objectivo era quando carrega-se num jogador soubesse que o v era um btn_player1 e fazer o get tag
-                        /*switch ((int) v.getTag()){
-                            case 1:
-                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
-                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
-                                }
-                                break;
-                            case 2:
-                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
-                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
-                                }
-                                break;
-                            case 3:
-                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
-                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
-                                }
-                                break;
-                            case 4:
-                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
-                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
-                                }
-                                break;
-                            case 5:
-                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
-                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
-                                }
-                                break;
-                            case 6:
-                                if(allPressed(offensiveAction,finalization,zones, teamPlayer, players)){
-                                    refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player1);
-                                }
-                                break;
-                        }*/
-
-
-
-                        textViewTeste.setText(player1.getTeste());
 
 
 
@@ -232,10 +233,10 @@ public class MainActivity extends ActionBarActivity {
         btn_7m.setOnTouchListener(zoneTouchListener);
         btn_9m.setOnTouchListener(zoneTouchListener);
 
-        btn_ca.setTag("btn_ca");
-        btn_6m.setTag("btn_6m");
-        btn_7m.setTag("btn_7m");
-        btn_9m.setTag("btn_9m");
+        btn_ca.setTag("Contra-Ataque");
+        btn_6m.setTag("6 metros");
+        btn_7m.setTag("7 Metros");
+        btn_9m.setTag("9 Metros");
 
         btn_goal.setOnTouchListener(zoneTouchListener);
         btn_goalpost.setOnTouchListener(zoneTouchListener);
@@ -243,13 +244,11 @@ public class MainActivity extends ActionBarActivity {
         btn_defense.setOnTouchListener(zoneTouchListener);
         btn_block_atk.setOnTouchListener(zoneTouchListener);
 
-        btn_goal.setTag("btn_goal");
-        btn_goalpost.setTag("btn_goalpost");
-        btn_out.setTag("btn_out");
-        btn_defense.setTag("btn_defense");
-        btn_block_atk.setTag("btn_block_atk");
-
-        textViewTeste.setText(player1.getTeste());
+        btn_goal.setTag("Golo");
+        btn_goalpost.setTag("Poste");
+        btn_out.setTag("Fora");
+        btn_defense.setTag("Defesa");
+        btn_block_atk.setTag("Bloco");
 
     }
 
@@ -276,7 +275,7 @@ public class MainActivity extends ActionBarActivity {
         ImageButton btnPlayer;
 
         if((btnOffAct = isChildrenButtonPressed(offensiveAction)) != null && (btnFinalization = isChildrenButtonPressed(finalization)) != null && (btnZone = isChildrenButtonPressed(zones))!= null && (btnPlayer = isChildrenImgButtonPressed(teamPlayer)) != null){
-            players[(int) btnPlayer.getTag()].setTeste(btnOffAct.getText().toString() + " " + btnFinalization.getText().toString() + " " + btnZone.getText().toString());
+            players[(int) btnPlayer.getTag()].setTeste("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
             players[(int) btnPlayer.getTag()].refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
             refreshLabels(btnOffAct, btnFinalization, btnZone);
 
