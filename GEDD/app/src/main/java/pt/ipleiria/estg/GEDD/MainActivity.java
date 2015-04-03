@@ -21,6 +21,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.LinkedList;
+import java.util.List;
 
 import pt.ipleiria.estg.GEDD.Models.Player;
 
@@ -119,7 +121,16 @@ public class MainActivity extends ActionBarActivity {
         final Player player5 = new Player(Integer.parseInt(player5Number));
         final Player player6 = new Player(Integer.parseInt(player6Number));
 
-        final Player[] players = new Player[6];
+        final LinkedList<Player> players = new LinkedList();
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+        players.add(player4);
+        players.add(player5);
+        players.add(player6);
+
+
+
 
         try{
             FileInputStream fin = openFileInput("mydata");
@@ -136,12 +147,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-        players[0] = player1;
-        players[1] = player2;
-        players[2] = player3;
-        players[3] = player4;
-        players[4] = player5;
-        players[5] = player6;
+
 
         final View.OnTouchListener zoneTouchListener = new View.OnTouchListener()
         {
@@ -150,7 +156,6 @@ public class MainActivity extends ActionBarActivity {
                 if(event.getAction() == MotionEvent.ACTION_DOWN)
                 {
                     if(!(v.isPressed())) {
-                        Log.i("botão", "foi pressioado o botão com a tag "+v.getTag());
 
                         ViewGroup container = (ViewGroup) v.getParent();
                         for (int i=0 ; i < container.getChildCount(); i++){
@@ -220,12 +225,12 @@ public class MainActivity extends ActionBarActivity {
         btn_player5.setOnTouchListener(zoneTouchListener);
         btn_player6.setOnTouchListener(zoneTouchListener);
 
-        btn_player1.setTag(1);
-        btn_player2.setTag(2);
-        btn_player3.setTag(3);
-        btn_player4.setTag(4);
-        btn_player5.setTag(5);
-        btn_player6.setTag(6);
+        btn_player1.setTag(player1.getNumber());
+        btn_player2.setTag(player2.getNumber());
+        btn_player3.setTag(player3.getNumber());
+        btn_player4.setTag(player4.getNumber());
+        btn_player5.setTag(player5.getNumber());
+        btn_player6.setTag(player6.getNumber());
 
 
         btn_ca.setOnTouchListener(zoneTouchListener);
@@ -233,10 +238,10 @@ public class MainActivity extends ActionBarActivity {
         btn_7m.setOnTouchListener(zoneTouchListener);
         btn_9m.setOnTouchListener(zoneTouchListener);
 
-        btn_ca.setTag("Contra-Ataque");
-        btn_6m.setTag("6 metros");
-        btn_7m.setTag("7 Metros");
-        btn_9m.setTag("9 Metros");
+        btn_ca.setTag("btn_9m");
+        btn_6m.setTag("btn_6m");
+        btn_7m.setTag("btn_7m");
+        btn_9m.setTag("btn_9m");
 
         btn_goal.setOnTouchListener(zoneTouchListener);
         btn_goalpost.setOnTouchListener(zoneTouchListener);
@@ -244,11 +249,11 @@ public class MainActivity extends ActionBarActivity {
         btn_defense.setOnTouchListener(zoneTouchListener);
         btn_block_atk.setOnTouchListener(zoneTouchListener);
 
-        btn_goal.setTag("Golo");
-        btn_goalpost.setTag("Poste");
-        btn_out.setTag("Fora");
-        btn_defense.setTag("Defesa");
-        btn_block_atk.setTag("Bloco");
+        btn_goal.setTag("btn_goal");
+        btn_goalpost.setTag("btn_goalpost");
+        btn_out.setTag("btn_out");
+        btn_defense.setTag("btn_defense");
+        btn_block_atk.setTag("btn_block_atk");
 
     }
 
@@ -268,20 +273,23 @@ public class MainActivity extends ActionBarActivity {
         return null;
     }
 
-    private Player allPressed(RelativeLayout offensiveAction, RelativeLayout finalization, RelativeLayout zones, RelativeLayout teamPlayer, Player[] players){
+    private Player allPressed(RelativeLayout offensiveAction, RelativeLayout finalization, RelativeLayout zones, RelativeLayout teamPlayer, LinkedList<Player> players){
         Button btnOffAct;
         Button btnFinalization;
         Button btnZone;
         ImageButton btnPlayer;
 
         if((btnOffAct = isChildrenButtonPressed(offensiveAction)) != null && (btnFinalization = isChildrenButtonPressed(finalization)) != null && (btnZone = isChildrenButtonPressed(zones))!= null && (btnPlayer = isChildrenImgButtonPressed(teamPlayer)) != null){
-            players[(int) btnPlayer.getTag()].setTeste("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
-            players[(int) btnPlayer.getTag()].refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
-            refreshLabels(btnOffAct, btnFinalization, btnZone);
 
-            return players[(int) btnPlayer.getTag()];
+            for(Player player : players){
+                if(player.getNumber()==(int) btnPlayer.getTag()){
+                    player.setTeste("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
+                    player.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
+                    refreshLabels(btnOffAct, btnFinalization, btnZone);
 
-
+                    return player;
+                }
+            }
         }
         return null;
     }

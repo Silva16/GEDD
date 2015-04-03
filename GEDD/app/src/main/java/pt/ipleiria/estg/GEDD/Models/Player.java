@@ -415,5 +415,9 @@ public class Player {
         return getAllShots(nineShotBlocked)+getAllShots(sixShotBlocked)+getAllShots(sevenShotBlocked)+getAllShots(caShotBlocked);
     }
 
+    public int getNumber() {
+        return number;
+    }
+
     //public void selectFinalizationResult(result)
 }
