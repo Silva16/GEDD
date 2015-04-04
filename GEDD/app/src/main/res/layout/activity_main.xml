@@ -231,26 +231,23 @@
             android:layout_marginRight="20dp" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="94dp"
             android:layout_height="63dp"
             android:text="Fora"
             android:id="@+id/outside"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/goalLayout"
-            android:layout_alignEnd="@+id/goalLayout" />
+            android:layout_alignParentStart="true" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="95dp"
             android:layout_height="63dp"
             android:text="Trave / Poste"
             android:id="@+id/post"
-            android:layout_below="@+id/outside"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/line"
-            android:layout_toStartOf="@+id/line" />
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/outside"
+            android:layout_alignRight="@+id/goalLayout"
+            android:layout_alignEnd="@+id/goalLayout" />
 
         <Space
             android:layout_width="20px"
@@ -258,6 +255,26 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/zones"
             android:layout_toStartOf="@+id/zones" />
+
+        <Button
+            android:layout_width="94dp"
+            android:layout_height="63dp"
+            android:text="Golo"
+            android:id="@+id/button"
+            android:layout_below="@+id/outside"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/post"
+            android:layout_toStartOf="@+id/post" />
+
+        <Button
+            android:layout_width="95dp"
+            android:layout_height="63dp"
+            android:text="Defesa"
+            android:id="@+id/button2"
+            android:layout_below="@+id/outside"
+            android:layout_toRightOf="@+id/outside"
+            android:layout_toEndOf="@+id/outside" />
 
     </RelativeLayout>
 

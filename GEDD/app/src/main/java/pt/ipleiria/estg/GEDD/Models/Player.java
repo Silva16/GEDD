@@ -242,7 +242,7 @@ public class Player {
     }
 
     public void setInterception(int interception) {
-        this.interception = interception;
+        this.interception = interception++;
     }
 
     public int getBlock() {

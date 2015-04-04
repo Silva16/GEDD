@@ -99,6 +99,10 @@ public class MainActivity extends ActionBarActivity {
         final Button btn_out = (Button) findViewById(R.id.btn_out);
         final Button btn_defense = (Button) findViewById(R.id.btn_defense);
 
+        final Button btn_block_def = (Button) findViewById(R.id.btn_block_def);
+        final Button btn_unarm = (Button) findViewById(R.id.btn_unarm);
+        final Button btn_interception = (Button) findViewById(R.id.btn_interception);
+
         String player1Number = lbl_player1.getText().toString();
         String player2Number = lbl_player2.getText().toString();
         String player3Number = lbl_player3.getText().toString();
@@ -106,12 +110,12 @@ public class MainActivity extends ActionBarActivity {
         String player5Number = lbl_player5.getText().toString();
         String player6Number = lbl_player6.getText().toString();
 
-
         final TextView lastAction = (TextView) findViewById(R.id.lastAction);
 
         final RelativeLayout zones = (RelativeLayout) findViewById(R.id.zones);
         final RelativeLayout finalization = (RelativeLayout) findViewById(R.id.finalization);
         final RelativeLayout offensiveAction = (RelativeLayout) findViewById(R.id.offensiveAction);
+        final RelativeLayout defensiveAction = (RelativeLayout) findViewById(R.id.defensiveAction);
         final RelativeLayout teamPlayer = (RelativeLayout) findViewById(R.id.players);
 
         final Player player1 = new Player(Integer.parseInt(player1Number));
@@ -129,9 +133,6 @@ public class MainActivity extends ActionBarActivity {
         players.add(player5);
         players.add(player6);
 
-
-
-
         try{
             FileInputStream fin = openFileInput("mydata");
             int c;
@@ -145,8 +146,6 @@ public class MainActivity extends ActionBarActivity {
         }catch(Exception e){
 
         }
-
-
 
 
         final View.OnTouchListener zoneTouchListener = new View.OnTouchListener()
@@ -163,8 +162,9 @@ public class MainActivity extends ActionBarActivity {
                         }
                         v.setPressed(true);
                         Player player;
-                        if ((player = allPressed(offensiveAction, finalization, zones, teamPlayer, players)) != null){
-                            refreshLabelsAtaque(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost,btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6,btn_zone_7, btn_zone_8, btn_zone_9, player);
+
+                        if ((player = allPressedOffensive(offensiveAction, finalization, zones, teamPlayer, players)) != null){
+                            refreshAttackStatistics(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                             lastAction.setText(player.getTeste());
 
                             String saveData = player.getTeste();
@@ -179,24 +179,33 @@ public class MainActivity extends ActionBarActivity {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
-
                         }
 
+                        if ((player = allPressedDefensive(defensiveAction, zones, teamPlayer, players)) != null){
+                            refreshDefensiveStatistics(btn_block_def, btn_unarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
+                            lastAction.setText(player.getTeste());
 
+                            String saveData = player.getTeste();
 
-
+                            try {
+                                FileOutputStream fOut = openFileOutput("mydata" ,MODE_WORLD_READABLE);
+                                fOut.write(saveData.getBytes());
+                                fOut.close();
+                                Toast.makeText(getBaseContext(),"File saved",
+                                        Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
 
                     }else{
                         v.setPressed(false);
                     }
-
-
                 }
                 return true;//Return true, so there will be no onClick-event
             }
         };
-
-
 
         btn_zone_1.setOnTouchListener(zoneTouchListener);
         btn_zone_2.setOnTouchListener(zoneTouchListener);
@@ -238,7 +247,7 @@ public class MainActivity extends ActionBarActivity {
         btn_7m.setOnTouchListener(zoneTouchListener);
         btn_9m.setOnTouchListener(zoneTouchListener);
 
-        btn_ca.setTag("btn_9m");
+        btn_ca.setTag("btn_ca");
         btn_6m.setTag("btn_6m");
         btn_7m.setTag("btn_7m");
         btn_9m.setTag("btn_9m");
@@ -254,6 +263,14 @@ public class MainActivity extends ActionBarActivity {
         btn_out.setTag("btn_out");
         btn_defense.setTag("btn_defense");
         btn_block_atk.setTag("btn_block_atk");
+
+        btn_block_def.setOnTouchListener(zoneTouchListener);
+        btn_unarm.setOnTouchListener(zoneTouchListener);
+        btn_interception.setOnTouchListener(zoneTouchListener);
+
+        btn_block_def.setTag("btn_block_def");
+        btn_unarm.setTag("btn_unarm");
+        btn_interception.setTag("btn_interception");
 
     }
 
@@ -273,7 +290,7 @@ public class MainActivity extends ActionBarActivity {
         return null;
     }
 
-    private Player allPressed(RelativeLayout offensiveAction, RelativeLayout finalization, RelativeLayout zones, RelativeLayout teamPlayer, LinkedList<Player> players){
+    private Player allPressedOffensive(RelativeLayout offensiveAction, RelativeLayout finalization, RelativeLayout zones, RelativeLayout teamPlayer, LinkedList<Player> players){
         Button btnOffAct;
         Button btnFinalization;
         Button btnZone;
@@ -285,7 +302,7 @@ public class MainActivity extends ActionBarActivity {
                 if(player.getNumber()==(int) btnPlayer.getTag()){
                     player.setTeste("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
                     player.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
-                    refreshLabels(btnOffAct, btnFinalization, btnZone);
+                    refreshLabels(btnOffAct, null, btnFinalization, btnZone, btnPlayer);
 
                     return player;
                 }
@@ -294,9 +311,26 @@ public class MainActivity extends ActionBarActivity {
         return null;
     }
 
+    private Player allPressedDefensive(RelativeLayout defensiveAction, RelativeLayout zones, RelativeLayout teamPlayer, LinkedList<Player> players){
+        Button btnDefAct;
+        Button btnZone;
+        ImageButton btnPlayer;
 
+        if((btnDefAct = isChildrenButtonPressed(defensiveAction)) != null && (btnZone = isChildrenButtonPressed(zones))!= null && (btnPlayer = isChildrenImgButtonPressed(teamPlayer)) != null){
 
-    private void refreshLabelsAtaque(Button btn_ca, Button btn_6m, Button btn_7m, Button btn_9m, Button btn_goal, Button btn_out, Button btn_atk_block, Button btn_goalpost, Button btn_defense, Button btn_zone_1, Button btn_zone_2, Button btn_zone_3, Button btn_zone_4, Button btn_zone_5, Button btn_zone_6, Button btn_zone_7, Button btn_zone_8, Button btn_zone_9 , Player player){
+            for(Player player : players){
+                if(player.getNumber()==(int) btnPlayer.getTag()){
+                    player.setTeste("Jogador " + btnPlayer.getTag().toString() + "\n" + btnDefAct.getTag().toString() + "Zona " + btnZone.getTag().toString());
+                    refreshLabels(null, btnDefAct, null, btnZone, btnPlayer);
+
+                    return player;
+                }
+            }
+        }
+        return null;
+    }
+
+    private void refreshAttackStatistics(Button btn_ca, Button btn_6m, Button btn_7m, Button btn_9m, Button btn_goal, Button btn_out, Button btn_atk_block, Button btn_goalpost, Button btn_defense, Button btn_zone_1, Button btn_zone_2, Button btn_zone_3, Button btn_zone_4, Button btn_zone_5, Button btn_zone_6, Button btn_zone_7, Button btn_zone_8, Button btn_zone_9 , Player player){
         btn_ca.setText("Contra Ataque - "+player.getAllShots(player.getCaShotGoal())+"/"+player.getAllCaShots());
         btn_6m.setText("6 metros - "+player.getAllShots(player.getSixShotGoal())+"/"+player.getAllSixShots());
         btn_7m.setText("7 metros - "+player.getAllShots(player.getSevenShotGoal())+"/"+player.getAllSevenShots());
@@ -312,17 +346,49 @@ public class MainActivity extends ActionBarActivity {
         btn_zone_8.setText("Zona 8 - "+player.getZoneGoals(8)+"/"+player.getZoneShots(8));
         btn_zone_9.setText("Zona 9 - "+player.getZoneGoals(9)+"/"+player.getZoneShots(9));
 
-        btn_goal.setText("Golo - "+player.getAllShotGoals());
-        btn_goalpost.setText("Poste - "+player.getAllShotPost());
-        btn_out.setText("Fora - "+player.getAllShotOut());
-        btn_atk_block.setText("Bloco - "+player.getAllBlocked());
+        btn_goal.setText("Golo - " + player.getAllShotGoals());
+        btn_goalpost.setText("Poste - " + player.getAllShotPost());
+        btn_out.setText("Fora - " + player.getAllShotOut());
+        btn_atk_block.setText("Bloco - " + player.getAllBlocked());
         btn_defense.setText("Defesa - " + player.getAllShotDefended());
+
     }
 
-    private void refreshLabels(Button btnOffAct, Button btnFinalization, Button btnZone){
-        btnOffAct.setPressed(false);
-        btnFinalization.setPressed(false);
+    private void refreshDefensiveStatistics(Button btn_def_block, Button btn_unarm, Button btn_interception,Button btn_zone_1, Button btn_zone_2, Button btn_zone_3, Button btn_zone_4, Button btn_zone_5, Button btn_zone_6, Button btn_zone_7, Button btn_zone_8, Button btn_zone_9 , Player player){
+
+        /* Não se têm de distinguir nas estatiticas das zonas as acções defensivas das ofensivas?*/
+
+        btn_zone_1.setText("Zona 1 - "+player.getZoneGoals(1)+"/"+player.getZoneShots(1));
+        btn_zone_2.setText("Zona 2 - "+player.getZoneGoals(2)+"/"+player.getZoneShots(2));
+        btn_zone_3.setText("Zona 3 - "+player.getZoneGoals(3)+"/"+player.getZoneShots(3));
+        btn_zone_4.setText("Zona 4 - "+player.getZoneGoals(4)+"/"+player.getZoneShots(4));
+        btn_zone_5.setText("Zona 5 - "+player.getZoneGoals(5)+"/"+player.getZoneShots(5));
+        btn_zone_6.setText("Zona 6 - "+player.getZoneGoals(6)+"/"+player.getZoneShots(6));
+        btn_zone_7.setText("Zona 7 - "+player.getZoneGoals(7)+"/"+player.getZoneShots(7));
+        btn_zone_8.setText("Zona 8 - "+player.getZoneGoals(8)+"/"+player.getZoneShots(8));
+        btn_zone_9.setText("Zona 9 - "+player.getZoneGoals(9)+"/"+player.getZoneShots(9));
+
+        btn_def_block.setText("Bloco - " + player.getBlock());
+        btn_unarm.setText("Desarme - " + player.getDisarm());
+        btn_interception.setText("Interceção - " + player.getInterception());
+
+    }
+
+    private void refreshLabels(Button btnOffAct, Button btnDefAct, Button btnFinalization, Button btnZone, ImageButton btn_player){
+
+        if (btnOffAct != null) {
+            btnOffAct.setPressed(false);
+        }
+        if (btnDefAct != null) {
+            btnDefAct.setPressed(false);
+        }
+
+        if (btnFinalization != null) {
+            btnFinalization.setPressed(false);
+        }
+
         btnZone.setPressed(false);
+        btn_player.setPressed(false);
     }
 
     private void action() {
