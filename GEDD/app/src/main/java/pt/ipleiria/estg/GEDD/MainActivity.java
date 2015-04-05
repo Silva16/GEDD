@@ -163,6 +163,16 @@ public class MainActivity extends ActionBarActivity {
                         v.setPressed(true);
                         Player player;
 
+                        //verifica se é botão de jogador, se for verdade atualiza os campos
+                        if(v.getParent() == (RelativeLayout) teamPlayer){
+                            Player tempPlayer;
+                            if((tempPlayer = isPlayerPressed(players, teamPlayer)) != null){
+                                refreshAttackStatistics(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
+                                refreshDefensiveStatistics(btn_block_def, btn_unarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
+
+                            }
+                         }
+
                         if ((player = allPressedOffensive(offensiveAction, finalization, zones, teamPlayer, players)) != null){
                             refreshAttackStatistics(btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                             lastAction.setText(player.getTeste());
@@ -206,6 +216,7 @@ public class MainActivity extends ActionBarActivity {
                 return true;//Return true, so there will be no onClick-event
             }
         };
+
 
         btn_zone_1.setOnTouchListener(zoneTouchListener);
         btn_zone_2.setOnTouchListener(zoneTouchListener);
@@ -304,6 +315,18 @@ public class MainActivity extends ActionBarActivity {
                     player.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
                     refreshLabels(btnOffAct, null, btnFinalization, btnZone, btnPlayer);
 
+                    return player;
+                }
+            }
+        }
+        return null;
+    }
+
+    private Player isPlayerPressed(LinkedList<Player> players, RelativeLayout teamPlayer) {
+        ImageButton btnPlayer;
+        if ((btnPlayer = isChildrenImgButtonPressed(teamPlayer)) != null) {
+            for (Player player : players) {
+                if (player.getNumber() == (int) btnPlayer.getTag()) {
                     return player;
                 }
             }
