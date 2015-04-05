@@ -241,24 +241,24 @@ public class Player {
         return interception;
     }
 
-    public void setInterception(int interception) {
-        this.interception = interception++;
+    public void setInterception() {
+        this.interception++;
     }
 
     public int getBlock() {
         return block;
     }
 
-    public void setBlock(int block) {
-        this.block = block;
+    public void setBlock() {
+        this.block++;
     }
 
     public int getDisarm() {
         return disarm;
     }
 
-    public void setDisarm(int disarm) {
-        this.disarm = disarm;
+    public void setDisarm() {
+        this.disarm++;
     }
 
     public int getTechnicalFailure() {

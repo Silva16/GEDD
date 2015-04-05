@@ -100,7 +100,7 @@ public class MainActivity extends ActionBarActivity {
         final Button btn_defense = (Button) findViewById(R.id.btn_defense);
 
         final Button btn_block_def = (Button) findViewById(R.id.btn_block_def);
-        final Button btn_unarm = (Button) findViewById(R.id.btn_unarm);
+        final Button btn_disarm = (Button) findViewById(R.id.btn_unarm);
         final Button btn_interception = (Button) findViewById(R.id.btn_interception);
 
         final Button btn_assist = (Button) findViewById(R.id.btn_assistance);
@@ -171,7 +171,7 @@ public class MainActivity extends ActionBarActivity {
                             Player tempPlayer;
                             if((tempPlayer = getPlayerPressed(players, teamPlayer)) != null){
                                 refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
-                                refreshDefensiveStatistics(btn_block_def, btn_unarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
+                                refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
 
                             }
                          }
@@ -197,19 +197,19 @@ public class MainActivity extends ActionBarActivity {
                         if( (player = pressedAsist(teamPlayer, players,btn_assist)) != null){
                             player.addAssistance();
                             refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
-                            refreshLabels(null, null, null, null, null, btn_assist, null);
+                            refreshLabels(null, null, null, null, btn_assist, null);
                         }
 
                         if((player = pressedTechFail(teamPlayer, players, btn_tf))!= null){
                             player.addTechFail();
                             refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
-                            refreshLabels(null, null, null, null, null, null, btn_tf);
+                            refreshLabels(null, null, null, null, null, btn_tf);
                         }
 
 
 
                         if ((player = allPressedDefensive(defensiveAction, zones, teamPlayer, players)) != null){
-                            refreshDefensiveStatistics(btn_block_def, btn_unarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
+                            refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                             lastAction.setText(player.getTeste());
 
                             String saveData = player.getTeste();
@@ -293,11 +293,11 @@ public class MainActivity extends ActionBarActivity {
         btn_block_atk.setTag("btn_block_atk");
 
         btn_block_def.setOnTouchListener(zoneTouchListener);
-        btn_unarm.setOnTouchListener(zoneTouchListener);
+        btn_disarm.setOnTouchListener(zoneTouchListener);
         btn_interception.setOnTouchListener(zoneTouchListener);
 
         btn_block_def.setTag("btn_block_def");
-        btn_unarm.setTag("btn_unarm");
+        btn_disarm.setTag("btn_disarm");
         btn_interception.setTag("btn_interception");
 
         btn_tf.setOnTouchListener(zoneTouchListener);
@@ -349,7 +349,7 @@ public class MainActivity extends ActionBarActivity {
                 if(player.getNumber()==(int) btnPlayer.getTag()){
                     player.setTeste("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
                     player.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
-                    refreshLabels(btnOffAct, null, btnFinalization, btnZone, btnPlayer, null, null);
+                    refreshLabels(btnOffAct, null, btnFinalization, btnZone, null, null);
 
                     return player;
                 }
@@ -382,7 +382,14 @@ public class MainActivity extends ActionBarActivity {
             for(Player player : players){
                 if(player.getNumber()==(int) btnPlayer.getTag()){
                     player.setTeste("Jogador " + btnPlayer.getTag().toString() + "\n" + btnDefAct.getTag().toString() + "Zona " + btnZone.getTag().toString());
-                    refreshLabels(null, btnDefAct, null, btnZone, btnPlayer, null, null);
+                    if (btnDefAct.getTag() == "btn_block_def"){
+                        player.setBlock();
+                    } else if(btnDefAct.getTag() == "btn_disarm") {
+                        player.setDisarm();
+                    } else if(btnDefAct.getTag() == "btn_interception"){
+                        player.setInterception();
+                    }
+                    refreshLabels(null, btnDefAct, null, btnZone, null, null);
 
                     return player;
                 }
@@ -419,7 +426,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private void refreshDefensiveStatistics(Button btn_def_block, Button btn_unarm, Button btn_interception,Button btn_zone_1, Button btn_zone_2, Button btn_zone_3, Button btn_zone_4, Button btn_zone_5, Button btn_zone_6, Button btn_zone_7, Button btn_zone_8, Button btn_zone_9 , Player player){
+    private void refreshDefensiveStatistics(Button btn_def_block, Button btn_disarm, Button btn_interception,Button btn_zone_1, Button btn_zone_2, Button btn_zone_3, Button btn_zone_4, Button btn_zone_5, Button btn_zone_6, Button btn_zone_7, Button btn_zone_8, Button btn_zone_9 , Player player){
 
         /* Não se têm de distinguir nas estatiticas das zonas as acções defensivas das ofensivas?*/
 
@@ -434,12 +441,12 @@ public class MainActivity extends ActionBarActivity {
         btn_zone_9.setText("Zona 9 - "+player.getZoneGoals(9)+"/"+player.getZoneShots(9));
 
         btn_def_block.setText("Bloco - " + player.getBlock());
-        btn_unarm.setText("Desarme - " + player.getDisarm());
+        btn_disarm.setText("Desarme - " + player.getDisarm());
         btn_interception.setText("Interceção - " + player.getInterception());
 
     }
 
-    private void refreshLabels(Button btnOffAct, Button btnDefAct, Button btnFinalization, Button btnZone, ImageButton btn_player, Button btn_assist, Button btn_tf){
+    private void refreshLabels(Button btnOffAct, Button btnDefAct, Button btnFinalization, Button btnZone, Button btn_assist, Button btn_tf){
 
         if (btnOffAct != null) {
             btnOffAct.setPressed(false);
