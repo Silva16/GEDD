@@ -758,10 +758,10 @@
             android:layout_width="115dp"
             android:layout_height="63dp"
             android:text="Assistência"
-            android:id="@+id/button7"
+            android:id="@+id/btn_assistance"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/button8"
-            android:layout_toEndOf="@+id/button8"
+            android:layout_toRightOf="@+id/btn_tf"
+            android:layout_toEndOf="@+id/btn_tf"
             android:layout_marginRight="15dp" />
 
         <Button
@@ -769,7 +769,7 @@
             android:layout_width="115dp"
             android:layout_height="63dp"
             android:text="Falha Técnica"
-            android:id="@+id/button8"
+            android:id="@+id/btn_tf"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="15dp" />
@@ -782,8 +782,8 @@
             android:background="#0fffffff"
             android:scaleType="fitCenter"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/button7"
-            android:layout_toEndOf="@+id/button7" />
+            android:layout_toRightOf="@+id/btn_assistance"
+            android:layout_toEndOf="@+id/btn_assistance" />
 
         <Button
             android:layout_width="130dp"
@@ -791,8 +791,8 @@
             android:text="Falha Técnica Adversária"
             android:id="@+id/button6"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/button8"
-            android:layout_toStartOf="@+id/button8"
+            android:layout_toLeftOf="@+id/btn_tf"
+            android:layout_toStartOf="@+id/btn_tf"
             android:layout_marginRight="90dp" />
 
         <Space

@@ -419,5 +419,13 @@ public class Player {
         return number;
     }
 
+    public void addAssistance(){
+       this.assistance ++;
+    }
+
+    public void addTechFail(){
+        this.technicalFailure++;
+    }
+
     //public void selectFinalizationResult(result)
 }
