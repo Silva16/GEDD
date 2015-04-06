@@ -338,9 +338,33 @@ public class MainActivity extends ActionBarActivity {
                         seconds = 0;
                         minutes++;
                     }
+
+                    if(seconds < 10 && minutes >= 10){
+                        time.setText(minutes + ":" +'0'+seconds);
+                    }
+
+                    if(minutes < 10 && seconds >= 10){
+                        time.setText("0"+minutes + ":" +seconds);
+                    }
+
+                    if(minutes < 10 && seconds < 10){
+                        time.setText("0"+minutes + ":" +'0'+seconds);
+                    }
+
+                    if(minutes >= 10 && seconds >= 10){
+                        time.setText(minutes + ":" +seconds);
+                    }
+
+
+
+                    Log.i("minutes",Integer.toString(minutes));
+                    Log.i("seconds",Integer.toString(seconds));
+
                 }
                 handler.postDelayed(this, 1000);
-                time.setText(minutes + ":" + seconds);
+
+
+
 
 
             }

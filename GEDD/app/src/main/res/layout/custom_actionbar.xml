@@ -108,12 +108,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="30:00"
         android:id="@+id/time"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/imgbtn_play"
         android:layout_toEndOf="@+id/imgbtn_play"
         android:layout_marginLeft="5dp"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:text="00:00" />
 
 </RelativeLayout>
