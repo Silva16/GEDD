@@ -12,7 +12,7 @@ public class Player {
     private boolean redCard;
 
     //teste
-    private String teste;
+    private String lastAction;
 
     //Remates
     private int[] sixShotGoal = new int[9];
@@ -58,7 +58,7 @@ public class Player {
         this.interception = 0;
         this.technicalFailure = 0;
 
-        setTeste("Ultima Ação");
+        setLastAction("Ultima Ação");
     }
 
     public boolean isYellowCard() {
@@ -277,12 +277,12 @@ public class Player {
         this.assistance = assistance;
     }
 
-    public String getTeste() {
-        return teste;
+    public String getLastAction() {
+        return lastAction;
     }
 
-    public void setTeste(String teste) {
-        this.teste = teste;
+    public void setLastAction(String teste) {
+        this.lastAction = lastAction;
     }
 
     public void refreshPlayer(String finalization, String zone, String offAction){

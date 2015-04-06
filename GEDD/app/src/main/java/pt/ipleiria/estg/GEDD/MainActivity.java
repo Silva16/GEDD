@@ -178,9 +178,9 @@ public class MainActivity extends ActionBarActivity {
 
                         if ((player = allPressedOffensive(offensiveAction, finalization, zones, teamPlayer, players)) != null){
                             refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
-                            lastAction.setText(player.getTeste());
+                            lastAction.setText(player.getLastAction());
 
-                            String saveData = player.getTeste();
+                            String saveData = player.getLastAction();
 
                             try {
                                 FileOutputStream fOut = openFileOutput("mydata" ,MODE_WORLD_READABLE);
@@ -210,9 +210,9 @@ public class MainActivity extends ActionBarActivity {
 
                         if ((player = allPressedDefensive(defensiveAction, zones, teamPlayer, players)) != null){
                             refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
-                            lastAction.setText(player.getTeste());
+                            lastAction.setText(player.getLastAction());
 
-                            String saveData = player.getTeste();
+                            String saveData = player.getLastAction();
 
                             try {
                                 FileOutputStream fOut = openFileOutput("mydata" ,MODE_WORLD_READABLE);
@@ -347,7 +347,7 @@ public class MainActivity extends ActionBarActivity {
 
             for(Player player : players){
                 if(player.getNumber()==(int) btnPlayer.getTag()){
-                    player.setTeste("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
+                    player.setLastAction("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
                     player.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
                     refreshLabels(btnOffAct, null, btnFinalization, btnZone, null, null);
 
@@ -381,7 +381,7 @@ public class MainActivity extends ActionBarActivity {
 
             for(Player player : players){
                 if(player.getNumber()==(int) btnPlayer.getTag()){
-                    player.setTeste("Jogador " + btnPlayer.getTag().toString() + "\n" + btnDefAct.getTag().toString() + "Zona " + btnZone.getTag().toString());
+                    player.setLastAction("Jogador " + btnPlayer.getTag().toString() + "\n" + btnDefAct.getTag().toString() + "Zona " + btnZone.getTag().toString());
                     if (btnDefAct.getTag() == "btn_block_def"){
                         player.setBlock();
                     } else if(btnDefAct.getTag() == "btn_disarm") {
