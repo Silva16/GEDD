@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.List;
+import android.os.Handler;
 
 import pt.ipleiria.estg.GEDD.Models.Player;
 
@@ -30,12 +31,15 @@ import pt.ipleiria.estg.GEDD.Models.Player;
 public class MainActivity extends ActionBarActivity {
 
     DBAdapter database;
+    boolean isStart = false;
+    int seconds = 0;
+    int minutes = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         // ActionBar Test
@@ -121,6 +125,8 @@ public class MainActivity extends ActionBarActivity {
         final RelativeLayout defensiveAction = (RelativeLayout) findViewById(R.id.defensiveAction);
         final RelativeLayout teamPlayer = (RelativeLayout) findViewById(R.id.players);
 
+        final TextView time = (TextView) findViewById(R.id.time);
+
         final Player player1 = new Player(Integer.parseInt(player1Number));
         final Player player2 = new Player(Integer.parseInt(player2Number));
         final Player player3 = new Player(Integer.parseInt(player3Number));
@@ -136,57 +142,56 @@ public class MainActivity extends ActionBarActivity {
         players.add(player5);
         players.add(player6);
 
-        try{
+
+        try {
             FileInputStream fin = openFileInput("mydata");
             int c;
-            String temp="";
-            while( (c = fin.read()) != -1){
-                temp = temp + Character.toString((char)c);
+            String temp = "";
+            while ((c = fin.read()) != -1) {
+                temp = temp + Character.toString((char) c);
             }
             lastAction.setText(temp);
-            /* A toast foi so pra testar */ Toast.makeText(getBaseContext(),"file read", Toast.LENGTH_SHORT).show();
+            /* A toast foi so pra testar */
+            Toast.makeText(getBaseContext(), "file read", Toast.LENGTH_SHORT).show();
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
 
-        final View.OnTouchListener zoneTouchListener = new View.OnTouchListener()
-        {
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                if(event.getAction() == MotionEvent.ACTION_DOWN)
-                {
-                    if(!(v.isPressed())) {
+        final View.OnTouchListener zoneTouchListener = new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (!(v.isPressed())) {
 
                         ViewGroup container = (ViewGroup) v.getParent();
-                        for (int i=0 ; i < container.getChildCount(); i++){
+                        for (int i = 0; i < container.getChildCount(); i++) {
                             container.getChildAt(i).setPressed(false);
                         }
                         v.setPressed(true);
                         Player player;
 
                         //verifica se é botão de jogador, se for verdade atualiza os campos
-                        if(v.getParent() == (RelativeLayout) teamPlayer){
+                        if (v.getParent() == (RelativeLayout) teamPlayer) {
                             Player tempPlayer;
-                            if((tempPlayer = getPlayerPressed(players, teamPlayer)) != null){
+                            if ((tempPlayer = getPlayerPressed(players, teamPlayer)) != null) {
                                 refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
                                 refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
 
                             }
-                         }
+                        }
 
-                        if ((player = allPressedOffensive(offensiveAction, finalization, zones, teamPlayer, players)) != null){
+                        if ((player = allPressedOffensive(offensiveAction, finalization, zones, teamPlayer, players)) != null) {
                             refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                             lastAction.setText(player.getLastAction());
 
                             String saveData = player.getLastAction();
 
                             try {
-                                FileOutputStream fOut = openFileOutput("mydata" ,MODE_WORLD_READABLE);
+                                FileOutputStream fOut = openFileOutput("mydata", MODE_WORLD_READABLE);
                                 fOut.write(saveData.getBytes());
                                 fOut.close();
-                                Toast.makeText(getBaseContext(),"File saved",
+                                Toast.makeText(getBaseContext(), "File saved",
                                         Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
                                 // TODO Auto-generated catch block
@@ -194,31 +199,30 @@ public class MainActivity extends ActionBarActivity {
                             }
                         }
 
-                        if( (player = pressedAsist(teamPlayer, players,btn_assist)) != null){
+                        if ((player = pressedAsist(teamPlayer, players, btn_assist)) != null) {
                             player.addAssistance();
                             refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                             refreshLabels(null, null, null, null, btn_assist, null);
                         }
 
-                        if((player = pressedTechFail(teamPlayer, players, btn_tf))!= null){
+                        if ((player = pressedTechFail(teamPlayer, players, btn_tf)) != null) {
                             player.addTechFail();
                             refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                             refreshLabels(null, null, null, null, null, btn_tf);
                         }
 
 
-
-                        if ((player = allPressedDefensive(defensiveAction, zones, teamPlayer, players)) != null){
+                        if ((player = allPressedDefensive(defensiveAction, zones, teamPlayer, players)) != null) {
                             refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                             lastAction.setText(player.getLastAction());
 
                             String saveData = player.getLastAction();
 
                             try {
-                                FileOutputStream fOut = openFileOutput("mydata" ,MODE_WORLD_READABLE);
+                                FileOutputStream fOut = openFileOutput("mydata", MODE_WORLD_READABLE);
                                 fOut.write(saveData.getBytes());
                                 fOut.close();
-                                Toast.makeText(getBaseContext(),"File saved",
+                                Toast.makeText(getBaseContext(), "File saved",
                                         Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
                                 // TODO Auto-generated catch block
@@ -226,7 +230,7 @@ public class MainActivity extends ActionBarActivity {
                             }
                         }
 
-                    }else{
+                    } else {
                         v.setPressed(false);
                     }
                 }
@@ -303,7 +307,57 @@ public class MainActivity extends ActionBarActivity {
         btn_tf.setOnTouchListener(zoneTouchListener);
         btn_assist.setOnTouchListener(zoneTouchListener);
 
+        final ImageButton start = (ImageButton) findViewById(R.id.imgbtn_play);
+
+
+
+        View.OnClickListener stopWatchListener =
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        if (isStart == false) {
+                            isStart = true;
+                            start.setImageResource(R.drawable.pause);
+                        } else {
+                            isStart = false;
+                            start.setImageResource(R.drawable.play);
+                        }
+                    }
+                };
+
+        start.setOnClickListener(stopWatchListener);
+
+        final Handler handler;
+
+        handler = new Handler();
+
+        final Runnable r = new Runnable() {
+            public void run() {
+                if (isStart) {
+                    seconds++;
+                    if (seconds == 60) {
+                        seconds = 0;
+                        minutes++;
+                    }
+                }
+                handler.postDelayed(this, 1000);
+                time.setText(minutes + ":" + seconds);
+
+
+            }
+        };
+
+        handler.postDelayed(r, 1000);
     }
+
+        private void onStartButtonClick(){
+            isStart=true;
+        }
+
+        private void onStopButtonClick(){
+            isStart=false;
+        }
+
+
 
     private Player pressedAsist(RelativeLayout teamPlayer, LinkedList<Player> players, Button btn_assist) {
         Player player;
