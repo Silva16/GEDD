@@ -40,9 +40,9 @@ public class Player {
     private int[] nineShotDefended = new int[9];
 
     //Ações Defensivas
-    private int interception;
-    private int block;
-    private int disarm;
+    private int[] interception = new int[9];
+    private int[] block = new int[9];
+    private int[] disarm = new int[9];
 
     //Outros
     private int technicalFailure;
@@ -53,9 +53,6 @@ public class Player {
         this.yellowCard = false;
         this.redCard = false;
         this.assistance = 0;
-        this.block = 0;
-        this.disarm = 0;
-        this.interception = 0;
         this.technicalFailure = 0;
 
         setLastAction("Ultima Ação");
@@ -237,28 +234,28 @@ public class Player {
         this.nineShotDefended[zone-1]++;
     }
 
-    public int getInterception() {
+    public int[] getInterception() {
         return interception;
     }
 
-    public void setInterception() {
-        this.interception++;
+    public void setInterception(int zone) {
+        this.interception[zone-1]++;
     }
 
-    public int getBlock() {
+    public int[] getBlock() {
         return block;
     }
 
-    public void setBlock() {
-        this.block++;
+    public void setBlock(int zone) {
+        this.block[zone-1]++;
     }
 
-    public int getDisarm() {
+    public int[] getDisarm() {
         return disarm;
     }
 
-    public void setDisarm() {
-        this.disarm++;
+    public void setDisarm(int zone) {
+        this.disarm[zone-1]++;
     }
 
     public int getTechnicalFailure() {
@@ -281,7 +278,7 @@ public class Player {
         return lastAction;
     }
 
-    public void setLastAction(String teste) {
+    public void setLastAction(String lastAction) {
         this.lastAction = lastAction;
     }
 
@@ -294,7 +291,7 @@ public class Player {
         }
     }
 
-    public int getAllShots(int[] shots){
+    public int getAllActions(int[] shots){
         int sum = 0;
         for (int i =0;i<9;i++){
             sum += shots[i];
@@ -302,20 +299,32 @@ public class Player {
         return sum;
     }
 
+    public int getAllDefensiveBlocks(){
+        return getAllActions(this.getBlock());
+    }
+
+    public int getAllDisarms(){
+        return getAllActions(this.getDisarm());
+    }
+
+    public int getAllInterceptions(){
+        return getAllActions(this.getInterception());
+    }
+
     public int getAllCaShots(){
-        return getAllShots(this.getCaShotBlocked()) + getAllShots(this.getCaShotPost()) + getAllShots(this.getCaShotGoal()) + getAllShots(this.getCaShotDefended()) + getAllShots(this.getCaShotOut());
+        return getAllActions(this.getCaShotBlocked()) + getAllActions(this.getCaShotPost()) + getAllActions(this.getCaShotGoal()) + getAllActions(this.getCaShotDefended()) + getAllActions(this.getCaShotOut());
     }
 
     public int getAllSixShots(){
-        return getAllShots(this.getSixShotBlocked()) + getAllShots(this.getSixShotPost()) + getAllShots(this.getSixShotGoal()) + getAllShots(this.getSixShotDefended()) + getAllShots(this.getSixShotOut());
+        return getAllActions(this.getSixShotBlocked()) + getAllActions(this.getSixShotPost()) + getAllActions(this.getSixShotGoal()) + getAllActions(this.getSixShotDefended()) + getAllActions(this.getSixShotOut());
     }
 
     public int getAllSevenShots(){
-        return getAllShots(this.getSevenShotBlocked()) + getAllShots(this.getSevenShotPost()) + getAllShots(this.getSevenShotGoal()) + getAllShots(this.getSevenShotDefended()) + getAllShots(this.getSevenShotOut());
+        return getAllActions(this.getSevenShotBlocked()) + getAllActions(this.getSevenShotPost()) + getAllActions(this.getSevenShotGoal()) + getAllActions(this.getSevenShotDefended()) + getAllActions(this.getSevenShotOut());
     }
 
     public int getAllNineShots(){
-        return getAllShots(this.getNineShotBlocked()) + getAllShots(this.getNineShotPost()) + getAllShots(this.getNineShotGoal()) + getAllShots(this.getNineShotDefended()) + getAllShots(this.getNineShotOut());
+        return getAllActions(this.getNineShotBlocked()) + getAllActions(this.getNineShotPost()) + getAllActions(this.getNineShotGoal()) + getAllActions(this.getNineShotDefended()) + getAllActions(this.getNineShotOut());
     }
 
     public void refreshPlayerStats(String finalization, int zone, String offAction){
@@ -396,23 +405,23 @@ public class Player {
     }
 
     public int getAllShotGoals(){
-        return getAllShots(nineShotGoal)+getAllShots(sixShotGoal)+getAllShots(sevenShotGoal)+getAllShots(caShotGoal);
+        return getAllActions(nineShotGoal)+ getAllActions(sixShotGoal)+ getAllActions(sevenShotGoal)+ getAllActions(caShotGoal);
     }
 
     public int getAllShotOut(){
-        return getAllShots(nineShotOut)+getAllShots(sixShotOut)+getAllShots(sevenShotOut)+getAllShots(caShotOut);
+        return getAllActions(nineShotOut)+ getAllActions(sixShotOut)+ getAllActions(sevenShotOut)+ getAllActions(caShotOut);
     }
 
     public int getAllShotPost(){
-        return getAllShots(nineShotPost)+getAllShots(sixShotPost)+getAllShots(sevenShotPost)+getAllShots(caShotPost);
+        return getAllActions(nineShotPost)+ getAllActions(sixShotPost)+ getAllActions(sevenShotPost)+ getAllActions(caShotPost);
     }
 
     public int getAllShotDefended(){
-        return getAllShots(nineShotDefended)+getAllShots(sixShotDefended)+getAllShots(sevenShotDefended)+getAllShots(caShotDefended);
+        return getAllActions(nineShotDefended)+ getAllActions(sixShotDefended)+ getAllActions(sevenShotDefended)+ getAllActions(caShotDefended);
     }
 
     public int getAllBlocked(){
-        return getAllShots(nineShotBlocked)+getAllShots(sixShotBlocked)+getAllShots(sevenShotBlocked)+getAllShots(caShotBlocked);
+        return getAllActions(nineShotBlocked)+ getAllActions(sixShotBlocked)+ getAllActions(sevenShotBlocked)+ getAllActions(caShotBlocked);
     }
 
     public int getNumber() {
