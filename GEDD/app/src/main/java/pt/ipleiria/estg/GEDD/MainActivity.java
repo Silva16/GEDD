@@ -485,10 +485,6 @@ public class MainActivity extends ActionBarActivity {
                     }
 
 
-
-                    Log.i("minutes",Integer.toString(minutes));
-                    Log.i("seconds",Integer.toString(seconds));
-
                 }
                 handler.postDelayed(this, 1000);
 
