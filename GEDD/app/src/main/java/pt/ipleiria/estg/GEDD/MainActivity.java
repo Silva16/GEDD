@@ -513,7 +513,7 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-    public void showPopUpDiscipline (View view, Player player){
+    public void showPopUpDiscipline (View view, final Player player){
 
 
 
@@ -528,7 +528,6 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                Player player;
 
                 switch (item.getItemId()){
                     case R.id.btn_yellowCard:
