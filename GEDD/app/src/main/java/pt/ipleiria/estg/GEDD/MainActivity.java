@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.GEDD;
 
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -307,7 +308,8 @@ public class MainActivity extends ActionBarActivity {
                         }
 
                         if ((player = pressedDiscipline(teamPlayer, players, btn_discipline)) != null){
-                            showPopUpDiscipline(v, player);
+                            showPopUpDiscipline(v, teamPlayer, players, player);
+
 
                         }
 
@@ -513,9 +515,9 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-    public void showPopUpDiscipline (View view, final Player player){
+    public void showPopUpDiscipline (final View view, final RelativeLayout teamPlayer, final LinkedList<Player> players, final  Player player){
 
-
+        Button btn_yellowCard = (Button) findViewById(R.id.btn_yellowCard);
 
         PopupMenu popupMenu = new PopupMenu(this, view);
 
@@ -523,6 +525,10 @@ public class MainActivity extends ActionBarActivity {
         menuInflater.inflate(R.menu.popup_discipline, popupMenu.getMenu());
         popupMenu.show();
 
+        if(player.isYellowCard()){
+            // Problema de não desaparecer o botão de cartão amarelo depois do jogador já ter sido sancionado
+            //btn_yellowCard.setVisibility(View.GONE);
+        }
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -532,19 +538,20 @@ public class MainActivity extends ActionBarActivity {
                 switch (item.getItemId()){
                     case R.id.btn_yellowCard:
                         player.setYellowCard();
-
+                        getPlayerPressed(players, teamPlayer);
                         return true;
                     case R.id.btn_redCard:
-                        //player.isRedCard();
-                        //item.setEnabled(false);
+                        player.setRedCard();
                         return true;
                     case R.id.btn_2min:
+
                         return true;
                     default:
                         return false;
                 }
             }
         });
+
     }
 
     private void onStartButtonClick(){
@@ -654,6 +661,10 @@ public class MainActivity extends ActionBarActivity {
         if ((btnPlayer = isChildrenImgButtonPressed(teamPlayer)) != null) {
             for (Player player : players) {
                 if (player.getNumber() == (int) btnPlayer.getTag()) {
+
+                    if(player.isYellowCard()){
+                        btnPlayer.setBackgroundResource(R.drawable.border);
+                    }
                     return player;
                 }
             }
