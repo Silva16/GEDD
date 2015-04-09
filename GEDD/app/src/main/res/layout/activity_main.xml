@@ -511,7 +511,8 @@
             android:scaleType="fitCenter"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/btn_assistance"
-            android:layout_toEndOf="@+id/btn_assistance" />
+            android:layout_toEndOf="@+id/btn_assistance"
+            />
 
         <Button
             android:layout_width="130dp"

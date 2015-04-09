@@ -1,15 +1,18 @@
 package pt.ipleiria.estg.GEDD;
 
+import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,6 +125,8 @@ public class MainActivity extends ActionBarActivity {
         final Button btn_b8 = (Button) findViewById(R.id.btn_b8);
         final Button btn_b9 = (Button) findViewById(R.id.btn_b9);
 
+        final ImageButton btn_discipline = (ImageButton) findViewById(R.id.imgbtn_cards);
+
         String player1Number = lbl_player1.getText().toString();
         String player2Number = lbl_player2.getText().toString();
         String player3Number = lbl_player3.getText().toString();
@@ -158,6 +163,7 @@ public class MainActivity extends ActionBarActivity {
         players.add(player5);
         players.add(player6);
 
+        //btn_discipline.setEnabled(false);
 
         try {
             FileInputStream fin = openFileInput("mydata");
@@ -195,6 +201,7 @@ public class MainActivity extends ActionBarActivity {
                                 refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
                                 refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
 
+                                //btn_discipline.setEnabled(true);
                             }
 
                             btn_b1.setPressed(false);
@@ -297,6 +304,11 @@ public class MainActivity extends ActionBarActivity {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
+                        }
+
+                        if ((player = pressedDiscipline(teamPlayer, players, btn_discipline)) != null){
+                            showPopUpDiscipline(v, player);
+
                         }
 
                         if ((player = pressedAsist(teamPlayer, players, btn_assist)) != null) {
@@ -437,6 +449,7 @@ public class MainActivity extends ActionBarActivity {
         btn_gk_post.setOnTouchListener(zoneTouchListener);
         btn_gk_out.setOnTouchListener(zoneTouchListener);
 
+        btn_discipline.setOnTouchListener(zoneTouchListener);
 
         final ImageButton start = (ImageButton) findViewById(R.id.imgbtn_play);
 
@@ -500,6 +513,41 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+    public void showPopUpDiscipline (View view, Player player){
+
+
+
+        PopupMenu popupMenu = new PopupMenu(this, view);
+
+        MenuInflater menuInflater = popupMenu.getMenuInflater();
+        menuInflater.inflate(R.menu.popup_discipline, popupMenu.getMenu());
+        popupMenu.show();
+
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                Player player;
+
+                switch (item.getItemId()){
+                    case R.id.btn_yellowCard:
+                        player.setYellowCard();
+
+                        return true;
+                    case R.id.btn_redCard:
+                        //player.isRedCard();
+                        //item.setEnabled(false);
+                        return true;
+                    case R.id.btn_2min:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+    }
+
     private void onStartButtonClick(){
             isStart=true;
         }
@@ -509,6 +557,14 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
+    private Player pressedDiscipline(RelativeLayout teamPlayer, LinkedList<Player> players, ImageButton btn_discipline) {
+        Player player;
+        if(btn_discipline.isPressed() && (player = getPlayerPressed(players, teamPlayer)) != null){
+
+            return player;
+        }
+        return null;
+    }
 
     private Player pressedAsist(RelativeLayout teamPlayer, LinkedList<Player> players, Button btn_assist) {
         Player player;
