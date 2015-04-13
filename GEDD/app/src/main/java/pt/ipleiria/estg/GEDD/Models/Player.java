@@ -5,7 +5,8 @@ package pt.ipleiria.estg.GEDD.Models;
  */
 public class Player {
 
-    int number;
+    private int number;
+    private String name;
 
     //Disciplina
     private boolean yellowCard;
@@ -48,8 +49,9 @@ public class Player {
     private int technicalFailure;
     private int assistance;
 
-    public Player(int number) {
+    public Player(int number, String name) {
         this.number = number;
+        this.name = name;
         this.yellowCard = false;
         this.redCard = false;
         this.assistance = 0;
@@ -437,4 +439,13 @@ public class Player {
     }
 
     //public void selectFinalizationResult(result)
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

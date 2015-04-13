@@ -1,9 +1,11 @@
 package pt.ipleiria.estg.GEDD;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,10 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import android.os.Handler;
+
+import org.json.JSONObject;
 
 import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
 import pt.ipleiria.estg.GEDD.Models.Player;
@@ -128,6 +134,32 @@ public class MainActivity extends ActionBarActivity {
 
         final ImageButton btn_discipline = (ImageButton) findViewById(R.id.imgbtn_cards);
 
+        JSONObject jsonObj = readFile();
+        final LinkedList<Player> players = new LinkedList<Player>();
+        final Goalkeeper goalkeeper1 = new Goalkeeper(12);
+
+        if(jsonObj != null){
+            JsonUtil jsonUtil = new JsonUtil();
+            players.addAll(jsonUtil.getPlayersList(jsonObj)) ;
+        }else{
+            players.add(new Player(1,""));
+            players.add(new Player(1,""));
+            players.add(new Player(1,""));
+            players.add(new Player(1,""));
+            players.add(new Player(1,""));
+            players.add(new Player(1,""));
+            players.add(new Player(1,""));
+        }
+
+        lbl_player1.setText(Integer.toString(players.get(0).getNumber()));
+        lbl_player2.setText(Integer.toString(players.get(1).getNumber()));
+        lbl_player3.setText(Integer.toString(players.get(2).getNumber()));
+        lbl_player4.setText(Integer.toString(players.get(3).getNumber()));
+        lbl_player5.setText(Integer.toString(players.get(4).getNumber()));
+        lbl_player6.setText(Integer.toString(players.get(5).getNumber()));
+        lbl_goalkeeper1.setText(Integer.toString(players.get(6).getNumber()));
+
+
         String player1Number = lbl_player1.getText().toString();
         String player2Number = lbl_player2.getText().toString();
         String player3Number = lbl_player3.getText().toString();
@@ -148,21 +180,7 @@ public class MainActivity extends ActionBarActivity {
 
         final TextView time = (TextView) findViewById(R.id.time);
 
-        final Player player1 = new Player(Integer.parseInt(player1Number));
-        final Player player2 = new Player(Integer.parseInt(player2Number));
-        final Player player3 = new Player(Integer.parseInt(player3Number));
-        final Player player4 = new Player(Integer.parseInt(player4Number));
-        final Player player5 = new Player(Integer.parseInt(player5Number));
-        final Player player6 = new Player(Integer.parseInt(player6Number));
-        final Goalkeeper goalkeeper1 = new Goalkeeper(Integer.parseInt(goalkeeper1Number));
 
-        final LinkedList<Player> players = new LinkedList();
-        players.add(player1);
-        players.add(player2);
-        players.add(player3);
-        players.add(player4);
-        players.add(player5);
-        players.add(player6);
 
         //btn_discipline.setEnabled(false);
 
@@ -400,12 +418,12 @@ public class MainActivity extends ActionBarActivity {
         btn_player5.setOnTouchListener(zoneTouchListener);
         btn_player6.setOnTouchListener(zoneTouchListener);
 
-        btn_player1.setTag(player1.getNumber());
-        btn_player2.setTag(player2.getNumber());
-        btn_player3.setTag(player3.getNumber());
-        btn_player4.setTag(player4.getNumber());
-        btn_player5.setTag(player5.getNumber());
-        btn_player6.setTag(player6.getNumber());
+        btn_player1.setTag(lbl_player1.getText());
+        btn_player2.setTag(lbl_player2.getText());
+        btn_player3.setTag(lbl_player3.getText());
+        btn_player4.setTag(lbl_player4.getText());
+        btn_player5.setTag(lbl_player5.getText());
+        btn_player6.setTag(lbl_player6.getText());
 
 
         btn_ca.setOnTouchListener(zoneTouchListener);
@@ -807,5 +825,57 @@ public class MainActivity extends ActionBarActivity {
     public void onClick_AddGoal(View v){
 
     }
+
+    //MENU
+    public void doThis(MenuItem item){
+        Intent intent = new Intent(this, ConfigureTeamActivity.class);
+        startActivity(intent);
+    }
+
+    //ReadFile
+
+    public JSONObject readFile(){
+        FileInputStream fis = null;
+
+        StringBuffer fileContent = new StringBuffer("");
+
+        try{
+            fis = openFileInput("GEDDTeamData");
+
+
+
+            byte[] buffer = new byte[1024];
+
+            int n;
+
+            while ((n = fis.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String text = fileContent.toString();
+
+        JsonUtil jsonUtil = new JsonUtil();
+
+        JSONObject jsonObj = jsonUtil.getJsonObj(text);
+
+        return jsonObj;
+    }
+
+    public int[] stringToInt(String text){
+        String[] raw = text.split("[,]");
+        int[] intArray = new int[raw.length];
+        for (int i = 0; i < raw.length; i++) {
+            intArray[i] = Integer.parseInt(raw[i]);
+        }
+        return intArray;
+    }
+
+
 
 }

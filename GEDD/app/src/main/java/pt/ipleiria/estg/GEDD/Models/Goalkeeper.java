@@ -6,7 +6,7 @@ package pt.ipleiria.estg.GEDD.Models;
 public class Goalkeeper extends Player {
 
     public Goalkeeper(int number) {
-        super(number);
+        super(number, "bada-redes");
     }
 
     private int[][] goal = new int[9][9];
