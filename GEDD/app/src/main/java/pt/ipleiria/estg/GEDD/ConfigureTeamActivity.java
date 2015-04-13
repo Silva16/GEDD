@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -93,6 +95,11 @@ public class ConfigureTeamActivity extends ActionBarActivity {
     }
 
     public void submitClick(View view){
+
+        if(!verifyFields()) {
+            return;
+        }
+
         EditText number;
         EditText name;
         Player[] players = new Player[7];
@@ -145,6 +152,70 @@ public class ConfigureTeamActivity extends ActionBarActivity {
             intArray[i] = Integer.parseInt(raw[i]);
         }
         return intArray;
+    }
+
+    public boolean verifyFields(){
+        EditText number;
+        EditText name;
+        int[] numbers = new int[7];
+        String[] names = new String[7];
+        String regex = "[A-Z]?([a-z]+)\\s?([A-Z]?[a-z]+)?";
+        int counter = 0;
+        for(int i = 0, j = table.getChildCount(); i < j; i++) {
+            View view2 = table.getChildAt(i);
+            if (view2 instanceof TableRow) {
+                TableRow row = (TableRow) view2;
+                name = (EditText) row.getChildAt(2);
+                number = (EditText) row.getChildAt(4);
+
+                if(name.getText().toString().matches("")){
+                    if(counter < 7){
+                        Toast.makeText(getApplicationContext(), "Preencha as primeiras sete linhas",
+                                Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                    counter++;
+                }else {
+                    counter++;
+                    if (!Pattern.matches(regex, name.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "Um ou mais nomes inválidos",
+                                Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+
+                    if (!isInteger(number.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "Um ou mais números inválidos",
+                                Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean isInteger(String str) {
+        if (str == null) {
+            return false;
+        }
+        int length = str.length();
+        if (length == 0) {
+            return false;
+        }
+        int i = 0;
+        if (str.charAt(0) == '-') {
+            if (length == 1) {
+                return false;
+            }
+            i = 1;
+        }
+        for (; i < length; i++) {
+            char c = str.charAt(i);
+            if (c <= '/' || c >= ':') {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
