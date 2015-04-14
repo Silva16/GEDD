@@ -8,5 +8,11 @@
         android:title="Configurar Equipa"
         android:orderInCategory="200"
         app:showAsAction="never"
-        android:onClick="doThis"/>
+        android:onClick="configureTeam"/>
+    <item
+        android:id="@+id/new_game"
+        android:title="Novo Jogo"
+        android:orderInCategory="300"
+        app:showAsAction="never"
+        android:onClick="newGame"/>
 </menu>

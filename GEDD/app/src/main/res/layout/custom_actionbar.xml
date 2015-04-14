@@ -49,11 +49,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Benfica"
-            android:id="@+id/textView13"
-            android:layout_alignTop="@+id/textView4"
-            android:layout_toLeftOf="@+id/textView4"
-            android:layout_toStartOf="@+id/textView4"
+            android:text="Equipa 1"
+            android:id="@+id/myTeam"
+            android:layout_alignTop="@+id/scoreMyTeam"
+            android:layout_toLeftOf="@+id/scoreMyTeam"
+            android:layout_toStartOf="@+id/scoreMyTeam"
             android:layout_marginRight="5dp"
             android:textColor="#FFFFFF" />
 
@@ -61,13 +61,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Leiria"
-            android:id="@+id/textView14"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/textView12"
-            android:layout_toEndOf="@+id/textView12"
-            android:layout_marginLeft="5dp"
-            android:textColor="#FFFFFF" />
+            android:text="Equipa 2"
+            android:id="@+id/opponent"
+            android:layout_marginLeft="23dp"
+            android:textColor="#FFFFFF"
+            android:layout_alignTop="@+id/textView3"
+            android:layout_toRightOf="@+id/textView3"
+            android:layout_toEndOf="@+id/textView3"
+            android:layout_marginStart="23dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,16 +76,16 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text=":"
             android:id="@+id/textView3"
-            android:layout_alignTop="@+id/textView14"
-            android:layout_centerHorizontal="true"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="0"
-            android:id="@+id/textView4"
+            android:id="@+id/scoreMyTeam"
             android:layout_alignTop="@+id/textView3"
             android:layout_toLeftOf="@+id/textView3"
             android:layout_toStartOf="@+id/textView3"
@@ -96,12 +97,11 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="0"
-            android:id="@+id/textView12"
+            android:id="@+id/scoreOpponent"
+            android:textColor="#FFFFFF"
             android:layout_alignTop="@+id/textView3"
             android:layout_toRightOf="@+id/textView3"
-            android:layout_toEndOf="@+id/textView3"
-            android:layout_marginLeft="2dp"
-            android:textColor="#FFFFFF" />
+            android:layout_toEndOf="@+id/textView3" />
     </RelativeLayout>
 
     <TextView
