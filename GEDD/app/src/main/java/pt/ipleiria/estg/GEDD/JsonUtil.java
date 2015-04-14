@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import pt.ipleiria.estg.GEDD.Models.Player;
@@ -18,7 +19,7 @@ import pt.ipleiria.estg.GEDD.Models.Player;
  * Created by Andre on 11/04/2015.
  */
 public class JsonUtil {
-    public static String playerToJSon(Player[] players) {
+    public static String playerToJSon(ArrayList<Player> players) {
         try {
             // Here we convert Java Object to JSON
             JSONObject jsonObj = new JSONObject();
@@ -29,6 +30,7 @@ public class JsonUtil {
                 JSONObject jsonPlayer = new JSONObject();
                 jsonPlayer.put("name", player.getName()); // Set the first name/pair
                 jsonPlayer.put("number", player.getNumber());
+
 
                 jsonPlayers.put(jsonPlayer);
             }

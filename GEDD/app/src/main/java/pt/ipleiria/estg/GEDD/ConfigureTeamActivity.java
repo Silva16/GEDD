@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 
@@ -58,10 +59,12 @@ public class ConfigureTeamActivity extends ActionBarActivity {
                     EditText name = (EditText) row.getChildAt(2);
                     EditText number = (EditText) row.getChildAt(4);
 
-                    name.setText(players.get(counter).getName());
-                    number.setText(Integer.toString(players.get(counter).getNumber()));
+                    if(counter < players.size()) {
+                        name.setText(players.get(counter).getName());
+                        number.setText(Integer.toString(players.get(counter).getNumber()));
 
-                    counter ++;
+                        counter++;
+                    }
 
 
                 }
@@ -102,7 +105,7 @@ public class ConfigureTeamActivity extends ActionBarActivity {
 
         EditText number;
         EditText name;
-        Player[] players = new Player[7];
+        ArrayList<Player> players = new ArrayList<Player>();
         int[] numbers = new int[7];
         String[] names = new String[7];
         for(int i = 0, j = table.getChildCount(); i < j; i++) {
@@ -111,8 +114,9 @@ public class ConfigureTeamActivity extends ActionBarActivity {
                 TableRow row = (TableRow) view2;
                 name = (EditText) row.getChildAt(2);
                 number = (EditText) row.getChildAt(4);
-
-                players[i] = new Player(Integer.valueOf(number.getText().toString()), name.getText().toString());
+                if(name.getText().toString().compareTo("") != 0 && number.getText().toString().compareTo("") != 0) {
+                    players.add(new Player(Integer.valueOf(number.getText().toString()), name.getText().toString()));
+                }
             }
 
 
