@@ -56,15 +56,17 @@ public class ConfigureTeamActivity extends ActionBarActivity {
                 if (view2 instanceof TableRow) {
 
                     TableRow row = (TableRow) view2;
-                    EditText name = (EditText) row.getChildAt(2);
-                    EditText number = (EditText) row.getChildAt(3);
+                    if(row.getChildAt(1) instanceof EditText) {
+                        EditText name = (EditText) row.getChildAt(1);
+                        EditText number = (EditText) row.getChildAt(2);
 
-                    if(counter < players.size()) {
+                        if (counter < players.size()) {
 
-                        name.setText(players.get(counter).getName());
-                        number.setText(Integer.toString(players.get(counter).getNumber()));
+                            name.setText(players.get(counter).getName());
+                            number.setText(Integer.toString(players.get(counter).getNumber()));
 
-                        counter++;
+                            counter++;
+                        }
                     }
 
 
@@ -113,10 +115,13 @@ public class ConfigureTeamActivity extends ActionBarActivity {
             View view2 = table.getChildAt(i);
             if (view2 instanceof TableRow) {
                 TableRow row = (TableRow) view2;
-                name = (EditText) row.getChildAt(2);
-                number = (EditText) row.getChildAt(4);
-                if(name.getText().toString().compareTo("") != 0 && number.getText().toString().compareTo("") != 0) {
-                    players.add(new Player(Integer.valueOf(number.getText().toString()), name.getText().toString()));
+                if(row.getChildAt(1) instanceof EditText)
+                {
+                    name = (EditText) row.getChildAt(1);
+                    number = (EditText) row.getChildAt(2);
+                    if (name.getText().toString().compareTo("") != 0 && number.getText().toString().compareTo("") != 0) {
+                        players.add(new Player(Integer.valueOf(number.getText().toString()), name.getText().toString()));
+                    }
                 }
             }
 
@@ -174,28 +179,31 @@ public class ConfigureTeamActivity extends ActionBarActivity {
             View view2 = table.getChildAt(i);
             if (view2 instanceof TableRow) {
                 TableRow row = (TableRow) view2;
-                name = (EditText) row.getChildAt(2);
-                number = (EditText) row.getChildAt(4);
+                if(row.getChildAt(1) instanceof EditText){
 
-                if(name.getText().toString().matches("")){
-                    if(counter < 7){
-                        Toast.makeText(getApplicationContext(), "Preencha as primeiras sete linhas",
-                                Toast.LENGTH_LONG).show();
-                        return false;
-                    }
-                    counter++;
-                }else {
-                    counter++;
-                    if (!Pattern.matches(regex, name.getText().toString())) {
-                        Toast.makeText(getApplicationContext(), "Um ou mais nomes inválidos",
-                                Toast.LENGTH_LONG).show();
-                        return false;
-                    }
+                    name = (EditText) row.getChildAt(1);
+                    number = (EditText) row.getChildAt(2);
 
-                    if (!isInteger(number.getText().toString())) {
-                        Toast.makeText(getApplicationContext(), "Um ou mais números inválidos",
-                                Toast.LENGTH_LONG).show();
-                        return false;
+                    if(name.getText().toString().matches("")){
+                        if(counter < 7){
+                            Toast.makeText(getApplicationContext(), "Preencha as primeiras sete linhas",
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+                        counter++;
+                    }else {
+                        counter++;
+                        if (!Pattern.matches(regex, name.getText().toString())) {
+                            Toast.makeText(getApplicationContext(), "Um ou mais nomes inválidos",
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                        if (!isInteger(number.getText().toString())) {
+                            Toast.makeText(getApplicationContext(), "Um ou mais números inválidos",
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
                     }
                 }
             }
