@@ -1,18 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id="@+id/new_game"
+        android:title="Criar Jogo"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:onClick="newGame"/>
     <item
         android:id="@+id/team_settings"
         android:title="Configurar Equipa"
         android:orderInCategory="200"
         app:showAsAction="never"
         android:onClick="configureTeam"/>
-    <item
-        android:id="@+id/new_game"
-        android:title="Novo Jogo"
-        android:orderInCategory="300"
-        app:showAsAction="never"
-        android:onClick="newGame"/>
 </menu>

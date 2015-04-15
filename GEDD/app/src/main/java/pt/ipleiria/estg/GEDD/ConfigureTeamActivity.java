@@ -43,7 +43,7 @@ public class ConfigureTeamActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configure_team);
-         table = (TableLayout) findViewById(R.id.table_team);
+        table = (TableLayout) findViewById(R.id.table_team);
 
         //CARREGAR DADOS CASO EXISTAM
         JsonUtil jsonUtil = new JsonUtil();
@@ -57,9 +57,10 @@ public class ConfigureTeamActivity extends ActionBarActivity {
 
                     TableRow row = (TableRow) view2;
                     EditText name = (EditText) row.getChildAt(2);
-                    EditText number = (EditText) row.getChildAt(4);
+                    EditText number = (EditText) row.getChildAt(3);
 
                     if(counter < players.size()) {
+
                         name.setText(players.get(counter).getName());
                         number.setText(Integer.toString(players.get(counter).getNumber()));
 
@@ -138,6 +139,10 @@ public class ConfigureTeamActivity extends ActionBarActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
 
+    }
+
+    public void cancelClick (View view){
+        finish();
     }
 
     public String intToString(int[] intArray){

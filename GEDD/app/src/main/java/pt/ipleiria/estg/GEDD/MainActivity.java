@@ -32,7 +32,6 @@ import java.util.LinkedList;
 import android.os.Handler;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import pt.ipleiria.estg.GEDD.Models.Game;
 import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
@@ -130,7 +129,8 @@ public class MainActivity extends ActionBarActivity {
         final Button btn_interception = (Button) findViewById(R.id.btn_interception);
 
         final Button btn_assist = (Button) findViewById(R.id.btn_assistance);
-        final Button btn_tf = (Button) findViewById(R.id.btn_tf);
+        final Button btn_ft = (Button) findViewById(R.id.btn_ft);
+        final Button btn_ft_adv = (Button) findViewById(R.id.btn_ft_adv);
 
         final Button btn_b1 = (Button) findViewById(R.id.btn_b1);
         final Button btn_b2 = (Button) findViewById(R.id.btn_b2);
@@ -176,6 +176,7 @@ public class MainActivity extends ActionBarActivity {
         final RelativeLayout finalization = (RelativeLayout) findViewById(R.id.finalization);
         final RelativeLayout offensiveAction = (RelativeLayout) findViewById(R.id.offensiveAction);
         final RelativeLayout defensiveAction = (RelativeLayout) findViewById(R.id.defensiveAction);
+        final RelativeLayout otherAction = (RelativeLayout) findViewById(R.id.otherActions);
         final RelativeLayout teamPlayer = (RelativeLayout) findViewById(R.id.players);
         final RelativeLayout goalkeeperZone = (RelativeLayout) findViewById(R.id.goalLayout);
         final RelativeLayout goalkeeperAction = (RelativeLayout) findViewById(R.id.goalkeeperActions);
@@ -217,10 +218,8 @@ public class MainActivity extends ActionBarActivity {
                         if (v.getParent() == (RelativeLayout) teamPlayer) {
                             Player tempPlayer;
                             if ((tempPlayer = getPlayerPressed(players, teamPlayer)) != null) {
-                                refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
+                                refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
                                 refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
-
-                                //btn_discipline.setEnabled(true);
                             }
 
                             btn_b1.setPressed(false);
@@ -303,12 +302,74 @@ public class MainActivity extends ActionBarActivity {
                             btn_player6.setPressed(false);
                         }
 
+                        if (v.getParent() == (RelativeLayout) otherAction){
+                            btn_6m.setPressed(false);
+                            btn_7m.setPressed(false);
+                            btn_9m.setPressed(false);
+                            btn_ca.setPressed(false);
+                            btn_goal.setPressed(false);
+                            btn_defense.setPressed(false);
+                            btn_out.setPressed(false);
+                            btn_goalpost.setPressed(false);
+                            btn_block_atk.setPressed(false);
+                            btn_block_def.setPressed(false);
+                            btn_disarm.setPressed(false);
+                            btn_interception.setPressed(false);
+                            btn_b1.setPressed(false);
+                            btn_b2.setPressed(false);
+                            btn_b3.setPressed(false);
+                            btn_b4.setPressed(false);
+                            btn_b5.setPressed(false);
+                            btn_b6.setPressed(false);
+                            btn_b7.setPressed(false);
+                            btn_b8.setPressed(false);
+                            btn_b9.setPressed(false);
+                            btn_gk_goal.setPressed(false);
+                            btn_gk_def.setPressed(false);
+                            btn_gk_out.setPressed(false);
+                            btn_gk_post.setPressed(false);
+                        }
+
+                        if (v.getTag() == "btn_ft_adv"){
+                            btn_6m.setPressed(false);
+                            btn_7m.setPressed(false);
+                            btn_9m.setPressed(false);
+                            btn_ca.setPressed(false);
+                            btn_goal.setPressed(false);
+                            btn_defense.setPressed(false);
+                            btn_out.setPressed(false);
+                            btn_goalpost.setPressed(false);
+                            btn_block_atk.setPressed(false);
+                            btn_block_def.setPressed(false);
+                            btn_disarm.setPressed(false);
+                            btn_interception.setPressed(false);
+                            btn_player1.setPressed(false);
+                            btn_player2.setPressed(false);
+                            btn_player3.setPressed(false);
+                            btn_player4.setPressed(false);
+                            btn_player5.setPressed(false);
+                            btn_player6.setPressed(false);
+                            btn_b1.setPressed(false);
+                            btn_b2.setPressed(false);
+                            btn_b3.setPressed(false);
+                            btn_b4.setPressed(false);
+                            btn_b5.setPressed(false);
+                            btn_b6.setPressed(false);
+                            btn_b7.setPressed(false);
+                            btn_b8.setPressed(false);
+                            btn_b9.setPressed(false);
+                            btn_gk_goal.setPressed(false);
+                            btn_gk_def.setPressed(false);
+                            btn_gk_out.setPressed(false);
+                            btn_gk_post.setPressed(false);
+                        }
+
                         if ((goalkeeper = allPressedGoalkeeperAction(lbl_scoreOpponent, goalkeeperZone, goalkeeperAction, zones, goalkeeper1, game)) != null){
                             lastAction.setText(goalkeeper.getLastAction());
                         }
 
                         if ((player = allPressedOffensive(lbl_scoreMyTeam, offensiveAction, finalization, zones, teamPlayer, players, game)) != null) {
-                            refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
+                            refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                             lastAction.setText(player.getLastAction());
 
                             String saveData = player.getLastAction();
@@ -333,14 +394,14 @@ public class MainActivity extends ActionBarActivity {
 
                         if ((player = pressedAsist(teamPlayer, players, btn_assist)) != null) {
                             player.addAssistance();
-                            refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
+                            refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                             refreshLabels(null, null, null, null, btn_assist, null, null, null);
                         }
 
-                        if ((player = pressedTechFail(teamPlayer, players, btn_tf)) != null) {
+                        if ((player = pressedTechFail(teamPlayer, players, btn_ft)) != null) {
                             player.addTechFail();
-                            refreshAttackStatistics(btn_tf, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
-                            refreshLabels(null, null, null, null, null, btn_tf, null, null);
+                            refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
+                            refreshLabels(null, null, null, null, null, btn_ft, null, null);
                         }
 
 
@@ -456,20 +517,23 @@ public class MainActivity extends ActionBarActivity {
         btn_disarm.setTag("btn_disarm");
         btn_interception.setTag("btn_interception");
 
-        btn_tf.setOnTouchListener(zoneTouchListener);
+        btn_ft.setOnTouchListener(zoneTouchListener);
         btn_assist.setOnTouchListener(zoneTouchListener);
+        btn_discipline.setOnTouchListener(zoneTouchListener);
+        btn_ft_adv.setOnTouchListener(zoneTouchListener);
 
-        btn_gk_goal.setTag("btn_gk_goal");
-        btn_gk_def.setTag("btn_gk_def");
-        btn_gk_out.setTag("btn_gk_out");
-        btn_gk_post.setTag("btn_gk_post");
+        btn_ft_adv.setTag("btn_ft_adv");
 
         btn_gk_goal.setOnTouchListener(zoneTouchListener);
         btn_gk_def.setOnTouchListener(zoneTouchListener);
         btn_gk_post.setOnTouchListener(zoneTouchListener);
         btn_gk_out.setOnTouchListener(zoneTouchListener);
 
-        btn_discipline.setOnTouchListener(zoneTouchListener);
+        btn_gk_goal.setTag("btn_gk_goal");
+        btn_gk_def.setTag("btn_gk_def");
+        btn_gk_out.setTag("btn_gk_out");
+        btn_gk_post.setTag("btn_gk_post");
+
 
         final ImageButton start = (ImageButton) findViewById(R.id.imgbtn_play);
 
