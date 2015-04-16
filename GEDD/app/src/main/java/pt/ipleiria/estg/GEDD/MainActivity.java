@@ -3,6 +3,7 @@ package pt.ipleiria.estg.GEDD;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
@@ -95,13 +96,15 @@ public class MainActivity extends ActionBarActivity {
         final Button btn_gk_post = (Button) findViewById(R.id.btn_gk_post);
         final Button btn_gk_out = (Button) findViewById(R.id.btn_gk_out);
 
-        final ImageButton btn_player1 = (ImageButton) findViewById(R.id.imgbtn_player1);
+        /*final ImageButton btn_player1 = (ImageButton) findViewById(R.id.imgbtn_player1);
         final ImageButton btn_player2 = (ImageButton) findViewById(R.id.imgbtn_player2);
         final ImageButton btn_player3 = (ImageButton) findViewById(R.id.imgbtn_player3);
         final ImageButton btn_player4 = (ImageButton) findViewById(R.id.imgbtn_player4);
         final ImageButton btn_player5 = (ImageButton) findViewById(R.id.imgbtn_player5);
-        final ImageButton btn_player6 = (ImageButton) findViewById(R.id.imgbtn_player6);
+        final ImageButton btn_player6 = (ImageButton) findViewById(R.id.imgbtn_player6);*/
         final ImageButton btn_goalkeeper1 = (ImageButton) findViewById(R.id.imgbtn_goalkeeper1);
+
+
 
         TextView lbl_goalkeeper1 = (TextView) findViewById(R.id.lbl_gk1);
 
@@ -199,6 +202,25 @@ public class MainActivity extends ActionBarActivity {
 
         } catch (Exception e) {
 
+        }
+
+        final ImageButton btn_players[] = new ImageButton[6];
+        int k = 1;
+        for (int i = 0; i < 6; i++){
+
+            String id_btn = "imgbtn_player" + k;
+            btn_players[i] = (ImageButton) findViewById(getResources().getIdentifier(id_btn, "id", getPackageName()));
+            k++;
+        }
+
+
+        for (int i = 0; i < 6; i++){
+
+            String numberShirt = "ic_shirt_" + Integer.toString((players.get(i).getNumber()));
+
+            Resources resources = getResources();
+            final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
+            btn_players[i].setImageResource(resourceId);
         }
 
         final View.OnTouchListener substitutionListener = new View.OnTouchListener() {
@@ -308,12 +330,12 @@ public class MainActivity extends ActionBarActivity {
                             btn_block_def.setPressed(false);
                             btn_disarm.setPressed(false);
                             btn_interception.setPressed(false);
-                            btn_player1.setPressed(false);
-                            btn_player2.setPressed(false);
-                            btn_player3.setPressed(false);
-                            btn_player4.setPressed(false);
-                            btn_player5.setPressed(false);
-                            btn_player6.setPressed(false);
+                            btn_players[0].setPressed(false);
+                            btn_players[1].setPressed(false);
+                            btn_players[2].setPressed(false);
+                            btn_players[3].setPressed(false);
+                            btn_players[4].setPressed(false);
+                            btn_players[5].setPressed(false);
                         }
 
                         if (v.getParent() == (RelativeLayout) otherAction){
@@ -357,12 +379,12 @@ public class MainActivity extends ActionBarActivity {
                             btn_block_def.setPressed(false);
                             btn_disarm.setPressed(false);
                             btn_interception.setPressed(false);
-                            btn_player1.setPressed(false);
-                            btn_player2.setPressed(false);
-                            btn_player3.setPressed(false);
-                            btn_player4.setPressed(false);
-                            btn_player5.setPressed(false);
-                            btn_player6.setPressed(false);
+                            btn_players[0].setPressed(false);
+                            btn_players[1].setPressed(false);
+                            btn_players[2].setPressed(false);
+                            btn_players[3].setPressed(false);
+                            btn_players[4].setPressed(false);
+                            btn_players[5].setPressed(false);
                             btn_b1.setPressed(false);
                             btn_b2.setPressed(false);
                             btn_b3.setPressed(false);
@@ -486,19 +508,19 @@ public class MainActivity extends ActionBarActivity {
         btn_b8.setTag(8);
         btn_b9.setTag(9);
 
-        btn_player1.setOnTouchListener(zoneTouchListener);
-        btn_player2.setOnTouchListener(zoneTouchListener);
-        btn_player3.setOnTouchListener(zoneTouchListener);
-        btn_player4.setOnTouchListener(zoneTouchListener);
-        btn_player5.setOnTouchListener(zoneTouchListener);
-        btn_player6.setOnTouchListener(zoneTouchListener);
+        btn_players[0].setOnTouchListener(zoneTouchListener);
+        btn_players[1].setOnTouchListener(zoneTouchListener);
+        btn_players[2].setOnTouchListener(zoneTouchListener);
+        btn_players[3].setOnTouchListener(zoneTouchListener);
+        btn_players[4].setOnTouchListener(zoneTouchListener);
+        btn_players[5].setOnTouchListener(zoneTouchListener);
 
-        btn_player1.setTag(String.valueOf(players.get(0).getNumber()));
-        btn_player2.setTag(String.valueOf(players.get(0).getNumber()));
-        btn_player3.setTag(String.valueOf(players.get(0).getNumber()));
-        btn_player4.setTag(String.valueOf(players.get(0).getNumber()));
-        btn_player5.setTag(String.valueOf(players.get(0).getNumber()));
-        btn_player6.setTag(String.valueOf(players.get(0).getNumber()));
+        btn_players[0].setTag(String.valueOf(players.get(0).getNumber()));
+        btn_players[1].setTag(String.valueOf(players.get(0).getNumber()));
+        btn_players[2].setTag(String.valueOf(players.get(0).getNumber()));
+        btn_players[3].setTag(String.valueOf(players.get(0).getNumber()));
+        btn_players[4].setTag(String.valueOf(players.get(0).getNumber()));
+        btn_players[5].setTag(String.valueOf(players.get(0).getNumber()));
 
 
         btn_ca.setOnTouchListener(zoneTouchListener);
