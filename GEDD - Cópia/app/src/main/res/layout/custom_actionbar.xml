@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50px"
+    android:background="@drawable/abc_item_background_holo_dark" >
+
+    <ImageButton
+        android:id="@+id/imgbtn_play"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:background="?android:selectableItemBackground"
+        android:scaleType="fitCenter"
+        android:src="@drawable/play" />
+
+    <!--<ImageButton
+        android:id="@+id/imgbtn_undo"
+        android:layout_width="63dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:background="?android:selectableItemBackground"
+        android:scaleType="fitCenter"
+        android:src="@drawable/undo" />-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ultima Acção"
+        android:id="@+id/lastAction"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/scoretitle"
+        android:layout_toLeftOf="@+id/lastAction"
+        android:layout_toRightOf="@+id/time"
+        android:layout_toEndOf="@+id/time">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Nós"
+            android:id="@+id/myTeam"
+            android:textColor="#FFFFFF"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/scoreMyTeam"
+            android:layout_toStartOf="@+id/scoreMyTeam"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Equipa 2"
+            android:id="@+id/opponent"
+            android:textColor="#FFFFFF"
+            android:layout_alignTop="@+id/myTeam"
+            android:layout_toRightOf="@+id/scoreOpponent"
+            android:layout_toEndOf="@+id/scoreOpponent"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=":"
+            android:id="@+id/textView3"
+            android:textColor="#FFFFFF"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="34dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0"
+            android:id="@+id/scoreMyTeam"
+            android:textColor="#FFFFFF"
+            android:textSize="34dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/textView3"
+            android:layout_toStartOf="@+id/textView3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0"
+            android:id="@+id/scoreOpponent"
+            android:textColor="#FFFFFF"
+            android:textSize="34dp"
+            android:layout_alignTop="@+id/scoreMyTeam"
+            android:layout_toRightOf="@+id/textView3"
+            android:layout_toEndOf="@+id/textView3" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/time"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imgbtn_play"
+        android:layout_toEndOf="@+id/imgbtn_play"
+        android:layout_marginLeft="5dp"
+        android:textColor="#FFFFFF"
+        android:text="00:00" />
+
+</RelativeLayout>
