@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,6 +46,7 @@ public class MainActivity extends ActionBarActivity {
     int seconds = 0;
     int minutes = 0;
     String opponentName = "";
+    LinkedList<Player> players = new LinkedList<Player>();
 
 
     @Override
@@ -143,10 +146,11 @@ public class MainActivity extends ActionBarActivity {
         final Button btn_b9 = (Button) findViewById(R.id.btn_b9);
 
         final ImageButton btn_discipline = (ImageButton) findViewById(R.id.imgbtn_cards);
+        final ImageButton btn_subs = (ImageButton) findViewById(R.id.imgbtn_subs);
 
         JSONObject jsonObj = readFile();
         final Game game = new Game();
-        final LinkedList<Player> players = new LinkedList<Player>();
+        players = new LinkedList<Player>();
         final Goalkeeper goalkeeper1 = new Goalkeeper(12);
 
         if(jsonObj != null){
@@ -162,13 +166,22 @@ public class MainActivity extends ActionBarActivity {
             players.add(new Player(1,""));
         }
 
+        //ASSOCIA A LABEL AO NUMERO DO JOGADOR E INDICA QUE O JOGADOR ESTÁ A JOGAR
+
         lbl_player1.setText(Integer.toString(players.get(0).getNumber()));
+        players.get(0).setPlaying(true);
         lbl_player2.setText(Integer.toString(players.get(1).getNumber()));
+        players.get(1).setPlaying(true);
         lbl_player3.setText(Integer.toString(players.get(2).getNumber()));
+        players.get(2).setPlaying(true);
         lbl_player4.setText(Integer.toString(players.get(3).getNumber()));
+        players.get(3).setPlaying(true);
         lbl_player5.setText(Integer.toString(players.get(4).getNumber()));
+        players.get(4).setPlaying(true);
         lbl_player6.setText(Integer.toString(players.get(5).getNumber()));
+        players.get(5).setPlaying(true);
         lbl_goalkeeper1.setText(Integer.toString(players.get(6).getNumber()));
+        players.get(6).setPlaying(true);
 
         final TextView lastAction = (TextView) findViewById(R.id.lastAction);
 
@@ -199,6 +212,19 @@ public class MainActivity extends ActionBarActivity {
         } catch (Exception e) {
 
         }
+
+        final View.OnTouchListener substitutionListener = new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Player player;
+                    if((player = getPlayerPressed(players,teamPlayer))!=null){
+                        showPopUpSubs(v, teamPlayer,players,player);
+                    }
+                }
+                return true;
+            }
+
+        };
 
 
         final View.OnTouchListener zoneTouchListener = new View.OnTouchListener() {
@@ -521,6 +547,7 @@ public class MainActivity extends ActionBarActivity {
         btn_assist.setOnTouchListener(zoneTouchListener);
         btn_discipline.setOnTouchListener(zoneTouchListener);
         btn_ft_adv.setOnTouchListener(zoneTouchListener);
+        btn_subs.setOnTouchListener(substitutionListener);
 
         btn_ft_adv.setTag("btn_ft_adv");
 
@@ -645,6 +672,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
+
     private Player pressedDiscipline(RelativeLayout teamPlayer, LinkedList<Player> players, ImageButton btn_discipline) {
         Player player;
         if(btn_discipline.isPressed() && (player = getPlayerPressed(players, teamPlayer)) != null){
@@ -680,7 +708,7 @@ public class MainActivity extends ActionBarActivity {
 
     private ImageButton isChildrenImgButtonPressed(RelativeLayout container){
         for (int i=0 ; i < container.getChildCount(); i++){
-            if(container.getChildAt(i).isPressed() == true)
+            if(container.getChildAt(i).isPressed() == true && container.getChildAt(i).getTag() != null)
                 return (ImageButton) container.getChildAt(i);
         }
         return null;
@@ -979,6 +1007,74 @@ public class MainActivity extends ActionBarActivity {
 
         builder.show();
 
+    }
+
+    public void showPopUpSubs(View view, final RelativeLayout teamPlayer, final LinkedList<Player> players, final Player player){
+
+
+        PopupMenu popupMenu = new PopupMenu(this, view);
+
+        for(Player playerTemp : players){
+            if(!playerTemp.getPlaying()){
+                popupMenu.getMenu().add(Menu.NONE,playerTemp.getNumber(),Menu.NONE,playerTemp.getName()+" #"+String.valueOf(playerTemp.getNumber()));
+            }
+        }
+
+        MenuInflater menuInflater = popupMenu.getMenuInflater();
+        menuInflater.inflate(R.menu.popup_sub, popupMenu.getMenu());
+
+
+
+
+        popupMenu.show();
+
+
+
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+
+                Player playerIn = getPlayerWhichNumberIs(item.getItemId(), players);
+                playerIn.setPlaying(true);
+                player.setPlaying(false);
+
+                for(int i = 0; i<teamPlayer.getChildCount(); i++){
+                    //verifica se o child é uma label
+                    if (teamPlayer.getChildAt(i) instanceof TextView) {
+                        TextView labelTemp = (TextView) teamPlayer.getChildAt(i);
+                        //vai buscar o valor da label e vê se corresponde ao numero do jogador que vai sair
+                      if(player.getNumber() == Integer.valueOf(labelTemp.getText().toString())){
+                          //caso corresponda troca o valor da label pelo numero do novo jogador
+                          labelTemp.setText(String.valueOf(playerIn.getNumber()));
+                      }
+                    }
+
+                    //verifica se o child é um botão
+                    if (teamPlayer.getChildAt(i) instanceof ImageButton) {
+                        ImageButton imgBtnTemp = (ImageButton) teamPlayer.getChildAt(i);
+                        //vai buscar o valor da tag do botão e vê se corresponde ao numero do jogador que vai sair
+                        if(imgBtnTemp.getTag() != null && player.getNumber() == Integer.valueOf(imgBtnTemp.getTag().toString())){
+                            //caso corresponda troca o valor da tag pelo numero do novo jogador
+                            imgBtnTemp.setTag(playerIn.getNumber());
+                        }
+                    }
+                }
+
+                return true;
+
+            }
+        });
+    }
+
+    public Player getPlayerWhichNumberIs(int number, LinkedList<Player> players){
+        for (Player player : players){
+            if(player.getNumber()==number){
+                return player;
+            }
+        }
+        return null;
     }
 
 }
