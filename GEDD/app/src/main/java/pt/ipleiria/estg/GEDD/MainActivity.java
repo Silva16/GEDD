@@ -100,13 +100,13 @@ public class MainActivity extends ActionBarActivity {
         final ImageButton btn_player6 = (ImageButton) findViewById(R.id.imgbtn_player6);
         final ImageButton btn_goalkeeper1 = (ImageButton) findViewById(R.id.imgbtn_goalkeeper1);
 
-        TextView lbl_player1 = (TextView) findViewById(R.id.lbl_player1);
+        /*TextView lbl_player1 = (TextView) findViewById(R.id.lbl_player1);
         TextView lbl_player2 = (TextView) findViewById(R.id.lbl_player2);
         TextView lbl_player3 = (TextView) findViewById(R.id.lbl_player3);
         TextView lbl_player4 = (TextView) findViewById(R.id.lbl_player4);
         TextView lbl_player5 = (TextView) findViewById(R.id.lbl_player5);
         TextView lbl_player6 = (TextView) findViewById(R.id.lbl_player6);
-        TextView lbl_goalkeeper1 = (TextView) findViewById(R.id.lbl_gk1);
+        TextView lbl_goalkeeper1 = (TextView) findViewById(R.id.lbl_gk1);*/
 
         final TextView lbl_scoreMyTeam = (TextView) findViewById(R.id.scoreMyTeam);
         final TextView lbl_scoreOpponent = (TextView) findViewById(R.id.scoreOpponent);
@@ -162,13 +162,13 @@ public class MainActivity extends ActionBarActivity {
             players.add(new Player(1,""));
         }
 
-        lbl_player1.setText(Integer.toString(players.get(0).getNumber()));
+        /*lbl_player1.setText(Integer.toString(players.get(0).getNumber()));
         lbl_player2.setText(Integer.toString(players.get(1).getNumber()));
         lbl_player3.setText(Integer.toString(players.get(2).getNumber()));
         lbl_player4.setText(Integer.toString(players.get(3).getNumber()));
         lbl_player5.setText(Integer.toString(players.get(4).getNumber()));
         lbl_player6.setText(Integer.toString(players.get(5).getNumber()));
-        lbl_goalkeeper1.setText(Integer.toString(players.get(6).getNumber()));
+        lbl_goalkeeper1.setText(Integer.toString(players.get(6).getNumber()));*/
 
         final TextView lastAction = (TextView) findViewById(R.id.lastAction);
 
@@ -479,12 +479,12 @@ public class MainActivity extends ActionBarActivity {
         btn_player5.setOnTouchListener(zoneTouchListener);
         btn_player6.setOnTouchListener(zoneTouchListener);
 
-        btn_player1.setTag(Integer.valueOf(lbl_player1.getText().toString()));
+        /*btn_player1.setTag(Integer.valueOf(lbl_player1.getText().toString()));
         btn_player2.setTag(Integer.valueOf(lbl_player2.getText().toString()));
         btn_player3.setTag(Integer.valueOf(lbl_player3.getText().toString()));
         btn_player4.setTag(Integer.valueOf(lbl_player4.getText().toString()));
         btn_player5.setTag(Integer.valueOf(lbl_player5.getText().toString()));
-        btn_player6.setTag(Integer.valueOf(lbl_player6.getText().toString()));
+        btn_player6.setTag(Integer.valueOf(lbl_player6.getText().toString()));*/
 
 
         btn_ca.setOnTouchListener(zoneTouchListener);
