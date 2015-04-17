@@ -236,6 +236,19 @@ public class MainActivity extends ActionBarActivity {
 
         };
 
+        final View.OnTouchListener disciplineListener = new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Player player;
+                    if((player = getPlayerPressed(players,teamPlayer))!=null){
+                        showPopUpDiscipline(v, teamPlayer,players,player);
+                    }
+                }
+                return true;
+            }
+
+        };
+
 
         final View.OnTouchListener zoneTouchListener = new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -422,12 +435,6 @@ public class MainActivity extends ActionBarActivity {
                             }
                         }
 
-                        if ((player = pressedDiscipline(teamPlayer, players, btn_discipline)) != null){
-                            showPopUpDiscipline(v, teamPlayer, players, player);
-
-
-                        }
-
                         if ((player = pressedAsist(teamPlayer, players, btn_assist)) != null) {
                             player.addAssistance();
                             refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
@@ -555,7 +562,7 @@ public class MainActivity extends ActionBarActivity {
 
         btn_ft.setOnTouchListener(zoneTouchListener);
         btn_assist.setOnTouchListener(zoneTouchListener);
-        btn_discipline.setOnTouchListener(zoneTouchListener);
+        btn_discipline.setOnTouchListener(disciplineListener);
         btn_ft_adv.setOnTouchListener(zoneTouchListener);
         btn_subs.setOnTouchListener(substitutionListener);
 
@@ -644,14 +651,20 @@ public class MainActivity extends ActionBarActivity {
         menuInflater.inflate(R.menu.popup_discipline, popupMenu.getMenu());
         popupMenu.show();
 
+
+
         if(player.isYellowCard()){
             // Problema de não desaparecer o botão de cartão amarelo depois do jogador já ter sido sancionado
             //btn_yellowCard.setVisibility(View.GONE);
         }
 
+
+
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+
+                ImageButton btnPlayer;
 
 
                 switch (item.getItemId()){
@@ -670,6 +683,7 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
+
 
     }
 
@@ -771,7 +785,7 @@ public class MainActivity extends ActionBarActivity {
             }
 
             for(Player player : players){
-                if(player.getNumber()==(int) btnPlayer.getTag()){
+                if(player.getNumber()==(int) Integer.valueOf(btnPlayer.getTag().toString())){
                     player.setLastAction("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
                     player.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
                     refreshLabels(btnOffAct, null, btnFinalization, btnZone, null, null, null, null);
@@ -791,9 +805,6 @@ public class MainActivity extends ActionBarActivity {
             for (Player player : players) {
                 if (player.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())) {
 
-                    if(player.isYellowCard()){
-                        btnPlayer.setBackgroundResource(R.drawable.border);
-                    }
                     return player;
                 }
             }
@@ -1033,13 +1044,7 @@ public class MainActivity extends ActionBarActivity {
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.popup_sub, popupMenu.getMenu());
 
-
-
-
         popupMenu.show();
-
-
-
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -1065,9 +1070,18 @@ public class MainActivity extends ActionBarActivity {
                     if (teamPlayer.getChildAt(i) instanceof ImageButton) {
                         ImageButton imgBtnTemp = (ImageButton) teamPlayer.getChildAt(i);
                         //vai buscar o valor da tag do botão e vê se corresponde ao numero do jogador que vai sair
+
                         if(imgBtnTemp.getTag() != null && player.getNumber() == Integer.valueOf(imgBtnTemp.getTag().toString())){
+                            Toast.makeText(getBaseContext(), Integer.valueOf(imgBtnTemp.getTag().toString()), Toast.LENGTH_LONG).show();
                             //caso corresponda troca o valor da tag pelo numero do novo jogador
-                            imgBtnTemp.setTag(playerIn.getNumber());
+
+                            String numberShirt = "ic_shirt_" + Integer.toString((playerIn.getNumber()));
+
+                            Resources resources = getResources();
+                            final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
+                            imgBtnTemp.setImageResource(resourceId);
+
+                            //imgBtnTemp.setTag(playerIn.getNumber());
                         }
                     }
                 }
