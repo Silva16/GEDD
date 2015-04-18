@@ -161,18 +161,10 @@ public class MainActivity extends ActionBarActivity {
             players = game.getPlayers();
 
 
-
-
         }else{
             createGame();
 
         }
-
-
-
-
-
-
 
 
 
@@ -1023,7 +1015,7 @@ public class MainActivity extends ActionBarActivity {
         StringBuffer fileContent = new StringBuffer("");
 
         try{
-            fis = openFileInput("GEDDTeamData");
+            fis = openFileInput("GEDDData");
 
 
 
@@ -1212,11 +1204,6 @@ public class MainActivity extends ActionBarActivity {
 
     public void createGame(){
         JSONObject jsonObj = readFile();
-
-
-
-
-
 
         game = new Game();
         players = new LinkedList<Player>();
