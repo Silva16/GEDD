@@ -697,12 +697,20 @@ public class MainActivity extends ActionBarActivity {
             public boolean onMenuItemClick(MenuItem item) {
 
                 ImageButton btnPlayer;
-
+                Player playerSelected;
 
                 switch (item.getItemId()){
                     case R.id.btn_yellowCard:
                         player.setYellowCard();
-                        getPlayerPressed(players, teamPlayer);
+                        playerSelected = getPlayerPressed(players, teamPlayer);
+                        String numberShirt = "ic_shirt_" + Integer.toString((playerSelected.getNumber()));
+
+                        Resources resources = getResources();
+                        final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
+
+                        btnPlayer = isChildrenImgButtonPressed(teamPlayer);
+                        btnPlayer.setImageResource(resourceId);
+
                         return true;
                     case R.id.btn_redCard:
                         player.setRedCard();
@@ -715,6 +723,7 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
+
 
 
     }
@@ -1120,37 +1129,25 @@ public class MainActivity extends ActionBarActivity {
                 playerIn.setPlaying(true);
                 player.setPlaying(false);
 
-                for(int i = 0; i<teamPlayer.getChildCount(); i++){
-                    //verifica se o child é uma label
-                    if (teamPlayer.getChildAt(i) instanceof TextView) {
-                        TextView labelTemp = (TextView) teamPlayer.getChildAt(i);
-                        //vai buscar o valor da label e vê se corresponde ao numero do jogador que vai sair
-                      if(player.getNumber() == Integer.valueOf(labelTemp.getText().toString())){
-                          //caso corresponda troca o valor da label pelo numero do novo jogador
-                          labelTemp.setText(String.valueOf(playerIn.getNumber()));
-                      }
-                    }
 
-                    //verifica se o child é um botão
-                    if (teamPlayer.getChildAt(i) instanceof ImageButton) {
-                        ImageButton imgBtnTemp = (ImageButton) teamPlayer.getChildAt(i);
+                        ImageButton btnPlayer = isChildrenImgButtonPressed(teamPlayer);
                         //vai buscar o valor da tag do botão e vê se corresponde ao numero do jogador que vai sair
 
-                        if(imgBtnTemp.getTag() != null && player.getNumber() == Integer.valueOf(imgBtnTemp.getTag().toString())){
+                        if(btnPlayer.getTag() != null && player.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())){
                             //caso corresponda troca o valor da tag pelo numero do novo jogador
 
-                            Log.i("Entra",imgBtnTemp.getTag().toString());
+                            Log.i("Entra",btnPlayer.getTag().toString());
 
                             String numberShirt = "ic_shirt_" + Integer.toString((playerIn.getNumber()));
 
                             Resources resources = getResources();
                             final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
-                            imgBtnTemp.setImageResource(resourceId);
+                            btnPlayer.setImageResource(resourceId);
 
-                            imgBtnTemp.setTag(playerIn.getNumber());
+                            btnPlayer.setTag(playerIn.getNumber());
                         }
-                    }
-                }
+
+
 
                 return true;
 
