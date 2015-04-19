@@ -19,7 +19,8 @@
         </activity>
         <activity
             android:name=".ConfigureTeamActivity"
-            android:label="@string/title_activity_configure_team" >
+            android:label="@string/title_activity_configure_team"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

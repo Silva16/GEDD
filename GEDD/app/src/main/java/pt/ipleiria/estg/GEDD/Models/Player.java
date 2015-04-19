@@ -15,6 +15,8 @@ public class Player implements Serializable{
     private Boolean playing;
 
     //Disciplina
+    private int twoMin;
+    private boolean twoMinOut;
     private boolean yellowCard;
     private boolean redCard;
 
@@ -58,6 +60,8 @@ public class Player implements Serializable{
     public Player(int number, String name) {
         this.number = number;
         this.name = name;
+        this.twoMin = 0;
+        this.twoMinOut = false;
         this.yellowCard = false;
         this.redCard = false;
         this.assistance = 0;
@@ -65,6 +69,22 @@ public class Player implements Serializable{
         this.playing = false;
 
         setLastAction("Ultima Ação");
+    }
+
+    public int getTwoMin() {
+        return twoMin;
+    }
+
+    public void setTwoMin() {
+        this.twoMin++;
+    }
+
+    public boolean isTwoMinOut() {
+        return twoMinOut;
+    }
+
+    public void setTwoMinOut() {
+        this.twoMinOut = true;
     }
 
     public boolean isYellowCard() {

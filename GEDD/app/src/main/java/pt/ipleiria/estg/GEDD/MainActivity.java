@@ -225,7 +225,8 @@ public class MainActivity extends ActionBarActivity {
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             Player player;
                             if ((player = getPlayerPressed(players, teamPlayer)) != null) {
-                                showPopUpSubs(v, teamPlayer, player);
+                                ImageButton btn_selectedPlayer = isChildrenImgButtonPressed(teamPlayer);
+                                showPopUpSubs(v, teamPlayer, player, btn_selectedPlayer);
                             } else {
                                 Goalkeeper gk;
                                 if (isGoalkeeperPressed(teamPlayer)) {
@@ -244,7 +245,14 @@ public class MainActivity extends ActionBarActivity {
                             Player player;
                             if ((player = getPlayerPressed(players, teamPlayer)) != null) {
                                 ImageButton btn_selectedPlayer = isChildrenImgButtonPressed(teamPlayer);
-                                showPopUpDiscipline(v, teamPlayer, players, player, btn_selectedPlayer);
+                                ImageButton btn_cards = (ImageButton) findViewById(R.id.imgbtn_cards);
+
+                                if(player.isRedCard()){
+                                    btn_cards.setEnabled(false);
+                                    Toast.makeText(getBaseContext(), "Jogador já possuí a penalização máxima", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    showPopUpDiscipline(v, teamPlayer, players, player, btn_selectedPlayer);
+                                }
                             }
                         }
                         return true;
@@ -679,19 +687,25 @@ public class MainActivity extends ActionBarActivity {
 
     public void showPopUpDiscipline (final View view, final RelativeLayout teamPlayer, final LinkedList<Player> players, final  Player player, final ImageButton btnPlayer){
 
-        Button btn_yellowCard = (Button) findViewById(R.id.btn_yellowCard);
-
         PopupMenu popupMenu = new PopupMenu(this, view);
 
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.popup_discipline, popupMenu.getMenu());
         popupMenu.show();
 
+        MenuItem btn_twoMin = popupMenu.getMenu().findItem(R.id.btn_2min);
 
+        MenuItem btn_yellowCard = popupMenu.getMenu().findItem(R.id.btn_yellowCard);
 
         if(player.isYellowCard()){
-            // Problema de não desaparecer o botão de cartão amarelo depois do jogador já ter sido sancionado
-            //btn_yellowCard.setVisibility(View.GONE);
+
+            btn_yellowCard.setVisible(false);
+        }
+
+
+        if(player.isTwoMinOut()){
+
+            btn_twoMin.setVisible(false);
         }
 
 
@@ -700,31 +714,40 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
+                String numberShirt;
+                Resources resources = getResources();
+                final int resourceId;
 
                 switch (item.getItemId()){
                     case R.id.btn_yellowCard:
+
                         player.setYellowCard();
-                        String numberShirt = "ic_shirt_" + Integer.toString((player.getNumber()));
-
-                        Resources resources = getResources();
-                        final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
-
+                        numberShirt = "ic_shirt_" + Integer.toString((player.getNumber())) + "_yellowcard";
+                        resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
                         btnPlayer.setImageResource(resourceId);
+                        return true;
 
-                        return true;
                     case R.id.btn_redCard:
+
                         player.setRedCard();
+                        numberShirt = "ic_shirt_" + Integer.toString((player.getNumber())) + "_redcard";
+                        resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
+                        btnPlayer.setImageResource(resourceId);
                         return true;
+
                     case R.id.btn_2min:
 
+                        player.setTwoMin();
+                        numberShirt = "ic_shirt_" + Integer.toString((player.getNumber())) + "_2min";
+                        resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
+                        btnPlayer.setImageResource(resourceId);
                         return true;
+
                     default:
                         return false;
                 }
             }
         });
-
-
 
     }
 
@@ -1103,7 +1126,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public void showPopUpSubs(View view, final RelativeLayout teamPlayer, final Player player){
+    public void showPopUpSubs(View view, final RelativeLayout teamPlayer, final Player player, final ImageButton btnPlayer){
 
 
         PopupMenu popupMenu = new PopupMenu(this, view);
@@ -1130,7 +1153,6 @@ public class MainActivity extends ActionBarActivity {
                 player.setPlaying(false);
 
 
-                        ImageButton btnPlayer = isChildrenImgButtonPressed(teamPlayer);
                         //vai buscar o valor da tag do botão e vê se corresponde ao numero do jogador que vai sair
 
                         if(btnPlayer.getTag() != null && player.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())){
