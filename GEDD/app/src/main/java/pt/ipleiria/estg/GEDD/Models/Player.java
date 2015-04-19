@@ -1,9 +1,11 @@
 package pt.ipleiria.estg.GEDD.Models;
 
+import java.io.Serializable;
+
 /**
  * Created by Andre on 27/03/2015.
  */
-public class Player {
+public class Player implements Serializable{
 
     private int number;
     private String name;

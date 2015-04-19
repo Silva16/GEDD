@@ -1,20 +1,29 @@
 package pt.ipleiria.estg.GEDD.Models;
 
+import java.io.Serializable;
+import java.util.LinkedList;
+
 /**
  * Created by Silva16 on 13-04-2015.
  */
-public class Game {
+public class Game implements Serializable {
 
     private String opponent;
     private String myTeam;
     private int scoreMyTeam;
     private int scoreOpponent;
+    private int minutes;
+    private int seconds;
+
+    private LinkedList<Player> players;
 
     public Game() {
         this.opponent = "";
         this.myTeam = "";
         this.scoreMyTeam = 0;
         this.scoreOpponent = 0;
+        minutes = 0;
+        seconds = 0;
     }
 
     public int getScoreOpponent() {
@@ -50,5 +59,27 @@ public class Game {
         this.myTeam = myTeam;
     }
 
+    public LinkedList<Player> getPlayers() {
+        return players;
+    }
 
+    public void setPlayers(LinkedList<Player> players) {
+        this.players = players;
+    }
+
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+    }
 }

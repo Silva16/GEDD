@@ -30,6 +30,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 
 import android.os.Handler;
@@ -48,6 +50,7 @@ public class MainActivity extends ActionBarActivity {
     int minutes = 0;
     String opponentName = "";
     LinkedList<Player> players = new LinkedList<Player>();
+    Game game;
 
 
     @Override
@@ -111,6 +114,7 @@ public class MainActivity extends ActionBarActivity {
         final TextView lbl_scoreMyTeam = (TextView) findViewById(R.id.scoreMyTeam);
         final TextView lbl_scoreOpponent = (TextView) findViewById(R.id.scoreOpponent);
         final TextView lbl_myTeam = (TextView) findViewById(R.id.myTeam);
+        final TextView time = (TextView) findViewById(R.id.time);
 
 
         final Button btn_ca = (Button) findViewById(R.id.btn_ca);
@@ -145,23 +149,37 @@ public class MainActivity extends ActionBarActivity {
         final ImageButton btn_discipline = (ImageButton) findViewById(R.id.imgbtn_cards);
         final ImageButton btn_subs = (ImageButton) findViewById(R.id.imgbtn_subs);
 
-        JSONObject jsonObj = readFile();
-        final Game game = new Game();
-        players = new LinkedList<Player>();
+        if(!readSerializable()){
+            JSONObject jsonObj = readFile();
+            game = new Game();
+            players = new LinkedList<Player>();
+
+            if(jsonObj != null){
+                JsonUtil jsonUtil = new JsonUtil();
+                players.addAll(jsonUtil.getPlayersList(jsonObj)) ;
+            }else{
+                players.add(new Player(1,""));
+                players.add(new Player(1,""));
+                players.add(new Player(1,""));
+                players.add(new Player(1,""));
+                players.add(new Player(1,""));
+                players.add(new Player(1,""));
+                players.add(new Player(1,""));
+            }
+            game.setPlayers(players);
+
+        }else{
+            players = game.getPlayers();
+            Toast.makeText(getBaseContext(), "Jogo Carregado", Toast.LENGTH_SHORT).show();
+            lbl_scoreMyTeam.setText(String.valueOf(game.getScoreMyTeam()));
+            lbl_scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
+
+            Log.i("loaded","carreguei");
+        }
+
         final Goalkeeper goalkeeper1 = new Goalkeeper(12);
 
-        if(jsonObj != null){
-            JsonUtil jsonUtil = new JsonUtil();
-            players.addAll(jsonUtil.getPlayersList(jsonObj)) ;
-        }else{
-            players.add(new Player(1,""));
-            players.add(new Player(1,""));
-            players.add(new Player(1,""));
-            players.add(new Player(1,""));
-            players.add(new Player(1,""));
-            players.add(new Player(1,""));
-            players.add(new Player(1,""));
-        }
+
 
         //ASSOCIA A LABEL AO NUMERO DO JOGADOR E INDICA QUE O JOGADOR ESTÁ A JOGAR
 
@@ -185,7 +203,6 @@ public class MainActivity extends ActionBarActivity {
         final RelativeLayout goalkeeperZone = (RelativeLayout) findViewById(R.id.goalLayout);
         final RelativeLayout goalkeeperAction = (RelativeLayout) findViewById(R.id.goalkeeperActions);
 
-        final TextView time = (TextView) findViewById(R.id.time);
 
         //btn_discipline.setEnabled(false);
 
@@ -523,11 +540,11 @@ public class MainActivity extends ActionBarActivity {
         btn_players[5].setOnTouchListener(zoneTouchListener);
 
         btn_players[0].setTag(String.valueOf(players.get(0).getNumber()));
-        btn_players[1].setTag(String.valueOf(players.get(0).getNumber()));
-        btn_players[2].setTag(String.valueOf(players.get(0).getNumber()));
-        btn_players[3].setTag(String.valueOf(players.get(0).getNumber()));
-        btn_players[4].setTag(String.valueOf(players.get(0).getNumber()));
-        btn_players[5].setTag(String.valueOf(players.get(0).getNumber()));
+        btn_players[1].setTag(String.valueOf(players.get(1).getNumber()));
+        btn_players[2].setTag(String.valueOf(players.get(2).getNumber()));
+        btn_players[3].setTag(String.valueOf(players.get(3).getNumber()));
+        btn_players[4].setTag(String.valueOf(players.get(4).getNumber()));
+        btn_players[5].setTag(String.valueOf(players.get(5).getNumber()));
 
 
         btn_ca.setOnTouchListener(zoneTouchListener);
@@ -602,12 +619,17 @@ public class MainActivity extends ActionBarActivity {
 
         final Runnable r = new Runnable() {
             public void run() {
+                minutes = game.getMinutes();
+                seconds = game.getSeconds();
                 if (isStart) {
                     seconds++;
                     if (seconds == 60) {
                         seconds = 0;
                         minutes++;
                     }
+
+                    game.setMinutes(minutes);
+                    game.setSeconds(seconds);
 
                     if(seconds < 10 && minutes >= 10){
                         time.setText(minutes + ":" +'0'+seconds);
@@ -637,6 +659,32 @@ public class MainActivity extends ActionBarActivity {
         };
 
         handler.postDelayed(r, 1000);
+    }
+
+    @Override
+    protected void onDestroy(){
+        String filename = "game-gedd.ser";
+
+        // save the object to file
+        FileOutputStream fos = null;
+        ObjectOutputStream out = null;
+        Log.i("onDestroy","Entrei no on destroy");
+        try {
+            Log.i("onDestroy","1");
+            fos = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString()+filename);
+            Log.i("onDestroy","2");
+            out = new ObjectOutputStream(fos);
+            Log.i("onDestroy","3");
+            out.writeObject(game);
+            Log.i("onDestroy","4");
+
+            out.close();
+
+            Log.i("onDestroy","Detrui cenas");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        super.onDestroy();
     }
 
 
@@ -1072,8 +1120,9 @@ public class MainActivity extends ActionBarActivity {
                         //vai buscar o valor da tag do botão e vê se corresponde ao numero do jogador que vai sair
 
                         if(imgBtnTemp.getTag() != null && player.getNumber() == Integer.valueOf(imgBtnTemp.getTag().toString())){
-                            Toast.makeText(getBaseContext(), Integer.valueOf(imgBtnTemp.getTag().toString()), Toast.LENGTH_LONG).show();
                             //caso corresponda troca o valor da tag pelo numero do novo jogador
+
+                            Log.i("Entra",imgBtnTemp.getTag().toString());
 
                             String numberShirt = "ic_shirt_" + Integer.toString((playerIn.getNumber()));
 
@@ -1100,5 +1149,25 @@ public class MainActivity extends ActionBarActivity {
         }
         return null;
     }
+
+    public Boolean readSerializable(){
+        // read the object from file
+        // save the object to file
+        FileInputStream fis = null;
+        ObjectInputStream in = null;
+            try {
+                fis = new FileInputStream(getApplicationContext().getFilesDir().getPath().toString()+"game-gedd.ser");
+                in = new ObjectInputStream(fis);
+                game = (Game) in.readObject();
+                in.close();
+                Log.i("read True","Consegui Ler");
+                return true;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        Log.i("read false","nao li nada");
+        return false;
+        }
+
 
 }
