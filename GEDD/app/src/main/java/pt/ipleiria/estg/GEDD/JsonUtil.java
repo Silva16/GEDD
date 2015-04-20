@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
 import pt.ipleiria.estg.GEDD.Models.Player;
 
 /**
@@ -61,14 +62,19 @@ public class JsonUtil {
     public LinkedList<Player> getPlayersList(JSONObject jObj){
         JSONArray jArr = null;
         LinkedList<Player> players = new LinkedList<Player>();
+        Goalkeeper gk1 = null;
+        Goalkeeper gk2 = null;
         try {
             jArr = jObj.getJSONArray("player");
 
             Log.i("jArr", Integer.valueOf(jArr.length()).toString());
             for (int i=0; i < jArr.length(); i++) {
-                JSONObject obj = jArr.getJSONObject(i);
-                players.add(new Player(obj.getInt("number"),obj.getString("name")));
+                if(i!=6 && i!=7) {
+                    JSONObject obj = jArr.getJSONObject(i);
+                    players.add(new Player(obj.getInt("number"), obj.getString("name")));
+                }
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

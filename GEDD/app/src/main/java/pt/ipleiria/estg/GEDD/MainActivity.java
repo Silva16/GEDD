@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -149,48 +150,29 @@ public class MainActivity extends ActionBarActivity {
         final ImageButton btn_discipline = (ImageButton) findViewById(R.id.imgbtn_cards);
         final ImageButton btn_subs = (ImageButton) findViewById(R.id.imgbtn_subs);
 
-        if(!readSerializable()){
-            JSONObject jsonObj = readFile();
-            game = new Game();
-            players = new LinkedList<Player>();
 
-            if(jsonObj != null){
-                JsonUtil jsonUtil = new JsonUtil();
-                players.addAll(jsonUtil.getPlayersList(jsonObj)) ;
-            }else{
-                players.add(new Player(1,""));
-                players.add(new Player(1,""));
-                players.add(new Player(1,""));
-                players.add(new Player(1,""));
-                players.add(new Player(1,""));
-                players.add(new Player(1,""));
-                players.add(new Player(1,""));
-            }
-            game.setPlayers(players);
+
+        if(readSerializable()){
+
+            players = game.getPlayers();
+
 
         }else{
-            players = game.getPlayers();
-            Toast.makeText(getBaseContext(), "Jogo Carregado", Toast.LENGTH_SHORT).show();
-            lbl_scoreMyTeam.setText(String.valueOf(game.getScoreMyTeam()));
-            lbl_scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
+            createGame();
 
-            Log.i("loaded","carreguei");
         }
 
         final Goalkeeper goalkeeper1 = new Goalkeeper(12);
 
 
 
-        //ASSOCIA A LABEL AO NUMERO DO JOGADOR E INDICA QUE O JOGADOR ESTÁ A JOGAR
+        //AINDICA QUE O JOGADOR ESTÁ A JOGAR
 
-        players.get(0).setPlaying(true);
-        players.get(1).setPlaying(true);
-        players.get(2).setPlaying(true);
-        players.get(3).setPlaying(true);
-        players.get(4).setPlaying(true);
-        players.get(5).setPlaying(true);
+
         lbl_goalkeeper1.setText(Integer.toString(players.get(6).getNumber()));
-        players.get(6).setPlaying(true);
+
+
+
 
         final TextView lastAction = (TextView) findViewById(R.id.lastAction);
 
@@ -245,7 +227,7 @@ public class MainActivity extends ActionBarActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Player player;
                     if((player = getPlayerPressed(players,teamPlayer))!=null){
-                        showPopUpSubs(v, teamPlayer,players,player);
+                        showPopUpSubs(v, teamPlayer,player);
                     }
                 }
                 return true;
@@ -538,6 +520,7 @@ public class MainActivity extends ActionBarActivity {
         btn_players[3].setOnTouchListener(zoneTouchListener);
         btn_players[4].setOnTouchListener(zoneTouchListener);
         btn_players[5].setOnTouchListener(zoneTouchListener);
+        btn_goalkeeper1.setOnTouchListener(zoneTouchListener);
 
         btn_players[0].setTag(String.valueOf(players.get(0).getNumber()));
         btn_players[1].setTag(String.valueOf(players.get(1).getNumber()));
@@ -545,6 +528,7 @@ public class MainActivity extends ActionBarActivity {
         btn_players[3].setTag(String.valueOf(players.get(3).getNumber()));
         btn_players[4].setTag(String.valueOf(players.get(4).getNumber()));
         btn_players[5].setTag(String.valueOf(players.get(5).getNumber()));
+        btn_goalkeeper1.setTag(String.valueOf(players.get(6).getNumber()));
 
 
         btn_ca.setOnTouchListener(zoneTouchListener);
@@ -617,10 +601,17 @@ public class MainActivity extends ActionBarActivity {
 
         handler = new Handler();
 
+        popUpLoadGame(lbl_scoreMyTeam, lbl_scoreOpponent);
+
+        minutes = game.getMinutes();
+        seconds = game.getSeconds();
+
+        setTime(time);
+
+
         final Runnable r = new Runnable() {
             public void run() {
-                minutes = game.getMinutes();
-                seconds = game.getSeconds();
+
                 if (isStart) {
                     seconds++;
                     if (seconds == 60) {
@@ -631,21 +622,7 @@ public class MainActivity extends ActionBarActivity {
                     game.setMinutes(minutes);
                     game.setSeconds(seconds);
 
-                    if(seconds < 10 && minutes >= 10){
-                        time.setText(minutes + ":" +'0'+seconds);
-                    }
-
-                    if(minutes < 10 && seconds >= 10){
-                        time.setText("0"+minutes + ":" +seconds);
-                    }
-
-                    if(minutes < 10 && seconds < 10){
-                        time.setText("0"+minutes + ":" +'0'+seconds);
-                    }
-
-                    if(minutes >= 10 && seconds >= 10){
-                        time.setText(minutes + ":" +seconds);
-                    }
+                    setTime(time);
 
 
                 }
@@ -988,6 +965,10 @@ public class MainActivity extends ActionBarActivity {
 
     //MENU
     public void configureTeam(MenuItem item){
+        callIntentToConfigureTeam();
+    }
+
+    public void callIntentToConfigureTeam(){
         Intent intent = new Intent(this, ConfigureTeamActivity.class);
         startActivity(intent);
     }
@@ -995,6 +976,7 @@ public class MainActivity extends ActionBarActivity {
     //ReadFile
 
     public JSONObject readFile(){
+
         FileInputStream fis = null;
 
         StringBuffer fileContent = new StringBuffer("");
@@ -1025,6 +1007,7 @@ public class MainActivity extends ActionBarActivity {
         JSONObject jsonObj = jsonUtil.getJsonObj(text);
 
         return jsonObj;
+
     }
 
     public int[] stringToInt(String text){
@@ -1078,12 +1061,13 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public void showPopUpSubs(View view, final RelativeLayout teamPlayer, final LinkedList<Player> players, final Player player){
+    public void showPopUpSubs(View view, final RelativeLayout teamPlayer, final Player player){
 
 
         PopupMenu popupMenu = new PopupMenu(this, view);
 
         for(Player playerTemp : players){
+            Log.i("Playing?",String.valueOf(playerTemp.getPlaying()));
             if(!playerTemp.getPlaying()){
                 popupMenu.getMenu().add(Menu.NONE,playerTemp.getNumber(),Menu.NONE,playerTemp.getName()+" #"+String.valueOf(playerTemp.getNumber()));
             }
@@ -1168,6 +1152,91 @@ public class MainActivity extends ActionBarActivity {
         Log.i("read false","nao li nada");
         return false;
         }
+
+    public void createGame(){
+        JSONObject jsonObj = readFile();
+
+
+
+
+
+
+        game = new Game();
+        players = new LinkedList<Player>();
+
+
+        if(jsonObj != null){
+            JsonUtil jsonUtil = new JsonUtil();
+            players.addAll(jsonUtil.getPlayersList(jsonObj)) ;
+
+        }else{
+            callIntentToConfigureTeam();
+        }
+        game.setPlayers(players);
+
+        players.get(0).setPlaying(true);
+        players.get(1).setPlaying(true);
+        players.get(2).setPlaying(true);
+        players.get(3).setPlaying(true);
+        players.get(4).setPlaying(true);
+        players.get(5).setPlaying(true);
+        players.get(6).setPlaying(true);
+    }
+
+    public void popUpLoadGame(final TextView lbl_scoreMyTeam, final TextView lbl_scoreOpponent){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+
+        // set title
+        alertDialogBuilder.setTitle("Carregar jogo");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Deseja carregar o último jogo?")
+                .setCancelable(false)
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, do nothing
+
+                        lbl_scoreMyTeam.setText(String.valueOf(game.getScoreMyTeam()));
+                        lbl_scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
+
+                        Log.i("loaded", "carreguei");
+                        Toast.makeText(getApplicationContext(), "Jogo Carregado",
+                                Toast.LENGTH_LONG).show();
+
+                    }
+                })
+                .setNegativeButton("Não",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, create a new game
+                        createGame();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+
+    public void setTime(TextView time){
+        if(seconds < 10 && minutes >= 10){
+            time.setText(minutes + ":" +'0'+seconds);
+        }
+
+        if(minutes < 10 && seconds >= 10){
+            time.setText("0"+minutes + ":" +seconds);
+        }
+
+        if(minutes < 10 && seconds < 10){
+            time.setText("0"+minutes + ":" +'0'+seconds);
+        }
+
+        if(minutes >= 10 && seconds >= 10){
+            time.setText(minutes + ":" +seconds);
+        }
+    }
 
 
 }

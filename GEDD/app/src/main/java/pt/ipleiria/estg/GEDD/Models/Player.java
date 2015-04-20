@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.GEDD.Models;
 
+import android.util.Log;
+
 import java.io.Serializable;
 
 /**
@@ -460,5 +462,6 @@ public class Player implements Serializable{
 
     public void setPlaying(Boolean playing) {
         this.playing = playing;
+        Log.i("setPlaying",String.valueOf(playing));
     }
 }
