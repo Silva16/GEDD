@@ -153,7 +153,7 @@ public class ConfigureTeamActivity extends ActionBarActivity {
 
         FileOutputStream fos = null;
         try {
-            fos = openFileOutput("GEDDData", Context.MODE_PRIVATE);
+            fos = openFileOutput("GEDDData2", Context.MODE_PRIVATE);
             fos.write(file.getBytes());
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -118,7 +118,7 @@ public class JsonUtil {
         StringBuffer fileContent = new StringBuffer("");
 
         try{
-            fis = mContext.openFileInput("GEDDData");
+            fis = mContext.openFileInput("GEDDData2");
 
             byte[] buffer = new byte[1024];
 
