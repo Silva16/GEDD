@@ -118,15 +118,14 @@
             android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="50"
             android:gravity="center"
             android:id="@+id/lbl_gk1"
             android:textColor="#FFFFFF"
             android:textSize="20dp"
             android:numeric="integer"
-            android:layout_alignTop="@+id/imgbtn_subs"
+            android:layout_below="@+id/imgbtn_player3"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="17dp" />
 
     </RelativeLayout>
 

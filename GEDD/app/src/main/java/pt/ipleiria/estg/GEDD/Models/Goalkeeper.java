@@ -5,8 +5,8 @@ package pt.ipleiria.estg.GEDD.Models;
  */
 public class Goalkeeper extends Player {
 
-    public Goalkeeper(int number) {
-        super(number, "bada-redes");
+    public Goalkeeper(int number, String name) {
+        super(number, name);
     }
 
     private int[][] goal = new int[9][9];

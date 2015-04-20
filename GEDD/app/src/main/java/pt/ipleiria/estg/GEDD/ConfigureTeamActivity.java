@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
 import pt.ipleiria.estg.GEDD.Models.Player;
 import pt.ipleiria.estg.GEDD.R;
 
@@ -50,7 +51,10 @@ public class ConfigureTeamActivity extends ActionBarActivity {
         JSONObject jsonObject = jsonUtil.readFile(getApplicationContext());
         if(jsonObject!=null) {
             LinkedList<Player> players = jsonUtil.getPlayersList(jsonObject);
+            LinkedList<Goalkeeper> gks = jsonUtil.getGKList(jsonObject);
+
             int counter = 0;
+            int counterGK = 0;
             for (int i = 0, j = table.getChildCount(); i < j; i++) {
                 View view2 = table.getChildAt(i);
                 if (view2 instanceof TableRow) {
@@ -59,14 +63,26 @@ public class ConfigureTeamActivity extends ActionBarActivity {
                     if(row.getChildAt(1) instanceof EditText) {
                         EditText name = (EditText) row.getChildAt(1);
                         EditText number = (EditText) row.getChildAt(2);
+                        if(counter == 6 && counterGK < gks.size()){
 
-                        if (counter < players.size()) {
+                                name.setText(gks.get(counterGK).getName());
+                                number.setText(Integer.toString(gks.get(counterGK).getNumber()));
 
-                            name.setText(players.get(counter).getName());
-                            number.setText(Integer.toString(players.get(counter).getNumber()));
+                                counterGK++;
 
-                            counter++;
+
+                        }else{
+                            if (counter < players.size()) {
+
+                                name.setText(players.get(counter).getName());
+                                number.setText(Integer.toString(players.get(counter).getNumber()));
+
+                                counter++;
+                            }
+
                         }
+
+
                     }
 
 
@@ -109,9 +125,9 @@ public class ConfigureTeamActivity extends ActionBarActivity {
         EditText number;
         EditText name;
         ArrayList<Player> players = new ArrayList<Player>();
-        int[] numbers = new int[7];
-        String[] names = new String[7];
+        ArrayList<Goalkeeper> gks = new ArrayList<Goalkeeper>();
         for(int i = 0, j = table.getChildCount(); i < j; i++) {
+
             View view2 = table.getChildAt(i);
             if (view2 instanceof TableRow) {
                 TableRow row = (TableRow) view2;
@@ -120,7 +136,11 @@ public class ConfigureTeamActivity extends ActionBarActivity {
                     name = (EditText) row.getChildAt(1);
                     number = (EditText) row.getChildAt(2);
                     if (name.getText().toString().compareTo("") != 0 && number.getText().toString().compareTo("") != 0) {
-                        players.add(new Player(Integer.valueOf(number.getText().toString()), name.getText().toString()));
+                        if(i != 8 && i !=10 ) {
+                            players.add(new Player(Integer.valueOf(number.getText().toString()), name.getText().toString()));
+                        }else{
+                            gks.add(new Goalkeeper(Integer.valueOf(number.getText().toString()), name.getText().toString()));
+                        }
                     }
                 }
             }
@@ -128,7 +148,7 @@ public class ConfigureTeamActivity extends ActionBarActivity {
 
         }
 
-        String file = JsonUtil.playerToJSon(players);
+        String file = JsonUtil.playerToJSon(players,gks);
 
 
         FileOutputStream fos = null;

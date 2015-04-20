@@ -51,7 +51,11 @@ public class MainActivity extends ActionBarActivity {
     int minutes = 0;
     String opponentName = "";
     LinkedList<Player> players = new LinkedList<Player>();
+    LinkedList<Goalkeeper> gks = new LinkedList<Goalkeeper>();
     Game game;
+    Goalkeeper goalkeeper1;
+    TextView lbl_goalkeeper1;
+    ImageButton btn_goalkeeper1;
 
 
     @Override
@@ -106,11 +110,11 @@ public class MainActivity extends ActionBarActivity {
         final ImageButton btn_player4 = (ImageButton) findViewById(R.id.imgbtn_player4);
         final ImageButton btn_player5 = (ImageButton) findViewById(R.id.imgbtn_player5);
         final ImageButton btn_player6 = (ImageButton) findViewById(R.id.imgbtn_player6);*/
-        final ImageButton btn_goalkeeper1 = (ImageButton) findViewById(R.id.imgbtn_goalkeeper1);
+        btn_goalkeeper1 = (ImageButton) findViewById(R.id.imgbtn_goalkeeper1);
 
 
 
-        TextView lbl_goalkeeper1 = (TextView) findViewById(R.id.lbl_gk1);
+        lbl_goalkeeper1 = (TextView) findViewById(R.id.lbl_gk1);
 
         final TextView lbl_scoreMyTeam = (TextView) findViewById(R.id.scoreMyTeam);
         final TextView lbl_scoreOpponent = (TextView) findViewById(R.id.scoreOpponent);
@@ -157,19 +161,17 @@ public class MainActivity extends ActionBarActivity {
             players = game.getPlayers();
 
 
+
+
         }else{
             createGame();
 
         }
 
-        final Goalkeeper goalkeeper1 = new Goalkeeper(12);
 
 
 
-        //AINDICA QUE O JOGADOR ESTÁ A JOGAR
 
-
-        lbl_goalkeeper1.setText(Integer.toString(players.get(6).getNumber()));
 
 
 
@@ -228,6 +230,11 @@ public class MainActivity extends ActionBarActivity {
                     Player player;
                     if((player = getPlayerPressed(players,teamPlayer))!=null){
                         showPopUpSubs(v, teamPlayer,player);
+                    }else{
+                        Goalkeeper gk;
+                        if(isGoalkeeperPressed(teamPlayer)){
+                            changeGK(btn_goalkeeper1);
+                        }
                     }
                 }
                 return true;
@@ -268,6 +275,12 @@ public class MainActivity extends ActionBarActivity {
                             if ((tempPlayer = getPlayerPressed(players, teamPlayer)) != null) {
                                 refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
                                 refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
+                            }
+
+                            if(btn_goalkeeper1.isPressed()){
+                                Log.i("presionou o fk","gk pressionado");
+                                refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_6m, btn_7m, btn_9m, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, (Player) goalkeeper1);
+                                refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, (Player) goalkeeper1);
                             }
 
                             btn_b1.setPressed(false);
@@ -528,7 +541,7 @@ public class MainActivity extends ActionBarActivity {
         btn_players[3].setTag(String.valueOf(players.get(3).getNumber()));
         btn_players[4].setTag(String.valueOf(players.get(4).getNumber()));
         btn_players[5].setTag(String.valueOf(players.get(5).getNumber()));
-        btn_goalkeeper1.setTag(String.valueOf(players.get(6).getNumber()));
+
 
 
         btn_ca.setOnTouchListener(zoneTouchListener);
@@ -636,6 +649,8 @@ public class MainActivity extends ActionBarActivity {
         };
 
         handler.postDelayed(r, 1000);
+
+
     }
 
     @Override
@@ -818,6 +833,16 @@ public class MainActivity extends ActionBarActivity {
                     return player;
                 }
             }
+
+            for(Goalkeeper gk : gks){
+                if(gk.getNumber()==Integer.valueOf(btnPlayer.getTag().toString())){
+                    gk.setLastAction("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
+                    gk.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
+                    refreshLabels(btnOffAct, null, btnFinalization, btnZone, null, null, null, null);
+
+                    return gk;
+                }
+            }
         }
         return null;
     }
@@ -845,7 +870,7 @@ public class MainActivity extends ActionBarActivity {
         if((btnDefAct = isChildrenButtonPressed(defensiveAction)) != null && (btnZone = isChildrenButtonPressed(zones))!= null && (btnPlayer = isChildrenImgButtonPressed(teamPlayer)) != null){
 
             for(Player player : players){
-                if(player.getNumber()==(int) btnPlayer.getTag()){
+                if(player.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())){
                     player.setLastAction("Jogador " + btnPlayer.getTag().toString() + "\n" + btnDefAct.getTag().toString() + ", Zona " + btnZone.getTag().toString());
                     if (btnDefAct.getTag() == "btn_block_def"){
                         player.setBlock((int) btnZone.getTag());
@@ -857,6 +882,22 @@ public class MainActivity extends ActionBarActivity {
                     refreshLabels(null, btnDefAct, null, btnZone, null, null, null, null);
 
                     return player;
+                }
+            }
+
+            for(Goalkeeper gk : gks){
+                if(gk.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())){
+                    gk.setLastAction("Jogador " + btnPlayer.getTag().toString() + "\n" + btnDefAct.getTag().toString() + ", Zona " + btnZone.getTag().toString());
+                    if (btnDefAct.getTag() == "btn_block_def"){
+                        gk.setBlock((int) btnZone.getTag());
+                    } else if(btnDefAct.getTag() == "btn_disarm") {
+                        gk.setDisarm((int) btnZone.getTag());
+                    } else if(btnDefAct.getTag() == "btn_interception"){
+                        gk.setInterception((int) btnZone.getTag());
+                    }
+                    refreshLabels(null, btnDefAct, null, btnZone, null, null, null, null);
+
+                    return gk;
                 }
             }
         }
@@ -1114,7 +1155,7 @@ public class MainActivity extends ActionBarActivity {
                             final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
                             imgBtnTemp.setImageResource(resourceId);
 
-                            //imgBtnTemp.setTag(playerIn.getNumber());
+                            imgBtnTemp.setTag(playerIn.getNumber());
                         }
                     }
                 }
@@ -1123,6 +1164,22 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
+    }
+
+    public void changeGK(ImageButton btn_goalkeeper1){
+        if(gks.size() > 1) {
+            if (gks.get(0).getPlaying()) {
+                gks.get(0).setPlaying(false);
+                gks.get(1).setPlaying(true);
+                goalkeeper1 = gks.get(1);
+            } else {
+                gks.get(1).setPlaying(false);
+                gks.get(0).setPlaying(true);
+                goalkeeper1 = gks.get(0);
+            }
+            lbl_goalkeeper1.setText(String.valueOf(goalkeeper1.getNumber()));
+            btn_goalkeeper1.setTag(String.valueOf(goalkeeper1));
+        }
     }
 
     public Player getPlayerWhichNumberIs(int number, LinkedList<Player> players){
@@ -1163,11 +1220,13 @@ public class MainActivity extends ActionBarActivity {
 
         game = new Game();
         players = new LinkedList<Player>();
+        gks = new LinkedList<Goalkeeper>();
 
 
         if(jsonObj != null){
             JsonUtil jsonUtil = new JsonUtil();
             players.addAll(jsonUtil.getPlayersList(jsonObj)) ;
+            gks.addAll(jsonUtil.getGKList(jsonObj));
 
         }else{
             callIntentToConfigureTeam();
@@ -1180,7 +1239,9 @@ public class MainActivity extends ActionBarActivity {
         players.get(3).setPlaying(true);
         players.get(4).setPlaying(true);
         players.get(5).setPlaying(true);
-        players.get(6).setPlaying(true);
+        gks.get(0).setPlaying(true);
+        goalkeeper1 = gks.get(0);
+        lbl_goalkeeper1.setText(String.valueOf(gks.get(0).getNumber()));
     }
 
     public void popUpLoadGame(final TextView lbl_scoreMyTeam, final TextView lbl_scoreOpponent){
@@ -1236,6 +1297,14 @@ public class MainActivity extends ActionBarActivity {
         if(minutes >= 10 && seconds >= 10){
             time.setText(minutes + ":" +seconds);
         }
+    }
+
+    private Boolean isGoalkeeperPressed(RelativeLayout teamPlayer) {
+        ImageButton btnPlayer;
+        if ((btnPlayer = isChildrenImgButtonPressed(teamPlayer)) != null) {
+            return true;
+        }
+        return false;
     }
 
 

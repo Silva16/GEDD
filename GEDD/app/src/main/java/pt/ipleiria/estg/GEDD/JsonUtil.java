@@ -20,7 +20,7 @@ import pt.ipleiria.estg.GEDD.Models.Player;
  * Created by Andre on 11/04/2015.
  */
 public class JsonUtil {
-    public static String playerToJSon(ArrayList<Player> players) {
+    public static String playerToJSon(ArrayList<Player> players, ArrayList<Goalkeeper> gks) {
         try {
             // Here we convert Java Object to JSON
             JSONObject jsonObj = new JSONObject();
@@ -37,6 +37,20 @@ public class JsonUtil {
             }
 
             jsonObj.put("player", jsonPlayers);
+
+            JSONArray jsonGKs = new JSONArray();
+
+            for (Goalkeeper gk : gks) {
+                JSONObject jsonGK = new JSONObject();
+                jsonGK.put("name", gk.getName()); // Set the first name/pair
+                jsonGK.put("number", gk.getNumber());
+
+                jsonGKs.put(jsonGK);
+
+            }
+
+
+            jsonObj.put("goalkeeper", jsonGKs);
 
             return jsonObj.toString();
 
@@ -62,23 +76,39 @@ public class JsonUtil {
     public LinkedList<Player> getPlayersList(JSONObject jObj){
         JSONArray jArr = null;
         LinkedList<Player> players = new LinkedList<Player>();
-        Goalkeeper gk1 = null;
-        Goalkeeper gk2 = null;
         try {
             jArr = jObj.getJSONArray("player");
 
             Log.i("jArr", Integer.valueOf(jArr.length()).toString());
             for (int i=0; i < jArr.length(); i++) {
-                if(i!=6 && i!=7) {
-                    JSONObject obj = jArr.getJSONObject(i);
-                    players.add(new Player(obj.getInt("number"), obj.getString("name")));
-                }
+                JSONObject obj = jArr.getJSONObject(i);
+                players.add(new Player(obj.getInt("number"), obj.getString("name")));
+
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return players;
+
+    }
+
+    public LinkedList<Goalkeeper> getGKList(JSONObject jObj){
+        JSONArray jArr = null;
+        LinkedList<Goalkeeper> gks = new LinkedList<Goalkeeper>();
+        try {
+            jArr = jObj.getJSONArray("goalkeeper");
+
+            Log.i("jArr", Integer.valueOf(jArr.length()).toString());
+            for (int i=0; i < jArr.length(); i++) {
+                JSONObject obj = jArr.getJSONObject(i);
+                gks.add(new Goalkeeper(obj.getInt("number"), obj.getString("name")));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return gks;
 
     }
 
