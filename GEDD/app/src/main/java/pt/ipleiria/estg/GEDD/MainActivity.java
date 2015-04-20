@@ -1215,17 +1215,23 @@ public class MainActivity extends ActionBarActivity {
         }else{
             callIntentToConfigureTeam();
         }
-        game.setPlayers(players);
+        try {
+            game.setPlayers(players);
 
-        players.get(0).setPlaying(true);
-        players.get(1).setPlaying(true);
-        players.get(2).setPlaying(true);
-        players.get(3).setPlaying(true);
-        players.get(4).setPlaying(true);
-        players.get(5).setPlaying(true);
-        gks.get(0).setPlaying(true);
-        goalkeeper1 = gks.get(0);
-        lbl_goalkeeper1.setText(String.valueOf(gks.get(0).getNumber()));
+            players.get(0).setPlaying(true);
+            players.get(1).setPlaying(true);
+            players.get(2).setPlaying(true);
+            players.get(3).setPlaying(true);
+            players.get(4).setPlaying(true);
+            players.get(5).setPlaying(true);
+            gks.get(0).setPlaying(true);
+            goalkeeper1 = gks.get(0);
+            lbl_goalkeeper1.setText(String.valueOf(gks.get(0).getNumber()));
+        }catch (Exception e){
+
+        }finally {
+            callIntentToConfigureTeam();
+        }
     }
 
     public void popUpLoadGame(final TextView lbl_scoreMyTeam, final TextView lbl_scoreOpponent){
