@@ -156,7 +156,7 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-        if(readSerializable()){
+        /*if(readSerializable()){
 
             players = game.getPlayers();
 
@@ -164,7 +164,9 @@ public class MainActivity extends ActionBarActivity {
         }else{
             createGame();
 
-        }
+        }*/
+
+        createGame();
 
 
 
@@ -606,7 +608,11 @@ public class MainActivity extends ActionBarActivity {
 
         handler = new Handler();
 
-        popUpLoadGame(lbl_scoreMyTeam, lbl_scoreOpponent);
+        if(readSerializable() != null){
+            popUpLoadGame(lbl_scoreMyTeam, lbl_scoreOpponent);
+        }
+
+
 
         minutes = game.getMinutes();
         seconds = game.getSeconds();
@@ -1180,7 +1186,7 @@ public class MainActivity extends ActionBarActivity {
         return null;
     }
 
-    public Boolean readSerializable(){
+    public Game readSerializable(){
         // read the object from file
         // save the object to file
         FileInputStream fis = null;
@@ -1191,12 +1197,12 @@ public class MainActivity extends ActionBarActivity {
                 game = (Game) in.readObject();
                 in.close();
                 Log.i("read True","Consegui Ler");
-                return true;
+                return game;
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         Log.i("read false","nao li nada");
-        return false;
+        return null;
         }
 
     public void createGame(){
@@ -1215,7 +1221,6 @@ public class MainActivity extends ActionBarActivity {
         }else{
             callIntentToConfigureTeam();
         }
-        try {
             game.setPlayers(players);
 
             players.get(0).setPlaying(true);
@@ -1227,11 +1232,7 @@ public class MainActivity extends ActionBarActivity {
             gks.get(0).setPlaying(true);
             goalkeeper1 = gks.get(0);
             lbl_goalkeeper1.setText(String.valueOf(gks.get(0).getNumber()));
-        }catch (Exception e){
 
-        }finally {
-            callIntentToConfigureTeam();
-        }
     }
 
     public void popUpLoadGame(final TextView lbl_scoreMyTeam, final TextView lbl_scoreOpponent){
@@ -1247,6 +1248,7 @@ public class MainActivity extends ActionBarActivity {
                 .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         // if this button is clicked, do nothing
+                        Game game = readSerializable();
 
                         lbl_scoreMyTeam.setText(String.valueOf(game.getScoreMyTeam()));
                         lbl_scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
