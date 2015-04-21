@@ -243,7 +243,8 @@ public class MainActivity extends ActionBarActivity {
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             Player player;
                             if ((player = getPlayerPressed(players, teamPlayer)) != null) {
-                                showPopUpDiscipline(v, teamPlayer, players, player);
+                                ImageButton btn_selectedPlayer = isChildrenImgButtonPressed(teamPlayer);
+                                showPopUpDiscipline(v, teamPlayer, players, player, btn_selectedPlayer);
                             }
                         }
                         return true;
@@ -676,7 +677,7 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-    public void showPopUpDiscipline (final View view, final RelativeLayout teamPlayer, final LinkedList<Player> players, final  Player player){
+    public void showPopUpDiscipline (final View view, final RelativeLayout teamPlayer, final LinkedList<Player> players, final  Player player, final ImageButton btnPlayer){
 
         Button btn_yellowCard = (Button) findViewById(R.id.btn_yellowCard);
 
@@ -699,7 +700,6 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                ImageButton btnPlayer;
 
                 switch (item.getItemId()){
                     case R.id.btn_yellowCard:
@@ -709,7 +709,6 @@ public class MainActivity extends ActionBarActivity {
                         Resources resources = getResources();
                         final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
 
-                        btnPlayer = isChildrenImgButtonPressed(teamPlayer);
                         btnPlayer.setImageResource(resourceId);
 
                         return true;
