@@ -385,7 +385,8 @@
             android:layout_toLeftOf="@+id/btn_ft"
             android:layout_toStartOf="@+id/btn_ft"
             android:layout_marginRight="90dp"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:onClick="clickFtAdv"/>
 
         <Space
             android:layout_width="0px"

@@ -26,7 +26,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -191,7 +194,7 @@ public class ConfigureTeamActivity extends ActionBarActivity {
     public boolean verifyFields(){
         EditText number;
         EditText name;
-        int[] numbers = new int[7];
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
         String[] names = new String[7];
         String regex = "[A-Z]?([a-z]+)\\s?([A-Z]?[a-z]+)?";
         int counter = 0;
@@ -203,6 +206,11 @@ public class ConfigureTeamActivity extends ActionBarActivity {
 
                     name = (EditText) row.getChildAt(1);
                     number = (EditText) row.getChildAt(2);
+
+
+
+
+
 
                     if(name.getText().toString().matches("")){
                         if(counter < 7){
@@ -224,9 +232,24 @@ public class ConfigureTeamActivity extends ActionBarActivity {
                                     Toast.LENGTH_LONG).show();
                             return false;
                         }
+
+                        if(Integer.valueOf(number.getText().toString()) < 1 || Integer.valueOf(number.getText().toString()) > 99){
+                            Toast.makeText(getApplicationContext(), "Os números tem de ser superiores a 0 e inferiores a 100",
+                                    Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+
+                        numbers.add(Integer.valueOf(number.getText().toString()));
                     }
                 }
             }
+        }
+        Set<Integer> set = new HashSet<Integer>(numbers);
+
+        if(set.size() < numbers.size()){
+            Toast.makeText(getApplicationContext(), "Não pode repetir números",
+                    Toast.LENGTH_LONG).show();
+            return false;
         }
         return true;
     }

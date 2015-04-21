@@ -17,8 +17,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -38,6 +40,7 @@ import java.util.LinkedList;
 import android.os.Handler;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import pt.ipleiria.estg.GEDD.Models.Game;
 import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
@@ -57,6 +60,8 @@ public class MainActivity extends ActionBarActivity {
     TextView lbl_goalkeeper1;
     ImageButton btn_goalkeeper1;
     Boolean existFile = false;
+    Button btn_tf_adv;
+    TextView lbl_opponent;
 
 
     @Override
@@ -116,6 +121,7 @@ public class MainActivity extends ActionBarActivity {
 
 
         lbl_goalkeeper1 = (TextView) findViewById(R.id.lbl_gk1);
+        lbl_opponent = (TextView) findViewById(R.id.opponent);
 
         final TextView lbl_scoreMyTeam = (TextView) findViewById(R.id.scoreMyTeam);
         final TextView lbl_scoreOpponent = (TextView) findViewById(R.id.scoreOpponent);
@@ -140,7 +146,6 @@ public class MainActivity extends ActionBarActivity {
 
         final Button btn_assist = (Button) findViewById(R.id.btn_assistance);
         final Button btn_ft = (Button) findViewById(R.id.btn_ft);
-        final Button btn_ft_adv = (Button) findViewById(R.id.btn_ft_adv);
 
         final Button btn_b1 = (Button) findViewById(R.id.btn_b1);
         final Button btn_b2 = (Button) findViewById(R.id.btn_b2);
@@ -154,6 +159,8 @@ public class MainActivity extends ActionBarActivity {
 
         final ImageButton btn_discipline = (ImageButton) findViewById(R.id.imgbtn_cards);
         final ImageButton btn_subs = (ImageButton) findViewById(R.id.imgbtn_subs);
+
+        btn_tf_adv = (Button) findViewById(R.id.btn_ft_adv);
 
 
 
@@ -546,6 +553,7 @@ public class MainActivity extends ActionBarActivity {
                 btn_players[3].setTag(String.valueOf(players.get(3).getNumber()));
                 btn_players[4].setTag(String.valueOf(players.get(4).getNumber()));
                 btn_players[5].setTag(String.valueOf(players.get(5).getNumber()));
+                btn_goalkeeper1.setTag(String.valueOf(goalkeeper1.getNumber()));
 
 
                 btn_ca.setOnTouchListener(zoneTouchListener);
@@ -581,10 +589,8 @@ public class MainActivity extends ActionBarActivity {
                 btn_ft.setOnTouchListener(zoneTouchListener);
                 btn_assist.setOnTouchListener(zoneTouchListener);
                 btn_discipline.setOnTouchListener(disciplineListener);
-                btn_ft_adv.setOnTouchListener(zoneTouchListener);
                 btn_subs.setOnTouchListener(substitutionListener);
 
-                btn_ft_adv.setTag("btn_ft_adv");
 
                 btn_gk_goal.setOnTouchListener(zoneTouchListener);
                 btn_gk_def.setOnTouchListener(zoneTouchListener);
@@ -849,7 +855,7 @@ public class MainActivity extends ActionBarActivity {
             }
 
             for(Player player : players){
-                if(player.getNumber()==(int) Integer.valueOf(btnPlayer.getTag().toString())){
+                if(player.getNumber()== Integer.valueOf(btnPlayer.getTag().toString())){
                     player.setLastAction("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
                     player.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
                     refreshLabels(btnOffAct, null, btnFinalization, btnZone, null, null, null, null);
@@ -1091,9 +1097,11 @@ public class MainActivity extends ActionBarActivity {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.HORIZONTAL);
 
-        final TextView lbl_opponent = (TextView) findViewById(R.id.opponent);
+
         final TextView lbl_opponentName = new TextView(this);
         final EditText opponentTeam = new EditText(this);
+
+        opponentTeam.setClickable(true);
 
         builder.setTitle("Novo jogo");
 
@@ -1101,17 +1109,31 @@ public class MainActivity extends ActionBarActivity {
         lbl_opponentName.setTextColor(Color.BLACK);
         lbl_opponentName.setText("  Nome da equipa adversária: ");
 
-        opponentTeam.setInputType(InputType.TYPE_TEXT_VARIATION_NORMAL);
+        opponentTeam.setInputType(InputType.TYPE_CLASS_TEXT);
+        opponentTeam.setFocusable(true); // Add This Line And try
+
 
         layout.addView(lbl_opponentName);
         layout.addView(opponentTeam);
 
         builder.setView(layout);
 
+
+
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 lbl_opponent.setText(opponentTeam.getText().toString());
+                game.setOpponent(opponentTeam.getText().toString());
+                createGame();
+                TextView scoreMyTeam = (TextView) findViewById(R.id.scoreMyTeam);
+                TextView scoreOpponent = (TextView) findViewById(R.id.scoreOpponent);
+
+                scoreMyTeam.setText(String.valueOf(game.getScoreMyTeam()));
+                scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
+
+                minutes = 0;
+                seconds = 0;
             }
         });
 
@@ -1189,7 +1211,7 @@ public class MainActivity extends ActionBarActivity {
                 goalkeeper1 = gks.get(0);
             }
             lbl_goalkeeper1.setText(String.valueOf(goalkeeper1.getNumber()));
-            btn_goalkeeper1.setTag(String.valueOf(goalkeeper1));
+            btn_goalkeeper1.setTag(String.valueOf(goalkeeper1.getNumber()));
         }
     }
 
@@ -1236,6 +1258,9 @@ public class MainActivity extends ActionBarActivity {
             gks.addAll(jsonUtil.getGKList(jsonObj));
 
             game.setPlayers(players);
+            game.setGks(gks);
+
+
 
             players.get(0).setPlaying(true);
             players.get(1).setPlaying(true);
@@ -1246,6 +1271,9 @@ public class MainActivity extends ActionBarActivity {
             gks.get(0).setPlaying(true);
             goalkeeper1 = gks.get(0);
             lbl_goalkeeper1.setText(String.valueOf(gks.get(0).getNumber()));
+
+
+
             existFile = true;
 
         }else{
@@ -1269,9 +1297,14 @@ public class MainActivity extends ActionBarActivity {
                     public void onClick(DialogInterface dialog,int id) {
                         // if this button is clicked, do nothing
                         Game game = readSerializable();
+                        players = game.getPlayers();
+                        gks = game.getGks();
+                        btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
 
                         lbl_scoreMyTeam.setText(String.valueOf(game.getScoreMyTeam()));
                         lbl_scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
+                        lbl_opponent.setText(game.getOpponent());
+
 
                         Log.i("loaded", "carreguei");
                         Toast.makeText(getApplicationContext(), "Jogo Carregado",
@@ -1317,6 +1350,11 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         return false;
+    }
+
+    public void clickFtAdv(View v){
+        game.setTechnicalFailAdv(game.getTechnicalFailAdv()+1);
+        btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
     }
 
 

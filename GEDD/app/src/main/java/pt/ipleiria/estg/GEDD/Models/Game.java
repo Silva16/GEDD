@@ -14,16 +14,19 @@ public class Game implements Serializable {
     private int scoreOpponent;
     private int minutes;
     private int seconds;
+    private int technicalFailAdv;
 
     private LinkedList<Player> players;
+    private LinkedList<Goalkeeper> gks;
 
     public Game() {
         this.opponent = "";
         this.myTeam = "";
         this.scoreMyTeam = 0;
         this.scoreOpponent = 0;
-        minutes = 0;
-        seconds = 0;
+        this.minutes = 0;
+        this.seconds = 0;
+        this.technicalFailAdv = 0;
     }
 
     public int getScoreOpponent() {
@@ -81,5 +84,21 @@ public class Game implements Serializable {
 
     public void setSeconds(int seconds) {
         this.seconds = seconds;
+    }
+
+    public LinkedList<Goalkeeper> getGks() {
+        return gks;
+    }
+
+    public void setGks(LinkedList<Goalkeeper> gks) {
+        this.gks = gks;
+    }
+
+    public int getTechnicalFailAdv() {
+        return technicalFailAdv;
+    }
+
+    public void setTechnicalFailAdv(int technicalFailAdv) {
+        this.technicalFailAdv = technicalFailAdv;
     }
 }
