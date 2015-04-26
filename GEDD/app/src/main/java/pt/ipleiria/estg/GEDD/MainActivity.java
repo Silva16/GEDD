@@ -1357,5 +1357,14 @@ public class MainActivity extends ActionBarActivity {
         btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
     }
 
+    public void createDriveFile(MenuItem item){
+        callIntentToCreateFile();
+    }
+
+    public void callIntentToCreateFile(){
+        Intent intent = new Intent(this, CreateFileActivity.class);
+        startActivityForResult(intent);
+    }
+
 
 }
