@@ -1,13 +1,17 @@
 package pt.ipleiria.estg.GEDD;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 
 import pt.ipleiria.estg.GEDD.R;
 
 public class StatisticsTeam extends ActionBarActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,8 +20,17 @@ public class StatisticsTeam extends ActionBarActivity {
 
         getSupportActionBar().hide();
 
+        RelativeLayout statisticsLayout = (RelativeLayout) findViewById(R.id.statisticsLayout);
+
+        statisticsLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
+            @Override
+            public void onSwipeRight() {
+                callIntentToMain();
+            }
+        });
 
     }
+
 
 
     @Override
@@ -40,5 +53,11 @@ public class StatisticsTeam extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void callIntentToMain(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

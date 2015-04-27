@@ -98,7 +98,6 @@ public class MainActivity extends ActionBarActivity {
         mActionBar.setDisplayShowCustomEnabled(true);
 
         //------------------------//
-        final RelativeLayout activityMain = (RelativeLayout) findViewById(R.id.mainActivityLayout);
 
         final Button btn_zone_1 = (Button) findViewById(R.id.btn_zone_1);
         final Button btn_zone_2 = (Button) findViewById(R.id.btn_zone_2);
@@ -194,6 +193,8 @@ public class MainActivity extends ActionBarActivity {
                 final RelativeLayout teamPlayer = (RelativeLayout) findViewById(R.id.players);
                 final RelativeLayout goalkeeperZone = (RelativeLayout) findViewById(R.id.goalLayout);
                 final RelativeLayout goalkeeperAction = (RelativeLayout) findViewById(R.id.goalkeeperActions);
+                final RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.mainActivityLayout);
+
 
 
                 //btn_discipline.setEnabled(false);
@@ -251,7 +252,7 @@ public class MainActivity extends ActionBarActivity {
 
                 };
 
-                activityMain.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
+                mainLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
                     @Override
                     public void onSwipeLeft() {
                         callIntentToStatistics();
