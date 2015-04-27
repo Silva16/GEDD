@@ -22,6 +22,10 @@
             android:label="@string/title_activity_configure_team"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".StatisticsTeam"
+            android:label="@string/title_activity_statistics_team" >
+        </activity>
     </application>
 
 </manifest>

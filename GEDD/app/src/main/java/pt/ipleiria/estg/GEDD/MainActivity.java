@@ -9,6 +9,7 @@ import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,6 +49,10 @@ import pt.ipleiria.estg.GEDD.Models.Player;
 
 
 public class MainActivity extends ActionBarActivity {
+
+
+
+
 
     boolean isStart = false;
     int seconds = 0;
@@ -93,7 +98,7 @@ public class MainActivity extends ActionBarActivity {
         mActionBar.setDisplayShowCustomEnabled(true);
 
         //------------------------//
-
+        final RelativeLayout activityMain = (RelativeLayout) findViewById(R.id.mainActivityLayout);
 
         final Button btn_zone_1 = (Button) findViewById(R.id.btn_zone_1);
         final Button btn_zone_2 = (Button) findViewById(R.id.btn_zone_2);
@@ -245,6 +250,14 @@ public class MainActivity extends ActionBarActivity {
                     }
 
                 };
+
+                activityMain.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
+                    @Override
+                    public void onSwipeLeft() {
+                        callIntentToStatistics();
+                    }
+                });
+
 
                 final View.OnTouchListener disciplineListener = new View.OnTouchListener() {
                     public boolean onTouch(View v, MotionEvent event) {
@@ -1015,7 +1028,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -1044,6 +1056,10 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void callIntentToStatistics(){
+        Intent intent = new Intent(this, StatisticsTeam.class);
+        startActivity(intent);
+    }
     //ReadFile
 
     public JSONObject readFile(){
@@ -1355,15 +1371,6 @@ public class MainActivity extends ActionBarActivity {
     public void clickFtAdv(View v){
         game.setTechnicalFailAdv(game.getTechnicalFailAdv()+1);
         btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
-    }
-
-    public void createDriveFile(MenuItem item){
-        callIntentToCreateFile();
-    }
-
-    public void callIntentToCreateFile(){
-        Intent intent = new Intent(this, CreateFileActivity.class);
-        startActivityForResult(intent);
     }
 
 
