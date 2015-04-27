@@ -14,10 +14,4 @@
         app:showAsAction="never"
         android:onClick="configureTeam"/>
 
-    <item
-        android:id="@+id/create_file"
-        android:title="Criar Ficheiro na Drive"
-        android:orderInCategory="300"
-        app:showAsAction="never"
-        android:onClick="createDriveFile"/>
 </menu>
