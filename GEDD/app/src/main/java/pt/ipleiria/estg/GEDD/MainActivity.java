@@ -1369,9 +1369,18 @@ public class MainActivity extends ActionBarActivity {
         return false;
     }
 
+    private void callIntentToStartDrive(){
+        Intent intent = new Intent(this, DriveActivity.class);
+        startActivity(intent);
+    }
+
     public void clickFtAdv(View v){
         game.setTechnicalFailAdv(game.getTechnicalFailAdv()+1);
         btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
+    }
+
+    public void startDrive(MenuItem item){
+        callIntentToStartDrive();
     }
 
 

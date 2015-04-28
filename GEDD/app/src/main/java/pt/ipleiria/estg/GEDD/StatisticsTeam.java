@@ -110,6 +110,10 @@ public class StatisticsTeam extends Activity {
         btn_players[4].setOnTouchListener(playerTouchListener);
         btn_players[5].setOnTouchListener(playerTouchListener);
 
+        for (int i = 0; i < players.size(); i++){
+            btn_players[i].setTag(players.get(i).getNumber());
+        }
+
         //getSupportActionBar().hide();
 
         RelativeLayout statisticsLayout = (RelativeLayout) findViewById(R.id.statisticsLayout);
@@ -154,7 +158,6 @@ public class StatisticsTeam extends Activity {
         if ((btnPlayer = isChildrenImgButtonPressed(teamPlayer)) != null) {
             for (Player player : players) {
                 if (player.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())) {
-                    Toast.makeText(getApplicationContext(), "LOL", Toast.LENGTH_LONG).show();
                     return player;
                 }
             }
@@ -179,14 +182,57 @@ public class StatisticsTeam extends Activity {
 
     private void refreshAttackStatistics(TextView zone1_stats, TextView zone2_stats, TextView zone3_stats, TextView zone4_stats, TextView zone5_stats, TextView zone6_stats, TextView zone8_stats, TextView zone9_stats, Player player){
 
-        zone1_stats.setText((player.getZoneGoals(1)/player.getZoneShots(1)*100) + "%");
-        zone2_stats.setText((player.getZoneGoals(2)/player.getZoneShots(2)*100) + "%");
-        zone3_stats.setText((player.getZoneGoals(3)/player.getZoneShots(3)*100) + "%");
-        zone4_stats.setText((player.getZoneGoals(4)/player.getZoneShots(4)*100) + "%");
-        zone5_stats.setText((player.getZoneGoals(5)/player.getZoneShots(5)*100) + "%");
-        zone6_stats.setText((player.getZoneGoals(6)/player.getZoneShots(6)*100) + "%");
-        zone8_stats.setText((player.getZoneGoals(8)/player.getZoneShots(8)*100) + "%");
-        zone9_stats.setText((player.getZoneGoals(9)/player.getZoneShots(9)*100) + "%");
+        if (player.getZoneShots(1)!=0){
+            zone1_stats.setText((player.getZoneGoals(1)/player.getZoneShots(1)*100) + "%");
+        }else{
+            zone1_stats.setText("0%");
+        }
+
+        if (player.getZoneShots(2)!=0){
+            zone2_stats.setText((player.getZoneGoals(2)/player.getZoneShots(2)*100) + "%");
+        }else{
+            zone2_stats.setText("0%");
+        }
+
+        if (player.getZoneShots(3)!=0){
+            zone3_stats.setText((player.getZoneGoals(3)/player.getZoneShots(3)*100) + "%");
+        }else{
+            zone3_stats.setText("0%");
+        }
+
+        if (player.getZoneShots(4)!=0){
+            zone4_stats.setText((player.getZoneGoals(4)/player.getZoneShots(4)*100) + "%");
+        }else{
+            zone4_stats.setText("0%");
+        }
+
+        if (player.getZoneShots(5)!=0){
+            zone5_stats.setText((player.getZoneGoals(5)/player.getZoneShots(5)*100) + "%");
+        }else{
+            zone5_stats.setText("0%");
+        }
+
+        if (player.getZoneShots(6)!=0){
+            zone6_stats.setText((player.getZoneGoals(6)/player.getZoneShots(6)*100) + "%");
+        }else{
+            zone6_stats.setText("0%");
+        }
+
+        if (player.getZoneShots(8)!=0){
+            zone8_stats.setText((player.getZoneGoals(8)/player.getZoneShots(8)*100) + "%");
+        }else{
+            zone8_stats.setText("0%");
+        }
+
+        if (player.getZoneShots(9)!=0){
+            zone9_stats.setText((player.getZoneGoals(9)/player.getZoneShots(9)*100) + "%");
+        }else{
+            zone9_stats.setText("0%");
+        }
+
+
+
+
 
     }
 }

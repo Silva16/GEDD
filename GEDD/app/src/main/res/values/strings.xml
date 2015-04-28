@@ -9,5 +9,6 @@
     <string name="title_activity_configure_team">ConfigureTeamActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_statistics_team">StatisticsTeam</string>
+    <string name="title_activity_drive">DriveActivity</string>
 
 </resources>
