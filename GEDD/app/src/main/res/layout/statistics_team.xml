@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
      >
@@ -8,6 +8,191 @@
         android:id="@+id/statisticsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/field">
+        android:background="@drawable/field"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp">
+
     </RelativeLayout>
-</LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="70%"
+        android:id="@+id/zone1_stats"
+        android:layout_marginLeft="98dp"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="20dp"
+        android:textSize="50dp"
+        android:textColor="#ff01ff00"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="22%"
+        android:id="@+id/zone2_stats"
+        android:layout_marginLeft="85dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="73dp"
+        android:textSize="50dp"
+        android:textColor="#FF0000"
+        android:layout_below="@+id/zone1_stats"
+        android:layout_toRightOf="@+id/zone6_stats"
+        android:layout_toEndOf="@+id/zone6_stats" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="50%"
+        android:id="@+id/zone3_stats"
+        android:textSize="50dp"
+        android:textColor="#fffcff00"
+        android:layout_marginTop="35dp"
+        android:layout_alignTop="@+id/zone2_stats"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="60%"
+        android:id="@+id/zone4_stats"
+        android:textSize="50dp"
+        android:textColor="#ffa1ff00"
+        android:layout_marginLeft="117dp"
+        android:layout_marginStart="117dp"
+        android:layout_alignTop="@+id/zone2_stats"
+        android:layout_toRightOf="@+id/zone3_stats"
+        android:layout_toEndOf="@+id/zone3_stats" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="93%"
+        android:id="@+id/zone5_stats"
+        android:layout_marginLeft="38dp"
+        android:layout_marginStart="38dp"
+        android:textSize="50dp"
+        android:textColor="#ff01ff00"
+        android:layout_above="@+id/zone2_stats"
+        android:layout_toRightOf="@+id/zone4_stats"
+        android:layout_toEndOf="@+id/zone4_stats" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="31%"
+        android:id="@+id/zone6_stats"
+        android:textSize="50dp"
+        android:textColor="#FF6600"
+        android:layout_below="@+id/zone3_stats"
+        android:layout_alignLeft="@+id/zone1_stats"
+        android:layout_alignStart="@+id/zone1_stats"
+        android:layout_marginTop="44dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="60%"
+        android:id="@+id/zone8_stats"
+        android:textSize="50dp"
+        android:textColor="#ffadff00"
+        android:layout_alignBottom="@+id/zone6_stats"
+        android:layout_alignLeft="@+id/zone3_stats"
+        android:layout_alignStart="@+id/zone3_stats" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="31%"
+        android:id="@+id/zone9_stats"
+        android:textSize="50dp"
+        android:textColor="#FF7519"
+        android:layout_alignTop="@+id/zone8_stats"
+        android:layout_alignLeft="@+id/zone5_stats"
+        android:layout_alignStart="@+id/zone5_stats" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/team">
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/player6_stats"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:layout_below="@+id/player5_stats"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="85dp"
+            android:id="@+id/player1_stats"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:focusableInTouchMode="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/player2_stats"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:layout_below="@+id/player1_stats"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="15dp" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/player3_stats"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:layout_below="@+id/player2_stats"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/player4_stats"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:layout_below="@+id/player3_stats"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/player5_stats"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:layout_below="@+id/player4_stats"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
+    </RelativeLayout>
+</RelativeLayout>

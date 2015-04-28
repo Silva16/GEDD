@@ -51,9 +51,6 @@ import pt.ipleiria.estg.GEDD.Models.Player;
 public class MainActivity extends ActionBarActivity {
 
 
-
-
-
     boolean isStart = false;
     int seconds = 0;
     int minutes = 0;
@@ -255,7 +252,7 @@ public class MainActivity extends ActionBarActivity {
                 mainLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
                     @Override
                     public void onSwipeLeft() {
-                        callIntentToStatistics();
+                        callIntentToStatistics(players);
                     }
                 });
 
@@ -1058,8 +1055,10 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void callIntentToStatistics(){
+    public void callIntentToStatistics(LinkedList<Player> players){
+
         Intent intent = new Intent(this, StatisticsTeam.class);
+        intent.putExtra("Players", players);
         startActivity(intent);
     }
     //ReadFile
