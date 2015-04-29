@@ -3,6 +3,9 @@ package pt.ipleiria.estg.GEDD;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.io.Writer;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +15,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -21,6 +25,9 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi.DriveContentsResult;
+import com.google.android.gms.drive.DriveContents;
+import com.google.android.gms.drive.DriveFolder;
+import com.google.android.gms.drive.DriveFolder.DriveFileResult;
 import com.google.android.gms.drive.MetadataChangeSet;
 
 
@@ -41,7 +48,6 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
     private void saveFileToDrive() {
         // Start by creating a new contents, and setting a callback.
         Log.i(TAG, "Creating new contents.");
-        final Bitmap image = mBitmapToSave;
         Drive.DriveApi.newDriveContents(mGoogleApiClient)
                 .setResultCallback(new ResultCallback<DriveContentsResult>() {
 
@@ -54,37 +60,48 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
                             Log.i(TAG, "Failed to create new contents.");
                             return;
                         }
-                        // Otherwise, we can write our data to the new contents.
-                        Log.i(TAG, "New contents created.");
-                        // Get an output stream for the contents.
-                        OutputStream outputStream = result.getDriveContents().getOutputStream();
-                        // Write the bitmap data from it.
-                        ByteArrayOutputStream bitmapStream = new ByteArrayOutputStream();
-                        image.compress(Bitmap.CompressFormat.PNG, 100, bitmapStream);
-                        try {
-                            outputStream.write(bitmapStream.toByteArray());
-                        } catch (IOException e1) {
-                            Log.i(TAG, "Unable to write file contents.");
-                        }
-                        // Create the initial metadata - MIME type and title.
-                        // Note that the user will be able to change the title later.
-                        MetadataChangeSet metadataChangeSet = new MetadataChangeSet.Builder()
-                                .setMimeType("image/jpeg").setTitle("Android Photo.png").build();
-                        // Create an intent for the file chooser, and start it.
-                        IntentSender intentSender = Drive.DriveApi
-                                .newCreateFileActivityBuilder()
-                                .setInitialMetadata(metadataChangeSet)
-                                .setInitialDriveContents(result.getDriveContents())
-                                .build(mGoogleApiClient);
-                        try {
-                            startIntentSenderForResult(
-                                    intentSender, REQUEST_CODE_CREATOR, null, 0, 0, 0);
-                        } catch (SendIntentException e) {
-                            Log.i(TAG, "Failed to launch file chooser.");
-                        }
+                        final DriveContents driveContents = result.getDriveContents();
+
+                        // Perform I/O off the UI thread.
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                // write content to DriveContents
+                                OutputStream outputStream = driveContents.getOutputStream();
+                                Writer writer = new OutputStreamWriter(outputStream);
+                                try {
+                                    writer.write("Hello World!");
+                                    writer.close();
+                                } catch (IOException e) {
+                                    Log.e(TAG, e.getMessage());
+                                }
+
+                                MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                                        .setTitle("New file")
+                                        .setMimeType("text/plain")
+                                        .setStarred(true).build();
+
+                                // create a file on root folder
+                                Drive.DriveApi.getRootFolder(mGoogleApiClient)
+                                        .createFile(mGoogleApiClient, changeSet, driveContents)
+                                        .setResultCallback(fileCallback);
+                            }
+                        }.start();
                     }
                 });
     }
+
+    final private ResultCallback<DriveFileResult> fileCallback = new
+            ResultCallback<DriveFileResult>() {
+                @Override
+                public void onResult(DriveFileResult result) {
+                    if (!result.getStatus().isSuccess()) {
+                        Log.i("driveActivity","Error while trying to create the file");
+                        return;
+                    }
+                    Log.i("driveActivity","Created a file with content: " + result.getDriveFile().getDriveId());
+                }
+            };
 
     @Override
     protected void onResume() {
@@ -113,28 +130,6 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
         super.onPause();
     }
 
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        switch (requestCode) {
-            case REQUEST_CODE_CAPTURE_IMAGE:
-                // Called after a photo has been taken.
-                if (resultCode == Activity.RESULT_OK) {
-                    // Store the image data as a bitmap for writing later.
-                    mBitmapToSave = (Bitmap) data.getExtras().get("data");
-                }
-                break;
-            case REQUEST_CODE_CREATOR:
-                // Called after a file is saved to Drive.
-                if (resultCode == RESULT_OK) {
-                    Log.i(TAG, "Image successfully saved.");
-                    mBitmapToSave = null;
-                    // Just start the camera again for another photo.
-                    startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),
-                            REQUEST_CODE_CAPTURE_IMAGE);
-                }
-                break;
-        }
-    }
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
@@ -160,12 +155,6 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "API client connected.");
-        if (mBitmapToSave == null) {
-            // This activity has no UI of its own. Just start the camera.
-            startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),
-                    REQUEST_CODE_CAPTURE_IMAGE);
-            return;
-        }
         saveFileToDrive();
     }
 
