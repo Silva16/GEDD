@@ -110,7 +110,8 @@ public class StatisticsTeam extends Activity {
         btn_players[4].setOnTouchListener(playerTouchListener);
         btn_players[5].setOnTouchListener(playerTouchListener);
 
-        for (int i = 0; i < players.size(); i++){
+
+        for (int i = 0; i < 6; i++){
             btn_players[i].setTag(players.get(i).getNumber());
         }
 
