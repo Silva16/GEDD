@@ -1,7 +1,9 @@
 package pt.ipleiria.estg.GEDD;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
@@ -12,6 +14,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.IntentSender.SendIntentException;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -29,6 +32,8 @@ import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveFolder.DriveFileResult;
 import com.google.android.gms.drive.MetadataChangeSet;
+
+import pt.ipleiria.estg.GEDD.Models.Game;
 
 
 public class DriveActivity extends Activity implements ConnectionCallbacks,
@@ -62,33 +67,62 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
                         }
                         final DriveContents driveContents = result.getDriveContents();
 
-                        // Perform I/O off the UI thread.
+                       // Perform I/O off the UI thread.
                         new Thread() {
                             @Override
                             public void run() {
                                 // write content to DriveContents
-                                OutputStream outputStream = driveContents.getOutputStream();
-                                Writer writer = new OutputStreamWriter(outputStream);
+
+                                FileInputStream fis = null;
+                                ObjectInputStream in = null;
                                 try {
-                                    writer.write("Hello World!");
-                                    writer.close();
+                                    fis = new FileInputStream(getApplicationContext().getFilesDir().getPath().toString()+"game-gedd.ser");
+                                    in = new ObjectInputStream(fis);
+                                    in.close();
+                                    Log.i("read True","Consegui Ler");
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+
+                                OutputStream outputStream = driveContents.getOutputStream();
+
+                                byte[] buffer = new byte[1024]; // Adjust if you want
+                                int bytesRead;
+                                assert in != null;
+                                try {
+                                    while ((bytesRead = in.read(buffer)) != -1)
+                                    {
+                                        try {
+                                            outputStream.write(buffer, 0, bytesRead);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
                                 } catch (IOException e) {
-                                    Log.e(TAG, e.getMessage());
+                                    e.printStackTrace();
                                 }
 
                                 MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                                        .setTitle("New file")
-                                        .setMimeType("text/plain")
+                                        .setTitle("teste")
+                                        .setMimeType("application/octet-stream")
                                         .setStarred(true).build();
 
                                 // create a file on root folder
                                 Drive.DriveApi.getRootFolder(mGoogleApiClient)
                                         .createFile(mGoogleApiClient, changeSet, driveContents)
                                         .setResultCallback(fileCallback);
+
+
                             }
-                        }.start();
+                       }.start();
+
+
                     }
+
                 });
+
+
+
     }
 
     final private ResultCallback<DriveFileResult> fileCallback = new
@@ -97,9 +131,12 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
                 public void onResult(DriveFileResult result) {
                     if (!result.getStatus().isSuccess()) {
                         Log.i("driveActivity","Error while trying to create the file");
-                        return;
+                        Intent intent = new Intent(DriveActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }
                     Log.i("driveActivity","Created a file with content: " + result.getDriveFile().getDriveId());
+                    Intent intent = new Intent(DriveActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
             };
 
@@ -118,7 +155,7 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
                     .addOnConnectionFailedListener(this)
                     .build();
         }
-        // Connect the client. Once connected, the camera is launched.
+        // Connect the client.
         mGoogleApiClient.connect();
     }
 
@@ -155,6 +192,8 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "API client connected.");
+        //new UploadFileTask().execute();
+
         saveFileToDrive();
     }
 
@@ -162,4 +201,21 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
     public void onConnectionSuspended(int cause) {
         Log.i(TAG, "GoogleApiClient connection suspended");
     }
+
+    private class UploadFileTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            saveFileToDrive();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
+
+
 }

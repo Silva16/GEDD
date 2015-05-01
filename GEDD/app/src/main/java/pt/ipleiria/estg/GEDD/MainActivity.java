@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -1369,10 +1370,7 @@ public class MainActivity extends ActionBarActivity {
         return false;
     }
 
-    private void callIntentToStartDrive(){
-        Intent intent = new Intent(this, DriveActivity.class);
-        startActivity(intent);
-    }
+
 
     public void clickFtAdv(View v){
         game.setTechnicalFailAdv(game.getTechnicalFailAdv()+1);
@@ -1380,8 +1378,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void startDrive(MenuItem item){
-        callIntentToStartDrive();
+        callIntentToDriveUpload();
     }
 
+
+
+    public void callIntentToDriveUpload(){
+        Intent intent = new Intent(this, DriveActivity.class);
+        startActivity(intent);
+    }
 
 }
