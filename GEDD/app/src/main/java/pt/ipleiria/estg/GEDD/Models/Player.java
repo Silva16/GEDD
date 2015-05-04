@@ -291,12 +291,30 @@ public class Player implements Serializable{
 
     }
 
-    public int getZoneShots(int zone){
+    public int getZoneAllShots(int zone){
         return atkShotGoal[zone-1]+ atkShotBlocked[zone-1]+ atkShotDefended[zone-1]+ atkShotOut[zone-1]+ atkShotPost[zone-1]+caShotGoal[zone-1]+caShotOut[zone-1]+caShotBlocked[zone-1]+caShotDefended[zone-1]+caShotPost[zone-1];
     }
 
-    public int getZoneGoals(int zone){
+
+    public int getZoneAtkShots(int zone){
+        return atkShotGoal[zone-1]+ atkShotBlocked[zone-1]+ atkShotDefended[zone-1]+ atkShotOut[zone-1]+ atkShotPost[zone-1];
+    }
+
+
+    public int getZoneCAShots(int zone){
+        return caShotGoal[zone-1]+caShotOut[zone-1]+caShotBlocked[zone-1]+caShotDefended[zone-1]+caShotPost[zone-1];
+    }
+
+    public int getZoneAllGoals(int zone){
         return atkShotGoal[zone-1]+caShotGoal[zone-1];
+    }
+
+    public int getZoneAtkGoals(int zone){
+        return atkShotGoal[zone-1];
+    }
+
+    public int getZoneCAGoals(int zone){
+        return caShotGoal[zone-1];
     }
 
     public int getAllShotGoals(){
