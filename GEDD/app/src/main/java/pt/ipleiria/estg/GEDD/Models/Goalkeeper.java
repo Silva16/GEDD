@@ -18,16 +18,16 @@ public class Goalkeeper extends Player {
         return goal;
     }
 
-    public void setGoal(int baliza, int zone) {
-        this.goal[baliza-1][zone-1]++;
+    public void setGoal(int zone, int baliza) {
+        this.goal[zone-1][baliza-1]++;
     }
 
     public int[][] getDefended() {
         return defended;
     }
 
-    public void setDefended(int baliza, int zone) {
-        this.defended[baliza-1][zone-1]++;
+    public void setDefended(int zone, int baliza) {
+        this.defended[zone-1][baliza-1]++;
     }
 
     public int[] getPost() {
@@ -44,5 +44,13 @@ public class Goalkeeper extends Player {
 
     public void setOut(int zone) {
         this.out[zone-1]++;
+    }
+
+    public int getZoneAllShots(int zone, int baliza){
+        return goal[zone-1][baliza - 1]+defended[zone-1][baliza - 1]+post[zone-1]+out[zone-1];
+    }
+
+    public int getZoneAllGoals(int zone, int baliza){
+        return goal[zone-1][baliza - 1];
     }
 }

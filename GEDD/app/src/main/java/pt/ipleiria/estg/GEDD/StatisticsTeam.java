@@ -90,11 +90,8 @@ public class StatisticsTeam extends Activity {
             j++;
         }
 
-        refreshAllAttackStatistics(zone_stats, players);
-        refreshAttackStatistics(zone_stats, players);
         refreshAssistStatistics(assist_stats, players);
         refreshTecFailStatistics(ftec_stats, players);
-        refreshCAStatistics(zone_stats, players);
         ftec_adv_stats.setText("Falhas Técnicas Advers. " + String.valueOf(game.getTechnicalFailAdv()));
 
         final ImageButton btn_players[] = new ImageButton[14];
@@ -129,10 +126,6 @@ public class StatisticsTeam extends Activity {
             btn_gks[i].setImageResource(resourceId);
         }
 
-
-
-
-
         final View.OnTouchListener playerTouchListener = new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -148,33 +141,58 @@ public class StatisticsTeam extends Activity {
                         //verifica se é botão de jogador, se for verdade atualiza os campos
                         //if (v.getParent() == (RelativeLayout) teamPlayer) {
 
-                            if ((tempPlayer = getPlayerPressed(players, teamPlayer)) != null || v.getParent() == (RelativeLayout) filters) {
+                            if ((tempPlayer = getPlayerPressed(players, teamPlayer)) != null && v.getParent() == (RelativeLayout) filters) {
+
+                                assist_stats.setText("Assist: " + tempPlayer.getAssistance());
+                                ftec_stats.setText("Falhas Técnicas " + tempPlayer.getTechnicalFailure());
 
                                 switch (v.getId()){
                                     case R.id.atk_ca_filter:
                                         refreshAllAttackPlayerStatistics(zone_stats, tempPlayer);
+                                        return true;
                                     case R.id.ca_filter:
                                         refreshCAPlayerStatistics(zone_stats, tempPlayer);
+                                        return true;
                                     case R.id.atk_filter:
                                         refreshAttackPlayerStatistics(zone_stats, tempPlayer);
-                                    case R.id.def_filter:
+                                        return true;
+                                    default:
+                                        return false;
                                 }
 
-
-                                assist_stats.setText("Assist: " + tempPlayer.getAssistance());
-                                ftec_stats.setText("Falhas Técnicas " + tempPlayer.getTechnicalFailure());
-                                //refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
                             }
-                        //}
 
-                    } else {
 
-                        if ((getPlayerPressed(players, teamPlayer)) == null) {
+                            if (v.getId() == R.id.def_filter){
+                                refreshDefensePlayerStatistics(zone_stats, gks);
+                            }
 
-                            refreshAllAttackStatistics(zone_stats, players);
-                            //refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
-                        }
+                        } else {
+
                         v.setPressed(false);
+
+                        if ((tempPlayer = getPlayerPressed(players, teamPlayer)) == null && v.getParent() == (RelativeLayout) filters) {
+
+                            refreshAssistStatistics(assist_stats, players);
+                            refreshTecFailStatistics(ftec_stats, players);
+                            ftec_adv_stats.setText("Falhas Técnicas Advers. " + String.valueOf(game.getTechnicalFailAdv()));
+
+                            switch (v.getId()){
+                                case R.id.atk_ca_filter:
+                                    refreshAllAttackStatistics(zone_stats, players);
+                                    return true;
+                                case R.id.ca_filter:
+                                    refreshCAStatistics(zone_stats, players);
+                                    return true;
+                                case R.id.atk_filter:
+                                    refreshAttackStatistics(zone_stats, players);
+                                    return true;
+                                default:
+                                    return false;
+                            }
+                        }
+
+
                     }
                 }
                 return true;//Return true, so there will be no onClick-event
@@ -329,7 +347,7 @@ public class StatisticsTeam extends Activity {
         for (int i = 0; i < 9; i++){
 
             if (player.getZoneCAShots(i + 1) !=0){
-                zone_stats[i].setText(String.valueOf(Math.round((player.getZoneCAGoals(i + 1)/(float)player.getZoneCAShots(i+1)*100))+ "%"));
+                zone_stats[i].setText(String.valueOf(Math.round((player.getZoneCAGoals(i + 1)/(float)player.getZoneCAShots(i + 1)*100))+ "%"));
             }else{
                 zone_stats[i].setText("0 %");
             }
@@ -337,11 +355,24 @@ public class StatisticsTeam extends Activity {
         }
     }
 
-    private void refreshDefensePlayerStatistics(TextView zone_stats[], Player player){
+    private void refreshDefensePlayerStatistics(TextView zone_stats[], LinkedList<Goalkeeper> gks){
 
-        for (int i = 0; i < 9; i++){
+        int opponent_zoneGoals[] = new int[9];
+        int opponent_zoneShots[] = new int[9];
 
+        for (Goalkeeper goalkeeper : gks){
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    opponent_zoneGoals[i] += goalkeeper.getZoneAllGoals(i + 1, j + 1);
+                    opponent_zoneShots[i] += goalkeeper.getZoneAllShots(i + 1, j + 1);
+                }
 
+                if (opponent_zoneShots[i] !=0){
+                    zone_stats[i].setText(String.valueOf(Math.round(opponent_zoneGoals[i] / (float) opponent_zoneShots[i] * 100)) + "%");
+                }else{
+                    zone_stats[i].setText("0 %");
+                }
+            }
         }
     }
 

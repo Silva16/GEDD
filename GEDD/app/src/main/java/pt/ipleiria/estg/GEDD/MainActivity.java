@@ -840,11 +840,11 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             goalkeeper.setLastAction("Guarda-Redes - " + btnGkAction.getTag().toString() + "\n Zona de Baliza " + btnGkZone.getTag().toString() + ", Zona " + btnZone.getTag().toString());
 
             if (btnGkAction.getTag() == "btn_gk_goal") {
-                goalkeeper.setGoal((int) btnGkZone.getTag(), (int) btnZone.getTag());
+                goalkeeper.setGoal((int) btnZone.getTag(), (int) btnGkZone.getTag());
                 game.setScoreOpponent();
                 score.setText(String.valueOf(game.getScoreOpponent()));
             } else if (btnGkAction.getTag() == "btn_gk_def") {
-                goalkeeper.setDefended((int) btnGkZone.getTag(), (int) btnZone.getTag());
+                goalkeeper.setDefended((int) btnZone.getTag(), (int) btnGkZone.getTag());
             } else if (btnGkAction.getTag() == "btn_gk_post") {
                 goalkeeper.setPost((int) btnZone.getTag());
             } else if (btnGkAction.getTag() == "btn_gk_out") {
