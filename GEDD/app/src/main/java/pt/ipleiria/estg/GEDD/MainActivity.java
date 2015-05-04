@@ -3,6 +3,7 @@ package pt.ipleiria.estg.GEDD;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
@@ -31,9 +32,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 
 import android.os.Handler;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveApi;
+import com.google.android.gms.drive.DriveContents;
+import com.google.android.gms.drive.DriveFolder;
+import com.google.android.gms.drive.MetadataChangeSet;
 
 import org.json.JSONObject;
 
@@ -42,7 +54,7 @@ import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
 import pt.ipleiria.estg.GEDD.Models.Player;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
 
     boolean isStart = false;
@@ -58,6 +70,24 @@ public class MainActivity extends ActionBarActivity {
     Boolean existFile = false;
     Button btn_tf_adv;
     TextView lbl_opponent;
+
+    static final int UPLOAD_FILE_TO_DRIVE = 2;
+    private static final String TAG = "main activity";
+
+    /**
+     * Google API client.
+     */
+    private GoogleApiClient mGoogleApiClient;
+
+    /**
+     * Request code for auto Google Play Services error resolution.
+     */
+    protected static final int REQUEST_CODE_RESOLUTION = 1;
+
+    /**
+     * Next available request code.
+     */
+    protected static final int NEXT_AVAILABLE_REQUEST_CODE = 2;
 
 
     @Override
@@ -1356,15 +1386,166 @@ public class MainActivity extends ActionBarActivity {
         btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
     }
 
+
     public void startDrive(MenuItem item){
-        callIntentToDriveUpload();
+        connectToDrive();
     }
 
 
 
-    public void callIntentToDriveUpload(){
-        Intent intent = new Intent(this, DriveActivity.class);
-        startActivity(intent);
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == UPLOAD_FILE_TO_DRIVE) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(getApplicationContext(), "Ficheiro enviado com sucesso.",
+                        Toast.LENGTH_LONG).show();
+            }else{
+                    Toast.makeText(getApplicationContext(), "Erro no envio do ficheiro!",
+                            Toast.LENGTH_LONG).show();
+
+            }
+        }
     }
 
+
+
+    //GOOGLE DRIVE
+    public void connectToDrive(){
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(Drive.API)
+                    .addScope(Drive.SCOPE_FILE)
+                    .addScope(Drive.SCOPE_APPFOLDER) // required for App Folder sample
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+        }
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        saveFileToDrive();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        // Called whenever the API client fails to connect.
+
+        Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
+        if (!result.hasResolution()) {
+            // show the localized error dialog.
+            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
+            return;
+        }
+        // The failure has a resolution. Resolve it.
+        // Called typically when the app is not yet authorized, and an
+        // authorization
+        // dialog is displayed to the user.
+        try {
+            result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
+        } catch (IntentSender.SendIntentException e) {
+            Log.e(TAG, "Exception while starting resolution activity", e);
+        }
+    }
+
+    private void saveFileToDrive() {
+        // Start by creating a new contents, and setting a callback.
+        Log.i(TAG, "Creating new contents.");
+        Drive.DriveApi.newDriveContents(mGoogleApiClient)
+                .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
+
+                    @Override
+                    public void onResult(DriveApi.DriveContentsResult result) {
+                        // If the operation was not successful, we cannot do anything
+                        // and must
+                        // fail.
+                        if (!result.getStatus().isSuccess()) {
+                            Log.i(TAG, "Failed to create new contents.");
+                            return;
+                        }
+                        final DriveContents driveContents = result.getDriveContents();
+
+                        // Perform I/O off the UI thread.
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                // write content to DriveContents
+
+                                FileInputStream fis = null;
+                                ObjectInputStream in = null;
+                                try {
+                                    fis = new FileInputStream(getApplicationContext().getFilesDir().getPath().toString()+"game-gedd.ser");
+                                    in = new ObjectInputStream(fis);
+                                    in.close();
+                                    Log.i("read True","Consegui Ler");
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+
+                                OutputStream outputStream = driveContents.getOutputStream();
+
+                                byte[] buffer = new byte[1024]; // Adjust if you want
+                                int bytesRead;
+                                assert in != null;
+                                try {
+                                    while ((bytesRead = in.read(buffer)) != -1)
+                                    {
+                                        try {
+                                            outputStream.write(buffer, 0, bytesRead);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                                        .setTitle("teste")
+                                        .setMimeType("application/octet-stream")
+                                        .setStarred(true).build();
+
+                                // create a file on root folder
+                                Drive.DriveApi.getRootFolder(mGoogleApiClient)
+                                        .createFile(mGoogleApiClient, changeSet, driveContents)
+                                        .setResultCallback(fileCallback);
+
+
+                            }
+                        }.start();
+
+
+                    }
+
+                });
+
+
+
+    }
+
+    final private ResultCallback<DriveFolder.DriveFileResult> fileCallback = new
+            ResultCallback<DriveFolder.DriveFileResult>() {
+                @Override
+                public void onResult(DriveFolder.DriveFileResult result) {
+                    if (!result.getStatus().isSuccess()) {
+                        Log.i("driveActivity","Error while trying to create the file");
+                        Toast.makeText(getApplicationContext(), "Erro ao gravar ficheiro!!!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                    Log.i("driveActivity","Created a file with content: " + result.getDriveFile().getDriveId());
+                    Toast.makeText(getApplicationContext(), "Ficheiro gravado com sucesso.",
+                            Toast.LENGTH_LONG).show();
+                }
+            };
 }
