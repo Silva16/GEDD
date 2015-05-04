@@ -20,91 +20,96 @@
             android:id="@+id/filters">
 
             <Button
-                android:layout_width="90dp"
+                android:layout_width="87dp"
                 android:layout_height="wrap_content"
                 android:text="Ataque     + Contra Ataque"
-                android:id="@+id/button2"
+                android:id="@+id/atk_ca_filter"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
             <Button
-                android:layout_width="90dp"
+                android:layout_width="87dp"
                 android:layout_height="wrap_content"
                 android:text="Ataque"
-                android:id="@+id/button3"
-                android:layout_below="@+id/button2"
-                android:layout_alignRight="@+id/button2"
-                android:layout_alignEnd="@+id/button2" />
+                android:id="@+id/atk_filter"
+                android:layout_below="@+id/atk_ca_filter"
+                android:layout_alignRight="@+id/atk_ca_filter"
+                android:layout_alignEnd="@+id/atk_ca_filter" />
 
             <Button
-                android:layout_width="90dp"
+                android:layout_width="87dp"
                 android:layout_height="wrap_content"
                 android:text="Contra Ataque"
-                android:id="@+id/button4"
-                android:layout_below="@+id/button3"
+                android:id="@+id/ca_filter"
+                android:layout_below="@+id/atk_filter"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
             <Button
-                android:layout_width="90dp"
+                android:layout_width="87dp"
                 android:layout_height="wrap_content"
                 android:text="Defesa"
-                android:id="@+id/button5"
-                android:layout_below="@+id/button4"
+                android:id="@+id/def_filter"
+                android:layout_below="@+id/ca_filter"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
             <TextView
-                android:layout_width="90dp"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Assist."
-                android:id="@+id/textView12"
+                android:text="Assist. "
+                android:id="@+id/assist_stats"
                 android:gravity="center"
-                android:layout_above="@+id/textView11"
+                android:layout_above="@+id/ftec_stats"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:textSize="20dp"
+                android:layout_marginRight="6dp" />
 
             <TextView
-                android:layout_width="90dp"
+                android:layout_width="87dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Falhas Técnicas Adver."
-                android:id="@+id/textView13"
+                android:text="Falhas Técnicas Advers."
+                android:id="@+id/ftec_adv_stats"
                 android:gravity="center"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:textSize="20dp" />
 
             <Button
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:text="Baliza"
-                android:id="@+id/button6"
+                android:id="@+id/goalkeepers_stats"
                 android:layout_marginRight="340dp"
                 android:layout_marginEnd="340dp"
                 android:layout_alignTop="@+id/player2_stats"
-                android:layout_toLeftOf="@+id/button2"
-                android:layout_toStartOf="@+id/button2"
+                android:layout_toLeftOf="@+id/atk_ca_filter"
+                android:layout_toStartOf="@+id/atk_ca_filter"
                 android:layout_marginTop="5dp" />
 
             <TextView
-                android:layout_width="90dp"
+                android:layout_width="87dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Falhas Técnicas"
-                android:id="@+id/textView11"
+                android:id="@+id/ftec_stats"
                 android:gravity="center"
-                android:layout_above="@+id/textView13"
+                android:layout_above="@+id/ftec_adv_stats"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:textSize="20dp"
+                android:textIsSelectable="false" />
 
             <View
                 android:layout_width="85dp"
@@ -113,18 +118,18 @@
                 android:id="@+id/line"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignEnd="@id/textView13"
-                android:layout_above="@+id/textView13"
-                android:layout_alignRight="@+id/textView13" />
+                android:layout_alignEnd="@id/ftec_adv_stats"
+                android:layout_above="@+id/ftec_adv_stats"
+                android:layout_alignRight="@+id/ftec_adv_stats" />
 
             <View
                 android:layout_width="85dp"
                 android:layout_height="3dp"
                 android:background="@android:color/white"
                 android:id="@+id/line"
-                android:layout_above="@+id/textView11"
-                android:layout_alignRight="@+id/textView11"
-                android:layout_alignEnd="@+id/textView11" />
+                android:layout_above="@+id/ftec_stats"
+                android:layout_alignRight="@+id/ftec_stats"
+                android:layout_alignEnd="@+id/ftec_stats" />
 
         </RelativeLayout>
 

@@ -5,12 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.media.Image;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,10 +16,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -30,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -42,7 +36,6 @@ import java.util.LinkedList;
 import android.os.Handler;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import pt.ipleiria.estg.GEDD.Models.Game;
 import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
@@ -251,7 +244,7 @@ public class MainActivity extends ActionBarActivity {
                 mainLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
                     @Override
                     public void onSwipeLeft() {
-                        callIntentToStatistics(players, gks);
+                        callIntentToStatistics(game, players, gks);
                     }
                 });
 
@@ -405,12 +398,6 @@ public class MainActivity extends ActionBarActivity {
                                     btn_gk_def.setPressed(false);
                                     btn_gk_out.setPressed(false);
                                     btn_gk_post.setPressed(false);
-                                    btn_players[0].setPressed(false);
-                                    btn_players[1].setPressed(false);
-                                    btn_players[2].setPressed(false);
-                                    btn_players[3].setPressed(false);
-                                    btn_players[4].setPressed(false);
-                                    btn_players[5].setPressed(false);
                                 }
 
                                 if (v.getTag() == "btn_ft_adv") {
@@ -942,15 +929,15 @@ public class MainActivity extends ActionBarActivity {
         btn_ca.setText("Contra Ataque - "+player.getAllActions(player.getCaShotGoal())+"/"+player.getAllCaShots());
         btn_atk.setText("Ataque - "+player.getAllActions(player.getAtkShotGoal())+"/"+player.getAllAtkShots());
 
-        btn_zone_1.setText("Zona 1 - "+player.getZoneGoals(1)+"/"+player.getZoneShots(1));
-        btn_zone_2.setText("Zona 2 - "+player.getZoneGoals(2)+"/"+player.getZoneShots(2));
-        btn_zone_3.setText("Zona 3 - "+player.getZoneGoals(3)+"/"+player.getZoneShots(3));
-        btn_zone_4.setText("Zona 4 - "+player.getZoneGoals(4)+"/"+player.getZoneShots(4));
-        btn_zone_5.setText("Zona 5 - "+player.getZoneGoals(5)+"/"+player.getZoneShots(5));
-        btn_zone_6.setText("Zona 6 - "+player.getZoneGoals(6)+"/"+player.getZoneShots(6));
-        btn_zone_7.setText("Zona 7 - "+player.getZoneGoals(7)+"/"+player.getZoneShots(7));
-        btn_zone_8.setText("Zona 8 - "+player.getZoneGoals(8)+"/"+player.getZoneShots(8));
-        btn_zone_9.setText("Zona 9 - "+player.getZoneGoals(9)+"/"+player.getZoneShots(9));
+        btn_zone_1.setText("Zona 1 - "+player.getZoneAllGoals(1)+"/"+player.getZoneAllShots(1));
+        btn_zone_2.setText("Zona 2 - "+player.getZoneAllGoals(2)+"/"+player.getZoneAllShots(2));
+        btn_zone_3.setText("Zona 3 - "+player.getZoneAllGoals(3)+"/"+player.getZoneAllShots(3));
+        btn_zone_4.setText("Zona 4 - "+player.getZoneAllGoals(4)+"/"+player.getZoneAllShots(4));
+        btn_zone_5.setText("Zona 5 - "+player.getZoneAllGoals(5)+"/"+player.getZoneAllShots(5));
+        btn_zone_6.setText("Zona 6 - "+player.getZoneAllGoals(6)+"/"+player.getZoneAllShots(6));
+        btn_zone_7.setText("Zona 7 - "+player.getZoneAllGoals(7)+"/"+player.getZoneAllShots(7));
+        btn_zone_8.setText("Zona 8 - "+player.getZoneAllGoals(8)+"/"+player.getZoneAllShots(8));
+        btn_zone_9.setText("Zona 9 - "+player.getZoneAllGoals(9)+"/"+player.getZoneAllShots(9));
 
         btn_goal.setText("Golo - " + player.getAllShotGoals());
         btn_goalpost.setText("Poste - " + player.getAllShotPost());
@@ -968,15 +955,15 @@ public class MainActivity extends ActionBarActivity {
 
         /* Não se têm de distinguir nas estatiticas das zonas as acções defensivas das ofensivas?*/
 
-        btn_zone_1.setText("Zona 1 - "+player.getZoneGoals(1)+"/"+player.getZoneShots(1));
-        btn_zone_2.setText("Zona 2 - "+player.getZoneGoals(2)+"/"+player.getZoneShots(2));
-        btn_zone_3.setText("Zona 3 - "+player.getZoneGoals(3)+"/"+player.getZoneShots(3));
-        btn_zone_4.setText("Zona 4 - "+player.getZoneGoals(4)+"/"+player.getZoneShots(4));
-        btn_zone_5.setText("Zona 5 - "+player.getZoneGoals(5)+"/"+player.getZoneShots(5));
-        btn_zone_6.setText("Zona 6 - "+player.getZoneGoals(6)+"/"+player.getZoneShots(6));
-        btn_zone_7.setText("Zona 7 - "+player.getZoneGoals(7)+"/"+player.getZoneShots(7));
-        btn_zone_8.setText("Zona 8 - "+player.getZoneGoals(8)+"/"+player.getZoneShots(8));
-        btn_zone_9.setText("Zona 9 - "+player.getZoneGoals(9)+"/"+player.getZoneShots(9));
+        btn_zone_1.setText("Zona 1 - "+player.getZoneAllGoals(1)+"/"+player.getZoneAllShots(1));
+        btn_zone_2.setText("Zona 2 - "+player.getZoneAllGoals(2)+"/"+player.getZoneAllShots(2));
+        btn_zone_3.setText("Zona 3 - "+player.getZoneAllGoals(3)+"/"+player.getZoneAllShots(3));
+        btn_zone_4.setText("Zona 4 - "+player.getZoneAllGoals(4)+"/"+player.getZoneAllShots(4));
+        btn_zone_5.setText("Zona 5 - "+player.getZoneAllGoals(5)+"/"+player.getZoneAllShots(5));
+        btn_zone_6.setText("Zona 6 - "+player.getZoneAllGoals(6)+"/"+player.getZoneAllShots(6));
+        btn_zone_7.setText("Zona 7 - "+player.getZoneAllGoals(7)+"/"+player.getZoneAllShots(7));
+        btn_zone_8.setText("Zona 8 - "+player.getZoneAllGoals(8)+"/"+player.getZoneAllShots(8));
+        btn_zone_9.setText("Zona 9 - "+player.getZoneAllGoals(9)+"/"+player.getZoneAllShots(9));
 
         btn_def_block.setText("Bloco - " + player.getAllBlocked());
         btn_disarm.setText("Desarme - " + player.getAllDisarms());
@@ -1046,9 +1033,10 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void callIntentToStatistics(LinkedList<Player> players, LinkedList<Goalkeeper> gks){
+    public void callIntentToStatistics(Game game, LinkedList<Player> players, LinkedList<Goalkeeper> gks){
 
         Intent intent = new Intent(this, StatisticsTeam.class);
+        intent.putExtra("Game", game);
         intent.putExtra("Players", players);
         intent.putExtra("Goalkeepers", gks);
         startActivity(intent);

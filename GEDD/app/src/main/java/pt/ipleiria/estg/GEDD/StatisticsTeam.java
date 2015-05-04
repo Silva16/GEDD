@@ -3,7 +3,6 @@ package pt.ipleiria.estg.GEDD;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,18 +13,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import pt.ipleiria.estg.GEDD.Models.Game;
 import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
 import pt.ipleiria.estg.GEDD.Models.Player;
-import pt.ipleiria.estg.GEDD.R;
 
 public class StatisticsTeam extends Activity {
 
@@ -33,31 +29,31 @@ public class StatisticsTeam extends Activity {
     private Bundle extras;
     private LinkedList<Player> players;
     private LinkedList<Goalkeeper> gks;
+    private Game game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.statistics_team);
 
-        final TextView zone1_stats = (TextView) findViewById(R.id.zone1_stats);
-        final TextView zone2_stats = (TextView) findViewById(R.id.zone2_stats);
-        final TextView zone3_stats = (TextView) findViewById(R.id.zone3_stats);
-        final TextView zone4_stats = (TextView) findViewById(R.id.zone4_stats);
-        final TextView zone5_stats = (TextView) findViewById(R.id.zone5_stats);
-        final TextView zone6_stats = (TextView) findViewById(R.id.zone6_stats);
-        final TextView zone7_stats = (TextView) findViewById(R.id.zone7_stats);
-        final TextView zone8_stats = (TextView) findViewById(R.id.zone8_stats);
-        final TextView zone9_stats = (TextView) findViewById(R.id.zone9_stats);
         final RelativeLayout teamPlayer = (RelativeLayout) findViewById(R.id.team);
+        final RelativeLayout filters = (RelativeLayout) findViewById(R.id.filters);
 
-        if (savedInstanceState == null) {
-            extras = getIntent().getExtras();
-            players = new LinkedList((List)(getIntent().getSerializableExtra("Players")));
-            gks = new LinkedList((List)(getIntent().getSerializableExtra("Goalkeepers")));
-        } else {
-            players= (LinkedList) savedInstanceState.getSerializable("Players");
-            gks= (LinkedList) savedInstanceState.getSerializable("Goalkeepers");
-        }
+        final Button atk_ca_filter = (Button) findViewById(R.id.atk_ca_filter);
+        final Button atk_filter = (Button) findViewById(R.id.atk_filter);
+        final Button ca_filter = (Button) findViewById(R.id.ca_filter);
+        final Button def_filter = (Button) findViewById(R.id.def_filter);
+
+        final TextView assist_stats = (TextView) findViewById(R.id.assist_stats);
+        final TextView ftec_stats = (TextView) findViewById(R.id.ftec_stats);
+        final TextView ftec_adv_stats = (TextView) findViewById(R.id.ftec_adv_stats);
+
+
+        extras = getIntent().getExtras();
+        players = new LinkedList((List)(getIntent().getSerializableExtra("Players")));
+        gks = new LinkedList((List)(getIntent().getSerializableExtra("Goalkeepers")));
+        game = (Game) getIntent().getSerializableExtra("Game");
+
 
         Collections.sort(players, new Comparator<Player>() {
             @Override
@@ -84,6 +80,22 @@ public class StatisticsTeam extends Activity {
                 return 0;
             }
         });
+
+        final TextView zone_stats[] = new TextView[9];
+        int j = 1;
+        for (int i = 0; i < 9; i++) {
+
+            String id_txt = "zone" + j + "_stats";
+            zone_stats[i] = (TextView) findViewById(getResources().getIdentifier(id_txt, "id", getPackageName()));
+            j++;
+        }
+
+        refreshAllAttackStatistics(zone_stats, players);
+        refreshAttackStatistics(zone_stats, players);
+        refreshAssistStatistics(assist_stats, players);
+        refreshTecFailStatistics(ftec_stats, players);
+        refreshCAStatistics(zone_stats, players);
+        ftec_adv_stats.setText("Falhas Técnicas Advers. " + String.valueOf(game.getTechnicalFailAdv()));
 
         final ImageButton btn_players[] = new ImageButton[14];
         final ImageButton btn_gks[] = new ImageButton[2];
@@ -124,6 +136,7 @@ public class StatisticsTeam extends Activity {
         final View.OnTouchListener playerTouchListener = new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Player tempPlayer;
                     if (!(v.isPressed())) {
 
                         ViewGroup container = (ViewGroup) v.getParent();
@@ -131,19 +144,36 @@ public class StatisticsTeam extends Activity {
                             container.getChildAt(i).setPressed(false);
                         }
                         v.setPressed(true);
-                        Player player;
 
                         //verifica se é botão de jogador, se for verdade atualiza os campos
                         //if (v.getParent() == (RelativeLayout) teamPlayer) {
-                            Player tempPlayer;
-                            if ((tempPlayer = getPlayerPressed(players, teamPlayer)) != null) {
 
-                                refreshAttackStatistics(zone1_stats, zone2_stats, zone3_stats, zone4_stats, zone5_stats, zone6_stats, zone7_stats,zone8_stats, zone9_stats, tempPlayer);
+                            if ((tempPlayer = getPlayerPressed(players, teamPlayer)) != null || v.getParent() == (RelativeLayout) filters) {
+
+                                switch (v.getId()){
+                                    case R.id.atk_ca_filter:
+                                        refreshAllAttackPlayerStatistics(zone_stats, tempPlayer);
+                                    case R.id.ca_filter:
+                                        refreshCAPlayerStatistics(zone_stats, tempPlayer);
+                                    case R.id.atk_filter:
+                                        refreshAttackPlayerStatistics(zone_stats, tempPlayer);
+                                    case R.id.def_filter:
+                                }
+
+
+                                assist_stats.setText("Assist: " + tempPlayer.getAssistance());
+                                ftec_stats.setText("Falhas Técnicas " + tempPlayer.getTechnicalFailure());
                                 //refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
                             }
                         //}
 
                     } else {
+
+                        if ((getPlayerPressed(players, teamPlayer)) == null) {
+
+                            refreshAllAttackStatistics(zone_stats, players);
+                            //refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
+                        }
                         v.setPressed(false);
                     }
                 }
@@ -168,6 +198,11 @@ public class StatisticsTeam extends Activity {
         btn_players[13].setOnTouchListener(playerTouchListener);
         btn_gks[0].setOnTouchListener(playerTouchListener);
         btn_gks[1].setOnTouchListener(playerTouchListener);
+
+        atk_ca_filter.setOnTouchListener(playerTouchListener);
+        atk_filter.setOnTouchListener(playerTouchListener);
+        ca_filter.setOnTouchListener(playerTouchListener);
+        def_filter.setOnTouchListener(playerTouchListener);
 
 
         for (int i = 0; i < 14; i++){
@@ -240,65 +275,142 @@ public class StatisticsTeam extends Activity {
         startActivity(intent);
     }
 
-    private void refreshAttackStatistics(TextView zone1_stats, TextView zone2_stats, TextView zone3_stats, TextView zone4_stats, TextView zone5_stats, TextView zone6_stats, TextView zone7_stats, TextView zone8_stats, TextView zone9_stats, Player player){
+    private void refreshAssistStatistics(TextView assist_stats, LinkedList<Player> players){
 
-        if (player.getZoneShots(1)!=0){
-            zone1_stats.setText(String.valueOf(Math.round(player.getZoneGoals(1)/(float)player.getZoneShots(1)*100))+ "%");
-        }else{
-            zone1_stats.setText("0 %");
+        int assist = 0;
+
+        for (Player player : players){
+
+            assist += player.getAssistance();
         }
 
-        if (player.getZoneShots(2)!=0){
-            zone2_stats.setText(String.valueOf(Math.round(player.getZoneGoals(2)/(float)player.getZoneShots(2)*100))+ "%");
-        }else{
-            zone2_stats.setText("0 %");
-        }
-
-        if (player.getZoneShots(3)!=0){
-            zone3_stats.setText(String.valueOf(Math.round((player.getZoneGoals(3)/(float)player.getZoneShots(3))*100)) + "%");
-        }else{
-            zone3_stats.setText("0 %");
-        }
-
-        if (player.getZoneShots(4)!=0){
-            zone4_stats.setText(String.valueOf(Math.round((player.getZoneGoals(4)/(float)player.getZoneShots(4))*100)) + "%");
-        }else{
-            zone4_stats.setText("0 %");
-        }
-
-        if (player.getZoneShots(5)!=0){
-            zone5_stats.setText(String.valueOf(Math.round((player.getZoneGoals(5)/(float)player.getZoneShots(5))*100)) + "%");
-        }else{
-            zone5_stats.setText("0 %");
-        }
-
-        if (player.getZoneShots(6)!=0){
-            zone6_stats.setText(String.valueOf(Math.round((player.getZoneGoals(6)/(float)player.getZoneShots(6))*100)) + "%");
-        }else{
-            zone6_stats.setText("0 %");
-        }
-
-        if (player.getZoneShots(7)!=0){
-            zone7_stats.setText(String.valueOf((Math.round(player.getZoneGoals(7)/(float)player.getZoneShots(7))*100)) + "%");
-        }else{
-            zone7_stats.setText("0 %");
-        }
-
-        if (player.getZoneShots(8)!=0){
-            zone8_stats.setText(String.valueOf((Math.round(player.getZoneGoals(8)/(float)player.getZoneShots(8))*100)) + "%");
-        }else{
-            zone8_stats.setText("0 %");
-        }
-
-        if (player.getZoneShots(9)!=0){
-            zone9_stats.setText(String.valueOf((Math.round(player.getZoneGoals(9)/(float)player.getZoneShots(9))*100)) + "%");
-        }else{
-            zone9_stats.setText("0 %");
-        }
-
-
-
-
-
+        assist_stats.setText("Assist. " + String.valueOf(assist));
     }
+
+    private void refreshTecFailStatistics(TextView assist_stats, LinkedList<Player> players){
+
+        int tecFail = 0;
+
+        for (Player player : players){
+
+            tecFail += player.getTechnicalFailure();
+        }
+
+        assist_stats.setText("Falhas Técnicas " + String.valueOf(tecFail));
+    }
+
+    private void refreshAllAttackPlayerStatistics(TextView zone_stats[], Player player){
+
+        for (int i = 0; i < 9; i++){
+
+            if (player.getZoneAllShots(i + 1) !=0){
+                zone_stats[i].setText(String.valueOf(Math.round(player.getZoneAllGoals(i + 1)/(float)player.getZoneAllShots(i + 1)*100))+ "%");
+            }else{
+                zone_stats[i].setText("0 %");
+            }
+        }
+    }
+
+    private void refreshAttackPlayerStatistics(TextView zone_stats[], Player player){
+
+        for (int i = 0; i < 9; i++){
+
+            if (player.getZoneAtkShots(i + 1) !=0){
+                zone_stats[i].setText(String.valueOf(Math.round((player.getZoneAtkGoals(i + 1)/(float)player.getZoneAtkShots(i+1)*100))+ "%"));
+            }else{
+                zone_stats[i].setText("0 %");
+            }
+
+        }
+    }
+
+    private void refreshCAPlayerStatistics(TextView zone_stats[], Player player){
+
+        for (int i = 0; i < 9; i++){
+
+            if (player.getZoneCAShots(i + 1) !=0){
+                zone_stats[i].setText(String.valueOf(Math.round((player.getZoneCAGoals(i + 1)/(float)player.getZoneCAShots(i+1)*100))+ "%"));
+            }else{
+                zone_stats[i].setText("0 %");
+            }
+
+        }
+    }
+
+    private void refreshDefensePlayerStatistics(TextView zone_stats[], Player player){
+
+        for (int i = 0; i < 9; i++){
+
+
+        }
+    }
+
+
+    private void refreshAllAttackStatistics(TextView zone_stats[], LinkedList<Player> players){
+
+        int team_zoneGoals[] = new int[9];
+        int team_zoneShots[] = new int[9];
+
+        for (Player player : players){
+
+            for (int i = 0; i < 9; i++){
+
+                team_zoneGoals[i] += player.getZoneAllGoals(i + 1);
+                team_zoneShots[i] += player.getZoneAllShots(i + 1);
+
+                if (team_zoneShots[i] !=0){
+                    zone_stats[i].setText(String.valueOf(Math.round(team_zoneGoals[i] / (float) team_zoneShots[i] * 100)) + "%");
+                }else{
+                    zone_stats[i].setText("0 %");
+                }
+
+            }
+        }
+    }
+
+    private void refreshAttackStatistics(TextView zone_stats[], LinkedList<Player> players){
+
+        int team_zoneGoals[] = new int[9];
+        int team_zoneShots[] = new int[9];
+
+        for (Player player : players){
+
+            for (int i = 0; i < 9; i++){
+
+                team_zoneGoals[i] += player.getZoneAtkGoals(i + 1);
+                team_zoneShots[i] += player.getZoneAtkShots(i + 1);
+
+                if (team_zoneShots[i] !=0){
+                    zone_stats[i].setText(String.valueOf(Math.round(team_zoneGoals[i] / (float) team_zoneShots[i] * 100)) + "%");
+                }else{
+                    zone_stats[i].setText("0 %");
+                }
+
+            }
+        }
+    }
+
+    private void refreshCAStatistics(TextView zone_stats[], LinkedList<Player> players){
+
+        int team_zoneGoals[] = new int[9];
+        int team_zoneShots[] = new int[9];
+
+        for (Player player : players){
+
+            for (int i = 0; i < 9; i++){
+
+                team_zoneGoals[i] += player.getZoneCAGoals(i + 1);
+                team_zoneShots[i] += player.getZoneCAShots(i + 1);
+
+                if (team_zoneShots[i] !=0){
+                    zone_stats[i].setText(String.valueOf(Math.round(team_zoneGoals[i] / (float) team_zoneShots[i] * 100)) + "%");
+                }else{
+                    zone_stats[i].setText("0 %");
+                }
+
+            }
+        }
+    }
+
+
 }
