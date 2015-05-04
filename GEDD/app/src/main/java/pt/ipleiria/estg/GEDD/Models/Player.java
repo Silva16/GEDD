@@ -24,29 +24,17 @@ public class Player implements Serializable{
     private String lastAction;
 
     //Remates
-    private int[] sixShotGoal = new int[9];
-    private int[] sixShotBlocked = new int[9];
-    private int[] sixShotOut = new int[9];
-    private int[] sixShotPost = new int[9];
-    private int[] sixShotDefended = new int[9];
+    private int[] atkShotGoal = new int[9];
+    private int[] atkShotBlocked = new int[9];
+    private int[] atkShotOut = new int[9];
+    private int[] atkShotPost = new int[9];
+    private int[] atkShotDefended = new int[9];
 
     private int[] caShotGoal = new int[9];
     private int[] caShotBlocked = new int[9];
     private int[] caShotOut = new int[9];
     private int[] caShotPost = new int[9];
     private int[] caShotDefended = new int[9];
-
-    private int[] sevenShotGoal= new int[9];
-    private int[] sevenShotBlocked = new int[9];
-    private int[] sevenShotOut = new int[9];
-    private int[] sevenShotPost = new int[9];
-    private int[] sevenShotDefended = new int[9];
-
-    private int[] nineShotGoal = new int[9];
-    private int[] nineShotBlocked = new int[9];
-    private int[] nineShotOut = new int[9];
-    private int[] nineShotPost = new int[9];
-    private int[] nineShotDefended = new int[9];
 
     //Ações Defensivas
     private int[] interception = new int[9];
@@ -103,44 +91,44 @@ public class Player implements Serializable{
         this.redCard = true;
     }
 
-    public int[] getSixShotGoal() {
-        return sixShotGoal;
+    public int[] getAtkShotGoal() {
+        return atkShotGoal;
     }
 
-    public void setSixShotGoal(int zone) {
-        this.sixShotGoal[zone-1] ++;
+    public void setAtkShotGoal(int zone) {
+        this.atkShotGoal[zone-1] ++;
     }
 
-    public int[] getSixShotBlocked() {
-        return sixShotBlocked;
+    public int[] getAtkShotBlocked() {
+        return atkShotBlocked;
     }
 
-    public void setSixShotBlocked(int zone) {
-        this.sixShotBlocked[zone-1]++;
+    public void setAtkShotBlocked(int zone) {
+        this.atkShotBlocked[zone-1]++;
     }
 
-    public int[] getSixShotOut() {
-        return sixShotOut;
+    public int[] getAtkShotOut() {
+        return atkShotOut;
     }
 
-    public void setSixShotOut(int zone) {
-        this.sixShotOut[zone-1]++;
+    public void setAtkShotOut(int zone) {
+        this.atkShotOut[zone-1]++;
     }
 
-    public int[] getSixShotPost() {
-        return sixShotPost;
+    public int[] getAtkShotPost() {
+        return atkShotPost;
     }
 
-    public void setSixShotPost(int zone) {
-        this.sixShotPost[zone-1]++;
+    public void setAtkShotPost(int zone) {
+        this.atkShotPost[zone-1]++;
     }
 
-    public int[] getSixShotDefended() {
-        return sixShotDefended;
+    public int[] getAtkShotDefended() {
+        return atkShotDefended;
     }
 
-    public void setSixShotDefended(int zone) {
-        this.sixShotDefended[zone-1]++;
+    public void setAtkShotDefended(int zone) {
+        this.atkShotDefended[zone-1]++;
     }
 
     public int[] getCaShotGoal() {
@@ -181,86 +169,6 @@ public class Player implements Serializable{
 
     public void setCaShotDefended(int zone) {
         this.caShotDefended[zone-1]++;
-    }
-
-    public int[] getSevenShotGoal() {
-        return sevenShotGoal;
-    }
-
-    public void setSevenShotGoal(int zone) {
-        this.sevenShotGoal[zone-1]++;
-    }
-
-    public int[] getSevenShotBlocked() {
-        return sevenShotBlocked;
-    }
-
-    public void setSevenShotBlocked(int zone) {
-        this.sevenShotBlocked[zone-1]++;
-    }
-
-    public int[] getSevenShotOut() {
-        return sevenShotOut;
-    }
-
-    public void setSevenShotOut(int zone) {
-        this.sevenShotOut[zone-1]++;
-    }
-
-    public int[] getSevenShotPost() {
-        return sevenShotPost;
-    }
-
-    public void setSevenShotPost(int zone) {
-        this.sevenShotPost[zone-1]++;
-    }
-
-    public int[] getSevenShotDefended() {
-        return sevenShotDefended;
-    }
-
-    public void setSevenShotDefended(int zone) {
-        this.sevenShotDefended[zone-1]++;
-    }
-
-    public int[] getNineShotGoal() {
-        return nineShotGoal;
-    }
-
-    public void setNineShotGoal(int zone) {
-        this.nineShotGoal[zone-1]++;
-    }
-
-    public int[] getNineShotBlocked() {
-        return nineShotBlocked;
-    }
-
-    public void setNineShotBlocked(int zone) {
-        this.nineShotBlocked[zone-1]++;
-    }
-
-    public int[] getNineShotOut() {
-        return nineShotOut;
-    }
-
-    public void setNineShotOut(int zone) {
-        this.nineShotOut[zone-1]++;
-    }
-
-    public int[] getNineShotPost() {
-        return nineShotPost;
-    }
-
-    public void setNineShotPost(int zone) {
-        this.nineShotPost[zone-1]++;
-    }
-
-    public int[] getNineShotDefended() {
-        return nineShotDefended;
-    }
-
-    public void setNineShotDefended(int zone) {
-        this.nineShotDefended[zone-1]++;
     }
 
     public int[] getInterception() {
@@ -344,16 +252,8 @@ public class Player implements Serializable{
         return getAllActions(this.getCaShotBlocked()) + getAllActions(this.getCaShotPost()) + getAllActions(this.getCaShotGoal()) + getAllActions(this.getCaShotDefended()) + getAllActions(this.getCaShotOut());
     }
 
-    public int getAllSixShots(){
-        return getAllActions(this.getSixShotBlocked()) + getAllActions(this.getSixShotPost()) + getAllActions(this.getSixShotGoal()) + getAllActions(this.getSixShotDefended()) + getAllActions(this.getSixShotOut());
-    }
-
-    public int getAllSevenShots(){
-        return getAllActions(this.getSevenShotBlocked()) + getAllActions(this.getSevenShotPost()) + getAllActions(this.getSevenShotGoal()) + getAllActions(this.getSevenShotDefended()) + getAllActions(this.getSevenShotOut());
-    }
-
-    public int getAllNineShots(){
-        return getAllActions(this.getNineShotBlocked()) + getAllActions(this.getNineShotPost()) + getAllActions(this.getNineShotGoal()) + getAllActions(this.getNineShotDefended()) + getAllActions(this.getNineShotOut());
+    public int getAllAtkShots(){
+        return getAllActions(this.getAtkShotBlocked()) + getAllActions(this.getAtkShotPost()) + getAllActions(this.getAtkShotGoal()) + getAllActions(this.getAtkShotDefended()) + getAllActions(this.getAtkShotOut());
     }
 
     public void refreshPlayerStats(String finalization, int zone, String offAction){
@@ -373,52 +273,18 @@ public class Player implements Serializable{
             }
         }
 
-
-        if(finalization=="btn_7m"){
+        if(finalization=="btn_atk"){
             switch (offAction)
             {
-                case "btn_goal": setSevenShotGoal(zone);
+                case "btn_goal": setAtkShotGoal(zone);
                     break;
-                case "btn_goalpost": setSevenShotPost(zone);
+                case "btn_goalpost": setAtkShotPost(zone);
                     break;
-                case "btn_out": setSevenShotOut(zone);
+                case "btn_out": setAtkShotOut(zone);
                     break;
-                case "btn_defense": setSevenShotDefended(zone);
+                case "btn_defense": setAtkShotDefended(zone);
                     break;
-                case "btn_block_atk": setSevenShotBlocked(zone);
-                    break;
-            }
-        }
-
-
-        if(finalization=="btn_9m"){
-            switch (offAction)
-            {
-                case "btn_goal": setNineShotGoal(zone);
-                    break;
-                case "btn_goalpost": setNineShotPost(zone);
-                    break;
-                case "btn_out": setNineShotOut(zone);
-                    break;
-                case "btn_defense": setNineShotDefended(zone);
-                    break;
-                case "btn_block_atk": setNineShotBlocked(zone);
-                    break;
-            }
-        }
-
-        if(finalization=="btn_6m"){
-            switch (offAction)
-            {
-                case "btn_goal": setSixShotGoal(zone);
-                    break;
-                case "btn_goalpost": setSixShotPost(zone);
-                    break;
-                case "btn_out": setSixShotOut(zone);
-                    break;
-                case "btn_defense": setSixShotDefended(zone);
-                    break;
-                case "btn_block_atk": setSixShotBlocked(zone);
+                case "btn_block_atk": setAtkShotBlocked(zone);
                     break;
             }
         }
@@ -426,31 +292,31 @@ public class Player implements Serializable{
     }
 
     public int getZoneShots(int zone){
-        return nineShotBlocked[zone-1]+nineShotDefended[zone-1]+nineShotGoal[zone-1]+nineShotOut[zone-1]+nineShotPost[zone-1]+sixShotGoal[zone-1]+sixShotBlocked[zone-1]+sixShotDefended[zone-1]+sixShotOut[zone-1]+sixShotPost[zone-1]+sevenShotBlocked[zone-1]+sevenShotDefended[zone-1]+sevenShotGoal[zone-1]+sevenShotOut[zone-1]+sevenShotPost[zone-1]+caShotGoal[zone-1]+caShotOut[zone-1]+caShotBlocked[zone-1]+caShotDefended[zone-1]+caShotPost[zone-1];
+        return atkShotGoal[zone-1]+ atkShotBlocked[zone-1]+ atkShotDefended[zone-1]+ atkShotOut[zone-1]+ atkShotPost[zone-1]+caShotGoal[zone-1]+caShotOut[zone-1]+caShotBlocked[zone-1]+caShotDefended[zone-1]+caShotPost[zone-1];
     }
 
     public int getZoneGoals(int zone){
-        return nineShotGoal[zone-1]+sixShotGoal[zone-1]+sevenShotGoal[zone-1]+caShotGoal[zone-1];
+        return atkShotGoal[zone-1]+caShotGoal[zone-1];
     }
 
     public int getAllShotGoals(){
-        return getAllActions(nineShotGoal)+ getAllActions(sixShotGoal)+ getAllActions(sevenShotGoal)+ getAllActions(caShotGoal);
+        return getAllActions(atkShotGoal) + getAllActions(caShotGoal);
     }
 
     public int getAllShotOut(){
-        return getAllActions(nineShotOut)+ getAllActions(sixShotOut)+ getAllActions(sevenShotOut)+ getAllActions(caShotOut);
+        return getAllActions(atkShotOut)+ getAllActions(caShotOut);
     }
 
     public int getAllShotPost(){
-        return getAllActions(nineShotPost)+ getAllActions(sixShotPost)+ getAllActions(sevenShotPost)+ getAllActions(caShotPost);
+        return getAllActions(atkShotPost) + getAllActions(caShotPost);
     }
 
     public int getAllShotDefended(){
-        return getAllActions(nineShotDefended)+ getAllActions(sixShotDefended)+ getAllActions(sevenShotDefended)+ getAllActions(caShotDefended);
+        return getAllActions(atkShotDefended)+ getAllActions(caShotDefended);
     }
 
     public int getAllBlocked(){
-        return getAllActions(nineShotBlocked)+ getAllActions(sixShotBlocked)+ getAllActions(sevenShotBlocked)+ getAllActions(caShotBlocked);
+        return getAllActions(atkShotBlocked)+ getAllActions(caShotBlocked);
     }
 
     public int getNumber() {
