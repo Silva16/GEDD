@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.GEDD;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -26,10 +27,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -43,9 +46,18 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi;
+import com.google.android.gms.drive.DriveApi.DriveContentsResult;
+import com.google.android.gms.drive.DriveApi.DriveIdResult;
 import com.google.android.gms.drive.DriveContents;
+import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveFolder;
+import com.google.android.gms.drive.DriveId;
+
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.gms.drive.metadata.CustomPropertyKey;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.Query;
+import com.google.android.gms.drive.query.SearchableField;
 
 import org.json.JSONObject;
 
@@ -71,7 +83,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     Button btn_tf_adv;
     TextView lbl_opponent;
 
-    static final int UPLOAD_FILE_TO_DRIVE = 2;
+
     private static final String TAG = "main activity";
 
     /**
@@ -88,6 +100,14 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
      * Next available request code.
      */
     protected static final int NEXT_AVAILABLE_REQUEST_CODE = 2;
+
+    protected int driveActionType = 0;
+
+    protected static final int DRIVE_ACTION_UPLOAD = 2;
+
+    protected static final int DRIVE_ACTION_DOWNLOAD = 1;
+
+
 
 
     @Override
@@ -1393,27 +1413,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
 
 
-
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == UPLOAD_FILE_TO_DRIVE) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(getApplicationContext(), "Ficheiro enviado com sucesso.",
-                        Toast.LENGTH_LONG).show();
-            }else{
-                    Toast.makeText(getApplicationContext(), "Erro no envio do ficheiro!",
-                            Toast.LENGTH_LONG).show();
-
-            }
-        }
-    }
-
-
-
     //GOOGLE DRIVE
     public void connectToDrive(){
         if (mGoogleApiClient == null) {
@@ -1481,13 +1480,17 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                             @Override
                             public void run() {
                                 // write content to DriveContents
+                                try {
+                                    Thread.sleep(5000);                 //1000 milliseconds is one second.
+                                } catch(InterruptedException ex) {
+                                    Thread.currentThread().interrupt();
+                                }
 
                                 FileInputStream fis = null;
                                 ObjectInputStream in = null;
                                 try {
                                     fis = new FileInputStream(getApplicationContext().getFilesDir().getPath().toString()+"game-gedd.ser");
                                     in = new ObjectInputStream(fis);
-                                    in.close();
                                     Log.i("read True","Consegui Ler");
                                 } catch (Exception ex) {
                                     ex.printStackTrace();
@@ -1542,10 +1545,137 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                         Log.i("driveActivity","Error while trying to create the file");
                         Toast.makeText(getApplicationContext(), "Erro ao gravar ficheiro!!!",
                                 Toast.LENGTH_LONG).show();
+                        mGoogleApiClient.disconnect();
                     }
                     Log.i("driveActivity","Created a file with content: " + result.getDriveFile().getDriveId());
                     Toast.makeText(getApplicationContext(), "Ficheiro gravado com sucesso.",
                             Toast.LENGTH_LONG).show();
+                    mGoogleApiClient.disconnect();
                 }
             };
+
+    private void getDriveFileId(){
+        CustomPropertyKey customPropertyKey =
+                new CustomPropertyKey("approved", CustomPropertyKey.PUBLIC);
+        Query query = new Query.Builder()
+                .addFilter(Filters.eq(SearchableField.MIME_TYPE, "application/octet-stream"))
+                .build();
+        Drive.DriveApi.query(mGoogleApiClient, query)
+                .setResultCallback(metadataCallback);
+    }
+
+    final private ResultCallback<DriveApi.MetadataBufferResult> metadataCallback =
+            new ResultCallback<DriveApi.MetadataBufferResult>() {
+                @Override
+                public void onResult(DriveApi.MetadataBufferResult result) {
+                    if (!result.getStatus().isSuccess()) {
+                        Log.i(TAG, "Problem while retrieving results");
+                        return;
+                    }
+                    result.getMetadataBuffer().get(0).getDriveId();
+                }
+            };
+
+    private void downloadFileFromDrive(String driveId){
+
+        Drive.DriveApi.fetchDriveId(mGoogleApiClient, driveId)
+                .setResultCallback(idCallback);
+
+    }
+
+    final private ResultCallback<DriveIdResult> idCallback = new ResultCallback<DriveIdResult>() {
+        @Override
+        public void onResult(DriveIdResult result) {
+            new RetrieveDriveFileContentsAsyncTask(
+                    MainActivity.this).execute(result.getDriveId());
+        }
+    };
+
+    final private class RetrieveDriveFileContentsAsyncTask
+            extends DriveAsyncTask<DriveId, Boolean, String> {
+
+        public RetrieveDriveFileContentsAsyncTask(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected String doInBackgroundConnected(DriveId... params) {
+            String contents = null;
+            DriveFile file = Drive.DriveApi.getFile(getGoogleApiClient(), params[0]);
+            DriveContentsResult driveContentsResult =
+                    file.open(getGoogleApiClient(), DriveFile.MODE_READ_ONLY, null).await();
+            if (!driveContentsResult.getStatus().isSuccess()) {
+                return null;
+            }
+            DriveContents driveContents = driveContentsResult.getDriveContents();
+
+
+            String filename = "game-gedd.ser";
+
+            // save the object to file
+            FileOutputStream fos = null;
+            ObjectOutputStream out = null;
+            Log.i("onDestroy","Entrei no on destroy");
+
+
+
+            ObjectInputStream in = null;
+            try {
+                in = new ObjectInputStream(driveContents.getInputStream());
+                Log.i("read True","Consegui Ler");
+
+                try {
+                    Log.i("onDestroy","1");
+                    fos = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString()+filename);
+                    Log.i("onDestroy","2");
+                    out = new ObjectOutputStream(fos);
+                    Log.i("onDestroy","3");
+                    out.writeObject(in);
+                    Log.i("onDestroy","4");
+
+                    out.close();
+
+                    Log.i("onDestroy","Detrui cenas");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+
+
+
+
+
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(driveContents.getInputStream()));
+            StringBuilder builder = new StringBuilder();
+            String line;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
+                contents = builder.toString();
+            } catch (IOException e) {
+                Log.e(TAG, "IOException while reading from the stream", e);
+            }
+
+            driveContents.discard(getGoogleApiClient());
+            return contents;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result == null) {
+                Log.i(TAG,"Error while reading from the file");
+                return;
+            }
+            Log.i(TAG,"File contents: " + result);
+
+
+        }
+    }
+
 }

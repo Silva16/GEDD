@@ -108,7 +108,7 @@ public class StatisticsTeam extends Activity {
         btn_gks[1] = (ImageButton) findViewById(R.id.gk2_stats);
 
 
-        for (int i = 0; i < 14; i++) {
+        for (int i = 0; i < players.size(); i++) {
 
             String numberShirt = "ic_shirt_" + Integer.toString((players.get(i).getNumber()));
 
@@ -117,7 +117,7 @@ public class StatisticsTeam extends Activity {
             btn_players[i].setImageResource(resourceId);
         }
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < gks.size(); i++) {
 
             String numberShirt = "ic_shirt_" + Integer.toString((gks.get(i).getNumber()));
 
@@ -223,7 +223,7 @@ public class StatisticsTeam extends Activity {
         def_filter.setOnTouchListener(playerTouchListener);
 
 
-        for (int i = 0; i < 14; i++){
+        for (int i = 0; i < players.size(); i++){
             btn_players[i].setTag(players.get(i).getNumber());
         }
 
