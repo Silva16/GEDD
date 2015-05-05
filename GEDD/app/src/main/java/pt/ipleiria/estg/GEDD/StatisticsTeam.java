@@ -3,6 +3,7 @@ package pt.ipleiria.estg.GEDD;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -162,22 +163,13 @@ public class StatisticsTeam extends Activity {
 
                             }
 
-
-                            if (v.getId() == R.id.def_filter){
-                                refreshDefensePlayerStatistics(zone_stats, gks);
-                            }
-
-                        } else {
-
-                        v.setPressed(false);
-
                         if ((tempPlayer = getPlayerPressed(players, teamPlayer)) == null && v.getParent() == (RelativeLayout) filters) {
 
                             refreshAssistStatistics(assist_stats, players);
                             refreshTecFailStatistics(ftec_stats, players);
                             ftec_adv_stats.setText("Falhas Técnicas Advers. " + String.valueOf(game.getTechnicalFailAdv()));
 
-                            switch (v.getId()){
+                            switch (v.getId()) {
                                 case R.id.atk_ca_filter:
                                     refreshAllAttackStatistics(zone_stats, players);
                                     return true;
@@ -191,6 +183,16 @@ public class StatisticsTeam extends Activity {
                                     return false;
                             }
                         }
+
+                            if (v.getId() == R.id.def_filter) {
+                                refreshDefensePlayerStatistics(zone_stats, gks);
+                            }
+
+
+                        } else {
+
+                        v.setPressed(false);
+
 
 
                     }
@@ -319,13 +321,40 @@ public class StatisticsTeam extends Activity {
 
     private void refreshAllAttackPlayerStatistics(TextView zone_stats[], Player player){
 
+
+
         for (int i = 0; i < 9; i++){
 
+            int effectiveness = Math.round(player.getZoneAllGoals(i + 1) / (float) player.getZoneAllShots(i + 1) * 100);
+
+            if (effectiveness < 25){
+
+                zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
+            }
+
+            if (effectiveness < 50){
+
+                zone_stats[i].setTextColor(Color.parseColor("#ff9705"));
+            }
+
+            if (effectiveness < 75){
+
+                zone_stats[i].setTextColor(Color.parseColor("#fffcff00"));
+            }
+
+            if (effectiveness < 101){
+
+                zone_stats[i].setTextColor(Color.parseColor("#ff01ff00"));
+            }
+
             if (player.getZoneAllShots(i + 1) !=0){
-                zone_stats[i].setText(String.valueOf(Math.round(player.getZoneAllGoals(i + 1)/(float)player.getZoneAllShots(i + 1)*100))+ "%");
+                zone_stats[i].setText(String.valueOf(effectiveness) + "%");
             }else{
                 zone_stats[i].setText("0 %");
             }
+
+
+
         }
     }
 
@@ -333,8 +362,30 @@ public class StatisticsTeam extends Activity {
 
         for (int i = 0; i < 9; i++){
 
+            int effectiveness = Math.round((player.getZoneAtkGoals(i + 1)/(float)player.getZoneAtkShots(i+1)*100));
+
+            if (effectiveness < 25){
+
+                zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
+            }
+
+            if (effectiveness < 50){
+
+                zone_stats[i].setTextColor(Color.parseColor("#ff9705"));
+            }
+
+            if (effectiveness < 75){
+
+                zone_stats[i].setTextColor(Color.parseColor("#fffcff00"));
+            }
+
+            if (effectiveness < 101){
+
+                zone_stats[i].setTextColor(Color.parseColor("#ff01ff00"));
+            }
+
             if (player.getZoneAtkShots(i + 1) !=0){
-                zone_stats[i].setText(String.valueOf(Math.round((player.getZoneAtkGoals(i + 1)/(float)player.getZoneAtkShots(i+1)*100))+ "%"));
+                zone_stats[i].setText(String.valueOf(effectiveness)+ "%");
             }else{
                 zone_stats[i].setText("0 %");
             }
@@ -346,8 +397,30 @@ public class StatisticsTeam extends Activity {
 
         for (int i = 0; i < 9; i++){
 
+            int effectiveness = Math.round((player.getZoneCAGoals(i + 1)/(float)player.getZoneCAShots(i + 1)*100));
+
+            if (effectiveness < 25){
+
+                zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
+            }
+
+            if (effectiveness < 50){
+
+                zone_stats[i].setTextColor(Color.parseColor("#ff9705"));
+            }
+
+            if (effectiveness < 75){
+
+                zone_stats[i].setTextColor(Color.parseColor("#fffcff00"));
+            }
+
+            if (effectiveness < 101){
+
+                zone_stats[i].setTextColor(Color.parseColor("#ff01ff00"));
+            }
+
             if (player.getZoneCAShots(i + 1) !=0){
-                zone_stats[i].setText(String.valueOf(Math.round((player.getZoneCAGoals(i + 1)/(float)player.getZoneCAShots(i + 1)*100))+ "%"));
+                zone_stats[i].setText(String.valueOf(effectiveness)+ "%");
             }else{
                 zone_stats[i].setText("0 %");
             }
@@ -367,8 +440,30 @@ public class StatisticsTeam extends Activity {
                     opponent_zoneShots[i] += goalkeeper.getZoneAllShots(i + 1, j + 1);
                 }
 
+                int effectiveness = Math.round(opponent_zoneGoals[i] / (float) opponent_zoneShots[i] * 100);
+
+                if (effectiveness < 25){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
+                }
+
+                if (effectiveness < 50){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#ff9705"));
+                }
+
+                if (effectiveness < 75){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#fffcff00"));
+                }
+
+                if (effectiveness < 101){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#ff01ff00"));
+                }
+
                 if (opponent_zoneShots[i] !=0){
-                    zone_stats[i].setText(String.valueOf(Math.round(opponent_zoneGoals[i] / (float) opponent_zoneShots[i] * 100)) + "%");
+                    zone_stats[i].setText(String.valueOf(effectiveness) + "%");
                 }else{
                     zone_stats[i].setText("0 %");
                 }
@@ -389,8 +484,30 @@ public class StatisticsTeam extends Activity {
                 team_zoneGoals[i] += player.getZoneAllGoals(i + 1);
                 team_zoneShots[i] += player.getZoneAllShots(i + 1);
 
+                int effectiveness = Math.round(team_zoneGoals[i] / (float) team_zoneShots[i] * 100);
+
+                if (effectiveness < 25){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
+                }
+
+                if (effectiveness < 50){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#ff9705"));
+                }
+
+                if (effectiveness < 75){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#fffcff00"));
+                }
+
+                if (effectiveness < 101){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#ff01ff00"));
+                }
+
                 if (team_zoneShots[i] !=0){
-                    zone_stats[i].setText(String.valueOf(Math.round(team_zoneGoals[i] / (float) team_zoneShots[i] * 100)) + "%");
+                    zone_stats[i].setText(String.valueOf(effectiveness) + "%");
                 }else{
                     zone_stats[i].setText("0 %");
                 }
@@ -411,8 +528,30 @@ public class StatisticsTeam extends Activity {
                 team_zoneGoals[i] += player.getZoneAtkGoals(i + 1);
                 team_zoneShots[i] += player.getZoneAtkShots(i + 1);
 
+                int effectiveness = Math.round(team_zoneGoals[i] / (float) team_zoneShots[i] * 100);
+
+                if (effectiveness < 25){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
+                }
+
+                if (effectiveness < 50){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#ff9705"));
+                }
+
+                if (effectiveness < 75){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#fffcff00"));
+                }
+
+                if (effectiveness < 101){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#ff01ff00"));
+                }
+
                 if (team_zoneShots[i] !=0){
-                    zone_stats[i].setText(String.valueOf(Math.round(team_zoneGoals[i] / (float) team_zoneShots[i] * 100)) + "%");
+                    zone_stats[i].setText(String.valueOf(effectiveness) + "%");
                 }else{
                     zone_stats[i].setText("0 %");
                 }
@@ -433,8 +572,30 @@ public class StatisticsTeam extends Activity {
                 team_zoneGoals[i] += player.getZoneCAGoals(i + 1);
                 team_zoneShots[i] += player.getZoneCAShots(i + 1);
 
+                int effectiveness = Math.round(team_zoneGoals[i] / (float) team_zoneShots[i] * 100);
+
+                if (effectiveness < 25){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
+                }
+
+                if (effectiveness < 50){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#ff9705"));
+                }
+
+                if (effectiveness < 75){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#fffcff00"));
+                }
+
+                if (effectiveness < 101){
+
+                    zone_stats[i].setTextColor(Color.parseColor("#ff01ff00"));
+                }
+
                 if (team_zoneShots[i] !=0){
-                    zone_stats[i].setText(String.valueOf(Math.round(team_zoneGoals[i] / (float) team_zoneShots[i] * 100)) + "%");
+                    zone_stats[i].setText(String.valueOf(effectiveness) + "%");
                 }else{
                     zone_stats[i].setText("0 %");
                 }
