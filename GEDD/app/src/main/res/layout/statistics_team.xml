@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="Defesa"
                 android:id="@+id/def_filter"
+                android:onClick="defenseFilter"
                 android:layout_below="@+id/ca_filter"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
