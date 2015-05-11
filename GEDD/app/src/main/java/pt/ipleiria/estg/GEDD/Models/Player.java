@@ -19,6 +19,7 @@ public class Player implements Serializable{
     private boolean twoMinOut;
     private boolean yellowCard;
     private boolean redCard;
+    private int twoMinTimer;
 
     //teste
     private String lastAction;
@@ -72,7 +73,12 @@ public class Player implements Serializable{
     }
 
     public void setTwoMinOut() {
-        this.twoMinOut = true;
+        if(twoMinOut==true){
+            twoMinOut = false;
+        }else{
+            twoMinOut = true;
+        }
+
     }
 
     public boolean isYellowCard() {
@@ -367,5 +373,17 @@ public class Player implements Serializable{
     public void setPlaying(Boolean playing) {
         this.playing = playing;
         Log.i("setPlaying",String.valueOf(playing));
+    }
+
+    public int getTwoMinTimer() {
+        return twoMinTimer;
+    }
+
+    public void setTwoMinTimer(int twoMinTimer) {
+        this.twoMinTimer = twoMinTimer;
+    }
+
+    public void incrementTwoMinTimer() {
+        twoMinTimer++;
     }
 }

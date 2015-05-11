@@ -36,6 +36,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import android.os.Handler;
@@ -75,6 +76,7 @@ public class MainActivity extends CustomActionBarActivity {
     String opponentName = "";
     LinkedList<Player> players = new LinkedList<Player>();
     LinkedList<Goalkeeper> gks = new LinkedList<Goalkeeper>();
+    LinkedList<Player> players2min = new LinkedList<Player>();
     Game game;
     Goalkeeper goalkeeper1;
     TextView lbl_goalkeeper1;
@@ -82,6 +84,7 @@ public class MainActivity extends CustomActionBarActivity {
     Boolean existFile = false;
     Button btn_tf_adv;
     TextView lbl_opponent;
+    ImageButton btn_players[] = new ImageButton[6];
 
 
     private static final String TAG = "main activity";
@@ -230,7 +233,6 @@ public class MainActivity extends CustomActionBarActivity {
 
                 }
 
-                final ImageButton btn_players[] = new ImageButton[6];
                 int k = 1;
                 for (int i = 0; i < 6; i++) {
 
@@ -241,12 +243,14 @@ public class MainActivity extends CustomActionBarActivity {
 
 
                 for (int i = 0; i < 6; i++) {
-
-                    String numberShirt = "ic_shirt_" + Integer.toString((players.get(i).getNumber()));
-
+                    Player p = players.get(i);
+                    String numberShirt;
+                    numberShirt = "ic_shirt_" + Integer.toString((p.getNumber()));
                     Resources resources = getResources();
                     final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
                     btn_players[i].setImageResource(resourceId);
+                    p.setPlaying(true);
+
                 }
 
                 final View.OnTouchListener substitutionListener = new View.OnTouchListener() {
@@ -254,8 +258,12 @@ public class MainActivity extends CustomActionBarActivity {
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             Player player;
                             if ((player = getPlayerPressed(players, teamPlayer)) != null) {
-                                ImageButton btn_selectedPlayer = isChildrenImgButtonPressed(teamPlayer);
-                                showPopUpSubs(v, teamPlayer, player, btn_selectedPlayer);
+                                if(player.isTwoMinOut() || player.isRedCard()){
+                                    Toast.makeText(getBaseContext(), "Não é possivel substituir um jogador suspenso", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    ImageButton btn_selectedPlayer = isChildrenImgButtonPressed(teamPlayer);
+                                    showPopUpSubs(v, teamPlayer, player, btn_selectedPlayer);
+                                }
                             } else {
                                 Goalkeeper gk;
                                 if (isGoalkeeperPressed(teamPlayer)) {
@@ -658,6 +666,18 @@ public class MainActivity extends CustomActionBarActivity {
 
                         if (isStart) {
                             seconds++;
+                            for (Iterator<Player> iterator = players2min.iterator(); iterator.hasNext();) {
+                                Player p = iterator.next();
+                                p.incrementTwoMinTimer();
+                                if(p.getTwoMinTimer()==120){
+                                    iterator.remove();
+                                    p.setTwoMinTimer(0);
+                                    p.setTwoMinOut();
+                                    Toast.makeText(getApplicationContext(), "O jogador com o número "+p.getNumber()+" já não está suspenso.",
+                                            Toast.LENGTH_LONG).show();
+                                    refreshPlayerImage();
+                                }
+                            }
                             if (seconds == 60) {
                                 seconds = 0;
                                 minutes++;
@@ -761,7 +781,8 @@ public class MainActivity extends CustomActionBarActivity {
 
                     case R.id.btn_2min:
 
-                        player.setTwoMin();
+                        player.setTwoMinOut();
+                        players2min.add(player);
                         numberShirt = "ic_shirt_" + Integer.toString((player.getNumber())) + "_2min";
                         resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
                         btnPlayer.setImageResource(resourceId);
@@ -1205,8 +1226,12 @@ public class MainActivity extends CustomActionBarActivity {
                             //caso corresponda troca o valor da tag pelo numero do novo jogador
 
                             Log.i("Entra",btnPlayer.getTag().toString());
-
-                            String numberShirt = "ic_shirt_" + Integer.toString((playerIn.getNumber()));
+                            String numberShirt;
+                            if(playerIn.isYellowCard()) {
+                                numberShirt = "ic_shirt_" + Integer.toString((playerIn.getNumber())) + "_yellowcard";
+                            }else{
+                                numberShirt = "ic_shirt_" + Integer.toString((playerIn.getNumber()));
+                            }
 
                             Resources resources = getResources();
                             final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
@@ -1273,6 +1298,8 @@ public class MainActivity extends CustomActionBarActivity {
         game = new Game();
         players = new LinkedList<Player>();
         gks = new LinkedList<Goalkeeper>();
+        minutes = 0;
+        seconds = 0;
 
 
         if(jsonObj != null){
@@ -1329,6 +1356,8 @@ public class MainActivity extends CustomActionBarActivity {
                         lbl_scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
                         lbl_opponent.setText(game.getOpponent());
 
+                        refreshPlayerImage();
+
 
                         Log.i("loaded", "carreguei");
                         Toast.makeText(getApplicationContext(), "Jogo Carregado",
@@ -1381,6 +1410,33 @@ public class MainActivity extends CustomActionBarActivity {
     public void clickFtAdv(View v){
         game.setTechnicalFailAdv(game.getTechnicalFailAdv()+1);
         btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
+    }
+
+    private void refreshPlayerImage(){
+        Player p;
+        int j = 0;
+        for(int i = 0; i<players.size(); i++){
+
+            p = players.get(i);
+
+            if(p.getPlaying()) {
+
+                String numberShirt;
+                if (p.isYellowCard()) {
+                    numberShirt = "ic_shirt_" + Integer.toString((p.getNumber())) + "_yellowcard";
+                } else if (p.isTwoMinOut()) {
+                    numberShirt = "ic_shirt_" + Integer.toString((p.getNumber())) + "_2min";
+                    if(players2min.indexOf(p) == -1)
+                        players2min.add(p);
+                } else {
+                    numberShirt = "ic_shirt_" + Integer.toString((p.getNumber()));
+                }
+                Resources resources = getResources();
+                final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
+                btn_players[j].setImageResource(resourceId);
+                j++;
+            }
+        }
     }
 
 
