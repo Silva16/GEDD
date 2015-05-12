@@ -31,6 +31,19 @@ public class StatisticsTeam extends Activity {
     private LinkedList<Goalkeeper> gks;
     private Game game;
 
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 2) {
+            if(resultCode == RESULT_OK){
+
+            }
+            if (resultCode == RESULT_CANCELED) {
+                onResume();
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +101,15 @@ public class StatisticsTeam extends Activity {
             j++;
         }
 
+        final TextView zone_goals[] = new TextView[9];
+        int p = 1;
+        for (int i = 0; i < 9; i++) {
+
+            String id_txt = "zone" + p + "_goals";
+            zone_goals[i] = (TextView) findViewById(getResources().getIdentifier(id_txt, "id", getPackageName()));
+            p++;
+        }
+
         refreshAssistStatistics(assist_stats, players);
         refreshTecFailStatistics(ftec_stats, players);
         ftec_adv_stats.setText("Falhas Técnicas Advers. " + String.valueOf(game.getTechnicalFailAdv()));
@@ -141,7 +163,7 @@ public class StatisticsTeam extends Activity {
                         //if (v.getParent() == (RelativeLayout) teamPlayer) {
 
                         if (v.getId() == R.id.def_filter) {
-                            refreshDefensePlayerStatistics(zone_stats, gks);
+                            refreshDefensePlayerStatistics(zone_stats, zone_goals, gks);
 
                             for (int i = 0; i < players.size(); i++) {
                                 btn_players[i].setPressed(false);
@@ -155,13 +177,13 @@ public class StatisticsTeam extends Activity {
 
                                 switch (filter.getId()){
                                     case R.id.atk_ca_filter:
-                                        refreshAllAttackPlayerStatistics(zone_stats, tempPlayer);
+                                        refreshAllAttackPlayerStatistics(zone_stats, zone_goals, tempPlayer);
                                         return true;
                                     case R.id.ca_filter:
-                                        refreshCAPlayerStatistics(zone_stats, tempPlayer);
+                                        refreshCAPlayerStatistics(zone_stats, zone_goals, tempPlayer);
                                         return true;
                                     case R.id.atk_filter:
-                                        refreshAttackPlayerStatistics(zone_stats, tempPlayer);
+                                        refreshAttackPlayerStatistics(zone_stats, zone_goals, tempPlayer);
                                         return true;
                                 }
 
@@ -175,13 +197,13 @@ public class StatisticsTeam extends Activity {
 
                             switch (filter.getId()) {
                                 case R.id.atk_ca_filter:
-                                    refreshAllAttackStatistics(zone_stats, players);
+                                    refreshAllAttackStatistics(zone_stats, zone_goals, players);
                                     return true;
                                 case R.id.ca_filter:
-                                    refreshCAStatistics(zone_stats, players);
+                                    refreshCAStatistics(zone_stats, zone_goals, players);
                                     return true;
                                 case R.id.atk_filter:
-                                    refreshAttackStatistics(zone_stats, players);
+                                    refreshAttackStatistics(zone_stats, zone_goals, players);
                                     return true;
                             }
                         }
@@ -201,23 +223,18 @@ public class StatisticsTeam extends Activity {
 
                             switch (filter.getId()) {
                                 case R.id.atk_ca_filter:
-                                    refreshAllAttackStatistics(zone_stats, players);
+                                    refreshAllAttackStatistics(zone_stats, zone_goals, players);
                                     return true;
                                 case R.id.ca_filter:
-                                    refreshCAStatistics(zone_stats, players);
+                                    refreshCAStatistics(zone_stats, zone_goals, players);
                                     return true;
                                 case R.id.atk_filter:
-                                    refreshAttackStatistics(zone_stats, players);
+                                    refreshAttackStatistics(zone_stats, zone_goals, players);
                                     return true;
                                 default:
                                     return false;
                             }
                         }
-
-
-
-
-
                     }
                 }
                 return true;//Return true, so there will be no onClick-event
@@ -265,7 +282,6 @@ public class StatisticsTeam extends Activity {
             }
             public void onSwipeLeft() {
                 callIntentToStatisticsGK();
-                finish();
             }
         });
 
@@ -361,7 +377,7 @@ public class StatisticsTeam extends Activity {
         assist_stats.setText("Falhas Técnicas " + String.valueOf(tecFail));
     }
 
-    private void refreshAllAttackPlayerStatistics(TextView zone_stats[], Player player){
+    private void refreshAllAttackPlayerStatistics(TextView zone_stats[], TextView zone_goals[], Player player){
 
 
 
@@ -375,6 +391,8 @@ public class StatisticsTeam extends Activity {
                 zone_stats[i].setText("0 %");
             }
 
+            zone_goals[i].setText(player.getZoneAllGoals(i + 1) +  "/" + player.getZoneAllShots(i + 1));
+
             if (effectiveness < 25){
 
                 zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
@@ -392,7 +410,7 @@ public class StatisticsTeam extends Activity {
         }
     }
 
-    private void refreshAttackPlayerStatistics(TextView zone_stats[], Player player){
+    private void refreshAttackPlayerStatistics(TextView zone_stats[], TextView zone_goals[], Player player){
 
         for (int i = 0; i < 9; i++){
 
@@ -404,6 +422,8 @@ public class StatisticsTeam extends Activity {
                 zone_stats[i].setText("0 %");
             }
 
+            zone_goals[i].setText(player.getZoneAtkGoals(i + 1) +  "/" + player.getZoneAtkShots(i+1));
+
             if (effectiveness < 25){
 
                 zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
@@ -421,7 +441,7 @@ public class StatisticsTeam extends Activity {
         }
     }
 
-    private void refreshCAPlayerStatistics(TextView zone_stats[], Player player){
+    private void refreshCAPlayerStatistics(TextView zone_stats[], TextView zone_goals[], Player player){
 
         for (int i = 0; i < 9; i++){
 
@@ -433,6 +453,8 @@ public class StatisticsTeam extends Activity {
                 zone_stats[i].setText("0 %");
             }
 
+            zone_goals[i].setText((player.getZoneCAGoals(i + 1)) +  "/" + player.getZoneCAShots(i + 1));
+
             if (effectiveness < 25){
 
                 zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
@@ -449,7 +471,7 @@ public class StatisticsTeam extends Activity {
         }
     }
 
-    private void refreshDefensePlayerStatistics(TextView zone_stats[], LinkedList<Goalkeeper> gks){
+    private void refreshDefensePlayerStatistics(TextView zone_stats[], TextView zone_goals[], LinkedList<Goalkeeper> gks){
 
         int opponent_zoneGoals[] = new int[9];
         int opponent_zoneShots[] = new int[9];
@@ -469,6 +491,8 @@ public class StatisticsTeam extends Activity {
                     zone_stats[i].setText("0 %");
                 }
 
+                zone_goals[i].setText(opponent_zoneGoals[i] +  "/" + opponent_zoneShots[i]);
+
                 if (effectiveness < 25){
 
                     zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
@@ -487,7 +511,7 @@ public class StatisticsTeam extends Activity {
     }
 
 
-    private void refreshAllAttackStatistics(TextView zone_stats[], LinkedList<Player> players){
+    private void refreshAllAttackStatistics(TextView zone_stats[], TextView zone_goals[], LinkedList<Player> players){
 
         int team_zoneGoals[] = new int[9];
         int team_zoneShots[] = new int[9];
@@ -507,6 +531,8 @@ public class StatisticsTeam extends Activity {
                     zone_stats[i].setText("0 %");
                 }
 
+                zone_goals[i].setText(team_zoneGoals[i] +  "/" + team_zoneShots[i]);
+
                 if (effectiveness < 25){
 
                     zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
@@ -525,7 +551,7 @@ public class StatisticsTeam extends Activity {
         }
     }
 
-    private void refreshAttackStatistics(TextView zone_stats[], LinkedList<Player> players){
+    private void refreshAttackStatistics(TextView zone_stats[], TextView zone_goals[], LinkedList<Player> players){
 
         int team_zoneGoals[] = new int[9];
         int team_zoneShots[] = new int[9];
@@ -545,6 +571,8 @@ public class StatisticsTeam extends Activity {
                     zone_stats[i].setText("0 %");
                 }
 
+                zone_goals[i].setText(String.valueOf(team_zoneGoals[i]) +  "/" + String.valueOf(team_zoneShots[i]));
+
                 if (effectiveness < 25){
 
                     zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
@@ -563,7 +591,7 @@ public class StatisticsTeam extends Activity {
         }
     }
 
-    private void refreshCAStatistics(TextView zone_stats[], LinkedList<Player> players){
+    private void refreshCAStatistics(TextView zone_stats[], TextView zone_goals[], LinkedList<Player> players){
 
         int team_zoneGoals[] = new int[9];
         int team_zoneShots[] = new int[9];
@@ -583,6 +611,8 @@ public class StatisticsTeam extends Activity {
                     zone_stats[i].setText("0 %");
                 }
 
+                zone_goals[i].setText(team_zoneGoals[i] +  "/" + team_zoneShots[i]);
+
                 if (effectiveness < 25){
 
                     zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
@@ -601,16 +631,11 @@ public class StatisticsTeam extends Activity {
         }
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onResume()
+    {
+        super.onResume();
 
-        if (requestCode == 1) {
-            if(resultCode == RESULT_OK){
-
-            }
-            if (resultCode == RESULT_CANCELED) {
-                onResume();
-            }
-        }
     }
+
 
 }
