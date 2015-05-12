@@ -1087,7 +1087,7 @@ public class MainActivity extends CustomActionBarActivity {
         intent.putExtra("Game", game);
         intent.putExtra("Players", players);
         intent.putExtra("Goalkeepers", gks);
-        startActivity(intent);
+        startActivityForResult(intent, 2);
     }
     //ReadFile
 
@@ -1445,12 +1445,20 @@ public class MainActivity extends CustomActionBarActivity {
 
         if (requestCode == 1) {
             if(resultCode == RESULT_OK){
-
+                onResume();
             }
             if (resultCode == RESULT_CANCELED) {
                 onResume();
             }
         }
+    }
+
+    protected void onRestart(){
+        super.onRestart();
+    }
+
+    protected void onResume(){
+        super.onResume();
     }
 
 

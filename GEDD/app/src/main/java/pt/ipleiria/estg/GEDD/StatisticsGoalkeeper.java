@@ -109,7 +109,7 @@ public class StatisticsGoalkeeper extends Activity {
         statisticsGKLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             @Override
             public void onSwipeRight() {
-                callIntentToStatisticsTeam();
+               // callIntentToStatisticsTeam();
                 finish();
             }
         });

@@ -343,7 +343,8 @@
         android:layout_alignLeft="@+id/zone1_stats"
         android:layout_below="@+id/zone1_stats"
         android:gravity="center"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -375,7 +376,8 @@
         android:layout_alignRight="@+id/zone5_stats"
         android:layout_marginRight="120dp"
         android:layout_alignTop="@+id/zone2_stats"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_marginLeft="20dp" />
 
     <TextView
         android:layout_width="150dp"
@@ -419,7 +421,8 @@
         android:layout_marginTop="102dp"
         android:layout_alignLeft="@+id/zone3_stats"
         android:layout_alignRight="@+id/zone3_stats"
-        android:gravity="center" />
+        android:gravity="center"
+        android:background="#ffffa953" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -526,6 +529,23 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="7 Metros"
+        android:id="@+id/lbl_7meters"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="325dp"
+        android:layout_marginEnd="352dp"
+        android:layout_alignRight="@+id/zone7_stats"
+        android:layout_alignTop="@+id/zone7_stats"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="25dp"
+        android:elevation="0dp"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0/0"
         android:id="@+id/zone6_goals"
@@ -596,21 +616,6 @@
         android:layout_toRightOf="@+id/zone2_stats"
         android:gravity="center"
         android:layout_marginBottom="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="7 Metros"
-        android:id="@+id/lbl_7meters"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="325dp"
-        android:layout_marginEnd="352dp"
-        android:layout_alignRight="@+id/zone7_stats"
-        android:layout_alignTop="@+id/zone7_stats"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="25dp" />
 
     <TextView
         android:layout_width="wrap_content"
