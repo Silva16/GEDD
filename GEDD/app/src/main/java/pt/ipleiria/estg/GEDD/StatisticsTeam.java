@@ -27,8 +27,6 @@ import pt.ipleiria.estg.GEDD.Models.Player;
 
 public class StatisticsTeam extends Activity {
 
-
-    private Bundle extras;
     private LinkedList<Player> players;
     private LinkedList<Goalkeeper> gks;
     private Game game;
@@ -50,8 +48,6 @@ public class StatisticsTeam extends Activity {
         final TextView ftec_stats = (TextView) findViewById(R.id.ftec_stats);
         final TextView ftec_adv_stats = (TextView) findViewById(R.id.ftec_adv_stats);
 
-
-        extras = getIntent().getExtras();
         players = new LinkedList((List)(getIntent().getSerializableExtra("Players")));
         gks = new LinkedList((List)(getIntent().getSerializableExtra("Goalkeepers")));
         game = (Game) getIntent().getSerializableExtra("Game");
@@ -267,6 +263,10 @@ public class StatisticsTeam extends Activity {
                 callIntentToMain();
                 finish();
             }
+            public void onSwipeLeft() {
+                callIntentToStatisticsGK();
+                finish();
+            }
         });
 
     }
@@ -326,8 +326,15 @@ public class StatisticsTeam extends Activity {
 
     public void callIntentToMain(){
         Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        setResult(RESULT_CANCELED, intent);
         startActivity(intent);
+    }
+
+    public void callIntentToStatisticsGK(){
+        Intent intent = new Intent(this, StatisticsGoalkeeper.class);
+        intent.putExtra("Game", game);
+        intent.putExtra("Goalkeepers", gks);
+        startActivityForResult(intent, 2);
     }
 
     private void refreshAssistStatistics(TextView assist_stats, LinkedList<Player> players){
@@ -593,4 +600,17 @@ public class StatisticsTeam extends Activity {
             }
         }
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+
+            }
+            if (resultCode == RESULT_CANCELED) {
+                onResume();
+            }
+        }
+    }
+
 }

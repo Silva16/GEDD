@@ -3,7 +3,6 @@
     package="pt.ipleiria.estg.GEDD" >
 
     <application
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,13 +13,19 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="com.google.android.apps.drive.DRIVE_OPEN" />
+
                 <data android:mimeType="application/vnd.google-apps.drive-sdk.668943682556" />
                 <data android:mimeType="text/plain" />
-                <data android:mimeType="application/octet-stream"/>
+                <data android:mimeType="application/octet-stream" />
             </intent-filter>
-            <meta-data android:name="com.google.android.apps.drive.APP_ID" android:value="id=668943682556" />
+
+            <meta-data
+                android:name="com.google.android.apps.drive.APP_ID"
+                android:value="id=668943682556" />
         </activity>
         <activity
             android:name=".ConfigureTeamActivity"
@@ -35,16 +40,19 @@
         </activity>
         <activity
             android:name=".DriveActivity"
-            android:label="@string/title_activity_drive"
-            android:exported="true">
-
+            android:exported="true"
+            android:label="@string/title_activity_drive" >
         </activity>
 
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+        <activity
+            android:name=".StatisticsGoalkeeper"
+            android:label="@string/title_activity_statistics_goalkeeper"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
     </application>
-
-
 
 </manifest>
