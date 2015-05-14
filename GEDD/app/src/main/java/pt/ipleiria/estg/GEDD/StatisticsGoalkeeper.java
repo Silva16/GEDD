@@ -60,6 +60,15 @@ public class StatisticsGoalkeeper extends Activity {
             j++;
         }
 
+        final TextView zone_goals[] = new TextView[9];
+        int p = 1;
+        for (int i = 0; i < 9; i++) {
+
+            String id_txt = "zone" + p + "_goals";
+            zone_goals[i] = (TextView) findViewById(getResources().getIdentifier(id_txt, "id", getPackageName()));
+            p++;
+        }
+
         final ImageButton btn_gks[] = new ImageButton[2];
 
         btn_gks[0] = (ImageButton) findViewById(R.id.gk1_stats);
@@ -87,11 +96,11 @@ public class StatisticsGoalkeeper extends Activity {
                         v.setPressed(true);
 
                         if (v.getId() == R.id.gk1_stats) {
-                            refreshGKStatistics(zone_stats, gks.get(0));
+                            refreshGKStatistics(zone_stats, zone_goals, gks.get(0));
 
                         } else{
 
-                            refreshGKStatistics(zone_stats, gks.get(1));
+                            refreshGKStatistics(zone_stats, zone_goals, gks.get(1));
                         }
 
                     } else {
@@ -144,31 +153,48 @@ public class StatisticsGoalkeeper extends Activity {
         startActivity(intent);
     }
 
-    private void refreshGKStatistics(TextView zone_stats[], Goalkeeper goalkeeper){
+    private void refreshGKStatistics(TextView zone_stats[], TextView zone_goals[], Goalkeeper goalkeeper){
 
-        int opponent_zoneGoals[] = new int[9];
-        int opponent_zoneDefended[] = new int[9];
+        int opponent_Goals[] = new int[9];
+        int opponent_Missed[] = new int[9];
+        int effectiveness = 0;
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                opponent_zoneGoals[i] += goalkeeper.getZoneAllGoals(j + 1, i + 1);
-                opponent_zoneDefended[i] += goalkeeper.getZoneAllDefended(j + 1, i + 1);
+                opponent_Goals[i] += goalkeeper.getZoneAllGoals(j + 1, i + 1);
+                opponent_Missed[i] += goalkeeper.getZoneAllDefended(j + 1, i + 1);
             }
 
-            int effectiveness = 100 - Math.round(((opponent_zoneGoals[i] + (float) opponent_zoneDefended[i]) / 2) * 100);
-
+            if (opponent_Missed[i] != 0){
+                effectiveness = 100 - Math.round((opponent_Goals[i] / ((float) (opponent_Missed[i]) + opponent_Goals[i])) * 100);
                 zone_stats[i].setText(String.valueOf(effectiveness) + "%");
 
+                if (effectiveness < 25){
+                    zone_stats[i].setBackgroundColor(Color.parseColor("#cc0000"));
+                    zone_goals[i].setBackgroundColor(Color.parseColor("#cc0000"));
+                } else if (effectiveness < 50){
+                    zone_stats[i].setBackgroundColor(Color.parseColor("#ff9705"));
+                    zone_goals[i].setBackgroundColor(Color.parseColor("#ff9705"));
+                } else if (effectiveness < 75){
+                    zone_stats[i].setBackgroundColor(Color.parseColor("#fffcff00"));
+                    zone_goals[i].setBackgroundColor(Color.parseColor("#fffcff00"));
+                } else if (effectiveness < 101){
+                    zone_stats[i].setBackgroundColor(Color.parseColor("#ff01ff00"));
+                    zone_goals[i].setBackgroundColor(Color.parseColor("#ff01ff00"));
+                }
 
-            if (effectiveness < 25){
-                zone_stats[i].setBackgroundColor(Color.parseColor("#cc0000"));
-            } else if (effectiveness < 50){
-                zone_stats[i].setBackgroundColor(Color.parseColor("#ff9705"));
-            } else if (effectiveness < 75){
-                zone_stats[i].setBackgroundColor(Color.parseColor("#fffcff00"));
-            } else if (effectiveness < 101){
-                zone_stats[i].setBackgroundColor(Color.parseColor("#ff01ff00"));
+            } else {
+                zone_stats[i].setText("---");
+                zone_stats[i].setBackgroundColor(Color.parseColor("#616161"));
             }
+
+            zone_goals[i].setText(opponent_Goals[i] +  "/" + (opponent_Missed[i] + opponent_Goals[i]));
+
+
+
+
+
+
         }
     }
 }
