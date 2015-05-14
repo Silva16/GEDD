@@ -11,13 +11,13 @@
         android:id="@+id/zones">
 
         <TextView
-            android:layout_width="220dp"
-            android:layout_height="85dp"
+            android:layout_width="225dp"
+            android:layout_height="90dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Zona 1"
             android:id="@+id/zone1_stats"
-            android:layout_marginTop="43dp"
-            android:layout_marginLeft="163dp"
+            android:layout_marginTop="46dp"
+            android:layout_marginLeft="182dp"
             android:layout_marginStart="105dp"
             android:textColor="#000000"
             android:textSize="65dp"
@@ -29,7 +29,7 @@
 
         <TextView
             android:layout_width="220dp"
-            android:layout_height="85dp"
+            android:layout_height="90dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Zona 4"
             android:id="@+id/zone4_stats"
@@ -42,8 +42,8 @@
             android:layout_marginRight="15dp" />
 
         <TextView
-            android:layout_width="220dp"
-            android:layout_height="85dp"
+            android:layout_width="221dp"
+            android:layout_height="90dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Zona 3"
             android:id="@+id/zone3_stats"
@@ -55,8 +55,8 @@
             android:layout_toEndOf="@+id/zone2_stats" />
 
         <TextView
-            android:layout_width="220dp"
-            android:layout_height="85dp"
+            android:layout_width="221dp"
+            android:layout_height="90dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Zona 2"
             android:id="@+id/zone2_stats"
@@ -70,7 +70,7 @@
 
         <TextView
             android:layout_width="220dp"
-            android:layout_height="85dp"
+            android:layout_height="90dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Zona 7"
             android:id="@+id/zone7_stats"
@@ -84,7 +84,7 @@
 
         <TextView
             android:layout_width="220dp"
-            android:layout_height="85dp"
+            android:layout_height="90dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Zona 8"
             android:id="@+id/zone8_stats"
@@ -98,7 +98,7 @@
 
         <TextView
             android:layout_width="220dp"
-            android:layout_height="85dp"
+            android:layout_height="90dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Zona 5"
             android:id="@+id/zone5_stats"
@@ -112,7 +112,7 @@
 
         <TextView
             android:layout_width="220dp"
-            android:layout_height="85dp"
+            android:layout_height="90dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Zona 6"
             android:id="@+id/zone6_stats"
@@ -125,7 +125,7 @@
 
         <TextView
             android:layout_width="220dp"
-            android:layout_height="85dp"
+            android:layout_height="90dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Zona 9"
             android:id="@+id/zone9_stats"

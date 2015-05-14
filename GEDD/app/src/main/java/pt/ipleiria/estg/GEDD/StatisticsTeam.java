@@ -385,14 +385,17 @@ public class StatisticsTeam extends Activity {
 
             if (player.getZoneAllShots(i + 1) !=0){
                 zone_stats[i].setText(String.valueOf(effectiveness) + "%");
+                setColor(zone_stats[i], zone_goals[i], effectiveness);
             }else{
                 zone_stats[i].setText("---");
                 zone_stats[i].setBackgroundColor(Color.parseColor("#616161"));
+                zone_stats[i].setTextColor(Color.parseColor("#000000"));
+                zone_goals[i].setBackgroundColor(Color.parseColor("#616161"));
             }
 
             zone_goals[i].setText(player.getZoneAllGoals(i + 1) +  "/" + player.getZoneAllShots(i + 1));
 
-            setColor(zone_stats[i], zone_goals[i], effectiveness);
+
 
 
 
@@ -408,14 +411,17 @@ public class StatisticsTeam extends Activity {
 
             if (player.getZoneAtkShots(i + 1) !=0){
                 zone_stats[i].setText(String.valueOf(effectiveness)+ "%");
+                setColor(zone_stats[i], zone_goals[i], effectiveness);
             }else{
                 zone_stats[i].setText("---");
                 zone_stats[i].setBackgroundColor(Color.parseColor("#616161"));
+                zone_stats[i].setTextColor(Color.parseColor("#000000"));
+                zone_goals[i].setBackgroundColor(Color.parseColor("#616161"));
             }
 
             zone_goals[i].setText(player.getZoneAtkGoals(i + 1) +  "/" + player.getZoneAtkShots(i+1));
 
-            setColor(zone_stats[i], zone_goals[i], effectiveness);
+
 
         }
     }
@@ -428,14 +434,17 @@ public class StatisticsTeam extends Activity {
 
             if (player.getZoneCAShots(i + 1) !=0){
                 zone_stats[i].setText(String.valueOf(effectiveness)+ "%");
+                setColor(zone_stats[i], zone_goals[i], effectiveness);
             }else{
                 zone_stats[i].setText("---");
                 zone_stats[i].setBackgroundColor(Color.parseColor("#616161"));
+                zone_stats[i].setTextColor(Color.parseColor("#000000"));
+                zone_goals[i].setBackgroundColor(Color.parseColor("#616161"));
             }
 
             zone_goals[i].setText((player.getZoneCAGoals(i + 1)) +  "/" + player.getZoneCAShots(i + 1));
 
-            setColor(zone_stats[i], zone_goals[i], effectiveness);
+
         }
     }
 
@@ -455,14 +464,17 @@ public class StatisticsTeam extends Activity {
 
                 if (opponent_zoneShots[i] !=0){
                     zone_stats[i].setText(String.valueOf(effectiveness) + "%");
+                    setColor(zone_stats[i], zone_goals[i], effectiveness);
                 }else{
                     zone_stats[i].setText("---");
                     zone_stats[i].setBackgroundColor(Color.parseColor("#616161"));
+                    zone_stats[i].setTextColor(Color.parseColor("#000000"));
+                    zone_goals[i].setBackgroundColor(Color.parseColor("#616161"));
                 }
 
                 zone_goals[i].setText(opponent_zoneGoals[i] +  "/" + opponent_zoneShots[i]);
 
-                setColor(zone_stats[i], zone_goals[i], effectiveness);
+
             }
         }
     }
@@ -484,14 +496,17 @@ public class StatisticsTeam extends Activity {
 
                 if (team_zoneShots[i] !=0){
                     zone_stats[i].setText(String.valueOf(effectiveness) + "%");
+                    setColor(zone_stats[i], zone_goals[i], effectiveness);
                 }else{
                     zone_stats[i].setText("---");
                     zone_stats[i].setBackgroundColor(Color.parseColor("#616161"));
+                    zone_stats[i].setTextColor(Color.parseColor("#000000"));
+                    zone_goals[i].setBackgroundColor(Color.parseColor("#616161"));
                 }
 
                 zone_goals[i].setText(team_zoneGoals[i] +  "/" + team_zoneShots[i]);
 
-                setColor(zone_stats[i], zone_goals[i], effectiveness);
+
 
             }
         }
@@ -513,14 +528,17 @@ public class StatisticsTeam extends Activity {
 
                 if (team_zoneShots[i] !=0){
                     zone_stats[i].setText(String.valueOf(effectiveness) + "%");
+                    setColor(zone_stats[i], zone_goals[i], effectiveness);
                 }else{
                     zone_stats[i].setText("---");
                     zone_stats[i].setBackgroundColor(Color.parseColor("#616161"));
+                    zone_stats[i].setTextColor(Color.parseColor("#000000"));
+                    zone_goals[i].setBackgroundColor(Color.parseColor("#616161"));
                 }
 
                 zone_goals[i].setText(String.valueOf(team_zoneGoals[i]) +  "/" + String.valueOf(team_zoneShots[i]));
 
-                setColor(zone_stats[i], zone_goals[i], effectiveness);
+
 
             }
         }
@@ -542,14 +560,17 @@ public class StatisticsTeam extends Activity {
 
                 if (team_zoneShots[i] !=0){
                     zone_stats[i].setText(String.valueOf(effectiveness) + "%");
+                    setColor(zone_stats[i], zone_goals[i], effectiveness);
                 }else{
                     zone_stats[i].setText("---");
                     zone_stats[i].setBackgroundColor(Color.parseColor("#616161"));
+                    zone_stats[i].setTextColor(Color.parseColor("#000000"));
+                    zone_goals[i].setBackgroundColor(Color.parseColor("#616161"));
                 }
 
                 zone_goals[i].setText(team_zoneGoals[i] +  "/" + team_zoneShots[i]);
 
-                setColor(zone_stats[i], zone_goals[i], effectiveness);
+
 
             }
         }

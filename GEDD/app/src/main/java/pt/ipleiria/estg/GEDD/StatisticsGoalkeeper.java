@@ -189,6 +189,7 @@ public class StatisticsGoalkeeper extends Activity {
             }
 
             zone_goals[i].setText(opponent_Goals[i] +  "/" + (opponent_Missed[i] + opponent_Goals[i]));
+            zone_goals[i].setBackgroundColor(Color.parseColor("#616161"));
 
 
 
