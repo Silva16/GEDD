@@ -53,4 +53,8 @@ public class Goalkeeper extends Player {
     public int getZoneAllGoals(int zone, int baliza){
         return goal[zone-1][baliza - 1];
     }
+
+    public int getZoneAllDefended(int zone, int baliza){
+        return defended[zone-1][baliza - 1];
+    }
 }

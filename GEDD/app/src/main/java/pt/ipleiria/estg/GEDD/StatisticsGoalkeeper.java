@@ -147,15 +147,15 @@ public class StatisticsGoalkeeper extends Activity {
     private void refreshGKStatistics(TextView zone_stats[], Goalkeeper goalkeeper){
 
         int opponent_zoneGoals[] = new int[9];
-        int opponent_zoneShots[] = new int[9];
+        int opponent_zoneDefended[] = new int[9];
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 opponent_zoneGoals[i] += goalkeeper.getZoneAllGoals(j + 1, i + 1);
-                opponent_zoneShots[i] += goalkeeper.getZoneAllShots(j + 1, i + 1);
+                opponent_zoneDefended[i] += goalkeeper.getZoneAllDefended(j + 1, i + 1);
             }
 
-            int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / (float) opponent_zoneShots[i] * 100);
+            int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / (float) opponent_zoneDefended[i] * 100);
 
                 zone_stats[i].setText(String.valueOf(effectiveness) + "%");
 
