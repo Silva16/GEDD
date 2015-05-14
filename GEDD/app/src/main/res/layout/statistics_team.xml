@@ -313,7 +313,7 @@
     </RelativeLayout>
 
     <TextView
-        android:layout_width="150dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z1"
@@ -321,7 +321,7 @@
         android:layout_marginLeft="160dp"
         android:layout_marginStart="98dp"
         android:layout_marginTop="90dp"
-        android:textSize="61dp"
+        android:textSize="50dp"
         android:textColor="#ff007cff"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -330,29 +330,29 @@
         android:gravity="center" />
 
     <TextView
-        android:layout_width="150dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z2"
         android:id="@+id/zone2_stats"
         android:layout_marginLeft="120dp"
         android:layout_marginStart="186dp"
-        android:textSize="61dp"
+        android:textSize="50dp"
         android:textColor="#ff007cff"
         android:layout_toEndOf="@+id/player3_stats"
         android:layout_alignLeft="@+id/zone1_stats"
         android:layout_below="@+id/zone1_stats"
         android:gravity="center"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="25dp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z3"
         android:id="@+id/zone3_stats"
-        android:textSize="61dp"
+        android:textSize="50dp"
         android:textColor="#ff007cff"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="false"
@@ -362,15 +362,17 @@
         android:layout_toRightOf="@+id/zone2_stats"
         android:layout_toLeftOf="@+id/zone4_stats"
         android:gravity="center"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="true"
+        android:layout_marginRight="38dp"
+        android:layout_marginLeft="38dp" />
 
     <TextView
-        android:layout_width="150dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z4"
         android:id="@+id/zone4_stats"
-        android:textSize="61dp"
+        android:textSize="50dp"
         android:textColor="#ff007cff"
         android:layout_below="@+id/zone5_stats"
         android:layout_alignRight="@+id/zone5_stats"
@@ -395,12 +397,12 @@
         android:layout_marginTop="-15dp" />
 
     <TextView
-        android:layout_width="150dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z5"
         android:id="@+id/zone5_stats"
-        android:textSize="61dp"
+        android:textSize="50dp"
         android:textColor="#ff007cff"
         android:layout_marginRight="90dp"
         android:layout_marginEnd="93dp"
@@ -411,19 +413,19 @@
         android:gravity="center" />
 
     <TextView
-        android:layout_width="150dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z6"
         android:id="@+id/zone6_stats"
-        android:textSize="61dp"
+        android:textSize="50dp"
         android:textColor="#ff007cff"
         android:layout_alignParentBottom="false"
         android:layout_alignLeft="@+id/zone1_stats"
         android:gravity="center"
         android:layout_marginBottom="-15dp"
         android:layout_below="@+id/zone1_goals"
-        android:layout_marginTop="220dp" />
+        android:layout_marginTop="235dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -431,10 +433,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z7"
         android:id="@+id/zone7_stats"
-        android:textSize="61dp"
+        android:textSize="50dp"
         android:textColor="#ff007cff"
         android:layout_alignTop="@+id/zone3_stats"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="90dp"
         android:layout_alignLeft="@+id/zone3_stats"
         android:layout_alignRight="@+id/zone3_stats"
         android:gravity="center" />
@@ -445,7 +447,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z8"
         android:id="@+id/zone8_stats"
-        android:textSize="61dp"
+        android:textSize="50dp"
         android:textColor="#ff007cff"
         android:layout_alignBottom="@+id/zone6_stats"
         android:layout_alignStart="@+id/zone3_stats"
@@ -454,12 +456,12 @@
         android:layout_alignRight="@+id/zone3_stats" />
 
     <TextView
-        android:layout_width="150dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z9"
         android:id="@+id/zone9_stats"
-        android:textSize="61dp"
+        android:textSize="50dp"
         android:textColor="#ff007cff"
         android:layout_alignParentBottom="false"
         android:layout_toEndOf="@+id/zone5_stats"
@@ -549,7 +551,7 @@
         android:id="@+id/lbl_7meters"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="300dp"
+        android:layout_marginRight="315dp"
         android:layout_marginEnd="352dp"
         android:layout_alignRight="@+id/zone7_stats"
         android:layout_alignTop="@+id/zone7_stats"
@@ -612,8 +614,9 @@
         android:layout_toEndOf="@+id/zone2_stats"
         android:layout_alignRight="@+id/zone3_stats"
         android:layout_above="@+id/zone3_stats"
-        android:layout_toRightOf="@+id/zone2_stats"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_alignLeft="@+id/zone3_stats"
+        android:layout_alignStart="@+id/zone3_stats" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -628,6 +631,6 @@
         android:layout_toStartOf="@+id/lbl_7meters"
         android:layout_alignRight="@+id/zone7_stats"
         android:layout_alignEnd="@+id/zone7_stats"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="30dp" />
 
 </RelativeLayout>
