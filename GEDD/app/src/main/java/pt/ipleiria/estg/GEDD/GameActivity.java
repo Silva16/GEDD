@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,8 +31,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 import android.os.Handler;
 
@@ -60,6 +65,7 @@ public class GameActivity extends CustomActionBarActivity {
     Button btn_tf_adv;
     TextView lbl_opponent;
     ImageButton btn_players[] = new ImageButton[6];
+    ArrayList<Game> games = new ArrayList<Game>();
 
 
     private static final String TAG = "main activity";
@@ -694,6 +700,9 @@ public class GameActivity extends CustomActionBarActivity {
     @Override
     protected void onDestroy(){
         String filename = "game-gedd.ser";
+        ArrayList<Game> games = new ArrayList<Game>() ;
+
+        games.add(game);
 
         // save the object to file
         FileOutputStream fos = null;
@@ -705,7 +714,7 @@ public class GameActivity extends CustomActionBarActivity {
             Log.i("onDestroy","2");
             out = new ObjectOutputStream(fos);
             Log.i("onDestroy","3");
-            out.writeObject(game);
+            out.writeObject(games);
             Log.i("onDestroy","4");
 
             out.close();
@@ -1271,9 +1280,10 @@ public class GameActivity extends CustomActionBarActivity {
             try {
                 fis = new FileInputStream(getApplicationContext().getFilesDir().getPath().toString()+"game-gedd.ser");
                 in = new ObjectInputStream(fis);
-                game = (Game) in.readObject();
+                games = (ArrayList<Game>) in.readObject();
                 in.close();
                 Log.i("read True","Consegui Ler");
+                game = games.get(0);
                 return game;
             } catch (Exception ex) {
                 ex.printStackTrace();
