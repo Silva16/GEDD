@@ -420,8 +420,7 @@
         android:layout_marginTop="102dp"
         android:layout_alignLeft="@+id/zone3_stats"
         android:layout_alignRight="@+id/zone3_stats"
-        android:gravity="center"
-        android:background="#ffffa953" />
+        android:gravity="center" />
 
     <TextView
         android:layout_width="wrap_content"

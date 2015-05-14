@@ -155,19 +155,17 @@ public class StatisticsGoalkeeper extends Activity {
                 opponent_zoneDefended[i] += goalkeeper.getZoneAllDefended(j + 1, i + 1);
             }
 
-            int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / (float) opponent_zoneDefended[i] * 100);
+            int effectiveness = 100 - Math.round(((opponent_zoneGoals[i] + (float) opponent_zoneDefended[i]) / 2) * 100);
 
                 zone_stats[i].setText(String.valueOf(effectiveness) + "%");
 
 
             if (effectiveness < 25){
-                zone_stats[i].setTextColor(Color.parseColor("#cc0000"));
+                zone_stats[i].setBackgroundColor(Color.parseColor("#cc0000"));
             } else if (effectiveness < 50){
-                zone_stats[i].setTextColor(Color.parseColor("#ff9705"));
+                zone_stats[i].setBackgroundColor(Color.parseColor("#ff9705"));
             } else if (effectiveness < 75){
-                zone_stats[i].setTextColor(Color.parseColor("#fffcff00"));
             } else if (effectiveness < 101){
-                zone_stats[i].setTextColor(Color.parseColor("#ff01ff00"));
             }
         }
     }
