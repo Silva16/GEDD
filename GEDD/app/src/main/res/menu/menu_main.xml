@@ -1,24 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item
-        android:id="@+id/new_game"
-        android:title="Criar Jogo"
-        android:orderInCategory="100"
-        app:showAsAction="never"
-        android:onClick="newGame"/>
-    <item
-        android:id="@+id/team_settings"
-        android:title="Configurar Equipa"
-        android:orderInCategory="200"
-        app:showAsAction="never"
-        android:onClick="configureTeam"/>
-
-    <item
-        android:id="@+id/start_drive"
-        android:title="Start Drive Activity"
-        android:orderInCategory="200"
-        app:showAsAction="never"
-        android:onClick="startDrive"/>
-
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="pt.ipleiria.estg.GEDD.MainActivity">
+    <item android:id="@+id/new_game" android:title="@string/new_game"
+        android:orderInCategory="100" app:showAsAction="never" />
 </menu>

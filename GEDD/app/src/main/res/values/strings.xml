@@ -11,5 +11,7 @@
     <string name="title_activity_statistics_team">StatisticsTeam</string>
     <string name="title_activity_drive">DriveActivity</string>
     <string name="title_activity_statistics_goalkeeper">StatisticsGoalkeeper</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="new_game">Novo Jogo</string>
 
 </resources>

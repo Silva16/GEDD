@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -340,7 +339,7 @@ public class StatisticsTeam extends Activity {
 
 
     public void callIntentToMain(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, GameActivity.class);
         setResult(RESULT_CANCELED, intent);
         startActivity(intent);
     }
