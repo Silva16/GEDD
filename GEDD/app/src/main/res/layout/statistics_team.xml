@@ -343,7 +343,6 @@
         android:layout_alignLeft="@+id/zone1_stats"
         android:layout_below="@+id/zone1_stats"
         android:gravity="center"
-        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp" />
 
     <TextView
@@ -614,7 +613,8 @@
         android:layout_alignRight="@+id/zone3_stats"
         android:layout_above="@+id/zone3_stats"
         android:layout_toRightOf="@+id/zone2_stats"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_marginBottom="-10dp" />
 
     <TextView
         android:layout_width="wrap_content"
