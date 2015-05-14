@@ -165,7 +165,9 @@ public class StatisticsGoalkeeper extends Activity {
             } else if (effectiveness < 50){
                 zone_stats[i].setBackgroundColor(Color.parseColor("#ff9705"));
             } else if (effectiveness < 75){
+                zone_stats[i].setBackgroundColor(Color.parseColor("#fffcff00"));
             } else if (effectiveness < 101){
+                zone_stats[i].setBackgroundColor(Color.parseColor("#ff01ff00"));
             }
         }
     }
