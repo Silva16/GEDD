@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 
 /**
@@ -13,7 +14,8 @@ import android.view.LayoutInflater;
 public class NewGameDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        ContextThemeWrapper context = new ContextThemeWrapper(getActivity(), android.R.style.Theme_Holo_Dialog_NoActionBar);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 

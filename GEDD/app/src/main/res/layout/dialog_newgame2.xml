@@ -6,19 +6,22 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Minha Equipa"
-            android:id="@+id/myTeamDialog" />
+            android:text="Minha Equipa: "
+            android:id="@+id/myTeamDialog"
+            android:layout_marginLeft="10dp" />
 
         <EditText
-            android:layout_width="236dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:id="@+id/myTeamEditTextDialog" />
+            android:id="@+id/myTeamEditTextDialog"
+            android:layout_marginRight="10dp" />
 
     </LinearLayout>
 
@@ -31,13 +34,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Equipa Adversária"
-            android:id="@+id/advTeamDialog" />
+            android:text="Equipa Adversária: "
+            android:id="@+id/advTeamDialog"
+            android:layout_marginLeft="10dp" />
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="197dp"
             android:layout_height="wrap_content"
-            android:id="@+id/advTeamEditTextDialog" />
+            android:id="@+id/advTeamEditTextDialog"
+            android:layout_marginRight="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -49,92 +54,61 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Local"
-            android:id="@+id/localDialog" />
+            android:text="Local: "
+            android:id="@+id/localDialog"
+            android:layout_marginLeft="10dp" />
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="318dp"
             android:layout_height="wrap_content"
-            android:id="@+id/localEditTextDialog" />
+            android:id="@+id/localEditTextDialog"
+            android:layout_marginRight="10dp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:weightSum="1">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Data"
-            android:id="@+id/dateDialog" />
+            android:text="Data : "
+            android:id="@+id/dateDialog"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical" />
 
-        <EditText
+        <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
-            android:layout_weight="0.27" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="/"
-            android:id="@+id/textView15" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText5"
-            android:layout_weight="0.27" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="/"
-            android:id="@+id/textView16" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText6"
-            android:layout_weight="0.31" />
+            android:id="@+id/datePicker"
+            android:calendarViewShown="false" />
 
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Hora"
-            android:id="@+id/textView17" />
+            android:text="Hora: "
+            android:id="@+id/textView17"
+            android:gravity="center_vertical" />
 
-        <EditText
+        <TimePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editText7"
-            android:layout_weight="0.03" />
+            android:id="@+id/timePicker"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text=":"
-            android:id="@+id/textView17" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText7"
-            android:layout_weight="0.03" />
     </LinearLayout>
+
 </LinearLayout>

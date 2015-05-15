@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TimePicker;
 
 import pt.ipleiria.estg.GEDD.R;
 
@@ -38,12 +39,18 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.new_game) {
 
+
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             // Get the layout inflater
             LayoutInflater inflater = this.getLayoutInflater();
 
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout
+
+
+            builder.setTitle("Novo Jogo");
+
             builder.setView(inflater.inflate(R.layout.dialog_newgame2, null))
                     // Add action buttons
                     .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
@@ -61,6 +68,7 @@ public class MainActivity extends ActionBarActivity {
                     });
 
             builder.create();
+
 
             builder.show();
 
