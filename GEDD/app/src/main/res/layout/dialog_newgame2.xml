@@ -3,11 +3,12 @@
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="460dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:weightSum="1">
 
         <TextView
             android:layout_width="wrap_content"
@@ -15,20 +16,28 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Minha Equipa: "
             android:id="@+id/myTeamDialog"
-            android:layout_marginLeft="10dp" />
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/myTeamEditTextDialog"
+            android:layout_toStartOf="@+id/myTeamEditTextDialog" />
 
         <EditText
-            android:layout_width="240dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:id="@+id/myTeamEditTextDialog"
+            android:layout_gravity="right"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginRight="10dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="460dp"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,18 +45,25 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Equipa Adversária: "
             android:id="@+id/advTeamDialog"
-            android:layout_marginLeft="10dp" />
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/advTeamEditTextDialog"
+            android:layout_toStartOf="@+id/advTeamEditTextDialog" />
 
         <EditText
-            android:layout_width="197dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:id="@+id/advTeamEditTextDialog"
+            android:gravity="center"
+            android:layout_weight="9.05"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginRight="10dp" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="460dp"
         android:layout_height="fill_parent">
 
         <TextView
@@ -56,59 +72,78 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Local: "
             android:id="@+id/localDialog"
-            android:layout_marginLeft="10dp" />
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/localEditTextDialog"
+            android:layout_toStartOf="@+id/localEditTextDialog" />
 
         <EditText
-            android:layout_width="318dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:id="@+id/localEditTextDialog"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="460dp"
         android:layout_height="wrap_content"
         android:weightSum="1">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Data : "
             android:id="@+id/dateDialog"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:layout_toLeftOf="@+id/datePicker"
+            android:layout_marginRight="2dp"
+            android:layout_centerVertical="true" />
 
         <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/datePicker"
-            android:calendarViewShown="false" />
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_marginLeft="10dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Hora: "
+            android:text="Hora : "
             android:id="@+id/textView17"
-            android:gravity="center_vertical" />
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="130dp" />
 
         <TimePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/timePicker"/>
+            android:id="@+id/timePicker"
+            android:timePickerMode="spinner"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/textView17"
+            android:layout_toEndOf="@+id/textView17" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

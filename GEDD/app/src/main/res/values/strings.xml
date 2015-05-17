@@ -13,7 +13,9 @@
     <string name="title_activity_statistics_goalkeeper">StatisticsGoalkeeper</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="new_game">Novo Jogo</string>
+    <string name="edit_game">Editar Jogo</string>
     <string name="confirm">Confirmar</string>
     <string name="cancel">Cancelar</string>
+    <string name="configure_team">Configurar Equipa</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.GEDD;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +10,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import pt.ipleiria.estg.GEDD.R;
 
@@ -56,9 +62,7 @@ public class MainActivity extends ActionBarActivity {
                     .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                            intent.putExtra("type", "new");
-                            startActivity(intent);
+
                         }
                     })
                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -67,14 +71,67 @@ public class MainActivity extends ActionBarActivity {
                         }
                     });
 
-            builder.create();
 
 
-            builder.show();
+
+            AlertDialog dialog = builder.create();
+
+
+
+
+
+            dialog.show();
+
+            TimePicker tpHourMin = (TimePicker) dialog.findViewById(R.id.timePicker);
+            tpHourMin.setIs24HourView(true);
+
+            DatePicker datePicker = (DatePicker) dialog.findViewById(R.id.datePicker);
+            datePicker.setMinDate(System.currentTimeMillis() - 1000);
+
+            Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new NewGameListener(dialog));
+
+
 
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class NewGameListener implements View.OnClickListener {
+        private final Dialog dialog;
+        public NewGameListener(Dialog dialog) {
+            this.dialog = dialog;
+        }
+        @Override
+        public void onClick(View v) {
+            // put your code here
+            EditText myTeam = (EditText) dialog.findViewById(R.id.myTeamEditTextDialog);
+            EditText advTeam = (EditText) dialog.findViewById(R.id.advTeamEditTextDialog);
+            EditText local = (EditText) dialog.findViewById(R.id.myTeamEditTextDialog);
+            DatePicker datePicker = (DatePicker) dialog.findViewById(R.id.datePicker);
+            TimePicker timePicker =(TimePicker) dialog.findViewById(R.id.timePicker);
+
+            String myTeamString = myTeam.getText().toString();
+            String advTeamString = advTeam.getText().toString();
+            String localString = local.getText().toString();
+            if(!myTeamString.isEmpty() || !advTeamString.isEmpty() || !localString.isEmpty()){
+                Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                intent.putExtra("type", "new");
+                intent.putExtra("myTeam",myTeam.getText().toString());
+                intent.putExtra("advTeam",advTeam.getText().toString());
+                intent.putExtra("local",local.getText().toString());
+                intent.putExtra("hour", timePicker.getCurrentHour());
+                intent.putExtra("minute", timePicker.getCurrentMinute());
+                intent.putExtra("day",datePicker.getDayOfMonth());
+                intent.putExtra("month",datePicker.getMonth());
+                intent.putExtra("year",datePicker.getYear());
+                startActivity(intent);
+                dialog.dismiss();
+            }else{
+                Toast.makeText(MainActivity.this, "Os campos tem de estar preenchidos", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,21 +15,27 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import pt.ipleiria.estg.GEDD.Models.Game;
 import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
 import pt.ipleiria.estg.GEDD.Models.Player;
 
 public class ConfigureTeamActivity extends ActionBarActivity {
 
-    TableLayout table;
+    private TableLayout table;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,47 +44,18 @@ public class ConfigureTeamActivity extends ActionBarActivity {
         table = (TableLayout) findViewById(R.id.table_team);
 
         //CARREGAR DADOS CASO EXISTAM
-        JsonUtil jsonUtil = new JsonUtil();
-        JSONObject jsonObject = jsonUtil.readFile(getApplicationContext());
-        if(jsonObject!=null) {
-            LinkedList<Player> players = jsonUtil.getPlayersList(jsonObject);
-            LinkedList<Goalkeeper> gks = jsonUtil.getGKList(jsonObject);
-
-            int counter = 0;
-            int counterGK = 0;
-            for (int i = 0, j = table.getChildCount(); i < j; i++) {
-                View view2 = table.getChildAt(i);
-                if (view2 instanceof TableRow) {
-
-                    TableRow row = (TableRow) view2;
-                    if(row.getChildAt(1) instanceof EditText) {
-                        EditText name = (EditText) row.getChildAt(1);
-                        EditText number = (EditText) row.getChildAt(2);
-                        if(counter == 6 && counterGK < gks.size()){
-
-                                name.setText(gks.get(counterGK).getName());
-                                number.setText(Integer.toString(gks.get(counterGK).getNumber()));
-
-                                counterGK++;
+        LinkedList<Player> players = new LinkedList<>();
+        LinkedList<Goalkeeper> gks = new LinkedList<>();
 
 
-                        }else{
-                            if (counter < players.size()) {
-
-                                name.setText(players.get(counter).getName());
-                                number.setText(Integer.toString(players.get(counter).getNumber()));
-
-                                counter++;
-                            }
-
-                        }
+            players = new LinkedList((List) (getIntent().getSerializableExtra("Players")));
+            gks = new LinkedList((List) (getIntent().getSerializableExtra("Goalkeepers")));
 
 
-                    }
-
-
-                }
-            }
+        if(players != null && gks != null){
+            fillTable(players, gks);
+        }else if((players = getPlayers())!= null && (gks = getGoalkeepers()) != null) {
+            fillTable(players, gks);
         }
 
 
@@ -114,8 +92,8 @@ public class ConfigureTeamActivity extends ActionBarActivity {
 
         EditText number;
         EditText name;
-        ArrayList<Player> players = new ArrayList<Player>();
-        ArrayList<Goalkeeper> gks = new ArrayList<Goalkeeper>();
+        LinkedList<Player> players = new LinkedList<Player>();
+        LinkedList<Goalkeeper> gks = new LinkedList<Goalkeeper>();
         for(int i = 0, j = table.getChildCount(); i < j; i++) {
 
             View view2 = table.getChildAt(i);
@@ -138,21 +116,45 @@ public class ConfigureTeamActivity extends ActionBarActivity {
 
         }
 
-        String file = JsonUtil.playerToJSon(players,gks);
-
 
         FileOutputStream fos = null;
+        ObjectOutputStream out = null;
+
         try {
-            fos = openFileOutput("GEDDData2", Context.MODE_PRIVATE);
-            fos.write(file.getBytes());
+            // save the object to file
+
+            Log.i("onDestroy", "Entrei no on destroy");
+            Log.i("players","1");
+            fos = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString()+"GEDD-Players-Data");
+            Log.i("players", "2");
+            out = new ObjectOutputStream(fos);
+            Log.i("players","3");
+            out.writeObject(players);
+            Log.i("players","4");
+
+            fos.close();
+            out.close();
+
+            Log.i("gks","1");
+            fos = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString()+"GEDD-Goalkeepers-Data");
+            Log.i("gks", "2");
+            out = new ObjectOutputStream(fos);
+            Log.i("gks","3");
+            out.writeObject(gks);
+            Log.i("gks","4");
+
+            fos.close();
+            out.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent(this, GameActivity.class);
-        startActivity(intent);
+        Intent resultIntent = new Intent();
+        setResult(MainActivity.RESULT_OK, resultIntent);
+        finish();
 
     }
 
@@ -263,6 +265,82 @@ public class ConfigureTeamActivity extends ActionBarActivity {
             }
         }
         return true;
+    }
+
+    public LinkedList<Player> getPlayers(){
+        // read the object from file
+        // save the object to file
+        FileInputStream fis = null;
+        ObjectInputStream in = null;
+        LinkedList<Player> players = new LinkedList<Player>();
+        try {
+            fis = new FileInputStream(getApplicationContext().getFilesDir().getPath().toString()+"GEDD-Players-Data");
+            in = new ObjectInputStream(fis);
+            players = (LinkedList<Player>) in.readObject();
+            in.close();
+            return players;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        Log.i("read false","nao li nada");
+        return null;
+    }
+
+    public LinkedList<Goalkeeper> getGoalkeepers(){
+        // read the object from file
+        // save the object to file
+        FileInputStream fis = null;
+        ObjectInputStream in = null;
+        LinkedList<Goalkeeper> gks = new LinkedList<Goalkeeper>();
+        try {
+            fis = new FileInputStream(getApplicationContext().getFilesDir().getPath().toString()+"GEDD-Goalkeepers-Data");
+            in = new ObjectInputStream(fis);
+            gks = (LinkedList<Goalkeeper>) in.readObject();
+            in.close();
+            return gks;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        Log.i("read false","nao li nada");
+        return null;
+    }
+
+    private void fillTable(LinkedList<Player> players, LinkedList<Goalkeeper> gks){
+        int counter = 0;
+        int counterGK = 0;
+        for (int i = 0, j = table.getChildCount(); i < j; i++) {
+            View view2 = table.getChildAt(i);
+            if (view2 instanceof TableRow) {
+
+                TableRow row = (TableRow) view2;
+                if(row.getChildAt(1) instanceof EditText) {
+                    EditText name = (EditText) row.getChildAt(1);
+                    EditText number = (EditText) row.getChildAt(2);
+                    if(counter == 6 && counterGK < gks.size()){
+
+                        name.setText(gks.get(counterGK).getName());
+                        number.setText(Integer.toString(gks.get(counterGK).getNumber()));
+
+                        counterGK++;
+
+
+                    }else{
+                        if (counter < players.size()) {
+
+                            name.setText(players.get(counter).getName());
+                            number.setText(Integer.toString(players.get(counter).getNumber()));
+
+                            counter++;
+                        }
+
+                    }
+
+
+                }
+
+
+            }
+        }
     }
 
 }
