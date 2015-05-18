@@ -129,7 +129,15 @@ public class StatisticsTeam extends Activity {
 
         for (int i = 0; i < players.size(); i++) {
 
-            String numberShirt = "ic_shirt_" + Integer.toString((players.get(i).getNumber()));
+            String numberShirt;
+
+            if(players.get(i).isYellowCard()) {
+                numberShirt = "ic_shirt_" + Integer.toString((players.get(i).getNumber())) + "_yellowcard";
+            }else if(players.get(i).isRedCard()){
+                numberShirt = "ic_shirt_" + Integer.toString((players.get(i).getNumber())) + "_redcard";
+            } else{
+                numberShirt = "ic_shirt_" + Integer.toString((players.get(i).getNumber()));
+            }
 
             Resources resources = getResources();
             final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
