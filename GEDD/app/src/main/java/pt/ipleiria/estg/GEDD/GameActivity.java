@@ -191,7 +191,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
             createGame();
 
         }else{
-            Game game = readSerializable();
+            //Game game = readSerializable();
             players = game.getPlayers();
             gks = game.getGks();
             btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
@@ -711,8 +711,11 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
     @Override
     protected void onDestroy(){
         String filename = "game-gedd.ser";
-        ArrayList<Game> games = new ArrayList<Game>() ;
 
+        ArrayList<Game> games = readSerializable();
+        if(games == null){
+            games = new ArrayList<Game>();
+        }
         games.add(game);
 
         // save the object to file
@@ -737,7 +740,44 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
         super.onDestroy();
     }
 
+    @Override
+    protected void onPause() {
 
+        saveGame();
+        super.onPause();
+    }
+
+    public void saveGame(){
+        String filename = "game-gedd.ser";
+
+        ArrayList<Game> games = readSerializable();
+        if(games == null){
+            games = new ArrayList<Game>();
+        }
+        if(games.indexOf(game) == -1) {
+            games.add(game);
+
+            // save the object to file
+            FileOutputStream fos = null;
+            ObjectOutputStream out = null;
+            Log.i("onDestroy", "Entrei no on destroy");
+            try {
+                Log.i("onDestroy", "1");
+                fos = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString() + filename);
+                Log.i("onDestroy", "2");
+                out = new ObjectOutputStream(fos);
+                Log.i("onDestroy", "3");
+                out.writeObject(games);
+                Log.i("onDestroy", "4");
+
+                out.close();
+
+                Log.i("onDestroy", "Detrui cenas");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
     public void showPopUpDiscipline (final View view, final RelativeLayout teamPlayer, final LinkedList<Player> players, final  Player player, final ImageButton btnPlayer){
 
@@ -1304,7 +1344,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
         return null;
     }
 
-    public Game readSerializable(){
+    public ArrayList<Game> readSerializable(){
         // read the object from file
         // save the object to file
         FileInputStream fis = null;
@@ -1315,8 +1355,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                 games = (ArrayList<Game>) in.readObject();
                 in.close();
                 Log.i("read True","Consegui Ler");
-                game = games.get(0);
-                return game;
+                return games;
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

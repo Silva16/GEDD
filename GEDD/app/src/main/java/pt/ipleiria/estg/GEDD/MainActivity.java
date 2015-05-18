@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -29,25 +30,35 @@ import java.util.List;
 import pt.ipleiria.estg.GEDD.Models.Game;
 import pt.ipleiria.estg.GEDD.R;
 
-public class MainActivity extends ActionBarActivity implements Serializable {
+public class MainActivity extends ActionBarActivity {
 
-    private static final long serialVersionUID = 1L;
 
     ArrayList<Game> games = new ArrayList<Game>();
     Game game;
+    GamesAdapter gamesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView listView = (ListView) findViewById(R.id.listView);
+        final ListView listView = (ListView) findViewById(R.id.listView);
 
         readSerializable();
 
-        ArrayAdapter<Game> arrayAdapter = new ArrayAdapter<Game>(this, android.R.layout.simple_list_item_1, games);
+        gamesAdapter = new GamesAdapter(this, games);
 
-        listView.setAdapter(arrayAdapter);
+        listView.setAdapter(gamesAdapter);
+
+        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                Game item = (Game) listView.getItemAtPosition(position);
+                Toast.makeText(MainActivity.this, "Selected : "+item.getName(), Toast.LENGTH_SHORT).show();
+                
+            }
+        });
+
     }
 
 
@@ -159,4 +170,12 @@ public class MainActivity extends ActionBarActivity implements Serializable {
             ex.printStackTrace();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gamesAdapter.notifyDataSetChanged();
+    }
+
+
 }

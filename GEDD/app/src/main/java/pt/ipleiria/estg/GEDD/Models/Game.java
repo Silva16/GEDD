@@ -8,6 +8,8 @@ import java.util.LinkedList;
  */
 public class Game implements Serializable {
 
+    private static final long serialVersionUID = 4038121090021350738L;
+
     private String opponent;
     private String myTeam;
     private int scoreMyTeam;
@@ -193,9 +195,9 @@ public class Game implements Serializable {
         }
 
         if((month = getGameMonth())<10){
-            date = "/0"+String.valueOf(month);
+            date += "/0"+String.valueOf(month);
         }else{
-            date = "/"+String.valueOf(month);
+            date += "/"+String.valueOf(month);
         }
 
         date += "/"+String.valueOf(getGameYear());
@@ -217,5 +219,9 @@ public class Game implements Serializable {
 
     public Boolean isStarted(){
         return this.started;
+    }
+
+    public String getName(){
+        return getMyTeam()+" x "+getOpponent();
     }
 }
