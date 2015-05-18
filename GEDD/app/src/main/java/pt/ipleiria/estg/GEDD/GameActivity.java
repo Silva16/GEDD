@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.UUID;
 
 import android.os.Handler;
 
@@ -71,11 +72,14 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
     TextView lbl_opponent;
     TextView lbl_myTeam;
     ImageButton btn_players[] = new ImageButton[6];
-    ArrayList<Game> games = new ArrayList<Game>();
     Boolean playable = false;
+    ArrayList<Game> games;
+    Boolean save = true;
 
 
     private static final String TAG = "main activity";
+
+
 
 
     @Override
@@ -187,11 +191,26 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
         String str = getIntent().getStringExtra("type");
 
+        String id_btn;
+        int k =1;
+        for (int i = 0; i < 6; i++) {
+
+            id_btn = "imgbtn_player" + k;
+            btn_players[i] = (ImageButton) findViewById(getResources().getIdentifier(id_btn, "id", getPackageName()));
+            k++;
+        }
+
+        games = readSerializable();
+        if(games == null){
+            games = new ArrayList<Game>();
+        }
+
         if(str.contentEquals("new")){
             createGame();
 
         }else{
             //Game game = readSerializable();
+            game = (Game) getIntent().getSerializableExtra("game");
             players = game.getPlayers();
             gks = game.getGks();
             btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
@@ -710,73 +729,68 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
     @Override
     protected void onDestroy(){
-        String filename = "game-gedd.ser";
-
-        ArrayList<Game> games = readSerializable();
-        if(games == null){
-            games = new ArrayList<Game>();
-        }
-        games.add(game);
-
-        // save the object to file
-        FileOutputStream fos = null;
-        ObjectOutputStream out = null;
-        Log.i("onDestroy","Entrei no on destroy");
-        try {
-            Log.i("onDestroy","1");
-            fos = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString()+filename);
-            Log.i("onDestroy","2");
-            out = new ObjectOutputStream(fos);
-            Log.i("onDestroy","3");
-            out.writeObject(games);
-            Log.i("onDestroy","4");
-
-            out.close();
-
-            Log.i("onDestroy","Detrui cenas");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if(!verifyExistGame() && save) {
+            games.add(game);
+            saveFile();
         }
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-
-        saveGame();
+        if(!verifyExistGame() && save) {
+            games.add(game);
+            saveFile();
+        }
         super.onPause();
     }
 
-    public void saveGame(){
+    public void saveFile(){
         String filename = "game-gedd.ser";
+        // save the object to file
+        FileOutputStream fos = null;
+        ObjectOutputStream out = null;
+        Log.i("onDestroy", "Entrei no on destroy");
+        try {
+            Log.i("onDestroy", "1");
+            fos = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString() + filename);
+            Log.i("onDestroy", "2");
+            out = new ObjectOutputStream(fos);
+            Log.i("onDestroy", "3");
+            out.writeObject(games);
+            Log.i("onDestroy", "4");
 
-        ArrayList<Game> games = readSerializable();
-        if(games == null){
-            games = new ArrayList<Game>();
+            out.close();
+
+            Log.i("onDestroy", "Detrui cenas");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        if(games.indexOf(game) == -1) {
-            games.add(game);
 
-            // save the object to file
-            FileOutputStream fos = null;
-            ObjectOutputStream out = null;
-            Log.i("onDestroy", "Entrei no on destroy");
-            try {
-                Log.i("onDestroy", "1");
-                fos = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString() + filename);
-                Log.i("onDestroy", "2");
-                out = new ObjectOutputStream(fos);
-                Log.i("onDestroy", "3");
-                out.writeObject(games);
-                Log.i("onDestroy", "4");
+    }
 
-                out.close();
+    public Boolean verifyExistGame(){
+        if(games != null) {
+            for (Game gameTemp : games) {
 
-                Log.i("onDestroy", "Detrui cenas");
-            } catch (Exception ex) {
-                ex.printStackTrace();
+                if (gameTemp.getID().compareTo(game.getID()) == 0) {
+                    return true;
+                }
             }
         }
+        return false;
+    }
+
+    public int getThisGameFromList(){
+        if(games != null) {
+            for (int i=0; i < games.size();i++) {
+
+                if (games.get(i).getID().compareTo(game.getID()) == 0) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     public void showPopUpDiscipline (final View view, final RelativeLayout teamPlayer, final LinkedList<Player> players, final  Player player, final ImageButton btnPlayer){
@@ -1170,6 +1184,18 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
         }
 
+        if(id == R.id.deleteGame){
+            int var = getThisGameFromList();
+            games.remove(var);
+            saveFile();
+            save=false;
+
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
+
+
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -1365,6 +1391,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
     public void createGame(){
         Intent intent = getIntent();
+
         game = new Game(
                 intent.getStringExtra("myTeam"),
                 intent.getStringExtra("advTeam"),
@@ -1478,6 +1505,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                 Resources resources = getResources();
                 final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
                 btn_players[j].setImageResource(resourceId);
+                Log.i(TAG,j+p.getName());
                 j++;
             }
         }
@@ -1492,6 +1520,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             onResume();
             if(!game.isStarted()){
                 setTeam();
+                associatePlayersToButton();
             }
         }
         if (resultCode == RESULT_CANCELED) {
@@ -1523,16 +1552,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     }
 
     private void associatePlayersToButton(){
-        String id_btn;
-        int k =1;
-        for (int i = 0; i < 6; i++) {
-
-            id_btn = "imgbtn_player" + k;
-            btn_players[i] = (ImageButton) findViewById(getResources().getIdentifier(id_btn, "id", getPackageName()));
-            k++;
-        }
-
-
         for (int i = 0; i < 6; i++) {
             String numberShirt;
             if(i<players.size()){
@@ -1548,6 +1567,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             Resources resources = getResources();
             final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
             btn_players[i].setImageResource(resourceId);
+
 
 
         }

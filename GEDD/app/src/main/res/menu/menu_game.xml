@@ -7,5 +7,7 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/editGame" android:title="@string/edit_game"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/deleteGame" android:title="@string/delete_game"
+        android:orderInCategory="100" app:showAsAction="never" />
 
 </menu>

@@ -2,6 +2,7 @@ package pt.ipleiria.estg.GEDD.Models;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.UUID;
 
 /**
  * Created by Silva16 on 13-04-2015.
@@ -28,12 +29,13 @@ public class Game implements Serializable {
     private int gameHour;
     private int gameMinute;
 
+    private UUID ID;
+
     private LinkedList<Player> players;
     private LinkedList<Goalkeeper> gks;
 
-
-
     public Game(String myTeam, String advTeam, int hour, int minute, int day, int month, int year, String local) {
+        ID = new UUID(123,254).randomUUID();
         setOpponent(advTeam);
         setMyTeam(myTeam);
         setGameDay(day);
@@ -48,6 +50,10 @@ public class Game implements Serializable {
         this.seconds = 0;
         this.technicalFailAdv = 0;
         this.started = false;
+    }
+
+    public UUID getID() {
+        return ID;
     }
 
     public int getScoreOpponent() {

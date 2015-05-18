@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -42,6 +43,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         final ListView listView = (ListView) findViewById(R.id.listView);
 
         readSerializable();
@@ -55,7 +57,10 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
                 Game item = (Game) listView.getItemAtPosition(position);
                 Toast.makeText(MainActivity.this, "Selected : "+item.getName(), Toast.LENGTH_SHORT).show();
-                
+                Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                intent.putExtra("type", "load");
+                intent.putExtra("game",item);
+                startActivity(intent);
             }
         });
 

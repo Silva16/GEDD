@@ -50,8 +50,11 @@ public class ConfigureTeamActivity extends ActionBarActivity implements Serializ
         LinkedList<Player> players = new LinkedList<>();
         LinkedList<Goalkeeper> gks = new LinkedList<>();
 
-        players = new LinkedList((List) (getIntent().getSerializableExtra("Players")));
-        gks = new LinkedList((List) (getIntent().getSerializableExtra("Goalkeepers")));
+        if(getIntent().getSerializableExtra("Players") !=null && getIntent().getSerializableExtra("Goalkeepers") !=null){
+            players = new LinkedList((List) (getIntent().getSerializableExtra("Players")));
+            gks = new LinkedList((List) (getIntent().getSerializableExtra("Goalkeepers")));
+        }
+
 
 
         if(players != null && gks != null){

@@ -4,9 +4,19 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".GameActivity"
             android:label="@string/app_name"
@@ -34,23 +44,7 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="com.google.android.apps.drive.DRIVE_OPEN" />
-                <data android:mimeType="application/vnd.google-apps.drive-sdk.668943682556" />
-                <data android:mimeType="text/plain" />
-                <data android:mimeType="application/octet-stream" />
-            </intent-filter>
-
-            <meta-data
-                android:name="com.google.android.apps.drive.APP_ID"
-                android:value="id=668943682556" />
-        </activity>
     </application>
 
 </manifest>
