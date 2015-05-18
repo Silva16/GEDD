@@ -262,32 +262,36 @@
 
     </RelativeLayout>
 
-    <ImageButton
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:id="@+id/gk1_stats"
-        android:src="@drawable/ic_shirt"
-        android:clickable="true"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="369dp"
-        android:layout_marginStart="369dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/zones"
+        android:gravity="center_horizontal">
 
-    <ImageButton
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:id="@+id/gk2_stats"
-        android:src="@drawable/ic_shirt"
-        android:clickable="true"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp"
-        android:layout_marginLeft="142dp"
-        android:layout_marginStart="142dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/gk1_stats"
-        android:layout_toEndOf="@+id/gk1_stats" />
+        <ImageButton
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:id="@+id/gk1_stats"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageButton
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:id="@+id/gk2_stats"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/gk1_stats"
+            android:layout_toEndOf="@+id/gk1_stats" />
+    </LinearLayout>
 
 </RelativeLayout>

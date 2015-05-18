@@ -83,6 +83,10 @@ public class StatisticsGoalkeeper extends Activity {
             btn_gks[i].setImageResource(resourceId);
         }
 
+        if (gks.size() == 1){
+            btn_gks[1].setVisibility(View.INVISIBLE);
+        }
+
         final View.OnTouchListener gkTouchListener = new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {

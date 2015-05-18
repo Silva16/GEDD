@@ -1185,19 +1185,42 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
         }
 
         if(id == R.id.deleteGame){
-            int var = getThisGameFromList();
-            games.remove(var);
-            saveFile();
-            save=false;
 
-            Intent intent = new Intent(this,MainActivity.class);
-            startActivity(intent);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Tem a certeza que deseja apagar o jogo?");
+            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    int var = getThisGameFromList();
+                    games.remove(var);
+                    saveFile();
+                    save=false;
+
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+
+
+            builder.show();
+
+
+
 
 
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     //MENU
     public void configureTeam(MenuItem item){
@@ -1505,7 +1528,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                 Resources resources = getResources();
                 final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
                 btn_players[j].setImageResource(resourceId);
-                Log.i(TAG,j+p.getName());
+                Log.i(TAG, j + p.getName());
                 j++;
             }
         }

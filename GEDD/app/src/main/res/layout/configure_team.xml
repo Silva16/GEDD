@@ -442,22 +442,30 @@
 
     </TableLayout>
 
-    <Button
-        android:layout_width="251dp"
-        android:layout_height="wrap_content"
-        android:text="Confirmar"
-        android:id="@+id/btn_confirm"
-        android:onClick="submitClick"
-        android:layout_gravity="center_horizontal" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_horizontal">
 
-    <Button
-        android:layout_width="232dp"
-        android:layout_height="wrap_content"
-        android:text="Cancelar"
-        android:id="@+id/button"
-        android:layout_gravity="center_horizontal"
-        android:nestedScrollingEnabled="false"
-        android:onClick="cancelClick" />
+                <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Confirmar"
+            android:id="@+id/btn_confirm"
+            android:onClick="submitClick"
+            android:layout_gravity="center_horizontal" />
+
+                <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:id="@+id/button"
+            android:layout_gravity="center_horizontal"
+            android:nestedScrollingEnabled="false"
+            android:onClick="cancelClick" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
