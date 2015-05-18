@@ -207,6 +207,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
         if(str.contentEquals("new")){
             createGame();
+            associatePlayersToButton();
 
         }else{
             //Game game = readSerializable();
@@ -217,8 +218,6 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
             lbl_scoreMyTeam.setText(String.valueOf(game.getScoreMyTeam()));
             lbl_scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
-            lbl_opponent.setText(game.getOpponent());
-            lbl_myTeam.setText(game.getMyTeam());
             setTime(time);
 
             refreshPlayerImage();
@@ -229,9 +228,13 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                     Toast.LENGTH_LONG).show();
         }
 
+        if(players.size()>5 && gks.size()>0){
+            playable = true;
+        }
+
         lbl_myTeam.setText(game.getMyTeam());
         lbl_opponent.setText(game.getOpponent());
-        associatePlayersToButton();
+
 
 
 
@@ -733,6 +736,10 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
         if(!verifyExistGame()) {
             games.add(game);
 
+        }else{
+            int gameIndex = getThisGameFromList();
+            games.remove(gameIndex);
+            games.add(gameIndex, game);
         }
         if(save){
             saveFile();
@@ -744,10 +751,17 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
     protected void onPause() {
         if(!verifyExistGame()) {
             games.add(game);
+
+        }else{
+            int gameIndex = getThisGameFromList();
+            games.remove(gameIndex);
+            games.add(gameIndex, game);
         }
 
-        if(save)
+        if(save) {
+
             saveFile();
+        }
         super.onPause();
     }
 
@@ -1533,7 +1547,10 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                 }
                 Resources resources = getResources();
                 final int resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
-                btn_players[j].setImageResource(resourceId);
+                if(j<6) {
+                    btn_players[j].setImageResource(resourceId);
+                    btn_players[j].setTag(p.getNumber());
+                }
                 Log.i(TAG, j + p.getName());
                 j++;
             }
@@ -1619,13 +1636,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             lbl_goalkeeper1.setText("0");
         }
 
-        for(int i = 0; i<players.size(); i++){
-         players.get(i).setPlaying(true);
-        }
 
-        if(players.size()>5 && gks.size()>0){
-            playable = true;
-        }
 
 
     }
