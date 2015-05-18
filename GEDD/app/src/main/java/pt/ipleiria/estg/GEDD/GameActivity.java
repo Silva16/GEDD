@@ -219,6 +219,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
             lbl_scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
             lbl_opponent.setText(game.getOpponent());
             lbl_myTeam.setText(game.getMyTeam());
+            setTime(time);
 
             refreshPlayerImage();
 
@@ -729,8 +730,11 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
     @Override
     protected void onDestroy(){
-        if(!verifyExistGame() && save) {
+        if(!verifyExistGame()) {
             games.add(game);
+
+        }
+        if(save){
             saveFile();
         }
         super.onDestroy();
@@ -738,10 +742,12 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
     @Override
     protected void onPause() {
-        if(!verifyExistGame() && save) {
+        if(!verifyExistGame()) {
             games.add(game);
-            saveFile();
         }
+
+        if(save)
+            saveFile();
         super.onPause();
     }
 

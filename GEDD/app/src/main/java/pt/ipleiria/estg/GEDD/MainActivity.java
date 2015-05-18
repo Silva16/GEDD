@@ -31,7 +31,7 @@ import java.util.List;
 import pt.ipleiria.estg.GEDD.Models.Game;
 import pt.ipleiria.estg.GEDD.R;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends CustomActionBarActivity{
 
 
     ArrayList<Game> games = new ArrayList<Game>();

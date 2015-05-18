@@ -321,16 +321,17 @@ public class ConfigureTeamActivity extends ActionBarActivity implements Serializ
                 if(row.getChildAt(1) instanceof EditText) {
                     EditText name = (EditText) row.getChildAt(1);
                     EditText number = (EditText) row.getChildAt(2);
-                    if(counter == 6 && counterGK < gks.size()){
+                    if((counter == 6 || counter == 7) && counterGK < gks.size()){
 
                         name.setText(gks.get(counterGK).getName());
                         number.setText(Integer.toString(gks.get(counterGK).getNumber()));
 
                         counterGK++;
+                        counter ++;
 
 
                     }else{
-                        if (counter < players.size()) {
+                        if (counter < players.size() && counter != 7) {
 
                             name.setText(players.get(counter).getName());
                             number.setText(Integer.toString(players.get(counter).getNumber()));
