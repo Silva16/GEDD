@@ -34,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -50,8 +51,9 @@ import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
 import pt.ipleiria.estg.GEDD.Models.Player;
 
 
-public class GameActivity extends CustomActionBarActivity {
+public class GameActivity extends CustomActionBarActivity implements Serializable {
 
+    private static final long serialVersionUID = 1L;
 
     boolean isStart = false;
     int seconds = 0;
