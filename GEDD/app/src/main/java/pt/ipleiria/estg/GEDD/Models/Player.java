@@ -55,7 +55,7 @@ public class Player implements Serializable{
         this.redCard = false;
         this.assistance = 0;
         this.technicalFailure = 0;
-        this.playing = false;
+        setPlaying(false);
 
         setLastAction("Ultima Ação");
     }

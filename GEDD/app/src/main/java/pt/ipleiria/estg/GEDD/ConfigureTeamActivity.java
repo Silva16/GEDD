@@ -331,10 +331,10 @@ public class ConfigureTeamActivity extends ActionBarActivity implements Serializ
 
 
                     }else{
-                        if (counter < players.size() && counter != 7) {
+                        if (counter < players.size()+counterGK && counter != 7) {
 
-                            name.setText(players.get(counter).getName());
-                            number.setText(Integer.toString(players.get(counter).getNumber()));
+                            name.setText(players.get(counter-counterGK).getName());
+                            number.setText(Integer.toString(players.get(counter-counterGK).getNumber()));
 
                             counter++;
                         }

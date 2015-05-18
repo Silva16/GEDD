@@ -179,6 +179,8 @@ public class MainActivity extends CustomActionBarActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        readSerializable();
+        gamesAdapter.games = games;
         gamesAdapter.notifyDataSetChanged();
     }
 
