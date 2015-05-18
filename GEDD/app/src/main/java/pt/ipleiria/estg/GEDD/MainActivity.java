@@ -7,24 +7,47 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import pt.ipleiria.estg.GEDD.Models.Game;
 import pt.ipleiria.estg.GEDD.R;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    ArrayList<Game> games = new ArrayList<Game>();
+    Game game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ListView listView = (ListView) findViewById(R.id.listView);
+
+        readSerializable();
+
+        ArrayAdapter<Game> arrayAdapter = new ArrayAdapter<Game>(this, android.R.layout.simple_list_item_1, games);
+
+        listView.setAdapter(arrayAdapter);
     }
 
 
@@ -44,8 +67,6 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.new_game) {
-
-
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             // Get the layout inflater
@@ -71,14 +92,7 @@ public class MainActivity extends ActionBarActivity {
                         }
                     });
 
-
-
-
             AlertDialog dialog = builder.create();
-
-
-
-
 
             dialog.show();
 
@@ -90,10 +104,6 @@ public class MainActivity extends ActionBarActivity {
 
             Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new NewGameListener(dialog));
-
-
-
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -132,6 +142,21 @@ public class MainActivity extends ActionBarActivity {
             }else{
                 Toast.makeText(MainActivity.this, "Os campos tem de estar preenchidos", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    public void readSerializable(){
+        // read the object from file
+        // save the object to file
+        FileInputStream fis = null;
+        ObjectInputStream in = null;
+        try {
+            fis = new FileInputStream(getApplicationContext().getFilesDir().getPath().toString()+"game-gedd.ser");
+            in = new ObjectInputStream(fis);
+            games = (ArrayList<Game>) in.readObject();
+            in.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

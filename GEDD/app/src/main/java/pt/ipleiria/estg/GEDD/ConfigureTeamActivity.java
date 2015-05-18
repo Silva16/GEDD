@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -32,7 +33,9 @@ import pt.ipleiria.estg.GEDD.Models.Game;
 import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
 import pt.ipleiria.estg.GEDD.Models.Player;
 
-public class ConfigureTeamActivity extends ActionBarActivity {
+public class ConfigureTeamActivity extends ActionBarActivity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private TableLayout table;
 
@@ -47,9 +50,8 @@ public class ConfigureTeamActivity extends ActionBarActivity {
         LinkedList<Player> players = new LinkedList<>();
         LinkedList<Goalkeeper> gks = new LinkedList<>();
 
-
-            players = new LinkedList((List) (getIntent().getSerializableExtra("Players")));
-            gks = new LinkedList((List) (getIntent().getSerializableExtra("Goalkeepers")));
+        players = new LinkedList((List) (getIntent().getSerializableExtra("Players")));
+        gks = new LinkedList((List) (getIntent().getSerializableExtra("Goalkeepers")));
 
 
         if(players != null && gks != null){
