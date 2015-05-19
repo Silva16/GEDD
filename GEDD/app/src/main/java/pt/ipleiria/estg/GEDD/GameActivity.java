@@ -208,6 +208,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
         if(str.contentEquals("new")){
             createGame();
             associatePlayersToButton();
+            games.add(game);
 
         }else{
             //Game game = readSerializable();
@@ -733,6 +734,8 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
     @Override
     protected void onDestroy(){
+        game.setPlayers(players);
+        game.setGks(gks);
         if(!verifyExistGame()) {
             games.add(game);
 
@@ -749,17 +752,16 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
     @Override
     protected void onPause() {
-        if(!verifyExistGame()) {
-            games.add(game);
+        game.setPlayers(players);
+        game.setGks(gks);
 
-        }else{
+
+
+
+        if(save) {
             int gameIndex = getThisGameFromList();
             games.remove(gameIndex);
             games.add(gameIndex, game);
-        }
-
-        if(save) {
-
             saveFile();
         }
         super.onPause();
@@ -1555,6 +1557,21 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                 j++;
             }
         }
+        if(gks.size()>0) {
+            for(int i =0; i<gks.size();i++){
+                if(gks.get(i).getPlaying()) {
+                    goalkeeper1 = gks.get(i);
+                    btn_goalkeeper1.setTag(String.valueOf(goalkeeper1.getNumber()));
+                    gks.get(0).setPlaying(true);
+                    lbl_goalkeeper1.setText(String.valueOf(gks.get(0).getNumber()));
+                }
+            }
+
+        }else{
+            btn_goalkeeper1.setTag(0);
+            lbl_goalkeeper1.setText("0");
+        }
+
     }
 
 
@@ -1626,7 +1643,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             }
         }
 
-        if(gks.size()!=0) {
+        if(gks.size()>0) {
             goalkeeper1 = gks.get(0);
             btn_goalkeeper1.setTag(String.valueOf(goalkeeper1.getNumber()));
             gks.get(0).setPlaying(true);
