@@ -286,16 +286,22 @@
                 android:layout_alignEnd="@+id/player12_stats"
                 android:layout_marginTop="1dp" />
 
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/goalkeepers">
+
             <ImageButton
                 android:layout_width="80dp"
                 android:layout_height="65dp"
                 android:id="@+id/gk1_stats"
                 android:src="@drawable/ic_shirt"
                 android:clickable="true"
-                android:layout_below="@+id/player14_stats"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="1dp" />
+                android:layout_alignParentStart="true" />
 
             <ImageButton
                 android:layout_width="80dp"
@@ -303,10 +309,9 @@
                 android:id="@+id/gk2_stats"
                 android:src="@drawable/ic_shirt"
                 android:clickable="true"
-                android:layout_below="@+id/player14_stats"
-                android:layout_alignRight="@+id/player14_stats"
-                android:layout_alignEnd="@+id/player14_stats"
-                android:layout_marginTop="1dp" />
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/gk1_stats"
+                android:layout_toEndOf="@+id/gk1_stats" />
 
         </RelativeLayout>
 
