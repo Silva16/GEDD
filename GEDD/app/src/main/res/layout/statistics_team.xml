@@ -286,13 +286,6 @@
                 android:layout_alignEnd="@+id/player12_stats"
                 android:layout_marginTop="1dp" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/goalkeepers">
-
             <ImageButton
                 android:layout_width="80dp"
                 android:layout_height="65dp"
@@ -312,6 +305,13 @@
                 android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@+id/gk1_stats"
                 android:layout_toEndOf="@+id/gk1_stats" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/goalkeepers">
 
         </RelativeLayout>
 

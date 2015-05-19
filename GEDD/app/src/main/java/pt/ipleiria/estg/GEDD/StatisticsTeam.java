@@ -165,6 +165,7 @@ public class StatisticsTeam extends Activity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Player tempPlayer;
                     Goalkeeper tempGk;
+                    LinkedList list;
                     Button filter;
                     if (!(v.isPressed())) {
 
@@ -173,6 +174,12 @@ public class StatisticsTeam extends Activity {
                             container.getChildAt(i).setPressed(false);
                         }
                         v.setPressed(true);
+
+                        if (v.getId() == R.id.gk1_stats || v.getId() == R.id.gk2_stats){
+                            list = gks;
+                        } else {
+                            list = players;
+                        }
 
                         //verifica se é botão de jogador, se for verdade atualiza os campos
                         //if (v.getParent() == (RelativeLayout) teamPlayer) {
@@ -188,7 +195,7 @@ public class StatisticsTeam extends Activity {
                             }
                         }
 
-                            if (((tempPlayer = getPlayerPressed(players, teamPlayer)) != null && (filter = isChildrenButtonPressed(filters)) != null)) {
+                            if (((tempPlayer = getPlayerPressed(list, teamPlayer)) != null && (filter = isChildrenButtonPressed(filters)) != null)) {
 
                                 assist_stats.setText("Assist: " + tempPlayer.getAssistance());
                                 ftec_stats.setText("Falhas Técnicas " + tempPlayer.getTechnicalFailure());
@@ -207,7 +214,7 @@ public class StatisticsTeam extends Activity {
 
                             }
 
-                        if ((getPlayerPressed(players, teamPlayer) == null) && (filter = isChildrenButtonPressed(filters)) != null) {
+                        if ((getPlayerPressed(list, teamPlayer) == null) && (filter = isChildrenButtonPressed(filters)) != null) {
 
                             refreshAssistStatistics(assist_stats, players);
                             refreshTecFailStatistics(ftec_stats, players);
@@ -233,7 +240,13 @@ public class StatisticsTeam extends Activity {
 
                         v.setPressed(false);
 
-                        if ((getPlayerPressed(players, teamPlayer) == null) && (filter = isChildrenButtonPressed(filters)) != null) {
+                        if (v.getId() == R.id.gk1_stats || v.getId() == R.id.gk2_stats){
+                            list = gks;
+                        } else {
+                            list = players;
+                        }
+
+                        if ((getPlayerPressed(list, teamPlayer) == null) && (filter = isChildrenButtonPressed(filters)) != null) {
 
                             refreshAssistStatistics(assist_stats, players);
                             refreshTecFailStatistics(ftec_stats, players);
@@ -288,7 +301,7 @@ public class StatisticsTeam extends Activity {
         }
 
         btn_gks[0].setTag(gks.get(0).getNumber());
-        btn_gks[1].setTag(gks.get(0).getNumber());
+        btn_gks[1].setTag(gks.get(1).getNumber());
 
         RelativeLayout statisticsLayout = (RelativeLayout) findViewById(R.id.statisticsLayout);
 
@@ -327,11 +340,11 @@ public class StatisticsTeam extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private Player getPlayerPressed(LinkedList<Player> players, RelativeLayout teamPlayer) {
+    private Player getPlayerPressed(LinkedList players, RelativeLayout teamPlayer) {
         ImageButton btnPlayer;
-
+        LinkedList<Player> team = (LinkedList<Player>) players;
         if ((btnPlayer = isChildrenImgButtonPressed(teamPlayer)) != null) {
-            for (Player player : players) {
+            for (Player player : team) {
                 if (player.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())) {
                     return player;
                 }
@@ -339,20 +352,6 @@ public class StatisticsTeam extends Activity {
         }
         return null;
     }
-
-    private Goalkeeper getGoalkeeperPressed(LinkedList<Goalkeeper> gks, RelativeLayout teamPlayer) {
-        ImageButton btnGk;
-
-        if ((btnGk = isChildrenImgButtonPressed(teamPlayer)) != null) {
-            for (Goalkeeper goalkeeper : gks) {
-                if (goalkeeper.getNumber() == Integer.valueOf(btnGk.getTag().toString())) {
-                    return goalkeeper;
-                }
-            }
-        }
-        return null;
-    }
-
 
     private ImageButton isChildrenImgButtonPressed(RelativeLayout container){
         for (int i=0 ; i < container.getChildCount(); i++){
