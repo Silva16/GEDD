@@ -18,6 +18,8 @@
     <string name="confirm">Confirmar</string>
     <string name="cancel">Cancelar</string>
     <string name="configure_team">Configurar Equipa</string>
+    <string name="upload_drive">Enviar jogos para Drive</string>
+    <string name="change_drive">Alterar conta da Drive</string>
 
 
 </resources>

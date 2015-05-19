@@ -4,4 +4,6 @@
     tools:context="pt.ipleiria.estg.GEDD.MainActivity">
     <item android:id="@+id/new_game" android:title="@string/new_game"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/uploadDrive" android:title="@string/upload_drive"
+        android:orderInCategory="100" app:showAsAction="never" />
 </menu>

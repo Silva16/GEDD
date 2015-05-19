@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.GEDD;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -28,16 +29,21 @@ import com.google.android.gms.drive.query.Filter;
 import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.Query;
 import com.google.android.gms.drive.query.SearchableField;
+import com.google.android.gms.plus.Plus;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+
+import pt.ipleiria.estg.GEDD.Models.Game;
 
 /**
  * Created by Andre on 08/05/2015.
@@ -63,9 +69,31 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
 
     protected int driveActionType = 0;
 
+    protected static final int DRIVE_ACTION_CHANGE = 3;
+
     protected static final int DRIVE_ACTION_UPLOAD = 2;
 
     protected static final int DRIVE_ACTION_DOWNLOAD = 1;
+
+    private int driveAction;
+
+    // Bool to track whether the app is already resolving an error
+    private boolean mResolvingError = false;
+
+    // Request code to use when launching the resolution activity
+    private static final int REQUEST_RESOLVE_ERROR = 1001;
+
+    private static final String STATE_RESOLVING_ERROR = "resolving_error";
+
+    private String driveFiles;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mResolvingError = savedInstanceState != null
+                && savedInstanceState.getBoolean(STATE_RESOLVING_ERROR, false);
+    }
 
 
 
@@ -74,6 +102,7 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(Drive.API)
+                    .addApi(Plus.API)
                     .addScope(Drive.SCOPE_FILE)
                     .addScope(Drive.SCOPE_APPFOLDER) // required for App Folder sample
                     .addConnectionCallbacks(this)
@@ -85,8 +114,14 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
 
     @Override
     public void onConnected(Bundle bundle) {
-        //saveFileToDrive();
-        downloadFileFromDrive();
+        switch(driveAction){
+            case 1: saveFileToDrive();
+                break;
+            case 2: downloadFileFromDrive();
+                break;
+            case 3: changeAccount();
+                break;
+        }
 
     }
 
@@ -99,12 +134,16 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
     public void onConnectionFailed(ConnectionResult result) {
         // Called whenever the API client fails to connect.
 
-        Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
-        if (!result.hasResolution()) {
+        if (mResolvingError) {
+            // Already attempting to resolve an error.
+            return;
+        }else if(!result.hasResolution()) {
+            Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
             // show the localized error dialog.
             GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
             return;
         }
+        Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
         // The failure has a resolution. Resolve it.
         // Called typically when the app is not yet authorized, and an
         // authorization
@@ -112,9 +151,13 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
         try {
             result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
         } catch (IntentSender.SendIntentException e) {
+            mResolvingError = true;
             Log.e(TAG, "Exception while starting resolution activity", e);
+            mGoogleApiClient.connect();
         }
     }
+
+
 
     private void saveFileToDrive() {
         // Start by creating a new contents, and setting a callback.
@@ -283,6 +326,16 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
                     DriveFolder folder = Drive.DriveApi.getFolder(mGoogleApiClient, folderId);
                     Log.i(TAG, "VOU MOSTRAR AS CHILDREN");
                     folder.listChildren(mGoogleApiClient).setResultCallback(childrenRetrievedCallback);
+
+
+                    DriveId fileId = findDriveId(driveFiles, "application/octet-stream", folder);
+
+                    DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, fileId);
+
+                    file.open(mGoogleApiClient,DriveFile.MODE_READ_ONLY, null)
+                            .setResultCallback(contentsOpenedCallback);
+
+
                 }
             }
         }.start();
@@ -298,8 +351,59 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
                                 Toast.LENGTH_LONG).show();
                     }
                     for(Metadata md : result.getMetadataBuffer()){
+                        driveFiles = md.getTitle();
                         Log.i(TAG, md.getTitle());
                     }
+                }
+            };
+
+    ResultCallback<DriveApi.DriveContentsResult> contentsOpenedCallback =
+            new ResultCallback<DriveApi.DriveContentsResult>() {
+                @Override
+                public void onResult(DriveApi.DriveContentsResult result) {
+                    if (!result.getStatus().isSuccess()) {
+                        // display an error saying file can't be opened
+                        return;
+                    }
+                    // DriveContents object contains pointers
+                    // to the actual byte stream
+                    DriveContents driveContents = result.getDriveContents();
+
+
+                    InputStream inputStream = driveContents.getInputStream();
+
+
+
+
+
+                    byte[] buffer = new byte[1024]; // Adjust if you want
+                    try {
+                        OutputStream output = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString()+"game-gedd.ser");
+                        try {
+                            int bytesRead;
+                            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                                output.write(buffer, 0, bytesRead);
+                            }
+                        } finally {
+                            output.close();
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            inputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+
+
+
+
                 }
             };
 
@@ -397,7 +501,36 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
         }
     }*/
 
-    public void startDrive(MenuItem item){
+    public void selectAction(int action){
+        driveAction = action;
         connectToDrive();
     }
+
+
+    private void changeAccount(){
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.clearDefaultAccountAndReconnect();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_RESOLVING_ERROR, mResolvingError);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_RESOLVE_ERROR) {
+            mResolvingError = false;
+            if (resultCode == RESULT_OK) {
+                // Make sure the app is not already connected or attempting to connect
+                if (!mGoogleApiClient.isConnecting() &&
+                        !mGoogleApiClient.isConnected()) {
+                    mGoogleApiClient.connect();
+                }
+            }
+        }
+    }
+
 }

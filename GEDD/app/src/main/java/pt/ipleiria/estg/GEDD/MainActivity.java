@@ -122,6 +122,14 @@ public class MainActivity extends CustomActionBarActivity{
             positiveButton.setOnClickListener(new NewGameListener(dialog));
         }
 
+        if (id == R.id.uploadDrive) {
+            selectAction(1);
+        }
+
+        if (id == R.id.changeDriveAccount) {
+            selectAction(2);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
