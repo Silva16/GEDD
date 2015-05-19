@@ -492,7 +492,7 @@ public class StatisticsTeam extends Activity {
                     opponent_zoneShots[i] += goalkeeper.getZoneAllShots(i + 1, j + 1);
                 }
 
-                int effectiveness = Math.round(opponent_zoneGoals[i] / (float) opponent_zoneShots[i] * 100);
+                int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / (float) opponent_zoneShots[i] * 100);
 
                 if (opponent_zoneShots[i] !=0){
                     zone_stats[i].setText(String.valueOf(effectiveness) + "%");
