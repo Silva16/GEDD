@@ -25,7 +25,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:id="@+id/myTeamEditTextDialog"
-            android:layout_gravity="right"
+            android:gravity="center"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"

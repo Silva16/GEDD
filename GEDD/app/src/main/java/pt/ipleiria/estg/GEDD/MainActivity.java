@@ -135,7 +135,7 @@ public class MainActivity extends CustomActionBarActivity{
             // put your code here
             EditText myTeam = (EditText) dialog.findViewById(R.id.myTeamEditTextDialog);
             EditText advTeam = (EditText) dialog.findViewById(R.id.advTeamEditTextDialog);
-            EditText local = (EditText) dialog.findViewById(R.id.myTeamEditTextDialog);
+            EditText local = (EditText) dialog.findViewById(R.id.localEditTextDialog);
             DatePicker datePicker = (DatePicker) dialog.findViewById(R.id.datePicker);
             TimePicker timePicker =(TimePicker) dialog.findViewById(R.id.timePicker);
 

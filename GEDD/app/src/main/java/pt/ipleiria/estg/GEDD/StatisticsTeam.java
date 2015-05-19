@@ -120,11 +120,18 @@ public class StatisticsTeam extends Activity {
 
             String id_btn = "player" + k + "_stats";
             btn_players[i] = (ImageButton) findViewById(getResources().getIdentifier(id_btn, "id", getPackageName()));
+            if (i >= players.size()){
+                btn_players[i].setVisibility(View.INVISIBLE);
+            }
             k++;
         }
 
         btn_gks[0] = (ImageButton) findViewById(R.id.gk1_stats);
         btn_gks[1] = (ImageButton) findViewById(R.id.gk2_stats);
+
+        if (gks.size() == 1){
+            btn_gks[1].setVisibility(View.INVISIBLE);
+        }
 
 
         for (int i = 0; i < players.size(); i++) {
@@ -157,6 +164,7 @@ public class StatisticsTeam extends Activity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Player tempPlayer;
+                    Goalkeeper tempGk;
                     Button filter;
                     if (!(v.isPressed())) {
 
@@ -175,9 +183,12 @@ public class StatisticsTeam extends Activity {
                             for (int i = 0; i < players.size(); i++) {
                                 btn_players[i].setPressed(false);
                             }
+                            for (int i = 0; i < gks.size(); i++) {
+                                btn_gks[i].setPressed(false);
+                            }
                         }
 
-                            if ((tempPlayer = getPlayerPressed(players, teamPlayer)) != null && (filter = isChildrenButtonPressed(filters)) != null) {
+                            if (((tempPlayer = getPlayerPressed(players, teamPlayer)) != null && (filter = isChildrenButtonPressed(filters)) != null)) {
 
                                 assist_stats.setText("Assist: " + tempPlayer.getAssistance());
                                 ftec_stats.setText("Falhas Técnicas " + tempPlayer.getTechnicalFailure());
@@ -328,6 +339,20 @@ public class StatisticsTeam extends Activity {
         }
         return null;
     }
+
+    private Goalkeeper getGoalkeeperPressed(LinkedList<Goalkeeper> gks, RelativeLayout teamPlayer) {
+        ImageButton btnGk;
+
+        if ((btnGk = isChildrenImgButtonPressed(teamPlayer)) != null) {
+            for (Goalkeeper goalkeeper : gks) {
+                if (goalkeeper.getNumber() == Integer.valueOf(btnGk.getTag().toString())) {
+                    return goalkeeper;
+                }
+            }
+        }
+        return null;
+    }
+
 
     private ImageButton isChildrenImgButtonPressed(RelativeLayout container){
         for (int i=0 ; i < container.getChildCount(); i++){
