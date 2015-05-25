@@ -3,6 +3,8 @@ package pt.ipleiria.estg.GEDD;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -57,11 +59,34 @@ public class ListDriveGamesActivity extends CustomActionBarActivity {
 
         mResultsListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                String item = mResultsAdapter.getItemString(position);
-                SynchronizeLocalFileWithDrive task = new SynchronizeLocalFileWithDrive();
-                task.execute(item);
-                Toast.makeText(ListDriveGamesActivity.this, "Selected : "+item, Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                final String item = mResultsAdapter.getItemString(position);
+                final SynchronizeLocalFileWithDrive task = new SynchronizeLocalFileWithDrive();
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ListDriveGamesActivity.this);
+                builder.setTitle("Tem a certeza que deseja substituir?");
+                //builder.setMessage("Ao substituir irá perder todos os seus dados, que não foram guardados.");
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        task.execute(item);
+                        Toast.makeText(ListDriveGamesActivity.this, "Selected : "+item, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
+                builder.show();
+
+
 
             }
         });

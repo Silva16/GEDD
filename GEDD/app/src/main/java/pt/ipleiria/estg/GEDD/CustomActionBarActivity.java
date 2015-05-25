@@ -512,7 +512,10 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
 
     private void changeAccount(){
         if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.clearDefaultAccountAndReconnect();
+     //       mGoogleApiClient.clearDefaultAccountAndReconnect();
+       //     mGoogleApiClient.disconnect();
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
         }
     }
 

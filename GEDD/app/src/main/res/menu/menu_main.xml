@@ -8,4 +8,6 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/downloadDrive" android:title="@string/download_drive"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/changeDrive" android:title="@string/change_drive"
+        android:orderInCategory="100" app:showAsAction="never" />
 </menu>

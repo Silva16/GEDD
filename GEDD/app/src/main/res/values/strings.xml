@@ -22,5 +22,6 @@
     <string name="download_drive">Descarregar jogos da Drive</string>
     <string name="change_drive">Alterar conta da Drive</string>
     <string name="title_activity_list_drive_games">listDriveGamesActivity</string>
+    <string name="google_api_key">AIzaSyAIqyUHaHqxkbBaweorB1r3EMNCNQJVo9E</string>
 
 </resources>

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -45,6 +46,13 @@ public class ConfigureTeamActivity extends ActionBarActivity implements Serializ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configure_team);
         table = (TableLayout) findViewById(R.id.table_team);
+        Button confirmBtn = (Button) findViewById(R.id.btn_confirm);
+        Button cancelBtn = (Button) findViewById(R.id.btn_cancel);
+
+        if(getIntent().getBooleanExtra("started",true)){
+            confirmBtn.setVisibility(View.GONE);
+            cancelBtn.setText("Voltar");
+        }
 
         //CARREGAR DADOS CASO EXISTAM
         LinkedList<Player> players = new LinkedList<>();
@@ -321,6 +329,12 @@ public class ConfigureTeamActivity extends ActionBarActivity implements Serializ
                 if(row.getChildAt(1) instanceof EditText) {
                     EditText name = (EditText) row.getChildAt(1);
                     EditText number = (EditText) row.getChildAt(2);
+
+                    if(getIntent().getBooleanExtra("started",true)){
+                        name.setKeyListener(null);
+                        number.setKeyListener(null);
+                    }
+
                     if((counter == 6 || counter == 7) && counterGK < gks.size()){
 
                         name.setText(gks.get(counterGK).getName());

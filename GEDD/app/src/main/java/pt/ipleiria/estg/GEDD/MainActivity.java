@@ -123,9 +123,9 @@ public class MainActivity extends CustomActionBarActivity{
             startActivity(in);
         }
 
-        /*if (id == R.id.changeDriveAccount) {
-            selectAction(2);
-        }*/
+        if (id == R.id.changeDrive) {
+            selectAction(3);
+        }
 
 
 

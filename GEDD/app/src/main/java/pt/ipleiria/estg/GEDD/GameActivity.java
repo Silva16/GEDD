@@ -219,6 +219,8 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
             lbl_scoreMyTeam.setText(String.valueOf(game.getScoreMyTeam()));
             lbl_scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
+            seconds = game.getSeconds();
+            minutes = game.getMinutes();
             setTime(time);
 
             refreshPlayerImage();
@@ -508,7 +510,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                             FileOutputStream fOut = openFileOutput("mydata", MODE_WORLD_READABLE);
                                             fOut.write(saveData.getBytes());
                                             fOut.close();
-                                            Toast.makeText(getBaseContext(), "File saved",
+                                            Toast.makeText(getBaseContext(), "Acção Registada",
                                                     Toast.LENGTH_SHORT).show();
                                         } catch (Exception e) {
                                             // TODO Auto-generated catch block
@@ -542,7 +544,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                             FileOutputStream fOut = openFileOutput("mydata", MODE_WORLD_READABLE);
                                             fOut.write(saveData.getBytes());
                                             fOut.close();
-                                            Toast.makeText(getBaseContext(), "File saved",
+                                            Toast.makeText(getBaseContext(), "Acção Registada",
                                                     Toast.LENGTH_SHORT).show();
                                         } catch (Exception e) {
                                             // TODO Auto-generated catch block
@@ -769,6 +771,8 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
     public void saveFile(){
         String filename = "game-gedd.ser";
+        game.setMinutes(minutes);
+        game.setSeconds(seconds);
         // save the object to file
         FileOutputStream fos = null;
         ObjectOutputStream out = null;
@@ -1254,6 +1258,9 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
         if(players.size()>0 && gks.size()>0){
             intent.putExtra("Players", players);
             intent.putExtra("Goalkeepers", gks);
+        }
+        if(!game.isStarted()){
+            intent.putExtra("started",false);
         }
 
         startActivityForResult(intent, 1);

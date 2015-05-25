@@ -460,7 +460,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Cancelar"
-            android:id="@+id/button"
+            android:id="@+id/btn_cancel"
             android:layout_gravity="center_horizontal"
             android:nestedScrollingEnabled="false"
             android:onClick="cancelClick" />
