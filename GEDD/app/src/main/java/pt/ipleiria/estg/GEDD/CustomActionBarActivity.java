@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.support.v7.app.ActionBarActivity;
 import android.text.format.Time;
 import android.util.Log;
@@ -42,6 +43,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import pt.ipleiria.estg.GEDD.Models.Game;
 
@@ -71,9 +73,9 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
 
     protected static final int DRIVE_ACTION_CHANGE = 3;
 
-    protected static final int DRIVE_ACTION_UPLOAD = 2;
+    protected static final int DRIVE_ACTION_UPLOAD = 1;
 
-    protected static final int DRIVE_ACTION_DOWNLOAD = 1;
+    protected static final int DRIVE_ACTION_DOWNLOAD = 2;
 
     private int driveAction;
 
@@ -85,7 +87,7 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
 
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
 
-    private String driveFiles;
+    private LinkedList<String> driveFiles = new LinkedList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,34 +184,33 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
                             public void run() {
                                 // write content to DriveContents
 
+                                ArrayList<Game> games = new ArrayList<Game>();
 
                                 FileInputStream fis = null;
                                 ObjectInputStream in = null;
                                 try {
                                     fis = new FileInputStream(getApplicationContext().getFilesDir().getPath().toString()+"game-gedd.ser");
                                     in = new ObjectInputStream(fis);
+
+                                    games = (ArrayList<Game>) in.readObject();
+
                                     Log.i("read True","Consegui Ler");
                                 } catch (Exception ex) {
                                     ex.printStackTrace();
                                 }
 
+
+
                                 OutputStream outputStream = driveContents.getOutputStream();
 
-                                byte[] buffer = new byte[1024]; // Adjust if you want
-                                int bytesRead;
-                                assert in != null;
                                 try {
-                                    while ((bytesRead = in.read(buffer)) != -1)
-                                    {
-                                        try {
-                                            outputStream.write(buffer, 0, bytesRead);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
+
+                                    ObjectOutputStream out = new ObjectOutputStream(outputStream);
+                                    out.writeObject(games);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
+
                                 DriveId dId;
                                 if((dId = findDriveId("GEDD","application/vnd.google-apps.folder",null)) == null ){
                                     createFolder("GEDD");
@@ -313,31 +314,35 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
     }
 
     private void downloadFileFromDrive(){
+
+        Log.i(TAG, "PROCURAR A FOLDER");
+        DriveId folderId = findDriveId("GEDD", "application/vnd.google-apps.folder", null);
+        if (folderId == null) {
+            Toast.makeText(getApplicationContext(), "Não existem ficheiros para ser carregados",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Log.i(TAG, "VOU CARREGAR A FOLDER");
+            DriveFolder folder = Drive.DriveApi.getFolder(mGoogleApiClient, folderId);
+            Log.i(TAG, "VOU MOSTRAR AS CHILDREN");
+            folder.listChildren(mGoogleApiClient).setResultCallback(childrenRetrievedCallback);
+        }
+
         new Thread() {
             @Override
             public void run() {
-                Log.i(TAG, "PROCURAR A FOLDER");
                 DriveId folderId = findDriveId("GEDD", "application/vnd.google-apps.folder", null);
-                if (folderId == null) {
-                    Toast.makeText(getApplicationContext(), "Não existem ficheiros para ser carregados",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    Log.i(TAG, "VOU CARREGAR A FOLDER");
-                    DriveFolder folder = Drive.DriveApi.getFolder(mGoogleApiClient, folderId);
-                    Log.i(TAG, "VOU MOSTRAR AS CHILDREN");
-                    folder.listChildren(mGoogleApiClient).setResultCallback(childrenRetrievedCallback);
+                DriveFolder folder = Drive.DriveApi.getFolder(mGoogleApiClient, folderId);
+                DriveId fileId = findDriveId("GEDD #18:41:7 - 19/4/2015", "application/octet-stream", folder);
+
+                DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, fileId);
+
+                //file.open(mGoogleApiClient,DriveFile.MODE_READ_ONLY, null).setResultCallback(contentsOpenedCallback);
+
+                mGoogleApiClient.disconnect();
 
 
-                    DriveId fileId = findDriveId(driveFiles, "application/octet-stream", folder);
-
-                    DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, fileId);
-
-                    file.open(mGoogleApiClient,DriveFile.MODE_READ_ONLY, null)
-                            .setResultCallback(contentsOpenedCallback);
-
-
-                }
             }
+
         }.start();
 
     }
@@ -350,14 +355,19 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
                         Toast.makeText(getApplicationContext(), "Erro ao carregar os ficheiros",
                                 Toast.LENGTH_LONG).show();
                     }
+
                     for(Metadata md : result.getMetadataBuffer()){
-                        driveFiles = md.getTitle();
-                        Log.i(TAG, md.getTitle());
+                        if(md.isTrashed()){
+                            Log.i(TAG, md.getTitle()+" - LIXO");
+                        }else {
+                            Log.i(TAG, md.getTitle());
+                            driveFiles.add(md.getTitle());
+                        }
                     }
                 }
             };
 
-    ResultCallback<DriveApi.DriveContentsResult> contentsOpenedCallback =
+   /* ResultCallback<DriveApi.DriveContentsResult> contentsOpenedCallback =
             new ResultCallback<DriveApi.DriveContentsResult>() {
                 @Override
                 public void onResult(DriveApi.DriveContentsResult result) {
@@ -367,45 +377,38 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
                     }
                     // DriveContents object contains pointers
                     // to the actual byte stream
+
+                    String filename = "game-gedd.ser";
+                    // save the object to file
+                    FileOutputStream fos = null;
+                    ObjectOutputStream out = null;
+
                     DriveContents driveContents = result.getDriveContents();
-
-
                     InputStream inputStream = driveContents.getInputStream();
 
-
-
-
-
-                    byte[] buffer = new byte[1024]; // Adjust if you want
                     try {
-                        OutputStream output = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString()+"game-gedd.ser");
-                        try {
-                            int bytesRead;
-                            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                                output.write(buffer, 0, bytesRead);
-                            }
-                        } finally {
-                            output.close();
-                        }
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+
+                        ObjectInputStream in = new ObjectInputStream(inputStream);
+                        ArrayList<Game> games = (ArrayList<Game>) in.readObject();
+
+                        fos = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString() + filename);
+                        out = new ObjectOutputStream(fos);
+                        out.writeObject(games);
+                        out.close();
+                        fos.close();
+                        inputStream.close();
+
+                        Log.i(TAG,"Escrevi ficheiro");
+
+
                     } catch (IOException e) {
                         e.printStackTrace();
-                    } finally {
-                        try {
-                            inputStream.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
 
-
-
-
-
-
                 }
-            };
+            };*/
 
    /* final private ResultCallback<DriveApi.DriveIdResult> idCallback = new ResultCallback<DriveApi.DriveIdResult>() {
         @Override
@@ -531,6 +534,10 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
                 }
             }
         }
+    }
+
+    public GoogleApiClient getGoogleApiClient(){
+        return mGoogleApiClient;
     }
 
 }

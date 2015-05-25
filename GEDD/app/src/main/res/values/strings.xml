@@ -19,7 +19,8 @@
     <string name="cancel">Cancelar</string>
     <string name="configure_team">Configurar Equipa</string>
     <string name="upload_drive">Enviar jogos para Drive</string>
+    <string name="download_drive">Descarregar jogos da Drive</string>
     <string name="change_drive">Alterar conta da Drive</string>
-
+    <string name="title_activity_list_drive_games">listDriveGamesActivity</string>
 
 </resources>

@@ -10,18 +10,16 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".GameActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-
         </activity>
         <activity
             android:name=".ConfigureTeamActivity"
@@ -44,7 +42,10 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-
+        <activity
+            android:name=".ListDriveGamesActivity"
+            android:label="@string/title_activity_list_drive_games" >
+        </activity>
     </application>
 
 </manifest>
