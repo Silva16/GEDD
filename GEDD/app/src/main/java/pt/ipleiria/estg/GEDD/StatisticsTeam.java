@@ -186,22 +186,6 @@ public class StatisticsTeam extends Activity {
                             list = players;
                         }
 
-
-
-                        //verifica se é botão de jogador, se for verdade atualiza os campos
-                        //if (v.getParent() == (RelativeLayout) teamPlayer) {
-
-                        if (v.getId() == R.id.def_filter) {
-                            refreshDefensePlayerStatistics(zone_stats, zone_goals, gks);
-
-                            for (int i = 0; i < players.size(); i++) {
-                                btn_players[i].setPressed(false);
-                            }
-                            for (int i = 0; i < gks.size(); i++) {
-                                btn_gks[i].setPressed(false);
-                            }
-                        }
-
                             if (((tempPlayer = getPlayerPressed(list, teamPlayer)) != null && (filter = isChildrenButtonPressed(filters)) != null)) {
 
                                 assist_stats.setText("Assist: " + tempPlayer.getAssistance());
@@ -209,19 +193,47 @@ public class StatisticsTeam extends Activity {
 
                                 switch (filter.getId()){
                                     case R.id.atk_ca_filter:
+                                        for (int i = 0; i < players.size(); i++) {
+                                            btn_players[i].setVisibility(View.VISIBLE);
+                                        }
                                         refreshAllAttackPlayerStatistics(zone_stats, zone_goals, tempPlayer);
                                         return true;
                                     case R.id.ca_filter:
+                                        for (int i = 0; i < players.size(); i++) {
+                                            btn_players[i].setVisibility(View.VISIBLE);
+                                        }
                                         refreshCAPlayerStatistics(zone_stats, zone_goals, tempPlayer);
                                         return true;
                                     case R.id.atk_filter:
+                                        for (int i = 0; i < players.size(); i++) {
+                                            btn_players[i].setVisibility(View.VISIBLE);
+                                        }
                                         refreshAttackPlayerStatistics(zone_stats, zone_goals, tempPlayer);
+                                        return true;
+                                    case R.id.def_filter:
+                                        for (int i = 0; i < players.size(); i++) {
+                                            btn_players[i].setPressed(false);
+                                            btn_players[i].setVisibility(View.INVISIBLE);
+                                        }
+                                        if (btn_gks[0].isPressed()){
+                                            refreshDefensePlayerStatistics(zone_stats, zone_goals, gks.get(0));
+                                        } else if (btn_gks[1].isPressed()) {
+                                            refreshDefensePlayerStatistics(zone_stats, zone_goals, gks.get(1));
+                                        } else {
+                                            refreshDefenseStatistics(zone_stats, zone_goals, gks);
+                                        }
+
+
                                         return true;
                                 }
 
                             }
 
                         if ((getPlayerPressed(list, teamPlayer) == null) && (filter = isChildrenButtonPressed(filters)) != null) {
+
+                            for (int i = 0; i < players.size(); i++) {
+                                btn_players[i].setVisibility(View.VISIBLE);
+                            }
 
                             refreshAssistStatistics(assist_stats, players, gks);
                             refreshTecFailStatistics(ftec_stats, players, gks);
@@ -237,12 +249,15 @@ public class StatisticsTeam extends Activity {
                                 case R.id.atk_filter:
                                     refreshAttackStatistics(zone_stats, zone_goals, players, gks);
                                     return true;
+                                case R.id.def_filter:
+                                    for (int i = 0; i < players.size(); i++) {
+                                        btn_players[i].setPressed(false);
+                                        btn_players[i].setVisibility(View.INVISIBLE);
+                                    }
+                                    refreshDefenseStatistics(zone_stats, zone_goals, gks);
+                                    return true;
                             }
                         }
-
-
-
-
                     } else {
 
                         v.setPressed(false);
@@ -255,6 +270,10 @@ public class StatisticsTeam extends Activity {
 
                         if ((getPlayerPressed(list, teamPlayer) == null) && (filter = isChildrenButtonPressed(filters)) != null) {
 
+                            for (int i = 0; i < players.size(); i++) {
+                                btn_players[i].setVisibility(View.VISIBLE);
+                            }
+
                             refreshAssistStatistics(assist_stats, players, gks);
                             refreshTecFailStatistics(ftec_stats, players, gks);
                             ftec_adv_stats.setText("Falhas Técnicas Advers. " + String.valueOf(game.getTechnicalFailAdv()));
@@ -268,6 +287,13 @@ public class StatisticsTeam extends Activity {
                                     return true;
                                 case R.id.atk_filter:
                                     refreshAttackStatistics(zone_stats, zone_goals, players, gks);
+                                    return true;
+                                case R.id.def_filter:
+                                    for (int i = 0; i < players.size(); i++) {
+                                        btn_players[i].setPressed(false);
+                                        btn_players[i].setVisibility(View.INVISIBLE);
+                                    }
+                                    refreshDefenseStatistics(zone_stats, zone_goals, gks);
                                     return true;
                                 default:
                                     return false;
@@ -497,7 +523,7 @@ public class StatisticsTeam extends Activity {
         }
     }
 
-    private void refreshDefensePlayerStatistics(TextView zone_stats[], TextView zone_goals[], LinkedList<Goalkeeper> gks){
+    private void refreshDefenseStatistics(TextView zone_stats[], TextView zone_goals[], LinkedList<Goalkeeper> gks){
 
         int opponent_zoneGoals[] = new int[9];
         int opponent_zoneShots[] = new int[9];
@@ -506,10 +532,10 @@ public class StatisticsTeam extends Activity {
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     opponent_zoneGoals[i] += goalkeeper.getZoneAllGoals(i + 1, j + 1);
-                    opponent_zoneShots[i] += goalkeeper.getZoneAllShots(i + 1, j + 1);
+                    opponent_zoneShots[i] += goalkeeper.getZoneAllDefended(i + 1, j + 1);
                 }
 
-                int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / (float) opponent_zoneShots[i] * 100);
+                int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / ((float) opponent_zoneShots[i] + opponent_zoneGoals[i]) * 100);
 
                 if (opponent_zoneShots[i] !=0){
                     zone_stats[i].setText(String.valueOf(effectiveness) + "%");
@@ -521,11 +547,42 @@ public class StatisticsTeam extends Activity {
                     zone_goals[i].setBackgroundColor(Color.parseColor("#959595"));
                 }
 
-                zone_goals[i].setText(opponent_zoneGoals[i] +  "/" + opponent_zoneShots[i]);
+                zone_goals[i].setText(opponent_zoneGoals[i] +  "/" + (opponent_zoneShots[i] + opponent_zoneGoals[i]));
 
 
             }
         }
+    }
+
+    private void refreshDefensePlayerStatistics(TextView zone_stats[], TextView zone_goals[], Goalkeeper goalkeeper){
+
+        int opponent_zoneGoals[] = new int[9];
+        int opponent_zoneShots[] = new int[9];
+
+
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    opponent_zoneGoals[i] += goalkeeper.getZoneAllGoals(i + 1, j + 1);
+                    opponent_zoneShots[i] += goalkeeper.getZoneAllDefended(i + 1, j + 1);
+                }
+
+                int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / ((float) opponent_zoneShots[i] + opponent_zoneGoals[i]) * 100);
+
+                if (opponent_zoneShots[i] !=0){
+                    zone_stats[i].setText(String.valueOf(effectiveness) + "%");
+                    setColor(zone_stats[i], zone_goals[i], effectiveness);
+                }else{
+                    zone_stats[i].setText("---");
+                    zone_stats[i].setBackgroundColor(Color.parseColor("#959595"));
+                    zone_stats[i].setTextColor(Color.parseColor("#000000"));
+                    zone_goals[i].setBackgroundColor(Color.parseColor("#959595"));
+                }
+
+                zone_goals[i].setText(opponent_zoneGoals[i] +  "/" + (opponent_zoneShots[i] + opponent_zoneGoals[i]));
+
+
+            }
+
     }
 
 
