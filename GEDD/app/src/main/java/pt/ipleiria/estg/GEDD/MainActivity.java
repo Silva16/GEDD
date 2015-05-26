@@ -48,7 +48,7 @@ public class MainActivity extends CustomActionBarActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
                 Game item = (Game) listView.getItemAtPosition(position);
-                Toast.makeText(MainActivity.this, "Selected : "+item.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Seleccionado : "+item.getName(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 intent.putExtra("type", "load");
                 intent.putExtra("game",item);

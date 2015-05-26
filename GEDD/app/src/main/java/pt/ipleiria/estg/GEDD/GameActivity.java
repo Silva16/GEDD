@@ -267,8 +267,6 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                         temp = temp + Character.toString((char) c);
                     }
                     lastAction.setText(temp);
-                /* A toast foi so pra testar */
-                    Toast.makeText(getBaseContext(), "file read", Toast.LENGTH_SHORT).show();
 
                 } catch (Exception e) {
 

@@ -78,7 +78,7 @@ public class ListDriveGamesActivity extends CustomActionBarActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         task.execute(item);
-                        Toast.makeText(ListDriveGamesActivity.this, "Selected : "+item, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ListDriveGamesActivity.this, "Seleccionado : "+item, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -151,8 +151,7 @@ public class ListDriveGamesActivity extends CustomActionBarActivity {
         protected String doInBackground(String... string) {
             DriveId folderId = findDriveId("GEDD", "application/vnd.google-apps.folder", null);
             if (folderId == null) {
-                Toast.makeText(getApplicationContext(), "Não existem ficheiros para ser carregados",
-                        Toast.LENGTH_LONG).show();
+                return "ERRO";
             } else {
                 Log.i(TAG, "VOU CARREGAR A FOLDER");
                 DriveFolder folder = Drive.DriveApi.getFolder(getGoogleApiClient(), folderId);
@@ -164,8 +163,14 @@ public class ListDriveGamesActivity extends CustomActionBarActivity {
 
         @Override
         protected void onPostExecute(String string) {
+
             progressDialog.dismiss();
-            Toast.makeText(getApplicationContext(), "Lista de jogos da drive descarregados", Toast.LENGTH_LONG).show();
+            if(string != null){
+                Toast.makeText(ListDriveGamesActivity.this, "Não existem ficheiros para ser carregados",
+                        Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(getApplicationContext(), "Lista de jogos da drive descarregados", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
