@@ -10,13 +10,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/players"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:focusable="false"
         android:layout_below="@+id/line"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/zones"
+        android:layout_alignEnd="@+id/zones">
 
         <ImageButton
             android:layout_width="85dp"
@@ -27,7 +27,8 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/imgbtn_player2"
             android:layout_toStartOf="@+id/imgbtn_player2"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
 
         <ImageButton
             android:layout_width="85dp"
@@ -40,7 +41,8 @@
             android:layout_toStartOf="@+id/imgbtn_player3"
             android:paddingRight="20dp"
             android:paddingLeft="20dp"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
 
         <ImageButton
             android:layout_width="85dp"
@@ -51,7 +53,8 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/space"
             android:layout_toStartOf="@+id/space"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
 
         <ImageButton
             android:layout_width="85dp"
@@ -62,7 +65,8 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/space"
             android:layout_toEndOf="@+id/space"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
 
         <ImageButton
             android:layout_width="85dp"
@@ -73,7 +77,8 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/imgbtn_player4"
             android:layout_toEndOf="@+id/imgbtn_player4"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
 
         <ImageButton
             android:layout_width="85dp"
@@ -84,7 +89,8 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/imgbtn_player5"
             android:layout_toEndOf="@+id/imgbtn_player5"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
 
         <ImageButton
             android:layout_width="63dp"
@@ -93,7 +99,8 @@
             android:src="@drawable/gr_shirt"
             android:text="1 - GR"
             android:layout_below="@+id/imgbtn_player3"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/btn_default" />
 
 
         <Space
@@ -138,7 +145,7 @@
         android:layout_alignLeft="@+id/players"
         android:layout_alignStart="@+id/players"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:background="#F3852F">
 
         <TextView
             android:layout_width="wrap_content"
@@ -147,7 +154,8 @@
             android:text="Finalização"
             android:id="@+id/textView2"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -157,7 +165,8 @@
             android:id="@+id/btn_ca"
             android:textSize="13dp"
             android:layout_below="@+id/textView2"
-            android:layout_alignRight="@+id/space2" />
+            android:layout_alignRight="@+id/space2"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -167,7 +176,8 @@
             android:id="@+id/btn_attack"
             android:layout_below="@+id/textView2"
             android:layout_toRightOf="@+id/btn_ca"
-            android:layout_toEndOf="@+id/btn_ca" />
+            android:layout_toEndOf="@+id/btn_ca"
+            android:background="@android:drawable/btn_default" />
 
         <Space
             android:layout_width="0dp"
@@ -182,10 +192,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/offensiveAction"
-        android:layout_below="@+id/finalization"
         android:layout_alignLeft="@+id/finalization"
         android:layout_alignStart="@+id/finalization"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="5dp"
+        android:background="#F3852F"
+        android:layout_below="@+id/finalization">
 
         <TextView
             android:layout_width="wrap_content"
@@ -194,7 +205,8 @@
             android:text="Acção Ofensiva"
             android:id="@+id/textView"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/imgbtn_player6" />
+            android:layout_below="@+id/imgbtn_player6"
+            android:textColor="#FFFFFF" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -204,7 +216,8 @@
             android:id="@+id/btn_goal"
             android:layout_below="@+id/textView"
             android:layout_toLeftOf="@+id/btn_defense"
-            android:layout_toStartOf="@+id/btn_defense" />
+            android:layout_toStartOf="@+id/btn_defense"
+            android:background="@android:drawable/btn_default"/>
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -214,7 +227,8 @@
             android:id="@+id/btn_block_atk"
             android:layout_alignTop="@+id/btn_out"
             android:layout_toRightOf="@+id/btn_out"
-            android:layout_toEndOf="@+id/btn_out" />
+            android:layout_toEndOf="@+id/btn_out"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -224,7 +238,8 @@
             android:id="@+id/btn_goalpost"
             android:layout_alignTop="@+id/btn_block_atk"
             android:layout_toRightOf="@+id/btn_block_atk"
-            android:layout_toEndOf="@+id/btn_block_atk" />
+            android:layout_toEndOf="@+id/btn_block_atk"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -233,7 +248,8 @@
             android:text="Fora"
             android:id="@+id/btn_out"
             android:layout_alignTop="@+id/btn_defense"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -243,7 +259,8 @@
             android:id="@+id/btn_defense"
             android:layout_alignTop="@+id/btn_goal"
             android:layout_toLeftOf="@+id/btn_out"
-            android:layout_toStartOf="@+id/btn_out" />
+            android:layout_toStartOf="@+id/btn_out"
+            android:background="@android:drawable/btn_default" />
 
     </RelativeLayout>
 
@@ -251,12 +268,12 @@
         android:layout_width="fill_parent"
         android:layout_height="85dp"
         android:id="@+id/defensiveAction"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginLeft="10dp"
-        android:layout_below="@+id/offensiveAction" >
+        android:layout_below="@+id/offensiveAction"
+        android:background="#505050"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -266,7 +283,8 @@
             android:id="@+id/textView5"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/btn_block_def"
-            android:layout_toEndOf="@+id/btn_block_def" />
+            android:layout_toEndOf="@+id/btn_block_def"
+            android:textColor="#FFFFFF" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -276,7 +294,8 @@
             android:id="@+id/btn_block_def"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/btn_unarm"
-            android:layout_toStartOf="@+id/btn_unarm" />
+            android:layout_toStartOf="@+id/btn_unarm"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -285,7 +304,8 @@
             android:text="Desarme"
             android:id="@+id/btn_unarm"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -295,17 +315,19 @@
             android:id="@+id/btn_interception"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/btn_unarm"
-            android:layout_toEndOf="@+id/btn_unarm" />
+            android:layout_toEndOf="@+id/btn_unarm"
+            android:background="@android:drawable/btn_default" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="90dp"
+        android:layout_height="85dp"
         android:id="@+id/otherActions"
         android:layout_below="@+id/defensiveAction"
         android:layout_alignLeft="@+id/defensiveAction"
-        android:layout_alignStart="@+id/defensiveAction">
+        android:layout_alignStart="@+id/defensiveAction"
+        android:layout_marginTop="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -331,7 +353,8 @@
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/btn_ft"
             android:layout_toEndOf="@+id/btn_ft"
-            android:layout_marginRight="15dp" />
+            android:layout_marginRight="15dp"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -339,8 +362,10 @@
             android:layout_height="63dp"
             android:text="Falha Técnica"
             android:id="@+id/btn_ft"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignTop="@+id/btn_assistance"
+            android:layout_alignRight="@+id/space3"
+            android:layout_alignEnd="@+id/space3"
+            android:background="@android:drawable/btn_default" />
 
         <ImageButton
             android:layout_width="63dp"
@@ -353,19 +378,21 @@
             android:layout_alignLeft="@+id/textView10"
             android:layout_alignStart="@+id/textView10"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             android:layout_width="130dp"
             android:layout_height="63dp"
             android:text="Falha Técnica Adversária"
             android:id="@+id/btn_ft_adv"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/btn_ft"
-            android:layout_toStartOf="@+id/btn_ft"
-            android:layout_marginRight="90dp"
             android:textSize="14dp"
-            android:onClick="clickFtAdv"/>
+            android:onClick="clickFtAdv"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:drawable/btn_default" />
 
         <Space
             android:layout_width="0px"
@@ -382,57 +409,66 @@
             android:id="@+id/textView10"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/goalkeeperActions"
-        android:layout_alignRight="@+id/goalLayout"
-        android:layout_alignEnd="@+id/goalLayout"
         android:layout_alignBottom="@+id/line"
-        android:layout_alignLeft="@+id/goalLayout"
-        android:layout_alignStart="@+id/goalLayout">
+        android:background="#CD0C16"
+        android:layout_toLeftOf="@+id/zones"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true">
 
         <Button
             android:layout_width="95dp"
-            android:layout_height="63dp"
+            android:layout_height="60dp"
             android:text="Trave / Poste"
             android:id="@+id/btn_gk_post"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/btn_gk_out"
             android:layout_alignRight="@+id/goalLayout"
-            android:layout_alignEnd="@+id/goalLayout" />
+            android:layout_alignEnd="@+id/goalLayout"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp" />
 
         <Button
             android:layout_width="95dp"
-            android:layout_height="63dp"
+            android:layout_height="60dp"
             android:text="Defesa"
             android:id="@+id/btn_gk_def"
             android:layout_below="@+id/btn_gk_out"
             android:layout_toRightOf="@+id/btn_gk_out"
-            android:layout_toEndOf="@+id/btn_gk_out" />
+            android:layout_toEndOf="@+id/btn_gk_out"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             android:layout_width="94dp"
-            android:layout_height="63dp"
+            android:layout_height="60dp"
             android:text="Fora"
             android:id="@+id/btn_gk_out"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp" />
 
         <Button
             android:layout_width="94dp"
-            android:layout_height="63dp"
+            android:layout_height="60dp"
             android:text="Golo"
             android:id="@+id/btn_gk_goal"
             android:layout_below="@+id/btn_gk_out"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_toLeftOf="@+id/btn_gk_post"
-            android:layout_toStartOf="@+id/btn_gk_post" />
+            android:layout_toStartOf="@+id/btn_gk_post"
+            android:background="@android:drawable/btn_default" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -440,10 +476,13 @@
         android:layout_height="fill_parent"
         android:id="@+id/goalLayout"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="126dp"
+        android:layout_marginTop="123dp"
         android:layout_alignBottom="@+id/goalkeeperActions"
         android:layout_alignLeft="@+id/players"
-        android:layout_alignStart="@+id/players">
+        android:layout_alignStart="@+id/players"
+        android:layout_alignRight="@+id/goalkeeperActions"
+        android:layout_alignEnd="@+id/goalkeeperActions"
+        android:background="#F3852F">
 
         <Button
             android:layout_width="63dp"
@@ -452,7 +491,8 @@
             android:id="@+id/btn_b1"
             android:layout_above="@+id/btn_b4"
             android:layout_alignLeft="@+id/btn_b4"
-            android:layout_alignStart="@+id/btn_b4" />
+            android:layout_alignStart="@+id/btn_b4"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             android:layout_width="63dp"
@@ -461,7 +501,8 @@
             android:id="@+id/btn_b2"
             android:layout_alignTop="@+id/btn_b1"
             android:layout_toRightOf="@+id/btn_b4"
-            android:layout_toEndOf="@+id/btn_b4" />
+            android:layout_toEndOf="@+id/btn_b4"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             android:layout_width="63dp"
@@ -470,7 +511,8 @@
             android:id="@+id/btn_b3"
             android:layout_alignTop="@+id/btn_b2"
             android:layout_toRightOf="@+id/btn_b2"
-            android:layout_toEndOf="@+id/btn_b2" />
+            android:layout_toEndOf="@+id/btn_b2"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             android:layout_width="63dp"
@@ -479,7 +521,8 @@
             android:id="@+id/btn_b4"
             android:layout_above="@+id/btn_b7"
             android:layout_alignLeft="@+id/btn_b7"
-            android:layout_alignStart="@+id/btn_b7" />
+            android:layout_alignStart="@+id/btn_b7"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             android:layout_width="63dp"
@@ -488,7 +531,8 @@
             android:id="@+id/btn_b5"
             android:layout_alignTop="@+id/btn_b6"
             android:layout_toRightOf="@+id/btn_b7"
-            android:layout_toEndOf="@+id/btn_b7" />
+            android:layout_toEndOf="@+id/btn_b7"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             android:layout_width="63dp"
@@ -497,7 +541,8 @@
             android:id="@+id/btn_b6"
             android:layout_below="@+id/btn_b2"
             android:layout_toRightOf="@+id/btn_b5"
-            android:layout_toEndOf="@+id/btn_b5" />
+            android:layout_toEndOf="@+id/btn_b5"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             android:layout_width="63dp"
@@ -506,7 +551,8 @@
             android:id="@+id/btn_b7"
             android:layout_alignTop="@+id/btn_b8"
             android:layout_toLeftOf="@+id/btn_b8"
-            android:layout_toStartOf="@+id/btn_b8" />
+            android:layout_toStartOf="@+id/btn_b8"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             android:layout_width="63dp"
@@ -514,7 +560,8 @@
             android:text="B8"
             android:id="@+id/btn_b8"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             android:layout_width="63dp"
@@ -523,7 +570,8 @@
             android:id="@+id/btn_b9"
             android:layout_below="@+id/btn_b5"
             android:layout_toRightOf="@+id/btn_b8"
-            android:layout_toEndOf="@+id/btn_b8" />
+            android:layout_toEndOf="@+id/btn_b8"
+            android:background="@android:drawable/btn_default" />
 
     </RelativeLayout>
 
@@ -537,57 +585,68 @@
         android:layout_toEndOf="@+id/line"
         android:gravity="center"
         android:layout_toRightOf="@+id/line"
-        android:layout_above="@+id/players">
+        android:layout_above="@+id/players"
+        android:background="#505050">
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="63dp"
-            android:layout_height="105dp"
+            android:layout_height="102dp"
             android:text="Zona 1"
             android:id="@+id/btn_zone_1"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="63dp"
-            android:layout_height="105dp"
+            android:layout_height="102dp"
             android:text="Zona 2"
             android:id="@+id/btn_zone_2"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/btn_zone_1"
-            android:layout_toEndOf="@+id/btn_zone_1" />
+            android:layout_toEndOf="@+id/btn_zone_1"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="63dp"
-            android:layout_height="105dp"
+            android:layout_height="102dp"
             android:text="Zona 3"
             android:id="@+id/btn_zone_3"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/btn_zone_2"
-            android:layout_toEndOf="@+id/btn_zone_2" />
+            android:layout_toEndOf="@+id/btn_zone_2"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="63dp"
-            android:layout_height="105dp"
+            android:layout_height="102dp"
             android:text="Zona 4"
             android:id="@+id/btn_zone_4"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/btn_zone_3"
-            android:layout_toEndOf="@+id/btn_zone_3" />
+            android:layout_toEndOf="@+id/btn_zone_3"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="63dp"
-            android:layout_height="105dp"
+            android:layout_height="102dp"
             android:text="Zona 5"
             android:id="@+id/btn_zone_5"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/btn_zone_4"
-            android:layout_toEndOf="@+id/btn_zone_4" />
+            android:layout_toEndOf="@+id/btn_zone_4"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -597,7 +656,8 @@
             android:id="@+id/btn_zone_6"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/btn_zone_1"
-            android:layout_toEndOf="@+id/btn_zone_1" />
+            android:layout_toEndOf="@+id/btn_zone_1"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -609,7 +669,8 @@
             android:layout_alignLeft="@+id/btn_zone_2"
             android:layout_alignStart="@+id/btn_zone_2"
             android:layout_toLeftOf="@+id/btn_zone_5"
-            android:layout_toStartOf="@+id/btn_zone_5" />
+            android:layout_toStartOf="@+id/btn_zone_5"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -619,7 +680,8 @@
             android:id="@+id/btn_zone_8"
             android:layout_alignLeft="@+id/btn_zone_3"
             android:layout_alignStart="@+id/btn_zone_3"
-            android:layout_below="@+id/btn_zone_7" />
+            android:layout_below="@+id/btn_zone_7"
+            android:background="@android:drawable/btn_default" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -629,16 +691,10 @@
             android:id="@+id/btn_zone_9"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/btn_zone_8"
-            android:layout_toEndOf="@+id/btn_zone_8" />
+            android:layout_toEndOf="@+id/btn_zone_8"
+            android:background="@android:drawable/btn_default" />
 
     </RelativeLayout>
-
-    <Space
-        android:layout_width="20px"
-        android:layout_height="20px"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/zones"
-        android:layout_toStartOf="@+id/zones" />
 
     <View
         android:layout_width="3dp"
@@ -661,6 +717,7 @@
         android:layout_alignBottom="@+id/players"
         android:layout_alignRight="@+id/players"
         android:layout_alignEnd="@+id/players"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:background="@android:drawable/btn_default" />
 
 </RelativeLayout>
