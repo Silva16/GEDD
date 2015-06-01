@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pt.ipleiria.estg.GEDD" >
-
+    <supports-screens android:requiresSmallestWidthDp="600" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"

@@ -145,7 +145,7 @@
         android:layout_alignLeft="@+id/players"
         android:layout_alignStart="@+id/players"
         android:layout_marginTop="10dp"
-        android:background="#F3852F">
+        android:background="#ff1693a5">
 
         <TextView
             android:layout_width="wrap_content"
@@ -195,7 +195,7 @@
         android:layout_alignLeft="@+id/finalization"
         android:layout_alignStart="@+id/finalization"
         android:layout_marginBottom="5dp"
-        android:background="#F3852F"
+        android:background="#ff1693a5"
         android:layout_below="@+id/finalization">
 
         <TextView
@@ -271,7 +271,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/offensiveAction"
-        android:background="#505050"
+        android:background="#FF0033"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
@@ -418,7 +418,7 @@
         android:layout_height="fill_parent"
         android:id="@+id/goalkeeperActions"
         android:layout_alignBottom="@+id/line"
-        android:background="#CD0C16"
+        android:background="#FFCC00"
         android:layout_toLeftOf="@+id/zones"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -482,7 +482,7 @@
         android:layout_alignStart="@+id/players"
         android:layout_alignRight="@+id/goalkeeperActions"
         android:layout_alignEnd="@+id/goalkeeperActions"
-        android:background="#F3852F">
+        android:background="#FF6600">
 
         <Button
             android:layout_width="63dp"
