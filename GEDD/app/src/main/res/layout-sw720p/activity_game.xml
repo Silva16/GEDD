@@ -1,0 +1,775 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:id="@+id/mainActivityLayout"
+    android:layout_height="wrap_content" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/players"
+        android:focusable="false"
+        android:layout_below="@+id/line"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/zones"
+        android:layout_alignEnd="@+id/zones">
+
+        <ImageButton
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:id="@+id/imgbtn_player1"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/imgbtn_player2"
+            android:layout_toStartOf="@+id/imgbtn_player2"
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
+
+        <ImageButton
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:id="@+id/imgbtn_player2"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/imgbtn_player3"
+            android:layout_toStartOf="@+id/imgbtn_player3"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
+
+        <ImageButton
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:id="@+id/imgbtn_player3"
+            android:src="@drawable/ic_shirt"
+            android:clickable="false"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/space"
+            android:layout_toStartOf="@+id/space"
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
+
+        <ImageButton
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:id="@+id/imgbtn_player4"
+            android:src="@drawable/ic_shirt"
+            android:clickable="false"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/space"
+            android:layout_toEndOf="@+id/space"
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
+
+        <ImageButton
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:id="@+id/imgbtn_player5"
+            android:src="@drawable/ic_shirt"
+            android:clickable="false"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imgbtn_player4"
+            android:layout_toEndOf="@+id/imgbtn_player4"
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
+
+        <ImageButton
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:id="@+id/imgbtn_player6"
+            android:src="@drawable/ic_shirt"
+            android:clickable="false"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imgbtn_player5"
+            android:layout_toEndOf="@+id/imgbtn_player5"
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/btn_default" />
+
+        <ImageButton
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:id="@+id/imgbtn_goalkeeper1"
+            android:src="@drawable/gr_shirt"
+            android:text="1 - GR"
+            android:layout_below="@+id/imgbtn_player3"
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/btn_default" />
+
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/space" />
+
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="center"
+            android:id="@+id/lbl_gk1"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:numeric="integer"
+            android:layout_below="@+id/imgbtn_player3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="17dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Substituição"
+            android:id="@+id/textViewSub"
+            android:textSize="20dp"
+            android:height="50dp"
+            android:gravity="center_vertical"
+            android:layout_alignTop="@+id/imgbtn_subs"
+            android:layout_toLeftOf="@+id/imgbtn_subs"
+            android:layout_toStartOf="@+id/imgbtn_subs"
+            android:layout_alignBottom="@+id/imgbtn_subs"
+            android:layout_marginRight="5dp" />
+
+        <ImageButton
+            android:src="@drawable/substituicao"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/imgbtn_subs"
+            android:scaleType="fitCenter"
+            android:background="@android:drawable/btn_default"
+            android:adjustViewBounds="false"
+            android:layout_alignTop="@+id/lbl_gk1"
+            android:layout_alignRight="@+id/imgbtn_player6"
+            android:layout_alignEnd="@+id/imgbtn_player6" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="110dp"
+        android:id="@+id/finalization"
+        android:layout_below="@+id/players"
+        android:layout_alignLeft="@+id/players"
+        android:layout_alignStart="@+id/players"
+        android:layout_marginTop="10dp"
+        android:background="#F3852F">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Finalização"
+            android:id="@+id/textView2"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            android:textSize="23dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textIsSelectable="false" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="200dp"
+            android:layout_height="75dp"
+            android:text="Contra-Ataque"
+            android:id="@+id/btn_ca"
+            android:textSize="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignRight="@+id/space2"
+            android:background="@android:drawable/btn_default" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="200dp"
+            android:layout_height="75dp"
+            android:text="Ataque"
+            android:id="@+id/btn_attack"
+            android:layout_below="@+id/textView2"
+            android:layout_toRightOf="@+id/btn_ca"
+            android:layout_toEndOf="@+id/btn_ca"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/space2"
+            android:layout_below="@+id/textView2" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="110dp"
+        android:id="@+id/offensiveAction"
+        android:layout_alignLeft="@+id/finalization"
+        android:layout_alignStart="@+id/finalization"
+        android:layout_marginBottom="5dp"
+        android:background="#F3852F"
+        android:layout_below="@+id/finalization">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Acção Ofensiva"
+            android:id="@+id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/imgbtn_player6"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="23dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Golo"
+            android:id="@+id/btn_goal"
+            android:layout_below="@+id/textView"
+            android:layout_toLeftOf="@+id/btn_defense"
+            android:layout_toStartOf="@+id/btn_defense"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Bloco"
+            android:id="@+id/btn_block_atk"
+            android:layout_alignTop="@+id/btn_out"
+            android:layout_toRightOf="@+id/btn_out"
+            android:layout_toEndOf="@+id/btn_out"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Trave"
+            android:id="@+id/btn_goalpost"
+            android:layout_alignTop="@+id/btn_block_atk"
+            android:layout_toRightOf="@+id/btn_block_atk"
+            android:layout_toEndOf="@+id/btn_block_atk"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Fora"
+            android:id="@+id/btn_out"
+            android:layout_alignTop="@+id/btn_defense"
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Defesa"
+            android:id="@+id/btn_defense"
+            android:layout_alignTop="@+id/btn_goal"
+            android:layout_toLeftOf="@+id/btn_out"
+            android:layout_toStartOf="@+id/btn_out"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="110dp"
+        android:id="@+id/defensiveAction"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/offensiveAction"
+        android:background="#505050"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Acção Defensiva"
+            android:id="@+id/textView5"
+            android:layout_alignParentTop="true"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="23dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center_horizontal" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Bloco"
+            android:id="@+id/btn_block_def"
+            android:background="@android:drawable/btn_default"
+            android:layout_below="@+id/textView5"
+            android:layout_toLeftOf="@+id/btn_unarm"
+            android:layout_toStartOf="@+id/btn_unarm"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Desarme"
+            android:id="@+id/btn_unarm"
+            android:background="@android:drawable/btn_default"
+            android:layout_below="@+id/textView5"
+            android:layout_centerHorizontal="true"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Interceção"
+            android:id="@+id/btn_interception"
+            android:background="@android:drawable/btn_default"
+            android:layout_below="@+id/textView5"
+            android:layout_toRightOf="@+id/btn_unarm"
+            android:layout_toEndOf="@+id/btn_unarm"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="85dp"
+        android:id="@+id/otherActions"
+        android:layout_below="@+id/defensiveAction"
+        android:layout_alignLeft="@+id/defensiveAction"
+        android:layout_alignStart="@+id/defensiveAction"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Outras Acções"
+            android:id="@+id/txtview_otherActions"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/btn_assistance"
+            android:layout_alignRight="@+id/imgbtn_cards"
+            android:layout_alignEnd="@+id/imgbtn_cards"
+            android:textSize="23dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Assistência"
+            android:id="@+id/btn_assistance"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/btn_ft"
+            android:layout_toEndOf="@+id/btn_ft"
+            android:layout_marginRight="15dp"
+            android:background="@android:drawable/btn_default" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Falha Técnica"
+            android:id="@+id/btn_ft"
+            android:layout_alignRight="@+id/space3"
+            android:layout_alignEnd="@+id/space3"
+            android:background="@android:drawable/btn_default"
+            android:layout_alignTop="@+id/btn_ft_adv" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/imgbtn_cards"
+            android:src="@drawable/cards"
+            android:padding="6dp"
+            android:scaleType="fitCenter"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/textView10"
+            android:layout_alignStart="@+id/textView10"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:background="@android:drawable/btn_default" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Falha Técnica Adversária"
+            android:id="@+id/btn_ft_adv"
+            android:textSize="14dp"
+            android:onClick="clickFtAdv"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:drawable/btn_default" />
+
+        <Space
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:layout_below="@+id/txtview_otherActions"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/space3" />
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Disciplina"
+            android:id="@+id/textView10"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:textSize="23dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/goalkeeperActions"
+        android:layout_alignBottom="@+id/line"
+        android:background="#CD0C16"
+        android:layout_toLeftOf="@+id/zones"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true">
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:text="Trave / Poste"
+            android:id="@+id/btn_gk_post"
+            android:layout_toRightOf="@+id/btn_gk_out"
+            android:layout_alignRight="@+id/goalLayout"
+            android:layout_alignEnd="@+id/goalLayout"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp"
+            android:layout_alignBottom="@+id/btn_gk_out"
+            android:layout_alignTop="@+id/btn_gk_out" />
+
+        <Button
+            android:layout_width="95dp"
+            android:layout_height="60dp"
+            android:text="Defesa"
+            android:id="@+id/btn_gk_def"
+            android:layout_below="@+id/btn_gk_out"
+            android:layout_toRightOf="@+id/btn_gk_out"
+            android:background="@android:drawable/btn_default"
+            android:layout_alignRight="@+id/btn_gk_post"
+            android:layout_alignEnd="@+id/btn_gk_post"
+            android:layout_alignBottom="@+id/btn_gk_goal"
+            android:textSize="20dp" />
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="75dp"
+            android:text="Fora"
+            android:id="@+id/btn_gk_out"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="7dp"
+            android:textSize="20dp" />
+
+        <Button
+            android:layout_width="94dp"
+            android:layout_height="75dp"
+            android:text="Golo"
+            android:id="@+id/btn_gk_goal"
+            android:layout_below="@+id/btn_gk_out"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/btn_gk_post"
+            android:layout_toStartOf="@+id/btn_gk_post"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/goalLayout"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="163dp"
+        android:layout_alignBottom="@+id/goalkeeperActions"
+        android:layout_alignLeft="@+id/players"
+        android:layout_alignStart="@+id/players"
+        android:layout_alignRight="@+id/goalkeeperActions"
+        android:layout_alignEnd="@+id/goalkeeperActions"
+        android:background="#F3852F">
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="B1"
+            android:id="@+id/btn_b1"
+            android:layout_above="@+id/btn_b4"
+            android:layout_alignLeft="@+id/btn_b4"
+            android:layout_alignStart="@+id/btn_b4"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="B2"
+            android:id="@+id/btn_b2"
+            android:layout_alignTop="@+id/btn_b1"
+            android:layout_toRightOf="@+id/btn_b4"
+            android:layout_toEndOf="@+id/btn_b4"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="B3"
+            android:id="@+id/btn_b3"
+            android:layout_alignTop="@+id/btn_b2"
+            android:layout_toRightOf="@+id/btn_b2"
+            android:layout_toEndOf="@+id/btn_b2"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="B4"
+            android:id="@+id/btn_b4"
+            android:layout_above="@+id/btn_b7"
+            android:layout_alignLeft="@+id/btn_b7"
+            android:layout_alignStart="@+id/btn_b7"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="B5"
+            android:id="@+id/btn_b5"
+            android:layout_alignTop="@+id/btn_b6"
+            android:layout_toRightOf="@+id/btn_b7"
+            android:layout_toEndOf="@+id/btn_b7"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="B6"
+            android:id="@+id/btn_b6"
+            android:layout_below="@+id/btn_b2"
+            android:layout_toRightOf="@+id/btn_b5"
+            android:layout_toEndOf="@+id/btn_b5"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="B7"
+            android:id="@+id/btn_b7"
+            android:layout_alignTop="@+id/btn_b8"
+            android:layout_toLeftOf="@+id/btn_b8"
+            android:layout_toStartOf="@+id/btn_b8"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="B8"
+            android:id="@+id/btn_b8"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="B9"
+            android:id="@+id/btn_b9"
+            android:layout_below="@+id/btn_b5"
+            android:layout_toRightOf="@+id/btn_b8"
+            android:layout_toEndOf="@+id/btn_b8"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="315dp"
+        android:layout_height="189dp"
+        android:id="@+id/zones"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/line"
+        android:gravity="center"
+        android:layout_toRightOf="@+id/line"
+        android:layout_above="@+id/players"
+        android:background="#505050">
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="95dp"
+            android:layout_height="102dp"
+            android:text="Zona 1"
+            android:id="@+id/btn_zone_1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="95dp"
+            android:layout_height="102dp"
+            android:text="Zona 2"
+            android:id="@+id/btn_zone_2"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/btn_zone_1"
+            android:layout_toEndOf="@+id/btn_zone_1"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="95dp"
+            android:layout_height="102dp"
+            android:text="Zona 3"
+            android:id="@+id/btn_zone_3"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/btn_zone_2"
+            android:layout_toEndOf="@+id/btn_zone_2"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="95dp"
+            android:layout_height="102dp"
+            android:text="Zona 4"
+            android:id="@+id/btn_zone_4"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/btn_zone_3"
+            android:layout_toEndOf="@+id/btn_zone_3"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="95dp"
+            android:layout_height="102dp"
+            android:text="Zona 5"
+            android:id="@+id/btn_zone_5"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/btn_zone_4"
+            android:layout_toEndOf="@+id/btn_zone_4"
+            android:background="@android:drawable/btn_default"
+            android:layout_marginTop="3dp"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="95dp"
+            android:layout_height="105dp"
+            android:text="Zona 6"
+            android:id="@+id/btn_zone_6"
+            android:background="@android:drawable/btn_default"
+            android:layout_alignBaseline="@+id/btn_zone_8"
+            android:layout_alignBottom="@+id/btn_zone_8"
+            android:layout_toLeftOf="@+id/btn_zone_8"
+            android:layout_toStartOf="@+id/btn_zone_8"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="105dp"
+            android:text="Zona 7"
+            android:id="@+id/btn_zone_7"
+            android:layout_below="@+id/btn_zone_3"
+            android:layout_alignLeft="@+id/btn_zone_2"
+            android:layout_alignStart="@+id/btn_zone_2"
+            android:layout_toLeftOf="@+id/btn_zone_5"
+            android:layout_toStartOf="@+id/btn_zone_5"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="95dp"
+            android:layout_height="105dp"
+            android:text="Zona 8"
+            android:id="@+id/btn_zone_8"
+            android:layout_alignLeft="@+id/btn_zone_3"
+            android:layout_alignStart="@+id/btn_zone_3"
+            android:layout_below="@+id/btn_zone_7"
+            android:background="@android:drawable/btn_default"
+            android:textSize="20dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="95dp"
+            android:layout_height="105dp"
+            android:text="Zona 9"
+            android:id="@+id/btn_zone_9"
+            android:background="@android:drawable/btn_default"
+            android:layout_below="@+id/btn_zone_7"
+            android:layout_toLeftOf="@+id/btn_zone_5"
+            android:layout_toStartOf="@+id/btn_zone_5"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="3dp"
+        android:layout_height="410dp"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/line"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="265dp"
+        android:layout_marginStart="211dp" />
+
+</RelativeLayout>
