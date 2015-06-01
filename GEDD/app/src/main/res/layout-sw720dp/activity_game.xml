@@ -120,7 +120,7 @@
             android:numeric="integer"
             android:layout_below="@+id/imgbtn_player3"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="17dp" />
+            android:layout_marginTop="30dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -146,9 +146,9 @@
             android:scaleType="fitCenter"
             android:background="@android:drawable/btn_default"
             android:adjustViewBounds="false"
-            android:layout_alignTop="@+id/lbl_gk1"
             android:layout_alignRight="@+id/imgbtn_player6"
-            android:layout_alignEnd="@+id/imgbtn_player6" />
+            android:layout_alignEnd="@+id/imgbtn_player6"
+            android:layout_alignTop="@+id/imgbtn_goalkeeper1" />
 
     </RelativeLayout>
 

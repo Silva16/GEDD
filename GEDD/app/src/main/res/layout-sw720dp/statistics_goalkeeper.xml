@@ -1,0 +1,310 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/goalkeeper_goal"
+    tools:context="pt.ipleiria.estg.GEDD.StatisticsGoalkeeper"
+    android:id="@+id/statisticsGKLayout">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/zones">
+
+        <TextView
+            android:layout_width="279dp"
+            android:layout_height="129dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Zona 1"
+            android:id="@+id/zone1_stats"
+            android:layout_marginTop="63dp"
+            android:layout_marginLeft="212dp"
+            android:layout_marginStart="105dp"
+            android:textColor="#000000"
+            android:textSize="65dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:layout_width="281dp"
+            android:layout_height="130dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Zona 4"
+            android:id="@+id/zone4_stats"
+            android:textColor="#000000"
+            android:textSize="65dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone1_goals"
+            android:layout_alignLeft="@+id/zone1_stats"
+            android:layout_alignStart="@+id/zone1_stats"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:layout_width="279dp"
+            android:layout_height="129dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Zona 3"
+            android:id="@+id/zone3_stats"
+            android:textColor="#000000"
+            android:textSize="65dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_alignTop="@+id/zone2_stats"
+            android:layout_toRightOf="@+id/zone2_stats"
+            android:layout_toEndOf="@+id/zone2_stats" />
+
+        <TextView
+            android:layout_width="279dp"
+            android:layout_height="129dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Zona 2"
+            android:id="@+id/zone2_stats"
+            android:textColor="#000000"
+            android:textSize="65dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_alignTop="@+id/zone1_stats"
+            android:layout_toRightOf="@+id/zone1_goals"
+            android:layout_toEndOf="@+id/zone1_goals"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp" />
+
+        <TextView
+            android:layout_width="281dp"
+            android:layout_height="130dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Zona 7"
+            android:id="@+id/zone7_stats"
+            android:textColor="#000000"
+            android:textSize="65dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone4_goals"
+            android:layout_alignLeft="@+id/zone4_stats"
+            android:layout_alignStart="@+id/zone4_stats"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:layout_width="281dp"
+            android:layout_height="130dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Zona 8"
+            android:id="@+id/zone8_stats"
+            android:textColor="#000000"
+            android:textSize="65dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone5_goals"
+            android:layout_toRightOf="@+id/zone7_stats"
+            android:layout_toEndOf="@+id/zone7_stats"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:layout_width="281dp"
+            android:layout_height="130dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Zona 5"
+            android:id="@+id/zone5_stats"
+            android:textColor="#000000"
+            android:textSize="65dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone2_goals"
+            android:layout_toRightOf="@+id/zone1_stats"
+            android:layout_toEndOf="@+id/zone1_stats"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:layout_width="279dp"
+            android:layout_height="130dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Zona 6"
+            android:id="@+id/zone6_stats"
+            android:textColor="#000000"
+            android:textSize="65dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_alignTop="@+id/zone5_stats"
+            android:layout_toRightOf="@+id/zone2_stats"
+            android:layout_toEndOf="@+id/zone2_stats" />
+
+        <TextView
+            android:layout_width="279dp"
+            android:layout_height="130dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Zona 9"
+            android:id="@+id/zone9_stats"
+            android:textColor="#000000"
+            android:textSize="65dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone6_goals"
+            android:layout_alignLeft="@+id/zone6_stats"
+            android:layout_alignStart="@+id/zone6_stats" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="-/-"
+            android:id="@+id/zone1_goals"
+            android:textColor="#000000"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone1_stats"
+            android:layout_alignLeft="@+id/zone1_stats"
+            android:layout_alignStart="@+id/zone1_stats"
+            android:layout_alignRight="@+id/zone1_stats"
+            android:layout_alignEnd="@+id/zone1_stats"
+            android:layout_marginBottom="15dp"
+            android:textSize="32dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="-/-"
+            android:id="@+id/zone2_goals"
+            android:textColor="#000000"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone2_stats"
+            android:layout_alignRight="@+id/zone2_stats"
+            android:layout_alignEnd="@+id/zone2_stats"
+            android:layout_alignLeft="@+id/zone2_stats"
+            android:layout_marginBottom="15dp"
+            android:textSize="32dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="-/-"
+            android:id="@+id/zone3_goals"
+            android:textColor="#000000"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone3_stats"
+            android:layout_toEndOf="@+id/zone2_stats"
+            android:layout_alignRight="@+id/zone3_stats"
+            android:layout_alignLeft="@+id/zone3_stats"
+            android:textSize="32dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="-/-"
+            android:id="@+id/zone4_goals"
+            android:textColor="#000000"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone4_stats"
+            android:layout_alignLeft="@+id/zone4_stats"
+            android:layout_alignStart="@+id/zone4_stats"
+            android:layout_alignRight="@+id/zone4_stats"
+            android:layout_marginBottom="15dp"
+            android:textSize="32dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="-/-"
+            android:id="@+id/zone5_goals"
+            android:textColor="#000000"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone5_stats"
+            android:layout_alignLeft="@+id/zone5_stats"
+            android:layout_alignStart="@+id/zone5_stats"
+            android:layout_alignRight="@+id/zone5_stats"
+            android:layout_alignEnd="@+id/zone5_stats"
+            android:layout_marginBottom="15dp"
+            android:textSize="32dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="-/-"
+            android:id="@+id/zone6_goals"
+            android:textColor="#000000"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone6_stats"
+            android:layout_alignLeft="@+id/zone6_stats"
+            android:layout_alignRight="@+id/zone6_stats"
+            android:layout_marginBottom="15dp"
+            android:textSize="32dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="-/-"
+            android:id="@+id/zone7_goals"
+            android:textColor="#000000"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone7_stats"
+            android:layout_alignLeft="@+id/zone7_stats"
+            android:layout_alignStart="@+id/zone7_stats"
+            android:layout_alignRight="@+id/zone7_stats"
+            android:layout_alignEnd="@+id/zone7_stats"
+            android:textSize="32dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="-/-"
+            android:id="@+id/zone8_goals"
+            android:textColor="#000000"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone8_stats"
+            android:layout_alignLeft="@+id/zone8_stats"
+            android:layout_alignStart="@+id/zone8_stats"
+            android:layout_alignRight="@+id/zone8_stats"
+            android:layout_alignEnd="@+id/zone8_stats"
+            android:textSize="32dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="-/-"
+            android:id="@+id/zone9_goals"
+            android:textColor="#000000"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/zone9_stats"
+            android:layout_alignLeft="@+id/zone9_stats"
+            android:layout_alignRight="@+id/zone9_stats"
+            android:textSize="32dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/zones"
+        android:gravity="center_horizontal">
+
+        <ImageButton
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:id="@+id/gk1_stats"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="330dp" />
+
+        <ImageButton
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:id="@+id/gk2_stats"
+            android:src="@drawable/ic_shirt"
+            android:clickable="true"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/gk1_stats"
+            android:layout_toEndOf="@+id/gk1_stats"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+
+</RelativeLayout>
