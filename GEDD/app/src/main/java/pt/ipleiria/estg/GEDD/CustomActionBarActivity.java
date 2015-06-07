@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -366,143 +368,6 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
                     }
                 }
             };
-
-   /* ResultCallback<DriveApi.DriveContentsResult> contentsOpenedCallback =
-            new ResultCallback<DriveApi.DriveContentsResult>() {
-                @Override
-                public void onResult(DriveApi.DriveContentsResult result) {
-                    if (!result.getStatus().isSuccess()) {
-                        // display an error saying file can't be opened
-                        return;
-                    }
-                    // DriveContents object contains pointers
-                    // to the actual byte stream
-
-                    String filename = "game-gedd.ser";
-                    // save the object to file
-                    FileOutputStream fos = null;
-                    ObjectOutputStream out = null;
-
-                    DriveContents driveContents = result.getDriveContents();
-                    InputStream inputStream = driveContents.getInputStream();
-
-                    try {
-
-                        ObjectInputStream in = new ObjectInputStream(inputStream);
-                        ArrayList<Game> games = (ArrayList<Game>) in.readObject();
-
-                        fos = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString() + filename);
-                        out = new ObjectOutputStream(fos);
-                        out.writeObject(games);
-                        out.close();
-                        fos.close();
-                        inputStream.close();
-
-                        Log.i(TAG,"Escrevi ficheiro");
-
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            };*/
-
-   /* final private ResultCallback<DriveApi.DriveIdResult> idCallback = new ResultCallback<DriveApi.DriveIdResult>() {
-        @Override
-        public void onResult(DriveApi.DriveIdResult result) {
-            new RetrieveDriveFileContentsAsyncTask(MainActivity.this).execute(result.getDriveId());
-        }
-    };
-
-    final private class RetrieveDriveFileContentsAsyncTask
-            extends DriveAsyncTask<DriveId, Boolean, String> {
-
-        public RetrieveDriveFileContentsAsyncTask(Context context) {
-            super(context);
-        }
-
-        @Override
-        protected String doInBackgroundConnected(DriveId... params) {
-            String contents = null;
-            DriveFile file = Drive.DriveApi.getFile(getGoogleApiClient(), params[0]);
-            DriveApi.DriveContentsResult driveContentsResult =
-                    file.open(getGoogleApiClient(), DriveFile.MODE_READ_ONLY, null).await();
-            if (!driveContentsResult.getStatus().isSuccess()) {
-                return null;
-            }
-            DriveContents driveContents = driveContentsResult.getDriveContents();
-
-
-            String filename = "game-gedd.ser";
-
-            // save the object to file
-            FileOutputStream fos = null;
-            ObjectOutputStream out = null;
-            Log.i("onDestroy","Entrei no on destroy");
-
-
-
-            ObjectInputStream in = null;
-            try {
-                in = new ObjectInputStream(driveContents.getInputStream());
-                Log.i("read True","Consegui Ler");
-
-                try {
-                    Log.i("onDestroy","1");
-                    fos = new FileOutputStream(getApplicationContext().getFilesDir().getPath().toString()+filename);
-                    Log.i("onDestroy","2");
-                    out = new ObjectOutputStream(fos);
-                    Log.i("onDestroy","3");
-                    out.writeObject(in);
-                    Log.i("onDestroy","4");
-
-                    out.close();
-
-                    Log.i("onDestroy","Detrui cenas");
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-
-
-
-
-
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(driveContents.getInputStream()));
-            StringBuilder builder = new StringBuilder();
-            String line;
-            try {
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-                contents = builder.toString();
-            } catch (IOException e) {
-                Log.e(TAG, "IOException while reading from the stream", e);
-            }
-
-            driveContents.discard(getGoogleApiClient());
-            return contents;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (result == null) {
-                Log.i(TAG,"Error while reading from the file");
-                return;
-            }
-            Log.i(TAG,"File contents: " + result);
-
-
-        }
-    }*/
 
     public void selectAction(int action){
         driveAction = action;

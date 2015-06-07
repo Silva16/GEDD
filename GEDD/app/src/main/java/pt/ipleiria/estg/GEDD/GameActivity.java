@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
@@ -75,10 +77,11 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
     Boolean playable = false;
     ArrayList<Game> games;
     Boolean save = true;
+    int RESULT_FINISH = 3;
 
 
     private static final String TAG = "main activity";
-
+    private ViewPager mPager;
 
 
 
@@ -87,6 +90,14 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+
+        /*mAdapter = new TestFragmentAdapter(getSupportFragmentManager());
+
+        mPager = (ViewPager)findViewById(R.id.pager);
+        mPager.setAdapter(mAdapter);
+
+        mIndicator = (IconPageIndicator)findViewById(R.id.indicator);
+        mIndicator.setViewPager(mPager);*/
 
         // ActionBar Test
         android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
@@ -333,7 +344,13 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                             if(!playable){
                                 Toast.makeText(getApplicationContext(), "Têm de configurar a equipa antes de registar ações",
                                         Toast.LENGTH_LONG).show();
-                                }else {
+                                }
+                            else if(game.isClosed() != null || !game.isClosed()){
+                                if(game.isClosed()) {
+                                    Toast.makeText(getApplicationContext(), "O jogo já se encontra terminado.",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }else {
                                 if (!(v.isPressed())) {
 
                                     ViewGroup container = (ViewGroup) v.getParent();
@@ -728,6 +745,35 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
             Toast.makeText(getApplicationContext(), "Têm de configurar a equipa para poder registar.",
                     Toast.LENGTH_LONG).show();
         }
+
+        ImageView mHome = (ImageView) findViewById(R.id.pager_home);
+        ImageView mStats = (ImageView) findViewById(R.id.pager_stats);
+        ImageView mGoal = (ImageView) findViewById(R.id.pager_goal);
+
+        mStats.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                callIntentToStatistics(game, players, gks);
+            }
+        });
+
+        mHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        mGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameActivity.this, StatisticsGoalkeeper.class);
+                intent.putExtra("Game", game);
+                intent.putExtra("Goalkeepers", gks);
+                startActivityForResult(intent, 2);
+            }
+        });
 
 
     }
@@ -1583,7 +1629,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == 1) {
+    if (requestCode == 2) {
         if(resultCode == RESULT_OK){
             onResume();
             if(!game.isStarted()){
@@ -1593,6 +1639,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         }
         if (resultCode == RESULT_CANCELED) {
             onResume();
+            finish();
+        }
+        if(resultCode == 2){
+            finish();
         }
     }
 }
@@ -1725,6 +1775,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             }
         }
     }
+
 
 
 

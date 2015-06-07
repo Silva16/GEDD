@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-     >
+    android:background="#ffffffff">
 
     <RelativeLayout
         android:id="@+id/statisticsLayout"
@@ -12,7 +12,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/linearLayout"
+        android:layout_toLeftOf="@+id/linearLayout">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -313,12 +315,27 @@
             android:layout_height="fill_parent"
             android:id="@+id/goalkeepers">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="7 Metros"
+                android:id="@+id/lbl_7meters"
+                android:layout_marginRight="240dp"
+                android:layout_marginEnd="240dp"
+                android:textColor="@android:color/black"
+                android:elevation="0dp"
+                android:visibility="visible"
+                android:layout_marginBottom="172dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
     </RelativeLayout>
 
     <TextView
-        android:layout_width="125dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z1"
@@ -340,7 +357,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z2"
         android:id="@+id/zone2_stats"
-        android:layout_marginLeft="120dp"
+        android:layout_marginLeft="80dp"
         android:layout_marginStart="186dp"
         android:textSize="50dp"
         android:textColor="#ff007cff"
@@ -369,7 +386,7 @@
         android:gravity="center"
         android:textIsSelectable="true"
         android:layout_marginRight="28dp"
-        android:layout_marginLeft="28dp" />
+        android:layout_marginLeft="15dp" />
 
     <TextView
         android:layout_width="125dp"
@@ -381,7 +398,7 @@
         android:textColor="#ff007cff"
         android:layout_below="@+id/zone5_stats"
         android:layout_alignRight="@+id/zone5_stats"
-        android:layout_marginRight="120dp"
+        android:layout_marginRight="80dp"
         android:layout_alignTop="@+id/zone2_stats"
         android:gravity="center"
         android:layout_marginLeft="20dp" />
@@ -402,14 +419,14 @@
         android:translationZ="1dp" />
 
     <TextView
-        android:layout_width="125dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z5"
         android:id="@+id/zone5_stats"
         android:textSize="50dp"
         android:textColor="#ff007cff"
-        android:layout_marginRight="90dp"
+        android:layout_marginRight="150dp"
         android:layout_marginEnd="93dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -550,23 +567,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="7 Metros"
-        android:id="@+id/lbl_7meters"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="300dp"
-        android:layout_marginEnd="352dp"
-        android:layout_alignRight="@+id/zone7_stats"
-        android:layout_alignTop="@+id/zone7_stats"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="25dp"
-        android:elevation="0dp"
-        android:visibility="visible" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0/0"
         android:id="@+id/zone6_goals"
@@ -635,5 +635,52 @@
         android:layout_alignRight="@+id/zone7_stats"
         android:layout_alignEnd="@+id/zone7_stats"
         android:layout_marginTop="30dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/linearLayout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/stats_pager_goal"
+            android:src="@drawable/icon_ball"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/stats_pager_stats"
+            android:src="@drawable/icon_field"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/stats_pager_sheet"
+            android:src="@drawable/icon_sheet"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/stats_pager_home"
+            android:src="@drawable/icon_home"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+    </LinearLayout>
 
 </RelativeLayout>

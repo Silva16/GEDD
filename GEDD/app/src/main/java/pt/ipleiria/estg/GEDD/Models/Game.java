@@ -19,6 +19,7 @@ public class Game implements Serializable {
     private int seconds;
     private int technicalFailAdv;
     private Boolean started;
+    private Boolean closed;
 
     private String local;
 
@@ -50,6 +51,7 @@ public class Game implements Serializable {
         this.seconds = 0;
         this.technicalFailAdv = 0;
         this.started = false;
+        this.closed = false;
     }
 
     public UUID getID() {
@@ -221,6 +223,14 @@ public class Game implements Serializable {
 
     public void setStarted(){
         this.started = true;
+    }
+
+    public Boolean isClosed(){
+        return this.closed;
+    }
+
+    public void setClosed(){
+        this.closed = true;
     }
 
     public Boolean isStarted(){

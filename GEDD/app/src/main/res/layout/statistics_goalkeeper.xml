@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="wrap_content"
     android:layout_height="fill_parent"
     android:background="@drawable/goalkeeper_goal"
     tools:context="pt.ipleiria.estg.GEDD.StatisticsGoalkeeper"
@@ -292,6 +292,53 @@
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/gk1_stats"
             android:layout_toEndOf="@+id/gk1_stats" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/linearLayout2" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/icon_ball"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/imageView2"
+            android:src="@drawable/icon_field"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/imageView3"
+            android:src="@drawable/icon_sheet"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/imageView4"
+            android:src="@drawable/icon_home"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
     </LinearLayout>
 
 </RelativeLayout>
