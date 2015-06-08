@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -357,7 +358,6 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                         container.getChildAt(i).setPressed(false);
                                     }
                                     v.setPressed(true);
-                                    //v.setBackgroundColor(Color.parseColor("#00ADEF"));
                                     Player player;
                                     Goalkeeper goalkeeper;
 
@@ -375,13 +375,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                             refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, (Player) goalkeeper1);
                                         }
 
-                                        offensiveAction.setBackgroundColor(Color.parseColor("#ff145d6e"));
-                                        defensiveAction.setBackgroundColor(Color.parseColor("#FF0033"));
-                                        finalization.setBackgroundColor(Color.parseColor("#ff1693a5"));
-                                        teamPlayer.setBackgroundColor(Color.parseColor("#FFAA00"));
-                                        goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
-                                        goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        otherAction.setBackgroundColor(Color.parseColor("#505050"));
+                                        changeBackground(v.getParent());
 
                                         btn_b1.setPressed(false);
                                         btn_b2.setPressed(false);
@@ -400,14 +394,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
                                     if ((v.getParent() == (RelativeLayout) offensiveAction) || (v.getParent() == (RelativeLayout) finalization)) {
 
-
-                                        offensiveAction.setBackgroundColor(Color.parseColor("#ff145d6e"));
-                                        finalization.setBackgroundColor(Color.parseColor("#ff1693a5"));
-                                        teamPlayer.setBackgroundColor(Color.parseColor("#FFAA00"));
-                                        goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
-                                        goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        otherAction.setBackgroundColor(Color.parseColor("#505050"));
+                                        changeBackground(v.getParent());
 
                                         btn_block_def.setPressed(false);
                                         btn_disarm.setPressed(false);
@@ -427,17 +414,18 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                         btn_gk_post.setPressed(false);
                                     }
 
+                                    if (v.getParent() == (RelativeLayout) zones) {
+
+                                        changeBackground(v.getParent());
+                                        btn_assist.setPressed(false);
+                                        btn_ft.setPressed(false);
+                                        btn_tf_adv.setPressed(false);
+                                    }
+
                                     if (v.getParent() == (RelativeLayout) defensiveAction) {
 
+                                        changeBackground(v.getParent());
 
-                                        defensiveAction.setBackgroundColor(Color.parseColor("#FF0033"));
-                                        teamPlayer.setBackgroundColor(Color.parseColor("#FFAA00"));
-
-                                        goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
-                                        goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        finalization.setBackgroundColor(Color.parseColor("#505050"));
-                                        otherAction.setBackgroundColor(Color.parseColor("#505050"));
                                         btn_atk.setPressed(false);
                                         btn_ca.setPressed(false);
                                         btn_goal.setPressed(false);
@@ -462,16 +450,8 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
                                     if (v.getParent() == (RelativeLayout) goalkeeperAction || v.getParent() == (RelativeLayout) goalkeeperZone) {
 
+                                        changeBackground(v.getParent());
 
-
-                                        goalkeeperZone.setBackgroundColor(Color.parseColor("#88C425"));
-                                        goalkeeperAction.setBackgroundColor(Color.parseColor("#519548"));
-
-                                        defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        finalization.setBackgroundColor(Color.parseColor("#505050"));
-                                        teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
-                                        otherAction.setBackgroundColor(Color.parseColor("#505050"));
                                         btn_atk.setPressed(false);
                                         btn_ca.setPressed(false);
                                         btn_goal.setPressed(false);
@@ -492,13 +472,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
                                     if (v.getParent() == (RelativeLayout) otherAction) {
 
-                                        teamPlayer.setBackgroundColor(Color.parseColor("#FFAA00"));
-
-                                        defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        finalization.setBackgroundColor(Color.parseColor("#505050"));
-                                        goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
-                                        goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
+                                        changeBackground(v.getParent());
 
                                         otherAction.setBackgroundColor(Color.parseColor("#505050"));
                                         btn_atk.setPressed(false);
@@ -524,18 +498,25 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                         btn_gk_def.setPressed(false);
                                         btn_gk_out.setPressed(false);
                                         btn_gk_post.setPressed(false);
+                                        btn_gk_goal.setPressed(false);
+                                        btn_gk_def.setPressed(false);
+                                        btn_gk_out.setPressed(false);
+                                        btn_gk_post.setPressed(false);
+                                        btn_zone_1.setPressed(false);
+                                        btn_zone_2.setPressed(false);
+                                        btn_zone_3.setPressed(false);
+                                        btn_zone_4.setPressed(false);
+                                        btn_zone_5.setPressed(false);
+                                        btn_zone_6.setPressed(false);
+                                        btn_zone_7.setPressed(false);
+                                        btn_zone_8.setPressed(false);
+                                        btn_zone_9.setPressed(false);
+
                                     }
 
                                     if (v.getTag() == "btn_ft_adv") {
 
-
-                                        goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
-                                        goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
-                                        finalization.setBackgroundColor(Color.parseColor("#505050"));
-                                        teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
-                                        otherAction.setBackgroundColor(Color.parseColor("#FFE500"));
+                                        changeBackground(v.getParent());
                                         btn_atk.setPressed(false);
                                         btn_ca.setPressed(false);
                                         btn_goal.setPressed(false);
@@ -627,7 +608,6 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
                                 } else {
                                     v.setPressed(false);
-                                    //v.setBackgroundResource(android.R.drawable.btn_default);
                                 }
                             }
                         }
@@ -845,6 +825,8 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
     }
 
+
+
     @Override
     protected void onDestroy(){
         game.setPlayers(players);
@@ -928,6 +910,264 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
             }
         }
         return -1;
+    }
+
+    public void changeBackground(ViewParent view) {
+        final RelativeLayout finalization = (RelativeLayout) findViewById(R.id.finalization);
+        final RelativeLayout offensiveAction = (RelativeLayout) findViewById(R.id.offensiveAction);
+        final RelativeLayout defensiveAction = (RelativeLayout) findViewById(R.id.defensiveAction);
+        final RelativeLayout otherAction = (RelativeLayout) findViewById(R.id.otherActions);
+        final RelativeLayout teamPlayer = (RelativeLayout) findViewById(R.id.players);
+        final RelativeLayout goalkeeperZone = (RelativeLayout) findViewById(R.id.goalLayout);
+        final RelativeLayout goalkeeperAction = (RelativeLayout) findViewById(R.id.goalkeeperActions);
+        final RelativeLayout fieldAction = (RelativeLayout) findViewById(R.id.zones);
+
+        if (view == finalization){
+
+            if (isChildrenButtonPressed(offensiveAction) != null){
+                offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                offensiveAction.setBackgroundColor(Color.parseColor("#ff145d6e"));
+            }
+            if (isChildrenImgButtonPressed(teamPlayer) != null){
+                teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                teamPlayer.setBackgroundColor(Color.parseColor("#FFB300"));
+            }
+            if (isChildrenButtonPressed(fieldAction) != null){
+                fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                fieldAction.setBackgroundColor(Color.parseColor("#E6D9B2"));
+            }
+
+            finalization.setBackgroundColor(Color.parseColor("#505050"));
+            goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
+            goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
+            defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            otherAction.setBackgroundColor(Color.parseColor("#505050"));
+
+
+        }
+
+        if (view == offensiveAction){
+
+            if (isChildrenButtonPressed(finalization) != null){
+                finalization.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                finalization.setBackgroundColor(Color.parseColor("#ff1693a5"));
+            }
+
+            if (isChildrenImgButtonPressed(teamPlayer) != null){
+                teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                teamPlayer.setBackgroundColor(Color.parseColor("#FFB300"));
+            }
+            if (isChildrenButtonPressed(fieldAction) != null){
+                fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                fieldAction.setBackgroundColor(Color.parseColor("#E6D9B2"));
+            }
+
+            offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
+            goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
+            defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            otherAction.setBackgroundColor(Color.parseColor("#505050"));
+        }
+
+        if (view == defensiveAction){
+
+            if (isChildrenImgButtonPressed(teamPlayer) != null){
+                teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                teamPlayer.setBackgroundColor(Color.parseColor("#FFB300"));
+            }
+            if (isChildrenButtonPressed(fieldAction) != null){
+                fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                fieldAction.setBackgroundColor(Color.parseColor("#E6D9B2"));
+            }
+
+            offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            finalization.setBackgroundColor(Color.parseColor("#505050"));
+            goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
+            goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
+            defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            otherAction.setBackgroundColor(Color.parseColor("#505050"));
+        }
+
+        if (view == otherAction){
+
+            teamPlayer.setBackgroundColor(Color.parseColor("#FFB300"));
+            defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            finalization.setBackgroundColor(Color.parseColor("#505050"));
+            goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
+            goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
+            fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+            otherAction.setBackgroundColor(Color.parseColor("#505050"));
+
+        }
+
+        if (view == teamPlayer){
+
+            if (isChildrenButtonPressed(fieldAction) != null){
+                fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+                otherAction.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                fieldAction.setBackgroundColor(Color.parseColor("#E6D9B2"));
+                otherAction.setBackgroundColor(Color.parseColor("#FFE500"));
+            }
+            if (isChildrenButtonPressed(offensiveAction) != null){
+                offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                otherAction.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                offensiveAction.setBackgroundColor(Color.parseColor("#ff145d6e"));
+            }
+            if (isChildrenButtonPressed(finalization) != null){
+                finalization.setBackgroundColor(Color.parseColor("#505050"));
+                defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                otherAction.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                finalization.setBackgroundColor(Color.parseColor("#ff1693a5"));
+            }
+            if (isChildrenButtonPressed(defensiveAction) != null){
+                defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                finalization.setBackgroundColor(Color.parseColor("#505050"));
+                otherAction.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                defensiveAction.setBackgroundColor(Color.parseColor("#F71E50"));
+            }
+
+            teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+            goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
+            goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
+
+        }
+
+        if (view == goalkeeperAction){
+
+            if (isChildrenButtonPressed(goalkeeperZone) != null){
+                goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                goalkeeperZone.setBackgroundColor(Color.parseColor("#88C425"));
+            }
+            if (isChildrenButtonPressed(fieldAction) != null){
+                fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                fieldAction.setBackgroundColor(Color.parseColor("#E6D9B2"));
+            }
+
+            goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
+            defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            finalization.setBackgroundColor(Color.parseColor("#505050"));
+            teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+            otherAction.setBackgroundColor(Color.parseColor("#505050"));
+        }
+
+        if (view == goalkeeperZone){
+
+            if (isChildrenButtonPressed(goalkeeperAction) != null){
+                goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                goalkeeperAction.setBackgroundColor(Color.parseColor("#519548"));
+            }
+            if (isChildrenButtonPressed(fieldAction) != null){
+                fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                fieldAction.setBackgroundColor(Color.parseColor("#E6D9B2"));
+            }
+
+            goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
+            defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+            finalization.setBackgroundColor(Color.parseColor("#505050"));
+            teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+            otherAction.setBackgroundColor(Color.parseColor("#505050"));
+        }
+
+        if (view == fieldAction){
+
+            if (isChildrenButtonPressed(offensiveAction) != null){
+                offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+                if (isChildrenImgButtonPressed(teamPlayer) != null){
+                    teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+                } else {
+                    teamPlayer.setBackgroundColor(Color.parseColor("#FFB300"));
+                }
+                return;
+            } else {
+                offensiveAction.setBackgroundColor(Color.parseColor("#ff145d6e"));
+            }
+            if (isChildrenButtonPressed(finalization) != null){
+                finalization.setBackgroundColor(Color.parseColor("#505050"));
+                defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+                if (isChildrenImgButtonPressed(teamPlayer) != null){
+                    teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+                } else {
+                    teamPlayer.setBackgroundColor(Color.parseColor("#FFB300"));
+                }
+                return;
+            } else {
+                finalization.setBackgroundColor(Color.parseColor("#ff1693a5"));
+            }
+            if (isChildrenButtonPressed(defensiveAction) != null){
+                defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                finalization.setBackgroundColor(Color.parseColor("#505050"));
+                offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+                if (isChildrenImgButtonPressed(teamPlayer) != null){
+                    teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+                } else {
+                    teamPlayer.setBackgroundColor(Color.parseColor("#FFB300"));
+                }
+                return;
+            } else {
+                defensiveAction.setBackgroundColor(Color.parseColor("#F71E50"));
+            }
+            if (isChildrenButtonPressed(goalkeeperAction) != null){
+                goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
+                teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+                defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                finalization.setBackgroundColor(Color.parseColor("#505050"));
+                fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+                otherAction.setBackgroundColor(Color.parseColor("#505050"));
+                return;
+            } else {
+                goalkeeperAction.setBackgroundColor(Color.parseColor("#519548"));
+            }
+            if (isChildrenButtonPressed(goalkeeperZone) != null){
+                goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
+                teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+                defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
+                finalization.setBackgroundColor(Color.parseColor("#505050"));
+                fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+                otherAction.setBackgroundColor(Color.parseColor("#505050"));
+                return;
+            } else {
+                goalkeeperZone.setBackgroundColor(Color.parseColor("#88C425"));
+            }
+            if (isChildrenImgButtonPressed(teamPlayer) != null){
+                teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+                goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
+                goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
+            } else {
+                teamPlayer.setBackgroundColor(Color.parseColor("#FFB300"));
+            }
+
+            fieldAction.setBackgroundColor(Color.parseColor("#505050"));
+            otherAction.setBackgroundColor(Color.parseColor("#505050"));
+        }
+
+
     }
 
     public void showPopUpDiscipline (final View view, final RelativeLayout teamPlayer, final LinkedList<Player> players, final  Player player, final ImageButton btnPlayer){
@@ -1235,6 +1475,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
         final RelativeLayout teamPlayer = (RelativeLayout) findViewById(R.id.players);
         final RelativeLayout goalkeeperZone = (RelativeLayout) findViewById(R.id.goalLayout);
         final RelativeLayout goalkeeperAction = (RelativeLayout) findViewById(R.id.goalkeeperActions);
+        final RelativeLayout fieldAction = (RelativeLayout) findViewById(R.id.zones);
 
         if (btnOffAct != null) {
 
@@ -1270,13 +1511,20 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
             btnGKZone.setPressed(false);
         }
 
+        if (isChildrenImgButtonPressed(teamPlayer) != null){
+            teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+        } else {
+            teamPlayer.setBackgroundColor(Color.parseColor("#FFB300"));
+        }
+
+
         offensiveAction.setBackgroundColor(Color.parseColor("#ff145d6e"));
-        defensiveAction.setBackgroundColor(Color.parseColor("#FF0033"));
+        defensiveAction.setBackgroundColor(Color.parseColor("#F71E50"));
         finalization.setBackgroundColor(Color.parseColor("#ff1693a5"));
-        teamPlayer.setBackgroundColor(Color.parseColor("#FFAA00"));
         goalkeeperZone.setBackgroundColor(Color.parseColor("#88C425"));
         goalkeeperAction.setBackgroundColor(Color.parseColor("#519548"));
         otherAction.setBackgroundColor(Color.parseColor("#FFE500"));
+        fieldAction.setBackgroundColor(Color.parseColor("#E6D9B2"));
 
     }
 
