@@ -347,13 +347,9 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                             if(!playable){
                                 Toast.makeText(getApplicationContext(), "Têm de configurar a equipa antes de registar ações",
                                         Toast.LENGTH_LONG).show();
-<<<<<<< HEAD
+
                                 }else {
-=======
 
-
-                            }else {
->>>>>>> origin/master
                                 if (!(v.isPressed())) {
 
                                     ViewGroup container = (ViewGroup) v.getParent();
