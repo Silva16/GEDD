@@ -55,6 +55,11 @@ public class StatisticsTeam extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        players = new LinkedList((List)(getIntent().getSerializableExtra("Players")));
+        gks = new LinkedList((List)(getIntent().getSerializableExtra("Goalkeepers")));
+        game = (Game) getIntent().getSerializableExtra("Game");
+
         setContentView(R.layout.statistics_team);
 
         final RelativeLayout teamPlayer = (RelativeLayout) findViewById(R.id.team);
@@ -69,9 +74,7 @@ public class StatisticsTeam extends Activity {
         final TextView ftec_stats = (TextView) findViewById(R.id.ftec_stats);
         final TextView ftec_adv_stats = (TextView) findViewById(R.id.ftec_adv_stats);
 
-        players = new LinkedList((List)(getIntent().getSerializableExtra("Players")));
-        gks = new LinkedList((List)(getIntent().getSerializableExtra("Goalkeepers")));
-        game = (Game) getIntent().getSerializableExtra("Game");
+
 
 
         Collections.sort(players, new Comparator<Player>() {
@@ -365,7 +368,8 @@ public class StatisticsTeam extends Activity {
 
             @Override
             public void onClick(View v) {
-                    finish();
+                Intent intent = new Intent(StatisticsTeam.this, GameActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -373,8 +377,9 @@ public class StatisticsTeam extends Activity {
         mHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(2);
-                finish();
+                Intent intent = new Intent(StatisticsTeam.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
 
@@ -384,7 +389,7 @@ public class StatisticsTeam extends Activity {
                 Intent intent = new Intent(StatisticsTeam.this, StatisticsGoalkeeper.class);
                 intent.putExtra("Game", game);
                 intent.putExtra("Goalkeepers", gks);
-                intent.putExtra("CalledBy", "stats");
+                intent.putExtra("Players", players);
                 startActivityForResult(intent, 2);
             }
         });
@@ -454,6 +459,7 @@ public class StatisticsTeam extends Activity {
         Intent intent = new Intent(this, StatisticsGoalkeeper.class);
         intent.putExtra("Game", game);
         intent.putExtra("Goalkeepers", gks);
+        intent.putExtra("Players", players);
         startActivityForResult(intent, 2);
     }
 

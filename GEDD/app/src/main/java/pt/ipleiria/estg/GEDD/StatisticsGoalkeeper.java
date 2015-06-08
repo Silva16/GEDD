@@ -22,12 +22,14 @@ import java.util.List;
 
 import pt.ipleiria.estg.GEDD.Models.Game;
 import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
+import pt.ipleiria.estg.GEDD.Models.Player;
 
 
 public class StatisticsGoalkeeper extends Activity {
 
     private LinkedList<Goalkeeper> gks;
     private Game game;
+    private LinkedList<Player> players;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class StatisticsGoalkeeper extends Activity {
 
         gks = new LinkedList((List)(getIntent().getSerializableExtra("Goalkeepers")));
         game = (Game) getIntent().getSerializableExtra("Game");
+        players = new LinkedList((List)(getIntent().getSerializableExtra("Players")));
 
         Collections.sort(gks, new Comparator<Goalkeeper>() {
             @Override
@@ -136,8 +139,8 @@ public class StatisticsGoalkeeper extends Activity {
 
             @Override
             public void onClick(View v) {
-                setResult(2);
-                finish();
+                Intent intent = new Intent(StatisticsGoalkeeper.this, GameActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -145,15 +148,20 @@ public class StatisticsGoalkeeper extends Activity {
         mHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(3);
-                finish();
+                Intent intent = new Intent(StatisticsGoalkeeper.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
 
         mStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               finish();
+                Intent intent = new Intent(StatisticsGoalkeeper.this, StatisticsTeam.class);
+                intent.putExtra("Game", game);
+                intent.putExtra("Players", players);
+                intent.putExtra("Goalkeepers", gks);
+                startActivityForResult(intent, 2);
             }
         });
 

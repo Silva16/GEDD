@@ -344,13 +344,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                             if(!playable){
                                 Toast.makeText(getApplicationContext(), "Têm de configurar a equipa antes de registar ações",
                                         Toast.LENGTH_LONG).show();
-                                }
-                            else if(game.isClosed() != null || !game.isClosed()){
-                                if(game.isClosed()) {
-                                    Toast.makeText(getApplicationContext(), "O jogo já se encontra terminado.",
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            }else {
+                                }else {
                                 if (!(v.isPressed())) {
 
                                     ViewGroup container = (ViewGroup) v.getParent();
@@ -771,8 +765,15 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                 Intent intent = new Intent(GameActivity.this, StatisticsGoalkeeper.class);
                 intent.putExtra("Game", game);
                 intent.putExtra("Goalkeepers", gks);
-                intent.putExtra("CalledBy", "sheet");
+                intent.putExtra("Players", players);
                 startActivityForResult(intent, 2);
+
+               /* Intent intent = new Intent(GameActivity.this, StatisticsTeam.class);
+                intent.putExtra("Game", game);
+                intent.putExtra("Players", players);
+                intent.putExtra("Goalkeepers", gks);
+                startActivityForResult(intent, 2);
+                */
             }
         });
 
@@ -1630,7 +1631,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == 2) {
+    if (requestCode == 1) {
         if(resultCode == RESULT_OK){
             onResume();
             if(!game.isStarted()){
@@ -1638,14 +1639,16 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                 associatePlayersToButton();
             }
         }
+    }
+    if (requestCode == 2) {
         if (resultCode == RESULT_CANCELED) {
             onResume();
-            finish();
         }
-        if(resultCode == 2){
+        if (resultCode == 2) {
             finish();
         }
     }
+
 }
 
     private Boolean setTeam(){
