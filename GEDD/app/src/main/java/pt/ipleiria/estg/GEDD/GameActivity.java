@@ -771,6 +771,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                 Intent intent = new Intent(GameActivity.this, StatisticsGoalkeeper.class);
                 intent.putExtra("Game", game);
                 intent.putExtra("Goalkeepers", gks);
+                intent.putExtra("CalledBy", "sheet");
                 startActivityForResult(intent, 2);
             }
         });

@@ -42,6 +42,13 @@ public class StatisticsTeam extends Activity {
             if (resultCode == RESULT_CANCELED) {
                 onResume();
             }
+            if(resultCode == 2){
+                finish();
+            }
+            if(resultCode == 3){
+                setResult(3);
+                finish();
+            }
         }
     }
 
@@ -352,10 +359,9 @@ public class StatisticsTeam extends Activity {
 
         ImageView mHome = (ImageView) findViewById(R.id.stats_pager_home);
         ImageView mSheet = (ImageView) findViewById(R.id.stats_pager_sheet);
-        ImageView mStats = (ImageView) findViewById(R.id.stats_pager_stats);
         ImageView mGoal = (ImageView) findViewById(R.id.stats_pager_goal);
 
-        mGoal.setOnClickListener(new View.OnClickListener() {
+        mSheet.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -378,6 +384,7 @@ public class StatisticsTeam extends Activity {
                 Intent intent = new Intent(StatisticsTeam.this, StatisticsGoalkeeper.class);
                 intent.putExtra("Game", game);
                 intent.putExtra("Goalkeepers", gks);
+                intent.putExtra("CalledBy", "stats");
                 startActivityForResult(intent, 2);
             }
         });

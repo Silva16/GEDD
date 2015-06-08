@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -126,6 +127,36 @@ public class StatisticsGoalkeeper extends Activity {
                 finish();
             }
         });
+
+        ImageView mHome = (ImageView) findViewById(R.id.goalstats_pager_home);
+        ImageView mSheet = (ImageView) findViewById(R.id.goalstats_pager_sheet);
+        ImageView mStats = (ImageView) findViewById(R.id.goalstats_pager_stats);
+
+        mSheet.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                setResult(2);
+                finish();
+
+            }
+        });
+
+        mHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(3);
+                finish();
+            }
+        });
+
+        mStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               finish();
+            }
+        });
+
     }
 
 
