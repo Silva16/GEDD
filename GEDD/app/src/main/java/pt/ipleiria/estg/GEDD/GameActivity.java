@@ -2003,6 +2003,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             if(!game.isStarted()){
                 setTeam();
                 associatePlayersToButton();
+                if(players.size()>5 && gks.size()>0){
+                    playable = true;
+                }
             }
         }
     }

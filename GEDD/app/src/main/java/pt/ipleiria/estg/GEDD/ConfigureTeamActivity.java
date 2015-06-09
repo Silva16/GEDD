@@ -198,7 +198,7 @@ public class ConfigureTeamActivity extends ActionBarActivity implements Serializ
         EditText name;
         ArrayList<Integer> numbers = new ArrayList<Integer>();
         String[] names = new String[7];
-        String regex = "[A-Z]?([a-z]+)\\s?([A-Z]?[a-z]+)?";
+        String regex = "[\\p{L}]?([\\p{L}]+)\\s?([\\p{L}]?[\\p{L}]+)?";
         int counter = 0;
         for(int i = 0, j = table.getChildCount(); i < j; i++) {
             View view2 = table.getChildAt(i);
