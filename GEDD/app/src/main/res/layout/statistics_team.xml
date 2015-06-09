@@ -51,10 +51,18 @@
             <Button
                 android:layout_width="87dp"
                 android:layout_height="wrap_content"
-                android:text="Defesa"
-                android:id="@+id/def_filter"
-                android:onClick="defenseFilter"
+                android:text="Defesa Baliza"
+                android:id="@+id/def_goal_filter"
                 android:layout_below="@+id/ca_filter"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                android:layout_width="87dp"
+                android:layout_height="wrap_content"
+                android:text="Defesa Global"
+                android:id="@+id/def_all_filter"
+                android:layout_below="@+id/def_goal_filter"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
@@ -62,7 +70,7 @@
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Assist. "
+                android:text="Assis."
                 android:id="@+id/assist_stats"
                 android:gravity="center"
                 android:layout_above="@+id/ftec_stats"
@@ -91,7 +99,7 @@
                 android:layout_width="87dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Falhas Técnicas"
+                android:text="Falhas Técn."
                 android:id="@+id/ftec_stats"
                 android:gravity="center"
                 android:layout_above="@+id/ftec_adv_stats"

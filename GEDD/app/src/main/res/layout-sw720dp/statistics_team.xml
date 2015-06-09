@@ -51,14 +51,24 @@
 
             <Button
                 android:layout_width="110dp"
-                android:layout_height="90dp"
-                android:text="Defesa"
-                android:id="@+id/def_filter"
-                android:onClick="defenseFilter"
+                android:layout_height="110dp"
+                android:text="Defesa de Remates à Baliza"
+                android:id="@+id/def_goal_filter"
                 android:layout_below="@+id/ca_filter"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:textSize="18dp" />
+
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="90dp"
+                android:text="Defesa Global"
+                android:id="@+id/def_all_filter"
+                android:textSize="18dp"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/def_goal_filter" />
 
             <TextView
                 android:layout_width="105dp"

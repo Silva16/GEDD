@@ -361,6 +361,8 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                     Player player;
                                     Goalkeeper goalkeeper;
 
+                                    changeBackground(v);
+
                                     //verifica se é botão de jogador, se for verdade atualiza os campos
                                     if (v.getParent() == (RelativeLayout) teamPlayer) {
                                         Player tempPlayer;
@@ -374,8 +376,6 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                             refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, (Player) goalkeeper1);
                                             refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, (Player) goalkeeper1);
                                         }
-
-                                        changeBackground(v.getParent());
 
                                         btn_b1.setPressed(false);
                                         btn_b2.setPressed(false);
@@ -393,8 +393,6 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                     }
 
                                     if ((v.getParent() == (RelativeLayout) offensiveAction) || (v.getParent() == (RelativeLayout) finalization)) {
-
-                                        changeBackground(v.getParent());
 
                                         btn_block_def.setPressed(false);
                                         btn_disarm.setPressed(false);
@@ -416,15 +414,12 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
                                     if (v.getParent() == (RelativeLayout) zones) {
 
-                                        changeBackground(v.getParent());
                                         btn_assist.setPressed(false);
                                         btn_ft.setPressed(false);
                                         btn_tf_adv.setPressed(false);
                                     }
 
                                     if (v.getParent() == (RelativeLayout) defensiveAction) {
-
-                                        changeBackground(v.getParent());
 
                                         btn_atk.setPressed(false);
                                         btn_ca.setPressed(false);
@@ -448,9 +443,19 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                         btn_gk_post.setPressed(false);
                                     }
 
-                                    if (v.getParent() == (RelativeLayout) goalkeeperAction || v.getParent() == (RelativeLayout) goalkeeperZone) {
+                                    if (v.getParent() == (RelativeLayout) goalkeeperAction) {
 
-                                        changeBackground(v.getParent());
+                                        if (v.getTag() == "btn_gk_out" || v.getTag() == "btn_gk_post"){
+                                            btn_b1.setPressed(false);
+                                            btn_b2.setPressed(false);
+                                            btn_b3.setPressed(false);
+                                            btn_b4.setPressed(false);
+                                            btn_b5.setPressed(false);
+                                            btn_b6.setPressed(false);
+                                            btn_b7.setPressed(false);
+                                            btn_b8.setPressed(false);
+                                            btn_b9.setPressed(false);
+                                        }
 
                                         btn_atk.setPressed(false);
                                         btn_ca.setPressed(false);
@@ -470,9 +475,29 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                         btn_players[5].setPressed(false);
                                     }
 
-                                    if (v.getParent() == (RelativeLayout) otherAction) {
+                                    if (v.getParent() == (RelativeLayout) goalkeeperZone){
 
-                                        changeBackground(v.getParent());
+                                        btn_gk_out.setPressed(false);
+                                        btn_gk_post.setPressed(false);
+                                        btn_atk.setPressed(false);
+                                        btn_ca.setPressed(false);
+                                        btn_goal.setPressed(false);
+                                        btn_defense.setPressed(false);
+                                        btn_out.setPressed(false);
+                                        btn_goalpost.setPressed(false);
+                                        btn_block_atk.setPressed(false);
+                                        btn_block_def.setPressed(false);
+                                        btn_disarm.setPressed(false);
+                                        btn_interception.setPressed(false);
+                                        btn_players[0].setPressed(false);
+                                        btn_players[1].setPressed(false);
+                                        btn_players[2].setPressed(false);
+                                        btn_players[3].setPressed(false);
+                                        btn_players[4].setPressed(false);
+                                        btn_players[5].setPressed(false);
+                                    }
+
+                                    if (v.getParent() == (RelativeLayout) otherAction) {
 
                                         otherAction.setBackgroundColor(Color.parseColor("#505050"));
                                         btn_atk.setPressed(false);
@@ -516,7 +541,6 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
                                     if (v.getTag() == "btn_ft_adv") {
 
-                                        changeBackground(v.getParent());
                                         btn_atk.setPressed(false);
                                         btn_ca.setPressed(false);
                                         btn_goal.setPressed(false);
@@ -551,25 +575,14 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                     if ((goalkeeper = allPressedGoalkeeperAction(lbl_scoreOpponent, goalkeeperZone, goalkeeperAction, zones, goalkeeper1, game)) != null) {
                                         lastAction.setText(goalkeeper.getLastAction());
                                         game.setStarted();
+                                        Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
                                     }
 
                                     if ((player = allPressedOffensive(lbl_scoreMyTeam, offensiveAction, finalization, zones, teamPlayer, players, game)) != null) {
                                         refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                         lastAction.setText(player.getLastAction());
                                         game.setStarted();
-
-                                        String saveData = player.getLastAction();
-
-                                        try {
-                                            FileOutputStream fOut = openFileOutput("mydata", MODE_WORLD_READABLE);
-                                            fOut.write(saveData.getBytes());
-                                            fOut.close();
-                                            Toast.makeText(getBaseContext(), "Acção Registada",
-                                                    Toast.LENGTH_SHORT).show();
-                                        } catch (Exception e) {
-                                            // TODO Auto-generated catch block
-                                            e.printStackTrace();
-                                        }
+                                        Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
                                     }
 
                                     if ((player = pressedAsist(teamPlayer, players, btn_assist)) != null) {
@@ -577,6 +590,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                         game.setStarted();
                                         refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                         refreshLabels(null, null, null, null, btn_assist, null, null, null);
+                                        Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
                                     }
 
                                     if ((player = pressedTechFail(teamPlayer, players, btn_ft)) != null) {
@@ -584,6 +598,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                         game.setStarted();
                                         refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                         refreshLabels(null, null, null, null, null, btn_ft, null, null);
+                                        Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
                                     }
 
 
@@ -591,22 +606,12 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                         refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                         lastAction.setText(player.getLastAction());
                                         game.setStarted();
+                                        Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
 
-                                        String saveData = player.getLastAction();
-
-                                        try {
-                                            FileOutputStream fOut = openFileOutput("mydata", MODE_WORLD_READABLE);
-                                            fOut.write(saveData.getBytes());
-                                            fOut.close();
-                                            Toast.makeText(getBaseContext(), "Acção Registada",
-                                                    Toast.LENGTH_SHORT).show();
-                                        } catch (Exception e) {
-                                            // TODO Auto-generated catch block
-                                            e.printStackTrace();
-                                        }
                                     }
 
                                 } else {
+                                    changeBackground(v);
                                     v.setPressed(false);
                                 }
                             }
@@ -912,7 +917,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
         return -1;
     }
 
-    public void changeBackground(ViewParent view) {
+    public void changeBackground(View view) {
         final RelativeLayout finalization = (RelativeLayout) findViewById(R.id.finalization);
         final RelativeLayout offensiveAction = (RelativeLayout) findViewById(R.id.offensiveAction);
         final RelativeLayout defensiveAction = (RelativeLayout) findViewById(R.id.defensiveAction);
@@ -922,7 +927,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
         final RelativeLayout goalkeeperAction = (RelativeLayout) findViewById(R.id.goalkeeperActions);
         final RelativeLayout fieldAction = (RelativeLayout) findViewById(R.id.zones);
 
-        if (view == finalization){
+        if (view.getParent() == finalization){
 
             if (isChildrenButtonPressed(offensiveAction) != null){
                 offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
@@ -949,7 +954,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
         }
 
-        if (view == offensiveAction){
+        if (view.getParent() == offensiveAction){
 
             if (isChildrenButtonPressed(finalization) != null){
                 finalization.setBackgroundColor(Color.parseColor("#505050"));
@@ -975,7 +980,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
             otherAction.setBackgroundColor(Color.parseColor("#505050"));
         }
 
-        if (view == defensiveAction){
+        if (view.getParent() == defensiveAction){
 
             if (isChildrenImgButtonPressed(teamPlayer) != null){
                 teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
@@ -996,7 +1001,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
             otherAction.setBackgroundColor(Color.parseColor("#505050"));
         }
 
-        if (view == otherAction){
+        if (view.getParent() == otherAction){
 
             teamPlayer.setBackgroundColor(Color.parseColor("#FFB300"));
             defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
@@ -1009,7 +1014,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
         }
 
-        if (view == teamPlayer){
+        if (view.getParent() == teamPlayer){
 
             if (isChildrenButtonPressed(fieldAction) != null){
                 fieldAction.setBackgroundColor(Color.parseColor("#505050"));
@@ -1047,7 +1052,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
         }
 
-        if (view == goalkeeperAction){
+        if (view.getParent() == goalkeeperAction){
 
             if (isChildrenButtonPressed(goalkeeperZone) != null){
                 goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
@@ -1060,6 +1065,10 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                 fieldAction.setBackgroundColor(Color.parseColor("#E6D9B2"));
             }
 
+            if (view.getTag() == "btn_gk_out" || view.getTag() == "btn_gk_post"){
+                goalkeeperZone.setBackgroundColor(Color.parseColor("#505050"));
+            }
+
             goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
             defensiveAction.setBackgroundColor(Color.parseColor("#505050"));
             offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
@@ -1068,7 +1077,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
             otherAction.setBackgroundColor(Color.parseColor("#505050"));
         }
 
-        if (view == goalkeeperZone){
+        if (view.getParent() == goalkeeperZone){
 
             if (isChildrenButtonPressed(goalkeeperAction) != null){
                 goalkeeperAction.setBackgroundColor(Color.parseColor("#505050"));
@@ -1089,7 +1098,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
             otherAction.setBackgroundColor(Color.parseColor("#505050"));
         }
 
-        if (view == fieldAction){
+        if (view.getParent() == fieldAction){
 
             if (isChildrenButtonPressed(offensiveAction) != null){
                 offensiveAction.setBackgroundColor(Color.parseColor("#505050"));
@@ -1297,6 +1306,25 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
         Button btnGkAction;
         Button btnZone;
 
+
+
+
+        if ((btnGkAction = isChildrenButtonPressed(goalkeeperAction)) != null && (btnZone = isChildrenButtonPressed(zones))!= null) {
+
+
+            goalkeeper.setLastAction("Guarda-Redes - " + btnGkAction.getTag().toString() + "\n Zona " + btnZone.getTag().toString());
+
+            if (btnGkAction.getTag() == "btn_gk_post") {
+                goalkeeper.setPost((int) btnZone.getTag());
+                refreshLabels(null, null, null, btnZone, null, null, btnGkAction, null);
+                return goalkeeper;
+            } else if (btnGkAction.getTag() == "btn_gk_out") {
+                goalkeeper.setOut((int) btnZone.getTag());
+                refreshLabels(null, null, null, btnZone, null, null, btnGkAction, null);
+                return goalkeeper;
+            }
+        }
+
         if ((btnGkZone = isChildrenButtonPressed(goalkeeperZone)) != null && (btnGkAction = isChildrenButtonPressed(goalkeeperAction)) != null && (btnZone = isChildrenButtonPressed(zones))!= null) {
 
             goalkeeper.setLastAction("Guarda-Redes - " + btnGkAction.getTag().toString() + "\n Zona de Baliza " + btnGkZone.getTag().toString() + ", Zona " + btnZone.getTag().toString());
@@ -1305,17 +1333,18 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                 goalkeeper.setGoal((int) btnZone.getTag(), (int) btnGkZone.getTag());
                 game.setScoreOpponent();
                 score.setText(String.valueOf(game.getScoreOpponent()));
+
+                refreshLabels(null, null, null, btnZone, null, null, btnGkAction, btnGkZone);
+                return goalkeeper;
+
             } else if (btnGkAction.getTag() == "btn_gk_def") {
                 goalkeeper.setDefended((int) btnZone.getTag(), (int) btnGkZone.getTag());
-            } else if (btnGkAction.getTag() == "btn_gk_post") {
-                goalkeeper.setPost((int) btnZone.getTag());
-            } else if (btnGkAction.getTag() == "btn_gk_out") {
-                goalkeeper.setOut((int) btnZone.getTag());
+
+                refreshLabels(null, null, null, btnZone, null, null, btnGkAction, btnGkZone);
+                return goalkeeper;
             }
 
-            refreshLabels(null, null, null, btnZone, null, null, btnGkAction, btnGkZone);
 
-            return goalkeeper;
         }
 
         return null;
