@@ -46,8 +46,12 @@ public class Goalkeeper extends Player {
         this.out[zone-1]++;
     }
 
-    public int getZoneAllShots(int zone, int baliza){
-        return goal[zone-1][baliza - 1]+defended[zone-1][baliza - 1]+post[zone-1]+out[zone-1];
+    public int getZoneGoalShots(int zone, int baliza){
+        return goal[zone-1][baliza - 1]+defended[zone-1][baliza - 1];
+    }
+
+    public int getZoneOutShots(int zone){
+        return post[zone-1]+out[zone-1];
     }
 
     public int getZoneAllGoals(int zone, int baliza){

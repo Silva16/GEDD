@@ -387,7 +387,7 @@ public class StatisticsTeam extends Activity {
             }
         });
 
-        ImageView mHome = (ImageView) findViewById(R.id.stats_pager_home);
+        /*ImageView mHome = (ImageView) findViewById(R.id.stats_pager_home);
         ImageView mSheet = (ImageView) findViewById(R.id.stats_pager_sheet);
         ImageView mGoal = (ImageView) findViewById(R.id.stats_pager_goal);
 
@@ -419,7 +419,7 @@ public class StatisticsTeam extends Activity {
                 intent.putExtra("Players", players);
                 startActivityForResult(intent, 2);
             }
-        });
+        });*/
 
     }
 
@@ -631,18 +631,21 @@ public class StatisticsTeam extends Activity {
     private void refreshDefenseGlobalStatistics(TextView zone_stats[], TextView zone_goals[], LinkedList<Goalkeeper> gks){
 
         int opponent_zoneGoals[] = new int[9];
-        int opponent_zoneShots[] = new int[9];
+        int opponent_zoneGoalShots[] = new int[9];
+        int opponent_zoneOutShots[] = new int[9];
 
         for (Goalkeeper goalkeeper : gks){
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     opponent_zoneGoals[i] += goalkeeper.getZoneAllGoals(i + 1, j + 1);
-                    opponent_zoneShots[i] += goalkeeper.getZoneAllShots(i + 1, j + 1);
+                    opponent_zoneGoalShots[i] += goalkeeper.getZoneGoalShots(i + 1, j + 1);
                 }
 
-                int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / ((float) opponent_zoneShots[i]) * 100);
+                opponent_zoneOutShots[i] += goalkeeper.getZoneOutShots(i + 1);
 
-                if (opponent_zoneShots[i] !=0){
+                int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / ((float) opponent_zoneGoalShots[i] + opponent_zoneOutShots[i]) * 100);
+
+                if ((opponent_zoneGoalShots[i] + opponent_zoneOutShots[i]) !=0){
                     zone_stats[i].setText(String.valueOf(effectiveness) + "%");
                     setColor(zone_stats[i], zone_goals[i], effectiveness);
                 }else{
@@ -652,7 +655,7 @@ public class StatisticsTeam extends Activity {
                     zone_goals[i].setBackgroundColor(Color.parseColor("#959595"));
                 }
 
-                zone_goals[i].setText(opponent_zoneGoals[i] +  "/" + (opponent_zoneShots[i]));
+                zone_goals[i].setText(opponent_zoneGoals[i] +  "/" + (opponent_zoneGoalShots[i] + opponent_zoneOutShots[i]));
 
 
             }
@@ -693,18 +696,21 @@ public class StatisticsTeam extends Activity {
     private void refreshDefenseGlobalPlayerStatistics(TextView zone_stats[], TextView zone_goals[], Goalkeeper goalkeeper){
 
         int opponent_zoneGoals[] = new int[9];
-        int opponent_zoneShots[] = new int[9];
+        int opponent_zoneGoalShots[] = new int[9];
+        int opponent_zoneOutShots[] = new int[9];
 
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 opponent_zoneGoals[i] += goalkeeper.getZoneAllGoals(i + 1, j + 1);
-                opponent_zoneShots[i] += goalkeeper.getZoneAllShots(i + 1, j + 1);
+                opponent_zoneGoalShots[i] += goalkeeper.getZoneGoalShots(i + 1, j + 1);
             }
 
-            int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / ((float) opponent_zoneShots[i]) * 100);
+            opponent_zoneOutShots[i] += goalkeeper.getZoneOutShots(i + 1);
 
-            if (opponent_zoneShots[i] !=0){
+            int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / ((float) opponent_zoneGoalShots[i] + opponent_zoneOutShots[i]) * 100);
+
+            if ((opponent_zoneGoalShots[i] + opponent_zoneOutShots[i]) !=0){
                 zone_stats[i].setText(String.valueOf(effectiveness) + "%");
                 setColor(zone_stats[i], zone_goals[i], effectiveness);
             }else{
@@ -714,7 +720,7 @@ public class StatisticsTeam extends Activity {
                 zone_goals[i].setBackgroundColor(Color.parseColor("#959595"));
             }
 
-            zone_goals[i].setText(opponent_zoneGoals[i] +  "/" + (opponent_zoneShots[i]));
+            zone_goals[i].setText(opponent_zoneGoals[i] +  "/" + (opponent_zoneGoalShots[i] + opponent_zoneOutShots[i]));
 
 
         }

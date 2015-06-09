@@ -790,7 +790,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                     Toast.LENGTH_LONG).show();
         }
 
-        ImageView mHome = (ImageView) findViewById(R.id.pager_home);
+        /*ImageView mHome = (ImageView) findViewById(R.id.pager_home);
         ImageView mStats = (ImageView) findViewById(R.id.pager_stats);
         ImageView mGoal = (ImageView) findViewById(R.id.pager_goal);
 
@@ -824,8 +824,8 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                 intent.putExtra("Goalkeepers", gks);
                 startActivityForResult(intent, 2);
                 */
-            }
-        });
+            //}
+        //});
 
 
     }
