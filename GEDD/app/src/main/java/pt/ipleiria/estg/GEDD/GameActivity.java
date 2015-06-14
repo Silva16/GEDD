@@ -49,14 +49,20 @@ import java.util.UUID;
 
 import android.os.Handler;
 
+import com.google.api.services.gmail.Gmail;
+
 import org.json.JSONObject;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
+import pt.ipleiria.estg.GEDD.Models.Action;
 import pt.ipleiria.estg.GEDD.Models.Game;
 import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
 import pt.ipleiria.estg.GEDD.Models.Player;
 
 
-public class GameActivity extends CustomActionBarActivity implements Serializable {
+public class GameActivity extends GmailApiBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -80,6 +86,8 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
     ArrayList<Game> games;
     Boolean save = true;
     int RESULT_FINISH = 3;
+
+    LinkedList<Action> actions = new LinkedList<Action>();
 
 
 
@@ -576,6 +584,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                         lastAction.setText(goalkeeper.getLastAction());
                                         game.setStarted();
                                         Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
+
                                     }
 
                                     if ((player = allPressedOffensive(lbl_scoreMyTeam, offensiveAction, finalization, zones, teamPlayer, players, game)) != null) {
@@ -591,6 +600,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                                         refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                         refreshLabels(null, null, null, null, btn_assist, null, null, null);
                                         Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
+                                        actions.add(new Action(player, "assistance",null, 0, 0));
                                     }
 
                                     if ((player = pressedTechFail(teamPlayer, players, btn_ft)) != null) {
@@ -790,7 +800,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                     Toast.LENGTH_LONG).show();
         }
 
-        /*ImageView mHome = (ImageView) findViewById(R.id.pager_home);
+        ImageView mHome = (ImageView) findViewById(R.id.pager_home);
         ImageView mStats = (ImageView) findViewById(R.id.pager_stats);
         ImageView mGoal = (ImageView) findViewById(R.id.pager_goal);
 
@@ -824,8 +834,8 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                 intent.putExtra("Goalkeepers", gks);
                 startActivityForResult(intent, 2);
                 */
-            //}
-        //});
+            }
+        });
 
 
     }
@@ -1310,10 +1320,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
 
         if ((btnGkAction = isChildrenButtonPressed(goalkeeperAction)) != null && (btnZone = isChildrenButtonPressed(zones))!= null) {
-
-
-            goalkeeper.setLastAction("Guarda-Redes - " + btnGkAction.getTag().toString() + "\n Zona " + btnZone.getTag().toString());
-
+            actions.add(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
             if (btnGkAction.getTag() == "btn_gk_post") {
                 goalkeeper.setPost((int) btnZone.getTag());
                 refreshLabels(null, null, null, btnZone, null, null, btnGkAction, null);
@@ -1327,8 +1334,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
         if ((btnGkZone = isChildrenButtonPressed(goalkeeperZone)) != null && (btnGkAction = isChildrenButtonPressed(goalkeeperAction)) != null && (btnZone = isChildrenButtonPressed(zones))!= null) {
 
-            goalkeeper.setLastAction("Guarda-Redes - " + btnGkAction.getTag().toString() + "\n Zona de Baliza " + btnGkZone.getTag().toString() + ", Zona " + btnZone.getTag().toString());
-
+            actions.add(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), Integer.valueOf(btnGkZone.getTag().toString())));
             if (btnGkAction.getTag() == "btn_gk_goal") {
                 goalkeeper.setGoal((int) btnZone.getTag(), (int) btnGkZone.getTag());
                 game.setScoreOpponent();
@@ -1368,7 +1374,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
             for(Player player : players){
                 if(player.getNumber()== Integer.valueOf(btnPlayer.getTag().toString())){
-                    player.setLastAction("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
+                    actions.add(new Action(player, btnOffAct.getTag().toString(),btnFinalization.getTag().toString(), Integer.valueOf(btnZone.getTag().toString()), 0));
                     player.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
                     refreshLabels(btnOffAct, null, btnFinalization, btnZone, null, null, null, null);
 
@@ -1378,7 +1384,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
             for(Goalkeeper gk : gks){
                 if(gk.getNumber()==Integer.valueOf(btnPlayer.getTag().toString())){
-                    gk.setLastAction("Jogador " + btnPlayer.getTag().toString() + " - " + btnOffAct.getTag().toString() + "\n" + btnFinalization.getTag().toString() + ", Zona " + btnZone.getTag().toString());
+                    actions.add(new Action(gk, btnOffAct.getTag().toString(),btnFinalization.getTag().toString(), Integer.valueOf(btnZone.getTag().toString()), 0));
                     gk.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
                     refreshLabels(btnOffAct, null, btnFinalization, btnZone, null, null, null, null);
 
@@ -1413,7 +1419,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
             for(Player player : players){
                 if(player.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())){
-                    player.setLastAction("Jogador " + btnPlayer.getTag().toString() + "\n" + btnDefAct.getTag().toString() + ", Zona " + btnZone.getTag().toString());
+                    actions.add(new Action(player, btnDefAct.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
                     if (btnDefAct.getTag() == "btn_block_def"){
                         player.setBlock((int) btnZone.getTag());
                         game.setStarted();
@@ -1432,7 +1438,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
             for(Goalkeeper gk : gks){
                 if(gk.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())){
-                    gk.setLastAction("Jogador " + btnPlayer.getTag().toString() + "\n" + btnDefAct.getTag().toString() + ", Zona " + btnZone.getTag().toString());
+                    actions.add(new Action(gk, btnDefAct.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
                     if (btnDefAct.getTag() == "btn_block_def"){
                         gk.setBlock((int) btnZone.getTag());
                     } else if(btnDefAct.getTag() == "btn_disarm") {
@@ -1622,7 +1628,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
         }
 
-        if(id == R.id.deleteGame){
+        if(id == R.id.deleteGame) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Tem a certeza que deseja apagar o jogo?");
@@ -1638,22 +1644,56 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
                     int var = getThisGameFromList();
                     games.remove(var);
                     saveFile();
-                    save=false;
+                    save = false;
 
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                 }
             });
-
-
-
             builder.show();
+        }
 
+        if(id == R.id.sendMail){
+            /*final Mail m = new Mail("andrerosado09@gmail.com", "kulk1tUp");
+            Log.i(TAG,"Passou 1");
+            String[] toArr = {"z0rd-93@gmail.com", "andrerosado09@gmail.com"};
+            m.setTo(toArr);
+            Log.i(TAG,"Passou 2");
+            m.setFrom("wooo@wooo.com");
+            Log.i(TAG,"Passou 3");
+            m.setSubject("This is an email sent using my Mail JavaMail wrapper from an Android device.");
+            Log.i(TAG,"Passou 4");
+            m.setBody("Email body.");
+            Log.i(TAG,"Passou 5");
+            m.getPasswordAuthentication();
+            new Thread() {
+                @Override
+                public void run() {
 
+                    try {
 
+                        if (m.send()) {
+                            Toast.makeText(GameActivity.this, "Email was sent successfully.", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(GameActivity.this, "Email was not sent.", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e) {
+                        //Toast.makeText(MailApp.this, "There was a problem sending the email.", Toast.LENGTH_LONG).show();
+                        Log.e("MailApp", "Could not send email", e);
+                    }
+                    Log.i(TAG, "SAIU");
+                }
+            }.start();*/
+
+            refreshResults();
 
 
         }
+
+
+
+
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -1943,7 +1983,7 @@ public class GameActivity extends CustomActionBarActivity implements Serializabl
 
 
     public void clickFtAdv(View v){
-        game.setTechnicalFailAdv(game.getTechnicalFailAdv()+1);
+        game.setTechnicalFailAdv(game.getTechnicalFailAdv() + 1);
         btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
     }
 
@@ -2147,6 +2187,88 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                 Toast.makeText(GameActivity.this, "Os campos tem de estar preenchidos", Toast.LENGTH_SHORT).show();
             }
         }
+
+
+    }
+
+    public void undoAction(View view){
+        new AlertDialog.Builder(GameActivity.this)
+                .setTitle("Anular acção")
+                .setMessage(actions.getLast().getText())
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Goalkeeper gk;
+                        Action action = actions.getLast();
+                        switch(action.getType()) {
+                            case "btn_goal":
+                                if(action.getFinalization() == "btn_atk"){
+                                    action.getPlayer().removeAtkShotGoal(action.getZone());
+                                }else{
+                                    action.getPlayer().removeCaShotGoal(action.getZone());
+                                }
+                                break;
+                            case "btn_out":
+                                if(action.getFinalization() == "btn_atk"){
+                                    action.getPlayer().removeAtkShotOut(action.getZone());
+                                }else{
+                                    action.getPlayer().removeCaShotOut(action.getZone());
+                                }
+                                break;
+                            case "btn_goalpost":
+                                if(action.getFinalization() == "btn_atk"){
+                                    action.getPlayer().removeAtkShotPost(action.getZone());
+                                }else{
+                                    action.getPlayer().removeCaShotPost(action.getZone());
+                                }
+                                break;
+                            case "btn_defense":
+                                if(action.getFinalization() == "btn_atk"){
+                                    action.getPlayer().removeAtkShotDefended(action.getZone());
+                                }else{
+                                    action.getPlayer().removeCaShotDefended(action.getZone());
+                                }
+                                break;
+                            case "btn_block_atk":
+                                if(action.getFinalization() == "btn_atk"){
+                                    action.getPlayer().removeAtkShotBlocked(action.getZone());
+                                }else{
+                                    action.getPlayer().removeCaShotBlocked(action.getZone());
+                                }
+                                break;
+                            case "btn_block_def": action.getPlayer().removeBlock(action.getZone());
+                                break;
+                            case "btn_disarm": action.getPlayer().removeDisarm(action.getZone());
+                                break;
+                            case "btn_interception": action.getPlayer().removeInterception(action.getZone());
+                                break;
+                            case "btn_gk_goal":
+                                gk = (Goalkeeper) action.getPlayer();
+                                gk.removeGoal(action.getZone(), action.getGoalZone());
+                                break;
+                            case "btn_gk_def":
+                                gk = (Goalkeeper) action.getPlayer();
+                                gk.removeDefended(action.getZone(), action.getGoalZone());
+                                break;
+                            case "btn_gk_out":
+                                gk = (Goalkeeper) action.getPlayer();
+                                gk.removeOut(action.getZone());
+                                break;
+                            case "btn_gk_post":
+                                gk = (Goalkeeper) action.getPlayer();
+                                gk.removePost(action.getZone());
+                                break;
+                            case "assistance": action.getPlayer().removeAssistance();
+                                break;
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 

@@ -373,7 +373,9 @@ public class StatisticsTeam extends Activity {
         }
 
         btn_gks[0].setTag(gks.get(0).getNumber());
-        btn_gks[1].setTag(gks.get(1).getNumber());
+        if(gks.size() > 1) {
+            btn_gks[1].setTag(gks.get(1).getNumber());
+        }
 
         RelativeLayout statisticsLayout = (RelativeLayout) findViewById(R.id.statisticsLayout);
 
@@ -387,7 +389,7 @@ public class StatisticsTeam extends Activity {
             }
         });
 
-        /*ImageView mHome = (ImageView) findViewById(R.id.stats_pager_home);
+        ImageView mHome = (ImageView) findViewById(R.id.stats_pager_home);
         ImageView mSheet = (ImageView) findViewById(R.id.stats_pager_sheet);
         ImageView mGoal = (ImageView) findViewById(R.id.stats_pager_goal);
 
@@ -419,7 +421,7 @@ public class StatisticsTeam extends Activity {
                 intent.putExtra("Players", players);
                 startActivityForResult(intent, 2);
             }
-        });*/
+        });
 
     }
 

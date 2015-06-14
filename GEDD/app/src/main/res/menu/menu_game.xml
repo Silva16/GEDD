@@ -5,6 +5,8 @@
     tools:context="pt.ipleiria.estg.GEDD.MainActivity">
     <item android:id="@+id/configureTeam" android:title="@string/configure_team"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/sendMail" android:title="@string/send_mail"
+        android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/editGame" android:title="@string/edit_game"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/deleteGame" android:title="@string/delete_game"

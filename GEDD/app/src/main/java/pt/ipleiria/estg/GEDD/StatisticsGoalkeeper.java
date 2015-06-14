@@ -130,7 +130,7 @@ public class StatisticsGoalkeeper extends Activity {
                 finish();
             }
         });
-/*
+
         ImageView mHome = (ImageView) findViewById(R.id.goalstats_pager_home);
         ImageView mSheet = (ImageView) findViewById(R.id.goalstats_pager_sheet);
         ImageView mStats = (ImageView) findViewById(R.id.goalstats_pager_stats);
@@ -163,7 +163,7 @@ public class StatisticsGoalkeeper extends Activity {
                 intent.putExtra("Goalkeepers", gks);
                 startActivityForResult(intent, 2);
             }
-        });*/
+        });
 
     }
 

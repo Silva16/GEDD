@@ -5,6 +5,8 @@ package pt.ipleiria.estg.GEDD.Models;
  */
 public class Goalkeeper extends Player {
 
+    private static final long serialVersionUID = -6929496304898697467L;
+
     public Goalkeeper(int number, String name) {
         super(number, name);
     }
@@ -22,6 +24,10 @@ public class Goalkeeper extends Player {
         this.goal[zone-1][baliza-1]++;
     }
 
+    public void removeGoal(int zone, int baliza) {
+        this.goal[zone-1][baliza-1]--;
+    }
+
     public int[][] getDefended() {
         return defended;
     }
@@ -29,6 +35,11 @@ public class Goalkeeper extends Player {
     public void setDefended(int zone, int baliza) {
         this.defended[zone-1][baliza-1]++;
     }
+
+    public void removeDefended(int zone, int baliza) {
+        this.defended[zone-1][baliza-1]--;
+    }
+
 
     public int[] getPost() {
         return post;
@@ -38,12 +49,20 @@ public class Goalkeeper extends Player {
         this.post[zone-1]++;
     }
 
+    public void removePost(int zone) {
+        this.post[zone-1]--;
+    }
+
     public int[] getOut() {
         return out;
     }
 
     public void setOut(int zone) {
         this.out[zone-1]++;
+    }
+
+    public void removeOut(int zone) {
+        this.out[zone-1]--;
     }
 
     public int getZoneGoalShots(int zone, int baliza){

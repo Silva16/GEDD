@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.GEDD;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -33,6 +35,12 @@ import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.Query;
 import com.google.android.gms.drive.query.SearchableField;
 import com.google.android.gms.plus.Plus;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.gmail.Gmail;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -46,6 +54,10 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import javax.mail.MessagingException;
+import javax.mail.Service;
+import javax.mail.internet.MimeMessage;
 
 import pt.ipleiria.estg.GEDD.Models.Game;
 
@@ -118,6 +130,7 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
 
     @Override
     public void onConnected(Bundle bundle) {
+
         switch(driveAction){
             case 1: saveFileToDrive();
                 break;
@@ -165,6 +178,7 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
 
     private void saveFileToDrive() {
         // Start by creating a new contents, and setting a callback.
+
         Log.i(TAG, "Creating new contents.");
         Drive.DriveApi.newDriveContents(mGoogleApiClient)
                 .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
@@ -404,5 +418,7 @@ public class CustomActionBarActivity extends ActionBarActivity implements Google
     public GoogleApiClient getGoogleApiClient(){
         return mGoogleApiClient;
     }
+
+
 
 }

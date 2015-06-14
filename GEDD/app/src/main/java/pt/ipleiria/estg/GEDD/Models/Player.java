@@ -105,6 +105,10 @@ public class Player implements Serializable{
         this.atkShotGoal[zone-1] ++;
     }
 
+    public void removeAtkShotGoal(int zone) {
+        this.atkShotGoal[zone-1] --;
+    }
+
     public int[] getAtkShotBlocked() {
         return atkShotBlocked;
     }
@@ -113,12 +117,21 @@ public class Player implements Serializable{
         this.atkShotBlocked[zone-1]++;
     }
 
+    public void removeAtkShotBlocked(int zone) {
+        this.atkShotBlocked[zone-1]--;
+    }
+
     public int[] getAtkShotOut() {
         return atkShotOut;
     }
 
+
     public void setAtkShotOut(int zone) {
         this.atkShotOut[zone-1]++;
+    }
+
+    public void removeAtkShotOut(int zone) {
+        this.atkShotOut[zone-1]--;
     }
 
     public int[] getAtkShotPost() {
@@ -129,12 +142,20 @@ public class Player implements Serializable{
         this.atkShotPost[zone-1]++;
     }
 
+    public void removeAtkShotPost(int zone) {
+        this.atkShotPost[zone-1]--;
+    }
+
     public int[] getAtkShotDefended() {
         return atkShotDefended;
     }
 
     public void setAtkShotDefended(int zone) {
         this.atkShotDefended[zone-1]++;
+    }
+
+    public void removeAtkShotDefended(int zone) {
+        this.atkShotDefended[zone-1]--;
     }
 
     public int[] getCaShotGoal() {
@@ -145,12 +166,20 @@ public class Player implements Serializable{
         this.caShotGoal[zone-1]++;
     }
 
+    public void removeCaShotGoal(int zone) {
+        this.caShotGoal[zone-1]--;
+    }
+
     public int[] getCaShotBlocked() {
         return caShotBlocked;
     }
 
     public void setCaShotBlocked(int zone) {
         this.caShotBlocked[zone-1]++;
+    }
+
+    public void removeCaShotBlocked(int zone) {
+        this.caShotBlocked[zone-1]--;
     }
 
     public int[] getCaShotOut() {
@@ -161,12 +190,20 @@ public class Player implements Serializable{
         this.caShotOut[zone-1]++;
     }
 
+    public void removeCaShotOut(int zone) {
+        this.caShotOut[zone-1]--;
+    }
+
     public int[] getCaShotPost() {
         return caShotPost;
     }
 
     public void setCaShotPost(int zone) {
         this.caShotPost[zone-1]++;
+    }
+
+    public void removeCaShotPost(int zone) {
+        this.caShotPost[zone-1]--;
     }
 
     public int[] getCaShotDefended() {
@@ -177,12 +214,20 @@ public class Player implements Serializable{
         this.caShotDefended[zone-1]++;
     }
 
+    public void removeCaShotDefended(int zone) {
+        this.caShotDefended[zone-1]--;
+    }
+
     public int[] getInterception() {
         return interception;
     }
 
     public void setInterception(int zone) {
         this.interception[zone-1]++;
+    }
+
+    public void removeInterception(int zone) {
+        this.interception[zone-1]--;
     }
 
     public int[] getBlock() {
@@ -193,12 +238,20 @@ public class Player implements Serializable{
         this.block[zone-1]++;
     }
 
+    public void removeBlock(int zone) {
+        this.block[zone-1]--;
+    }
+
     public int[] getDisarm() {
         return disarm;
     }
 
     public void setDisarm(int zone) {
         this.disarm[zone-1]++;
+    }
+
+    public void removeDisarm(int zone) {
+        this.disarm[zone-1]--;
     }
 
     public int getTechnicalFailure() {
@@ -349,6 +402,9 @@ public class Player implements Serializable{
 
     public void addAssistance(){
        this.assistance ++;
+    }
+    public void removeAssistance(){
+        this.assistance --;
     }
 
     public void addTechFail(){

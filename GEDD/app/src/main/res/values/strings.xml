@@ -23,5 +23,6 @@
     <string name="change_drive">Alterar conta da Drive</string>
     <string name="title_activity_list_drive_games">Lista de jogos da Google Drive</string>
     <string name="google_api_key">AIzaSyAIqyUHaHqxkbBaweorB1r3EMNCNQJVo9E</string>
+    <string name="send_mail">Enviar Relatórios</string>
 
 </resources>
