@@ -16,20 +16,32 @@ import com.google.api.client.util.Base64;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.*;
 
+
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+
+import javax.mail.BodyPart;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 
 public class GmailApiAsyncTask extends AsyncTask<Void, Void, Void> {
-private GmailApiBase mActivity;
+private static GmailApiBase mActivity;
 
     static String TAG = "GMAIL ASYNC";
 
@@ -48,6 +60,7 @@ private GmailApiBase mActivity;
 @Override
 protected Void doInBackground(Void... params) {
         try {
+            getStatistics();
             Log.i(TAG, "CENA 1");
         MimeMessage email = createEmail("andrerosado09@gmail.com","andrerosado09@gmail.com","Teste","Texto do teste");
             sendMessage(mActivity.mService,mActivity.credential.getSelectedAccountName(),email);
@@ -95,7 +108,31 @@ protected Void doInBackground(Void... params) {
         email.addRecipient(javax.mail.Message.RecipientType.TO,
                 new InternetAddress(to));
         email.setSubject(subject);
-        email.setText(bodyText);
+        //email.setText(bodyText);
+
+        // Create the message part
+        BodyPart messageBodyPart = new MimeBodyPart();
+
+        // Fill the message
+        messageBodyPart.setText(bodyText);
+
+        // Create a multipar message
+        Multipart multipart = new MimeMultipart();
+
+        // Set text message part
+        multipart.addBodyPart(messageBodyPart);
+
+        // Part two is attachment
+        messageBodyPart = new MimeBodyPart();
+        DataSource source = new FileDataSource(mActivity.getApplicationContext().getFilesDir().getPath().toString() + "/teste.txt");
+        messageBodyPart.setDataHandler(new DataHandler(source));
+        messageBodyPart.setFileName(mActivity.getApplicationContext().getFilesDir().getPath().toString() + "/teste.txt");
+        multipart.addBodyPart(messageBodyPart);
+
+        email.setContent(multipart);
+
+
+
         return email;
     }
 
@@ -138,5 +175,22 @@ protected Void doInBackground(Void... params) {
         Log.i(TAG,"return message!");
         return message;
     }
+
+    private void getStatistics(){
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(mActivity.getApplicationContext().getFilesDir().getPath().toString() + "teste.txt", "UTF-8");
+            writer.println("The first line");
+            writer.println("The second line");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 
 }
