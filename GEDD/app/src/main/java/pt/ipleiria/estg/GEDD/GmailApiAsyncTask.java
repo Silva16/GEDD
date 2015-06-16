@@ -43,6 +43,7 @@ import javax.mail.internet.MimeMultipart;
 public class GmailApiAsyncTask extends AsyncTask<Void, Void, Void> {
 private static GmailApiBase mActivity;
 
+
     static String TAG = "GMAIL ASYNC";
 
         /**
