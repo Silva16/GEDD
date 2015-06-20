@@ -99,7 +99,6 @@ public class GameActivity extends GmailApiBase implements Serializable {
     String defenseColor = "#F71E50";
     String otherActionColor = "#FFE500";
     String teamColor = "#FFB300";
-    LinkedList<Action> actions = new LinkedList<Action>();
 
 
 
@@ -618,7 +617,8 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                         refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                         refreshLabels(null, null, null, null, btn_assist, null, null, null);
                                         Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
-                                        actions.add(new Action(player, "assistance",null, 0, 0));
+                                        game.addAction(new Action(player, "assistance",null, 0, 0));
+
                                     }
 
                                     if ((player = pressedTechFail(teamPlayer, players, btn_ft)) != null) {
@@ -1420,7 +1420,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
 
         if ((btnGkAction = isChildrenButtonPressed(goalkeeperAction)) != null && (btnZone = isChildrenButtonPressed(zones))!= null) {
-            actions.add(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
+            game.addAction(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
             if (btnGkAction.getTag() == "btn_gk_post") {
                 goalkeeper.setPost((int) btnZone.getTag());
                 refreshLabels(null, null, null, btnZone, null, null, btnGkAction, null);
@@ -1434,7 +1434,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
         if ((btnGkZone = isChildrenButtonPressed(goalkeeperZone)) != null && (btnGkAction = isChildrenButtonPressed(goalkeeperAction)) != null && (btnZone = isChildrenButtonPressed(zones))!= null) {
 
-            actions.add(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), Integer.valueOf(btnGkZone.getTag().toString())));
+            game.addAction(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), Integer.valueOf(btnGkZone.getTag().toString())));
             if (btnGkAction.getTag() == "btn_gk_goal") {
                 goalkeeper.setGoal((int) btnZone.getTag(), (int) btnGkZone.getTag());
                 game.setScoreOpponent();
@@ -1474,7 +1474,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
             for(Player player : players){
                 if(player.getNumber()== Integer.valueOf(btnPlayer.getTag().toString())){
-                    actions.add(new Action(player, btnOffAct.getTag().toString(),btnFinalization.getTag().toString(), Integer.valueOf(btnZone.getTag().toString()), 0));
+                    game.addAction(new Action(player, btnOffAct.getTag().toString(),btnFinalization.getTag().toString(), Integer.valueOf(btnZone.getTag().toString()), 0));
                     player.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
                     refreshLabels(btnOffAct, null, btnFinalization, btnZone, null, null, null, null);
 
@@ -1484,7 +1484,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
             for(Goalkeeper gk : gks){
                 if(gk.getNumber()==Integer.valueOf(btnPlayer.getTag().toString())){
-                    actions.add(new Action(gk, btnOffAct.getTag().toString(),btnFinalization.getTag().toString(), Integer.valueOf(btnZone.getTag().toString()), 0));
+                    game.addAction(new Action(gk, btnOffAct.getTag().toString(),btnFinalization.getTag().toString(), Integer.valueOf(btnZone.getTag().toString()), 0));
                     gk.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
                     refreshLabels(btnOffAct, null, btnFinalization, btnZone, null, null, null, null);
 
@@ -1519,7 +1519,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
             for(Player player : players){
                 if(player.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())){
-                    actions.add(new Action(player, btnDefAct.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
+                    game.addAction(new Action(player, btnDefAct.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
                     if (btnDefAct.getTag() == "btn_block_def"){
                         player.setBlock((int) btnZone.getTag());
                         game.setStarted();
@@ -1538,7 +1538,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
             for(Goalkeeper gk : gks){
                 if(gk.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())){
-                    actions.add(new Action(gk, btnDefAct.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
+                    game.addAction(new Action(gk, btnDefAct.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
                     if (btnDefAct.getTag() == "btn_block_def"){
                         gk.setBlock((int) btnZone.getTag());
                     } else if(btnDefAct.getTag() == "btn_disarm") {
@@ -2309,85 +2309,102 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
 
-    public void undoAction(View view){
-        new AlertDialog.Builder(GameActivity.this)
-                .setTitle("Anular acção")
-                .setMessage(actions.getLast().getText())
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Goalkeeper gk;
-                        Action action = actions.getLast();
-                        switch(action.getType()) {
-                            case "btn_goal":
-                                if(action.getFinalization() == "btn_atk"){
-                                    action.getPlayer().removeAtkShotGoal(action.getZone());
-                                }else{
-                                    action.getPlayer().removeCaShotGoal(action.getZone());
-                                }
-                                break;
-                            case "btn_out":
-                                if(action.getFinalization() == "btn_atk"){
-                                    action.getPlayer().removeAtkShotOut(action.getZone());
-                                }else{
-                                    action.getPlayer().removeCaShotOut(action.getZone());
-                                }
-                                break;
-                            case "btn_goalpost":
-                                if(action.getFinalization() == "btn_atk"){
-                                    action.getPlayer().removeAtkShotPost(action.getZone());
-                                }else{
-                                    action.getPlayer().removeCaShotPost(action.getZone());
-                                }
-                                break;
-                            case "btn_defense":
-                                if(action.getFinalization() == "btn_atk"){
-                                    action.getPlayer().removeAtkShotDefended(action.getZone());
-                                }else{
-                                    action.getPlayer().removeCaShotDefended(action.getZone());
-                                }
-                                break;
-                            case "btn_block_atk":
-                                if(action.getFinalization() == "btn_atk"){
-                                    action.getPlayer().removeAtkShotBlocked(action.getZone());
-                                }else{
-                                    action.getPlayer().removeCaShotBlocked(action.getZone());
-                                }
-                                break;
-                            case "btn_block_def": action.getPlayer().removeBlock(action.getZone());
-                                break;
-                            case "btn_disarm": action.getPlayer().removeDisarm(action.getZone());
-                                break;
-                            case "btn_interception": action.getPlayer().removeInterception(action.getZone());
-                                break;
-                            case "btn_gk_goal":
-                                gk = (Goalkeeper) action.getPlayer();
-                                gk.removeGoal(action.getZone(), action.getGoalZone());
-                                break;
-                            case "btn_gk_def":
-                                gk = (Goalkeeper) action.getPlayer();
-                                gk.removeDefended(action.getZone(), action.getGoalZone());
-                                break;
-                            case "btn_gk_out":
-                                gk = (Goalkeeper) action.getPlayer();
-                                gk.removeOut(action.getZone());
-                                break;
-                            case "btn_gk_post":
-                                gk = (Goalkeeper) action.getPlayer();
-                                gk.removePost(action.getZone());
-                                break;
-                            case "assistance": action.getPlayer().removeAssistance();
-                                break;
+    public void undoAction(View view) {
+        if (game.getLastAction() != null) {
+            new AlertDialog.Builder(GameActivity.this)
+                    .setTitle("Anular acção")
+                    .setMessage(game.getLastAction().getText())
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Goalkeeper gk;
+                            Action action = game.getLastAction();
+                            switch (action.getType()) {
+                                case "btn_goal":
+                                    if (action.getFinalization() == "btn_atk") {
+                                        action.getPlayer().removeAtkShotGoal(action.getZone());
+                                    } else {
+                                        action.getPlayer().removeCaShotGoal(action.getZone());
+                                    }
+                                    break;
+                                case "btn_out":
+                                    if (action.getFinalization() == "btn_atk") {
+                                        action.getPlayer().removeAtkShotOut(action.getZone());
+                                    } else {
+                                        action.getPlayer().removeCaShotOut(action.getZone());
+                                    }
+                                    break;
+                                case "btn_goalpost":
+                                    if (action.getFinalization() == "btn_atk") {
+                                        action.getPlayer().removeAtkShotPost(action.getZone());
+                                    } else {
+                                        action.getPlayer().removeCaShotPost(action.getZone());
+                                    }
+                                    break;
+                                case "btn_defense":
+                                    if (action.getFinalization() == "btn_atk") {
+                                        action.getPlayer().removeAtkShotDefended(action.getZone());
+                                    } else {
+                                        action.getPlayer().removeCaShotDefended(action.getZone());
+                                    }
+                                    break;
+                                case "btn_block_atk":
+                                    if (action.getFinalization() == "btn_atk") {
+                                        action.getPlayer().removeAtkShotBlocked(action.getZone());
+                                    } else {
+                                        action.getPlayer().removeCaShotBlocked(action.getZone());
+                                    }
+                                    break;
+                                case "btn_block_def":
+                                    action.getPlayer().removeBlock(action.getZone());
+                                    break;
+                                case "btn_disarm":
+                                    action.getPlayer().removeDisarm(action.getZone());
+                                    break;
+                                case "btn_interception":
+                                    action.getPlayer().removeInterception(action.getZone());
+                                    break;
+                                case "btn_gk_goal":
+                                    gk = (Goalkeeper) action.getPlayer();
+                                    gk.removeGoal(action.getZone(), action.getGoalZone());
+                                    break;
+                                case "btn_gk_def":
+                                    gk = (Goalkeeper) action.getPlayer();
+                                    gk.removeDefended(action.getZone(), action.getGoalZone());
+                                    break;
+                                case "btn_gk_out":
+                                    gk = (Goalkeeper) action.getPlayer();
+                                    gk.removeOut(action.getZone());
+                                    break;
+                                case "btn_gk_post":
+                                    gk = (Goalkeeper) action.getPlayer();
+                                    gk.removePost(action.getZone());
+                                    break;
+                                case "assistance":
+                                    action.getPlayer().removeAssistance();
+                                    break;
+                            }
                         }
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
     }
+
+
+    @Override
+    public void callTaskToSendEmail(){
+        Log.i(TAG, "correu bem! tiveste sortev");
+        GmailApiTaskParams taskParams = new GmailApiTaskParams(players, game, gks);
+        new GmailApiAsyncTask(this).execute(taskParams);
+    }
+
+
+
 
 
 

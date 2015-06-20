@@ -14,6 +14,8 @@ public class Player implements Serializable{
 
     private Boolean playing;
 
+    static final long serialVersionUID =-2856367922431031000L;
+
     //Disciplina
     private int twoMin;
     private boolean twoMinOut;
@@ -307,12 +309,52 @@ public class Player implements Serializable{
         return getAllActions(this.getInterception());
     }
 
+    public int getAllAtkShots(){
+        return getAllActions(this.getAtkShotBlocked()) + getAllActions(this.getAtkShotPost()) + getAllActions(this.getAtkShotGoal()) + getAllActions(this.getAtkShotDefended()) + getAllActions(this.getAtkShotOut());
+    }
+
+    public int getAllAtkShotsOut(){
+        return getAllActions(this.getAtkShotOut());
+    }
+
+    public int getAllAtkShotsBlocked(){
+        return getAllActions(this.getAtkShotBlocked());
+    }
+
+    public int getAllAtkShotsPost(){
+        return getAllActions(this.getAtkShotPost());
+    }
+
+    public int getAllAtkShotsGoal(){
+        return getAllActions(this.getAtkShotGoal());
+    }
+
+    public int getAllAtkShotsDefended(){
+        return getAllActions(this.getAtkShotDefended());
+    }
+
     public int getAllCaShots(){
         return getAllActions(this.getCaShotBlocked()) + getAllActions(this.getCaShotPost()) + getAllActions(this.getCaShotGoal()) + getAllActions(this.getCaShotDefended()) + getAllActions(this.getCaShotOut());
     }
 
-    public int getAllAtkShots(){
-        return getAllActions(this.getAtkShotBlocked()) + getAllActions(this.getAtkShotPost()) + getAllActions(this.getAtkShotGoal()) + getAllActions(this.getAtkShotDefended()) + getAllActions(this.getAtkShotOut());
+    public int getAllCaShotsOut(){
+        return getAllActions(this.getCaShotOut());
+    }
+
+    public int getAllCaShotsBlocked(){
+        return getAllActions(this.getCaShotBlocked());
+    }
+
+    public int getAllCaShotsPost(){
+        return getAllActions(this.getCaShotPost());
+    }
+
+    public int getAllCaShotsGoal(){
+        return getAllActions(this.getCaShotGoal());
+    }
+
+    public int getAllCaShotsDefended(){
+        return getAllActions(this.getCaShotDefended());
     }
 
     public void refreshPlayerStats(String finalization, int zone, String offAction){
@@ -359,6 +401,24 @@ public class Player implements Serializable{
         return atkShotGoal[zone-1]+ atkShotBlocked[zone-1]+ atkShotDefended[zone-1]+ atkShotOut[zone-1]+ atkShotPost[zone-1];
     }
 
+    public int getZoneAtkShotsBlocked(int zone){
+        return atkShotBlocked[zone-1];
+    }
+
+    public int getZoneAtkShotsDefended(int zone){
+        return atkShotDefended[zone-1];
+    }
+
+    public int getZoneAtkShotsOut(int zone){
+        return atkShotOut[zone-1];
+    }
+
+    public int getZoneAtkShotsPost(int zone){
+        return atkShotPost[zone-1];
+    }
+
+
+
 
     public int getZoneCAShots(int zone){
         return caShotGoal[zone-1]+caShotOut[zone-1]+caShotBlocked[zone-1]+caShotDefended[zone-1]+caShotPost[zone-1];
@@ -376,6 +436,23 @@ public class Player implements Serializable{
         return caShotGoal[zone-1];
     }
 
+    public int getZoneCaShotsBlocked(int zone){
+        return caShotBlocked[zone-1];
+    }
+
+    public int getZoneCaShotsDefended(int zone){
+        return caShotDefended[zone-1];
+    }
+
+    public int getZoneCaShotsOut(int zone){
+        return caShotOut[zone-1];
+    }
+
+    public int getZoneCaShotsPost(int zone){
+        return caShotPost[zone-1];
+    }
+
+
     public int getAllShotGoals(){
         return getAllActions(atkShotGoal) + getAllActions(caShotGoal);
     }
@@ -386,6 +463,10 @@ public class Player implements Serializable{
 
     public int getAllShotPost(){
         return getAllActions(atkShotPost) + getAllActions(caShotPost);
+    }
+
+    public int getAllShotBlocked(){
+        return getAllActions(atkShotBlocked) + getAllActions(caShotBlocked);
     }
 
     public int getAllShotDefended(){

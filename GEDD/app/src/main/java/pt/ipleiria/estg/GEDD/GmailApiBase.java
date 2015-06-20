@@ -32,7 +32,11 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+
+import pt.ipleiria.estg.GEDD.Models.Game;
+import pt.ipleiria.estg.GEDD.Models.Player;
 
 /**
  * Created by Andre on 10/06/2015.
@@ -136,7 +140,7 @@ public class GmailApiBase extends ActionBarActivity{
         switch(requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode == RESULT_OK) {
-                    refreshResults();
+                    //refreshResults();
                 } else {
                     isGooglePlayServicesAvailable();
                 }
@@ -181,11 +185,15 @@ public class GmailApiBase extends ActionBarActivity{
             chooseAccount();
         } else {
             if (isDeviceOnline()) {
-                new GmailApiAsyncTask(this).execute();
+                callTaskToSendEmail();
             } else {
                 mStatusText.setText("No network connection available.");
             }
         }
+    }
+
+    public void callTaskToSendEmail(){
+        new GmailApiAsyncTask(this).execute();
     }
 
     /**

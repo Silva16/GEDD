@@ -7,6 +7,7 @@ import java.util.Calendar;
  * Created by Andre on 12/06/2015.
  */
 public class Action {
+
     private Player player;
     private String type;
     private String finalization;

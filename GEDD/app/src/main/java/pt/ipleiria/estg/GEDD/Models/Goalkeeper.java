@@ -70,7 +70,11 @@ public class Goalkeeper extends Player {
     }
 
     public int getZoneOutShots(int zone){
-        return post[zone-1]+out[zone-1];
+        return out[zone-1];
+    }
+
+    public int getZonePostShots(int zone){
+        return post[zone-1];
     }
 
     public int getZoneAllGoals(int zone, int baliza){

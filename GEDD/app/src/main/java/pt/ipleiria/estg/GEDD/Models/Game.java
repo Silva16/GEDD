@@ -34,6 +34,7 @@ public class Game implements Serializable {
 
     private LinkedList<Player> players;
     private LinkedList<Goalkeeper> gks;
+    private LinkedList<Action> actions;
 
     public Game(String myTeam, String advTeam, int hour, int minute, int day, int month, int year, String local) {
         ID = new UUID(123,254).randomUUID();
@@ -52,6 +53,7 @@ public class Game implements Serializable {
         this.technicalFailAdv = 0;
         this.started = false;
         this.closed = false;
+        actions = new LinkedList<Action>();
     }
 
     public UUID getID() {
@@ -239,5 +241,13 @@ public class Game implements Serializable {
 
     public String getName(){
         return getMyTeam()+" x "+getOpponent();
+    }
+
+    public Action getLastAction(){
+        return actions.getLast();
+    }
+
+    public void addAction(Action act){
+        actions.add(act);
     }
 }
