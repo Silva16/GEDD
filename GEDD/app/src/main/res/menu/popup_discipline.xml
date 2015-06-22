@@ -3,4 +3,5 @@
     <item android:id="@+id/btn_2min" android:title="2 minutos"></item>
     <item android:id="@+id/btn_yellowCard" android:title="Cartão Amarelo"></item>
     <item android:id="@+id/btn_redCard" android:title="Cartão Vermelho"></item>
+    <item android:id="@+id/remove_2min" android:title="Retirar 2 minutos"></item>
 </menu>

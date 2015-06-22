@@ -318,8 +318,8 @@ public class GameActivity extends GmailApiBase implements Serializable {
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             Player player;
                             if ((player = getPlayerPressed(players, teamPlayer)) != null) {
-                                if(player.isTwoMinOut() || player.isRedCard()){
-                                    Toast.makeText(getBaseContext(), "Não é possivel substituir um jogador suspenso", Toast.LENGTH_SHORT).show();
+                                if(player.isTwoMinOut()){
+                                    Toast.makeText(getBaseContext(), "Retire o 2mins antes de substituir", Toast.LENGTH_SHORT).show();
                                 }else {
                                     ImageButton btn_selectedPlayer = isChildrenImgButtonPressed(teamPlayer);
                                     showPopUpSubs(v, teamPlayer, player, btn_selectedPlayer);
@@ -352,8 +352,9 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                 ImageButton btn_selectedPlayer = isChildrenImgButtonPressed(teamPlayer);
                                 ImageButton btn_cards = (ImageButton) findViewById(R.id.imgbtn_cards);
 
+
                                 if(player.isRedCard()){
-                                    btn_cards.setEnabled(false);
+                                    //btn_cards.setEnabled(false);
                                     Toast.makeText(getBaseContext(), "Jogador já possuí a penalização máxima", Toast.LENGTH_SHORT).show();
                                 }else {
                                     showPopUpDiscipline(v, teamPlayer, players, player, btn_selectedPlayer);
@@ -382,7 +383,14 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                     for (int i = 0; i < container.getChildCount(); i++) {
                                         container.getChildAt(i).setPressed(false);
                                     }
-                                    v.setPressed(true);
+                                    Player pl = getPlayerPressed(players, teamPlayer);
+                                    if((pl != null && ((pl.isRedCard() || pl.isTwoMinOut()) && !(v.getParent() == (RelativeLayout) teamPlayer)))){
+                                        Toast.makeText(getApplicationContext(),"Não é possível registar acções num jogador suspenso",Toast.LENGTH_LONG);
+
+                                    }else {
+                                        v.setPressed(true);
+                                    }
+
                                     Player player;
                                     Goalkeeper goalkeeper;
 
@@ -470,7 +478,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
                                     if (v.getParent() == (RelativeLayout) goalkeeperAction) {
 
-                                        if (v.getTag() == "btn_gk_out" || v.getTag() == "btn_gk_post"){
+                                        if (v.getTag() == "btn_gk_out" || v.getTag() == "btn_gk_post") {
                                             btn_b1.setPressed(false);
                                             btn_b2.setPressed(false);
                                             btn_b3.setPressed(false);
@@ -500,7 +508,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                         btn_players[5].setPressed(false);
                                     }
 
-                                    if (v.getParent() == (RelativeLayout) goalkeeperZone){
+                                    if (v.getParent() == (RelativeLayout) goalkeeperZone) {
 
                                         btn_gk_out.setPressed(false);
                                         btn_gk_post.setPressed(false);
@@ -617,7 +625,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                         refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                         refreshLabels(null, null, null, null, btn_assist, null, null, null);
                                         Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
-                                        game.addAction(new Action(player, "assistance",null, 0, 0));
+                                        game.addAction(new Action(player, "assistance", null, 0, 0));
 
                                     }
 
@@ -637,6 +645,23 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                         Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
 
                                     }
+
+                                    if(v == btn_discipline){
+                                        Player playerTemp;
+                                        if ((playerTemp = getPlayerPressed(players, teamPlayer)) != null) {
+                                            ImageButton btn_selectedPlayer = isChildrenImgButtonPressed(teamPlayer);
+                                            ImageButton btn_cards = (ImageButton) findViewById(R.id.imgbtn_cards);
+
+
+                                            if(playerTemp.isRedCard()){
+                                                btn_cards.setEnabled(false);
+                                                Toast.makeText(getBaseContext(), "Jogador já possuí a penalização máxima", Toast.LENGTH_SHORT).show();
+                                            }else {
+                                                showPopUpDiscipline(v, teamPlayer, players, playerTemp, btn_selectedPlayer);
+                                            }
+                                        }
+                                    }
+
 
                                 } else {
 
@@ -785,14 +810,14 @@ public class GameActivity extends GmailApiBase implements Serializable {
                             for (Iterator<Player> iterator = players2min.iterator(); iterator.hasNext();) {
                                 Player p = iterator.next();
                                 p.incrementTwoMinTimer();
-                                if(p.getTwoMinTimer()==120){
+                                /*if(p.getTwoMinTimer()==120){
                                     iterator.remove();
                                     p.setTwoMinTimer(0);
                                     p.setTwoMinOut();
                                     Toast.makeText(getApplicationContext(), "O jogador com o número "+p.getNumber()+" já não está suspenso.",
                                             Toast.LENGTH_LONG).show();
                                     refreshPlayerImage();
-                                }
+                                }*/
                             }
                             if (seconds == 60) {
                                 seconds = 0;
@@ -1185,6 +1210,8 @@ public class GameActivity extends GmailApiBase implements Serializable {
                 }
             }
         }
+
+
     }
 
     private boolean fieldTypeActionColor(RelativeLayout finalization, RelativeLayout offensiveAction, RelativeLayout defensiveAction, RelativeLayout otherAction, RelativeLayout teamPlayer, RelativeLayout goalkeeperZone, RelativeLayout goalkeeperAction) {
@@ -1293,24 +1320,38 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
         PopupMenu popupMenu = new PopupMenu(this, view);
 
+
+
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.popup_discipline, popupMenu.getMenu());
         popupMenu.show();
 
+        MenuItem btn_removeTwoMin = popupMenu.getMenu().findItem(R.id.remove_2min);
         MenuItem btn_twoMin = popupMenu.getMenu().findItem(R.id.btn_2min);
-
         MenuItem btn_yellowCard = popupMenu.getMenu().findItem(R.id.btn_yellowCard);
-
-        if(player.isYellowCard()){
-
-            btn_yellowCard.setVisible(false);
-        }
-
+        MenuItem btn_redCard = popupMenu.getMenu().findItem(R.id.btn_redCard);
 
         if(player.isTwoMinOut()){
-
             btn_twoMin.setVisible(false);
+            btn_yellowCard.setVisible(false);
+            btn_redCard.setVisible(false);
+        }else {
+
+            btn_removeTwoMin.setVisible(false);
+
+            if (player.isYellowCard()) {
+
+                btn_yellowCard.setVisible(false);
+            }
+
+
+            if (player.isTwoMinOut()) {
+
+                btn_twoMin.setVisible(false);
+            }
         }
+
+        btnPlayer.setPressed(true);
 
 
 
@@ -1350,6 +1391,9 @@ public class GameActivity extends GmailApiBase implements Serializable {
                         resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
                         btnPlayer.setImageResource(resourceId);
                         return true;
+                    case R.id.remove_2min:
+                        player.setTwoMinOut();
+                        refreshPlayerImage();
 
                     default:
                         return false;
@@ -1369,14 +1413,14 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
 
 
-    private Player pressedDiscipline(RelativeLayout teamPlayer, LinkedList<Player> players, ImageButton btn_discipline) {
+  /*  private Player pressedDiscipline(RelativeLayout teamPlayer, LinkedList<Player> players, ImageButton btn) {
         Player player;
         if(btn_discipline.isPressed() && (player = getPlayerPressed(players, teamPlayer)) != null){
 
             return player;
         }
         return null;
-    }
+    }*/
 
     private Player pressedAsist(RelativeLayout teamPlayer, LinkedList<Player> players, Button btn_assist) {
         Player player;
