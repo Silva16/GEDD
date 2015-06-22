@@ -99,7 +99,7 @@
                 android:text="Falhas Téc. Adv."
                 android:id="@+id/lbl_ftec_adv_stats"
                 android:gravity="center"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentBottom="false"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:textColor="#FFFFFF"

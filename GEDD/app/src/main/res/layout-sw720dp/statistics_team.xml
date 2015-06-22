@@ -12,7 +12,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/linearLayout"
+        android:layout_toStartOf="@+id/linearLayout">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -20,51 +22,51 @@
             android:id="@+id/filters">
 
             <Button
-                android:layout_width="110dp"
+                android:layout_width="105dp"
                 android:layout_height="90dp"
                 android:text="Ataque     + Contra Ataque"
                 android:id="@+id/atk_ca_filter"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:textSize="18dp" />
+                android:textSize="17dp" />
 
             <Button
-                android:layout_width="110dp"
+                android:layout_width="105dp"
                 android:layout_height="90dp"
                 android:text="Ataque"
                 android:id="@+id/atk_filter"
                 android:layout_below="@+id/atk_ca_filter"
                 android:layout_alignRight="@+id/atk_ca_filter"
                 android:layout_alignEnd="@+id/atk_ca_filter"
-                android:textSize="18dp" />
+                android:textSize="17dp" />
 
             <Button
-                android:layout_width="110dp"
+                android:layout_width="105dp"
                 android:layout_height="90dp"
                 android:text="Contra Ataque"
                 android:id="@+id/ca_filter"
                 android:layout_below="@+id/atk_filter"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:textSize="18dp" />
+                android:textSize="17dp" />
 
             <Button
-                android:layout_width="110dp"
+                android:layout_width="105dp"
                 android:layout_height="110dp"
                 android:text="Defesa de Remates à Baliza"
                 android:id="@+id/def_goal_filter"
                 android:layout_below="@+id/ca_filter"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:textSize="18dp" />
+                android:textSize="17dp" />
 
             <Button
-                android:layout_width="110dp"
+                android:layout_width="105dp"
                 android:layout_height="90dp"
                 android:text="Defesa Global"
                 android:id="@+id/def_all_filter"
-                android:textSize="18dp"
+                android:textSize="17dp"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -74,67 +76,86 @@
                 android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Assist. "
-                android:id="@+id/assist_stats"
+                android:text="Assistências"
+                android:id="@+id/lbl_assist_stats"
                 android:gravity="center"
-                android:layout_above="@+id/ftec_stats"
+                android:layout_above="@+id/assist_stats"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:textColor="#FFFFFF" />
 
             <TextView
                 android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Falhas Técnicas Advers."
+                android:text="Falhas Técnicas Adversárias"
                 android:id="@+id/lbl_ftec_adv_stats"
                 android:gravity="center"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentBottom="false"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:textColor="#FFFFFF" />
+                android:textSize="18dp"
+                android:textColor="#FFFFFF"
+                android:layout_above="@+id/ftec_adv_stats" />
 
             <TextView
                 android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Falhas Técnicas"
+                android:id="@+id/lbl_ftec_stats"
+                android:gravity="center"
+                android:layout_above="@+id/ftec_stats"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textSize="18dp"
+                android:textIsSelectable="false"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/assist_stats"
+                android:gravity="center"
+                android:layout_above="@+id/lbl_ftec_stats"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="10dp"
+                android:textSize="25dp"
+                android:textColor="#FFFFFF"
+                android:text="0" />
+
+            <TextView
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0"
+                android:id="@+id/ftec_adv_stats"
+                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textSize="25dp"
+                android:textColor="#FFFFFF"
+                android:textIsSelectable="false" />
+
+            <TextView
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0"
                 android:id="@+id/ftec_stats"
                 android:gravity="center"
                 android:layout_above="@+id/lbl_ftec_adv_stats"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textIsSelectable="false"
                 android:textColor="#FFFFFF" />
-
-            <View
-                android:layout_width="108dp"
-                android:layout_height="3dp"
-                android:background="@android:color/white"
-                android:id="@+id/line"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignEnd="@id/lbl_ftec_adv_stats"
-                android:layout_above="@+id/lbl_ftec_adv_stats"
-                android:layout_alignRight="@+id/lbl_ftec_adv_stats" />
-
-            <View
-                android:layout_width="108dp"
-                android:layout_height="3dp"
-                android:background="@android:color/white"
-                android:id="@+id/line"
-                android:layout_above="@+id/ftec_stats"
-                android:layout_alignRight="@+id/ftec_stats"
-                android:layout_alignEnd="@+id/ftec_stats" />
 
         </RelativeLayout>
 
@@ -145,7 +166,7 @@
             android:layout_alignParentTop="true">
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player1_stats"
                 android:src="@drawable/ic_shirt"
@@ -157,7 +178,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player2_stats"
                 android:src="@drawable/ic_shirt"
@@ -169,7 +190,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player3_stats"
                 android:src="@drawable/ic_shirt"
@@ -180,7 +201,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player4_stats"
                 android:src="@drawable/ic_shirt"
@@ -191,7 +212,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player5_stats"
                 android:src="@drawable/ic_shirt"
@@ -202,7 +223,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player6_stats"
                 android:src="@drawable/ic_shirt"
@@ -213,7 +234,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player7_stats"
                 android:src="@drawable/ic_shirt"
@@ -224,7 +245,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player8_stats"
                 android:src="@drawable/ic_shirt"
@@ -236,7 +257,7 @@
                 android:focusableInTouchMode="false" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player9_stats"
                 android:src="@drawable/ic_shirt"
@@ -247,7 +268,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player10_stats"
                 android:src="@drawable/ic_shirt"
@@ -258,7 +279,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player11_stats"
                 android:src="@drawable/ic_shirt"
@@ -270,7 +291,7 @@
                 android:focusableInTouchMode="false" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player12_stats"
                 android:src="@drawable/ic_shirt"
@@ -281,7 +302,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player13_stats"
                 android:src="@drawable/ic_shirt"
@@ -292,7 +313,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/player14_stats"
                 android:src="@drawable/ic_shirt"
@@ -303,7 +324,7 @@
                 android:layout_marginTop="1dp" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/gk1_stats"
                 android:src="@drawable/ic_shirt"
@@ -313,7 +334,7 @@
                 android:layout_alignParentStart="true" />
 
             <ImageButton
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="90dp"
                 android:id="@+id/gk2_stats"
                 android:src="@drawable/ic_shirt"
@@ -339,7 +360,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z1"
         android:id="@+id/zone1_stats"
-        android:layout_marginLeft="202dp"
+        android:layout_marginLeft="192dp"
         android:layout_marginStart="98dp"
         android:layout_marginTop="125dp"
         android:textSize="70dp"
@@ -356,7 +377,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Z2"
         android:id="@+id/zone2_stats"
-        android:layout_marginLeft="120dp"
+        android:layout_marginLeft="100dp"
         android:layout_marginStart="186dp"
         android:textSize="70dp"
         android:textColor="#ff007cff"
@@ -397,7 +418,7 @@
         android:textColor="#ff007cff"
         android:layout_below="@+id/zone5_stats"
         android:layout_alignRight="@+id/zone5_stats"
-        android:layout_marginRight="120dp"
+        android:layout_marginRight="100dp"
         android:layout_alignTop="@+id/zone2_stats"
         android:gravity="center"
         android:layout_marginLeft="20dp" />
@@ -425,7 +446,7 @@
         android:id="@+id/zone5_stats"
         android:textSize="70dp"
         android:textColor="#ff007cff"
-        android:layout_marginRight="113dp"
+        android:layout_marginRight="170dp"
         android:layout_marginEnd="93dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -652,5 +673,52 @@
         android:layout_alignRight="@+id/zone7_stats"
         android:layout_alignEnd="@+id/zone7_stats"
         android:layout_marginTop="55dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/linearLayout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/stats_pager_goal"
+            android:src="@drawable/icon_ball"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/stats_pager_stats"
+            android:src="@drawable/icon_field"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/stats_pager_sheet"
+            android:src="@drawable/icon_sheet"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/stats_pager_home"
+            android:src="@drawable/icon_home"
+            android:rotation="270"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+    </LinearLayout>
 
 </RelativeLayout>

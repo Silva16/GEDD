@@ -72,7 +72,7 @@ public class StatisticsTeam extends Activity {
 
         final TextView assist_stats = (TextView) findViewById(R.id.assist_stats);
         final TextView ftec_stats = (TextView) findViewById(R.id.ftec_stats);
-        final TextView ftec_adv_stats = (TextView) findViewById(R.id.lbl_ftec_adv_stats);
+        final TextView ftec_adv_stats = (TextView) findViewById(R.id.ftec_adv_stats);
 
 
 

@@ -479,7 +479,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:background="@android:drawable/btn_default"
-            android:layout_marginTop="37dp"
+            android:layout_marginTop="5dp"
             android:textSize="20dp" />
 
         <Button
@@ -495,21 +495,6 @@
             android:background="@android:drawable/btn_default"
             android:textSize="20dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Baliza"
-            android:id="@+id/textView11"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/btn_gk_out"
-            android:layout_alignStart="@+id/btn_gk_out"
-            android:layout_alignRight="@+id/btn_gk_post"
-            android:layout_alignEnd="@+id/btn_gk_post"
-            android:gravity="center"
-            android:textSize="23dp"
-            android:layout_above="@+id/btn_gk_post"
-            android:textColor="#FFFFFF" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -517,7 +502,7 @@
         android:layout_height="fill_parent"
         android:id="@+id/goalLayout"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="193dp"
+        android:layout_marginTop="156dp"
         android:layout_alignBottom="@+id/goalkeeperActions"
         android:layout_alignLeft="@+id/players"
         android:layout_alignStart="@+id/players"
@@ -627,7 +612,7 @@
 
     <RelativeLayout
         android:layout_width="315dp"
-        android:layout_height="189dp"
+        android:layout_height="187dp"
         android:id="@+id/zones"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
@@ -758,7 +743,7 @@
 
     <View
         android:layout_width="3dp"
-        android:layout_height="440dp"
+        android:layout_height="400dp"
         android:background="@android:color/darker_gray"
         android:id="@+id/line"
         android:layout_alignParentTop="true"
@@ -767,20 +752,47 @@
         android:layout_marginLeft="265dp"
         android:layout_marginStart="211dp" />
 
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Campo"
-        android:id="@+id/textView12"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="5dp"
-        android:textColor="#FFFFFF"
-        android:textSize="23dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/line"
-        android:layout_toEndOf="@+id/line"
-        android:gravity="center" />
+        android:weightSum="1"
+        android:layout_below="@+id/otherActions"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/pager_home"
+            android:src="@drawable/icon_home"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/pager_sheet"
+            android:src="@drawable/icon_sheet"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/pager_stats"
+            android:src="@drawable/icon_field"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/pager_goal"
+            android:src="@drawable/icon_ball"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+    </LinearLayout>
 
 </RelativeLayout>
