@@ -513,7 +513,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
                             if (v.getParent() == (RelativeLayout) otherAction) {
 
-                                otherAction.setBackgroundColor(Color.parseColor("#505050"));
+                                otherAction.setBackgroundColor(Color.parseColor(disableColor));
                                 btn_atk.setPressed(false);
                                 btn_ca.setPressed(false);
                                 btn_goal.setPressed(false);
@@ -1667,7 +1667,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
         }
 
         if (isChildrenImgButtonPressed(teamPlayer) != null){
-            teamPlayer.setBackgroundColor(Color.parseColor("#505050"));
+            teamPlayer.setBackgroundColor(Color.parseColor(disableColor));
         } else {
             teamPlayer.setBackgroundColor(Color.parseColor(teamColor));
         }

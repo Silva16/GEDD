@@ -200,8 +200,8 @@ public class StatisticsTeam extends Activity {
 
                             if (((tempPlayer = getPlayerPressed(list, teamPlayer)) != null && (filter = isChildrenButtonPressed(filters)) != null)) {
 
-                                assist_stats.setText(tempPlayer.getAssistance());
-                                ftec_stats.setText(tempPlayer.getTechnicalFailure());
+                                assist_stats.setText(String.valueOf(tempPlayer.getAssistance()));
+                                ftec_stats.setText(String.valueOf(tempPlayer.getTechnicalFailure()));
 
                                 switch (filter.getId()){
                                     case R.id.atk_ca_filter:
