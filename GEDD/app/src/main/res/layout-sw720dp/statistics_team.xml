@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Falhas Técnicas Advers."
-                android:id="@+id/ftec_adv_stats"
+                android:id="@+id/lbl_ftec_adv_stats"
                 android:gravity="center"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
@@ -107,7 +107,7 @@
                 android:text="Falhas Técnicas"
                 android:id="@+id/ftec_stats"
                 android:gravity="center"
-                android:layout_above="@+id/ftec_adv_stats"
+                android:layout_above="@+id/lbl_ftec_adv_stats"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="10dp"
@@ -123,9 +123,9 @@
                 android:id="@+id/line"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignEnd="@id/ftec_adv_stats"
-                android:layout_above="@+id/ftec_adv_stats"
-                android:layout_alignRight="@+id/ftec_adv_stats" />
+                android:layout_alignEnd="@id/lbl_ftec_adv_stats"
+                android:layout_above="@+id/lbl_ftec_adv_stats"
+                android:layout_alignRight="@+id/lbl_ftec_adv_stats" />
 
             <View
                 android:layout_width="108dp"

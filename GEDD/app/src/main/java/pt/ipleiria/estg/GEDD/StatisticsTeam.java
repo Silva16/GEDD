@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -73,7 +72,7 @@ public class StatisticsTeam extends Activity {
 
         final TextView assist_stats = (TextView) findViewById(R.id.assist_stats);
         final TextView ftec_stats = (TextView) findViewById(R.id.ftec_stats);
-        final TextView ftec_adv_stats = (TextView) findViewById(R.id.ftec_adv_stats);
+        final TextView ftec_adv_stats = (TextView) findViewById(R.id.lbl_ftec_adv_stats);
 
 
 
@@ -124,7 +123,7 @@ public class StatisticsTeam extends Activity {
 
         refreshAssistStatistics(assist_stats, players, gks);
         refreshTecFailStatistics(ftec_stats, players, gks);
-        ftec_adv_stats.setText("Falhas Técnicas Advers. " + String.valueOf(game.getTechnicalFailAdv()));
+        ftec_adv_stats.setText(String.valueOf(game.getTechnicalFailAdv()));
 
         final ImageButton btn_players[] = new ImageButton[14];
         final ImageButton btn_gks[] = new ImageButton[2];
@@ -201,8 +200,8 @@ public class StatisticsTeam extends Activity {
 
                             if (((tempPlayer = getPlayerPressed(list, teamPlayer)) != null && (filter = isChildrenButtonPressed(filters)) != null)) {
 
-                                assist_stats.setText("Assist: " + tempPlayer.getAssistance());
-                                ftec_stats.setText("Falhas Técnicas " + tempPlayer.getTechnicalFailure());
+                                assist_stats.setText(tempPlayer.getAssistance());
+                                ftec_stats.setText(tempPlayer.getTechnicalFailure());
 
                                 switch (filter.getId()){
                                     case R.id.atk_ca_filter:
@@ -261,7 +260,7 @@ public class StatisticsTeam extends Activity {
 
                             refreshAssistStatistics(assist_stats, players, gks);
                             refreshTecFailStatistics(ftec_stats, players, gks);
-                            ftec_adv_stats.setText("Falhas Técnicas Advers. " + String.valueOf(game.getTechnicalFailAdv()));
+                            ftec_adv_stats.setText(String.valueOf(game.getTechnicalFailAdv()));
 
                             switch (filter.getId()) {
                                 case R.id.atk_ca_filter:
@@ -291,50 +290,52 @@ public class StatisticsTeam extends Activity {
                         }
                     } else {
 
-                        v.setPressed(false);
+                        if (!(v.getParent() == filters)) {
+                            v.setPressed(false);
 
-                        if (v.getId() == R.id.gk1_stats || v.getId() == R.id.gk2_stats){
-                            list = gks;
-                        } else {
-                            list = players;
-                        }
-
-                        if ((getPlayerPressed(list, teamPlayer) == null) && (filter = isChildrenButtonPressed(filters)) != null) {
-
-                            for (int i = 0; i < players.size(); i++) {
-                                btn_players[i].setVisibility(View.VISIBLE);
+                            if (v.getId() == R.id.gk1_stats || v.getId() == R.id.gk2_stats) {
+                                list = gks;
+                            } else {
+                                list = players;
                             }
 
-                            refreshAssistStatistics(assist_stats, players, gks);
-                            refreshTecFailStatistics(ftec_stats, players, gks);
-                            ftec_adv_stats.setText("Falhas Técnicas Advers. " + String.valueOf(game.getTechnicalFailAdv()));
+                            if ((getPlayerPressed(list, teamPlayer) == null) && (filter = isChildrenButtonPressed(filters)) != null) {
 
-                            switch (filter.getId()) {
-                                case R.id.atk_ca_filter:
-                                    refreshAllAttackStatistics(zone_stats, zone_goals, players, gks);
-                                    return true;
-                                case R.id.ca_filter:
-                                    refreshCAStatistics(zone_stats, zone_goals, players, gks);
-                                    return true;
-                                case R.id.atk_filter:
-                                    refreshAttackStatistics(zone_stats, zone_goals, players, gks);
-                                    return true;
-                                case R.id.def_goal_filter:
-                                    for (int i = 0; i < players.size(); i++) {
-                                        btn_players[i].setPressed(false);
-                                        btn_players[i].setVisibility(View.INVISIBLE);
-                                    }
-                                    refreshDefenseStatistics(zone_stats, zone_goals, gks);
-                                    return true;
-                                case R.id.def_all_filter:
-                                    for (int i = 0; i < players.size(); i++) {
-                                        btn_players[i].setPressed(false);
-                                        btn_players[i].setVisibility(View.INVISIBLE);
-                                    }
-                                    refreshDefenseGlobalStatistics(zone_stats, zone_goals, gks);
-                                    return true;
-                                default:
-                                    return false;
+                                for (int i = 0; i < players.size(); i++) {
+                                    btn_players[i].setVisibility(View.VISIBLE);
+                                }
+
+                                refreshAssistStatistics(assist_stats, players, gks);
+                                refreshTecFailStatistics(ftec_stats, players, gks);
+                                ftec_adv_stats.setText(String.valueOf(game.getTechnicalFailAdv()));
+
+                                switch (filter.getId()) {
+                                    case R.id.atk_ca_filter:
+                                        refreshAllAttackStatistics(zone_stats, zone_goals, players, gks);
+                                        return true;
+                                    case R.id.ca_filter:
+                                        refreshCAStatistics(zone_stats, zone_goals, players, gks);
+                                        return true;
+                                    case R.id.atk_filter:
+                                        refreshAttackStatistics(zone_stats, zone_goals, players, gks);
+                                        return true;
+                                    case R.id.def_goal_filter:
+                                        for (int i = 0; i < players.size(); i++) {
+                                            btn_players[i].setPressed(false);
+                                            btn_players[i].setVisibility(View.INVISIBLE);
+                                        }
+                                        refreshDefenseStatistics(zone_stats, zone_goals, gks);
+                                        return true;
+                                    case R.id.def_all_filter:
+                                        for (int i = 0; i < players.size(); i++) {
+                                            btn_players[i].setPressed(false);
+                                            btn_players[i].setVisibility(View.INVISIBLE);
+                                        }
+                                        refreshDefenseGlobalStatistics(zone_stats, zone_goals, gks);
+                                        return true;
+                                    default:
+                                        return false;
+                                }
                             }
                         }
                     }
@@ -378,16 +379,6 @@ public class StatisticsTeam extends Activity {
         }
 
         RelativeLayout statisticsLayout = (RelativeLayout) findViewById(R.id.statisticsLayout);
-
-        statisticsLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
-            @Override
-            public void onSwipeRight() {
-                finish();
-            }
-            public void onSwipeLeft() {
-                callIntentToStatisticsGK();
-            }
-        });
 
         ImageView mHome = (ImageView) findViewById(R.id.stats_pager_home);
         ImageView mSheet = (ImageView) findViewById(R.id.stats_pager_sheet);
@@ -506,7 +497,7 @@ public class StatisticsTeam extends Activity {
             assist += gk.getAssistance();
         }
 
-        assist_stats.setText("Assist. " + String.valueOf(assist));
+        assist_stats.setText(String.valueOf(assist));
     }
 
     private void refreshTecFailStatistics(TextView ftec, LinkedList<Player> players, LinkedList<Goalkeeper> gks){
@@ -523,7 +514,7 @@ public class StatisticsTeam extends Activity {
             tecFail += gk.getTechnicalFailure();
         }
 
-        ftec.setText("Falhas Técnicas " + String.valueOf(tecFail));
+        ftec.setText(String.valueOf(tecFail));
     }
 
     private void refreshAllAttackPlayerStatistics(TextView zone_stats[], TextView zone_goals[], Player player){

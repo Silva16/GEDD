@@ -123,14 +123,6 @@ public class StatisticsGoalkeeper extends Activity {
         btn_gks[0].setOnTouchListener(gkTouchListener);
         btn_gks[1].setOnTouchListener(gkTouchListener);
 
-        statisticsGKLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
-            @Override
-            public void onSwipeRight() {
-               // callIntentToStatisticsTeam();
-                finish();
-            }
-        });
-
         ImageView mHome = (ImageView) findViewById(R.id.goalstats_pager_home);
         ImageView mSheet = (ImageView) findViewById(R.id.goalstats_pager_sheet);
         ImageView mStats = (ImageView) findViewById(R.id.goalstats_pager_stats);
