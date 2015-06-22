@@ -244,7 +244,9 @@ public class Game implements Serializable {
     }
 
     public Action getLastAction(){
-        return actions.getLast();
+        if(actions.size()>0)
+            return actions.getLast();
+        return null;
     }
 
     public void addAction(Action act){

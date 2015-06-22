@@ -265,7 +265,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
         lbl_myTeam.setText(game.getMyTeam());
         lbl_opponent.setText(game.getOpponent());
 
-        final TextView lastAction = (TextView) findViewById(R.id.lastAction);
+        final ImageButton lastAction = (ImageButton) findViewById(R.id.lastAction);
         final RelativeLayout zones = (RelativeLayout) findViewById(R.id.zones);
         final RelativeLayout finalization = (RelativeLayout) findViewById(R.id.finalization);
         final RelativeLayout offensiveAction = (RelativeLayout) findViewById(R.id.offensiveAction);
@@ -294,7 +294,6 @@ public class GameActivity extends GmailApiBase implements Serializable {
             while ((c = fin.read()) != -1) {
                 temp = temp + Character.toString((char) c);
             }
-            lastAction.setText(temp);
 
         } catch (Exception e) {
 
@@ -367,7 +366,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
                             }
                             Player pl = getPlayerPressed(players, teamPlayer);
                             if((pl != null && ((pl.isRedCard() || pl.isTwoMinOut()) && !(v.getParent() == (RelativeLayout) teamPlayer)))){
-                                Toast.makeText(getApplicationContext(),"Não é possível registar acções num jogador suspenso",Toast.LENGTH_LONG);
+                                Toast.makeText(getApplicationContext(),"Não é possível registar acções num jogador suspenso",Toast.LENGTH_LONG).show();
 
                             }else {
                                 v.setPressed(true);
@@ -588,7 +587,6 @@ public class GameActivity extends GmailApiBase implements Serializable {
                             }
 
                             if ((goalkeeper = allPressedGoalkeeperAction(lbl_scoreOpponent, goalkeeperZone, goalkeeperAction, zones, goalkeeper1, game)) != null) {
-                                lastAction.setText(goalkeeper.getLastAction());
                                 game.setStarted();
                                 Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
 
@@ -596,7 +594,6 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
                             if ((player = allPressedOffensive(lbl_scoreMyTeam, offensiveAction, finalization, zones, teamPlayer, players, game)) != null) {
                                 refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
-                                lastAction.setText(player.getLastAction());
                                 game.setStarted();
                                 Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
                             }
@@ -622,7 +619,6 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
                             if ((player = allPressedDefensive(defensiveAction, zones, teamPlayer, players)) != null) {
                                 refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
-                                lastAction.setText(player.getLastAction());
                                 game.setStarted();
                                 Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
 
@@ -2424,6 +2420,8 @@ public class GameActivity extends GmailApiBase implements Serializable {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
+        }else{
+            Toast.makeText(getBaseContext(),"Não existem acções registadas",Toast.LENGTH_LONG).show();
         }
     }
 

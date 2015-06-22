@@ -1,13 +1,15 @@
 package pt.ipleiria.estg.GEDD.Models;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
  * Created by Andre on 12/06/2015.
  */
-public class Action {
+public class Action implements Serializable {
 
+    private static final long serialVersionUID = 4038121090025789738L;
     private Player player;
     private String type;
     private String finalization;

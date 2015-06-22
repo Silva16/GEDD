@@ -13,7 +13,8 @@
         android:layout_marginLeft="8dp"
         android:background="?android:selectableItemBackground"
         android:scaleType="fitCenter"
-        android:src="@drawable/play" />
+        android:src="@drawable/play"
+        />
 
     <!--<ImageButton
         android:id="@+id/imgbtn_undo"
@@ -26,26 +27,11 @@
         android:scaleType="fitCenter"
         android:src="@drawable/undo" />-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ultima Acção"
-        android:id="@+id/lastAction"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="undoAction"
-        android:clickable="true"/>
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:id="@+id/scoretitle"
-        android:layout_toLeftOf="@+id/lastAction"
-        android:layout_toRightOf="@+id/time"
-        android:layout_toEndOf="@+id/time">
+        android:layout_toRightOf="@+id/time">
 
         <TextView
             android:layout_width="wrap_content"
@@ -107,6 +93,20 @@
             android:layout_alignTop="@+id/scoreMyTeam"
             android:layout_toRightOf="@+id/textView3"
             android:layout_toEndOf="@+id/textView3" />
+
+        <ImageButton
+            android:id="@+id/lastAction"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?android:selectableItemBackground"
+            android:scaleType="fitCenter"
+            android:src="@drawable/undo"
+            android:layout_alignTop="@+id/scoreOpponent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="10dp"
+            android:layout_marginRight="15dp"
+            android:onClick="undoAction"/>
     </RelativeLayout>
 
     <TextView
