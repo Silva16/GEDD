@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.GEDD.Models;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -68,6 +70,10 @@ public class Game implements Serializable {
         this.scoreOpponent++;
     }
 
+    public void removeScoreOpponent() {
+        this.scoreOpponent--;
+    }
+
 
     public int getScoreMyTeam() {
         return scoreMyTeam;
@@ -75,6 +81,10 @@ public class Game implements Serializable {
 
     public void setScoreMyTeam() {
         this.scoreMyTeam++;
+    }
+
+    public void removeScoreMyTeam() {
+        this.scoreMyTeam--;
     }
 
     public String getOpponent() {
@@ -251,5 +261,17 @@ public class Game implements Serializable {
 
     public void addAction(Action act){
         actions.add(act);
+    }
+
+    public void removeLastAction(){
+        Log.i("GAME", "-----------------------------");
+        for (Action act : actions){
+            Log.i("GAME", act.getText());
+        }
+        if(actions.size()>1) {
+            actions.removeLast();
+        }else{
+            actions.clear();
+        }
     }
 }

@@ -308,7 +308,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:id="@+id/goalstats_pager_goal"
-            android:src="@drawable/icon_ball"
+            android:src="@drawable/icon_ball_selected"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp" />
 

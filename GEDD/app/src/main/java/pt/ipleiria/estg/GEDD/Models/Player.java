@@ -88,7 +88,11 @@ public class Player implements Serializable{
     }
 
     public void setYellowCard() {
-        this.yellowCard = true;
+        if(this.yellowCard == true){
+            yellowCard = false;
+        }else{
+            yellowCard = true;
+        }
     }
 
     public boolean isRedCard() {
@@ -96,7 +100,11 @@ public class Player implements Serializable{
     }
 
     public void setRedCard() {
-        this.redCard = true;
+        if(this.redCard == true){
+            redCard = false;
+        }else{
+            redCard = true;
+        }
     }
 
     public int[] getAtkShotGoal() {
@@ -490,6 +498,10 @@ public class Player implements Serializable{
 
     public void addTechFail(){
         this.technicalFailure++;
+    }
+
+    public void removeTechFail(){
+        this.technicalFailure--;
     }
 
     //public void selectFinalizationResult(result)

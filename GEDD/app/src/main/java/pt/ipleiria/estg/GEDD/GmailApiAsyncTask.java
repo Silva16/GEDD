@@ -222,6 +222,10 @@ protected Void doInBackground(GmailApiTaskParams... params) {
         int tecnichalFail = 0;
         int advTecnichalFail = game.getTechnicalFailAdv();
 
+        int yellow_cards = 0;
+        int red_cards = 0;
+        int two_mins = 0;
+
         for(Player player : players){
 
             zone_goals[0] += player.getAllAtkShotsGoal();
@@ -242,6 +246,13 @@ protected Void doInBackground(GmailApiTaskParams... params) {
             zone_def_disarm[0] = player.getAllDisarms();
             zone_def_int[0] = player.getAllInterceptions();
             zone_def_all[0] = player.getAllBlocked()+player.getAllDisarms()+player.getAllInterceptions();
+
+            if(player.isRedCard())
+                red_cards++;
+            if (player.isYellowCard())
+                yellow_cards++;
+            if (player.getTwoMin()>0)
+                two_mins += player.getTwoMin();
 
 
 
@@ -274,68 +285,69 @@ protected Void doInBackground(GmailApiTaskParams... params) {
         try {
             String filename = game.getMyTeam()+"vs"+game.getOpponent()+" -- Geral.txt";
             writer = new PrintWriter(mActivity.getApplicationContext().getFilesDir().getPath().toString() + filename, "UTF-8");
-            writer.println("                    ==================================//Dados Jogo\\\\==================================");
-            writer.println("                    "+game.getMyTeam()+" "+game.getScoreMyTeam()+":"+game.getScoreOpponent()+" "+game.getOpponent());
+            writer.println("                    1 - Dados Jogo");
+            writer.println("                    Equipas: "+game.getMyTeam()+" vs "+game.getOpponent());
+            writer.println("                    Resultado: "+game.getScoreMyTeam()+":"+game.getScoreOpponent());
             writer.println("                    Local: "+game.getLocal());
             writer.println("                    Data: "+game.getDate()+" Hora: "+game.getTime());
-            writer.println("                    ================================//Estatisticas Jogo\\\\================================");
-            writer.println("                                    ==============|| Acções Ofensivas ||==============");
+            writer.println("\n                    2 - Estatisticas Jogo");
+            writer.println("                    2.1 - Acções Ofensivas");
 
-            writer.println("\n                                              ////Ataques e Contra Ataques\\\\\\\\");
+            writer.println("\n                    2.1.1 - Ataques e Contra Ataques");
 
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("               Golos||"+getTableCell(zone_goals[0],zone_ca_goals[0])+"||"+getTableCell(zone_goals[1],zone_ca_goals[1])+"||"+getTableCell(zone_goals[2],zone_ca_goals[2])+"||"+getTableCell(zone_goals[3],zone_ca_goals[3])+"||"+getTableCell(zone_goals[4],zone_ca_goals[4])+"||"+getTableCell(zone_goals[5],zone_ca_goals[5])+"||"+getTableCell(zone_goals[6],zone_ca_goals[6])+"||"+getTableCell(zone_goals[7],zone_ca_goals[7])+"||"+getTableCell(zone_goals[8],zone_ca_goals[8])+"||"+getTableCell(zone_goals[9],zone_ca_goals[9])+"||");
-            writer.println("  Remates Defendidos||"+getTableCell(zone_defended[0],zone_ca_defended[0])+"||"+getTableCell(zone_defended[1],zone_ca_defended[1])+"||"+getTableCell(zone_defended[2],zone_ca_defended[2])+"||"+getTableCell(zone_defended[3],zone_ca_defended[3])+"||"+getTableCell(zone_defended[4],zone_ca_defended[4])+"||"+getTableCell(zone_defended[5],zone_ca_defended[5])+"||"+getTableCell(zone_defended[6],zone_ca_defended[6])+"||"+getTableCell(zone_defended[7],zone_ca_defended[7])+"||"+getTableCell(zone_defended[8],zone_ca_defended[8])+"||"+getTableCell(zone_defended[9],zone_ca_defended[9])+"||");
-            writer.println("  Remates Bloqueados||"+getTableCell(zone_blocked[0],zone_ca_blocked[0])+"||"+getTableCell(zone_blocked[1],zone_ca_blocked[1])+"||"+getTableCell(zone_blocked[2],zone_ca_blocked[2])+"||"+getTableCell(zone_blocked[3],zone_ca_blocked[3])+"||"+getTableCell(zone_blocked[4],zone_ca_blocked[4])+"||"+getTableCell(zone_blocked[5],zone_ca_blocked[5])+"||"+getTableCell(zone_blocked[6],zone_ca_blocked[6])+"||"+getTableCell(zone_blocked[7],zone_ca_blocked[7])+"||"+getTableCell(zone_blocked[8],zone_ca_blocked[8])+"||"+getTableCell(zone_blocked[9],zone_ca_blocked[9])+"||");
-            writer.println("        Remates Fora||"+getTableCell(zone_out[0],zone_ca_out[0])+"||"+getTableCell(zone_out[1],zone_ca_out[1])+"||"+getTableCell(zone_out[2],zone_ca_out[2])+"||"+getTableCell(zone_out[3],zone_ca_out[3])+"||"+getTableCell(zone_out[4],zone_ca_out[4])+"||"+getTableCell(zone_out[5],zone_ca_out[5])+"||"+getTableCell(zone_out[6],zone_ca_out[6])+"||"+getTableCell(zone_out[7],zone_ca_out[7])+"||"+getTableCell(zone_out[8],zone_ca_out[8])+"||"+getTableCell(zone_out[9],zone_ca_out[9])+"||");
-            writer.println(" Remates Poste/Trave||"+getTableCell(zone_post[0],zone_ca_post[0])+"||"+getTableCell(zone_post[1],zone_ca_post[1])+"||"+getTableCell(zone_post[2],zone_ca_post[2])+"||"+getTableCell(zone_post[3],zone_ca_post[3])+"||"+getTableCell(zone_post[4],zone_ca_post[4])+"||"+getTableCell(zone_post[5],zone_ca_post[5])+"||"+getTableCell(zone_post[6],zone_ca_post[6])+"||"+getTableCell(zone_post[7],zone_ca_post[7])+"||"+getTableCell(zone_post[8],zone_ca_post[8])+"||"+getTableCell(zone_post[9],zone_ca_post[9])+"||");
-            writer.println("            Eficácia||"+getReverseEfficciencyString(zone_goals[0] + zone_ca_goals[0], zone_all[0] + zone_ca_all[0])+"||"+getEfficciencyString(zone_goals[1] + zone_ca_goals[1], zone_all[1] + zone_ca_all[1])+"||"+getEfficciencyString(zone_goals[2] + zone_ca_goals[2], zone_all[2] + zone_ca_all[2])+"||"+getEfficciencyString(zone_goals[3] + zone_ca_goals[3], zone_all[3] + zone_ca_all[3])+"||"+getEfficciencyString(zone_goals[4] + zone_ca_goals[4], zone_all[4] + zone_ca_all[4])+"||"+getEfficciencyString(zone_goals[5] + zone_ca_goals[5], zone_all[5] + zone_ca_all[5])+"||"+getEfficciencyString(zone_goals[6] + zone_ca_goals[6], zone_all[6] + zone_ca_all[6])+"||"+getEfficciencyString(zone_goals[7] + zone_ca_goals[7], zone_all[7] + zone_ca_all[7])+"||"+getEfficciencyString(zone_goals[8] + zone_ca_goals[8], zone_all[8] + zone_ca_all[8])+"||"+getEfficciencyString(zone_goals[9] + zone_ca_goals[9], zone_all[9] + zone_ca_all[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("               Golos|"+getTableCell(zone_goals[0],zone_ca_goals[0])+"|"+getTableCell(zone_goals[1],zone_ca_goals[1])+"|"+getTableCell(zone_goals[2],zone_ca_goals[2])+"|"+getTableCell(zone_goals[3],zone_ca_goals[3])+"|"+getTableCell(zone_goals[4],zone_ca_goals[4])+"|"+getTableCell(zone_goals[5],zone_ca_goals[5])+"|"+getTableCell(zone_goals[6],zone_ca_goals[6])+"|"+getTableCell(zone_goals[7],zone_ca_goals[7])+"|"+getTableCell(zone_goals[8],zone_ca_goals[8])+"|"+getTableCell(zone_goals[9],zone_ca_goals[9])+"|");
+            writer.println("  Remates Defendidos|"+getTableCell(zone_defended[0],zone_ca_defended[0])+"|"+getTableCell(zone_defended[1],zone_ca_defended[1])+"|"+getTableCell(zone_defended[2],zone_ca_defended[2])+"|"+getTableCell(zone_defended[3],zone_ca_defended[3])+"|"+getTableCell(zone_defended[4],zone_ca_defended[4])+"|"+getTableCell(zone_defended[5],zone_ca_defended[5])+"|"+getTableCell(zone_defended[6],zone_ca_defended[6])+"|"+getTableCell(zone_defended[7],zone_ca_defended[7])+"|"+getTableCell(zone_defended[8],zone_ca_defended[8])+"|"+getTableCell(zone_defended[9],zone_ca_defended[9])+"|");
+            writer.println("  Remates Bloqueados|"+getTableCell(zone_blocked[0],zone_ca_blocked[0])+"|"+getTableCell(zone_blocked[1],zone_ca_blocked[1])+"|"+getTableCell(zone_blocked[2],zone_ca_blocked[2])+"|"+getTableCell(zone_blocked[3],zone_ca_blocked[3])+"|"+getTableCell(zone_blocked[4],zone_ca_blocked[4])+"|"+getTableCell(zone_blocked[5],zone_ca_blocked[5])+"|"+getTableCell(zone_blocked[6],zone_ca_blocked[6])+"|"+getTableCell(zone_blocked[7],zone_ca_blocked[7])+"|"+getTableCell(zone_blocked[8],zone_ca_blocked[8])+"|"+getTableCell(zone_blocked[9],zone_ca_blocked[9])+"|");
+            writer.println("        Remates Fora|"+getTableCell(zone_out[0],zone_ca_out[0])+"|"+getTableCell(zone_out[1],zone_ca_out[1])+"|"+getTableCell(zone_out[2],zone_ca_out[2])+"|"+getTableCell(zone_out[3],zone_ca_out[3])+"|"+getTableCell(zone_out[4],zone_ca_out[4])+"|"+getTableCell(zone_out[5],zone_ca_out[5])+"|"+getTableCell(zone_out[6],zone_ca_out[6])+"|"+getTableCell(zone_out[7],zone_ca_out[7])+"|"+getTableCell(zone_out[8],zone_ca_out[8])+"|"+getTableCell(zone_out[9],zone_ca_out[9])+"|");
+            writer.println(" Remates Poste/Trave|"+getTableCell(zone_post[0],zone_ca_post[0])+"|"+getTableCell(zone_post[1],zone_ca_post[1])+"|"+getTableCell(zone_post[2],zone_ca_post[2])+"|"+getTableCell(zone_post[3],zone_ca_post[3])+"|"+getTableCell(zone_post[4],zone_ca_post[4])+"|"+getTableCell(zone_post[5],zone_ca_post[5])+"|"+getTableCell(zone_post[6],zone_ca_post[6])+"|"+getTableCell(zone_post[7],zone_ca_post[7])+"|"+getTableCell(zone_post[8],zone_ca_post[8])+"|"+getTableCell(zone_post[9],zone_ca_post[9])+"|");
+            writer.println("            Eficácia|"+getReverseEfficciencyString(zone_goals[0] + zone_ca_goals[0], zone_all[0] + zone_ca_all[0])+"|"+getEfficciencyString(zone_goals[1] + zone_ca_goals[1], zone_all[1] + zone_ca_all[1])+"|"+getEfficciencyString(zone_goals[2] + zone_ca_goals[2], zone_all[2] + zone_ca_all[2])+"|"+getEfficciencyString(zone_goals[3] + zone_ca_goals[3], zone_all[3] + zone_ca_all[3])+"|"+getEfficciencyString(zone_goals[4] + zone_ca_goals[4], zone_all[4] + zone_ca_all[4])+"|"+getEfficciencyString(zone_goals[5] + zone_ca_goals[5], zone_all[5] + zone_ca_all[5])+"|"+getEfficciencyString(zone_goals[6] + zone_ca_goals[6], zone_all[6] + zone_ca_all[6])+"|"+getEfficciencyString(zone_goals[7] + zone_ca_goals[7], zone_all[7] + zone_ca_all[7])+"|"+getEfficciencyString(zone_goals[8] + zone_ca_goals[8], zone_all[8] + zone_ca_all[8])+"|"+getEfficciencyString(zone_goals[9] + zone_ca_goals[9], zone_all[9] + zone_ca_all[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
 
 
             //////////////////////////////ATAQUES\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            writer.println("\n                                                  ////Ataques\\\\\\\\");
+            writer.println("\n                    2.1.2 - Ataques");
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("               Golos||"+getTableCell(zone_goals[0],0)+"||"+getTableCell(zone_goals[1],0)+"||"+getTableCell(zone_goals[2],0)+"||"+getTableCell(zone_goals[3],0)+"||"+getTableCell(zone_goals[4],0)+"||"+getTableCell(zone_goals[5],0)+"||"+getTableCell(zone_goals[6],0)+"||"+getTableCell(zone_goals[7],0)+"||"+getTableCell(zone_goals[8],0)+"||"+getTableCell(zone_goals[9],0)+"||");
-            writer.println("  Remates Defendidos||"+getTableCell(zone_defended[0],0)+"||"+getTableCell(zone_defended[1],0)+"||"+getTableCell(zone_defended[2],0)+"||"+getTableCell(zone_defended[3],0)+"||"+getTableCell(zone_defended[4],0)+"||"+getTableCell(zone_defended[5],0)+"||"+getTableCell(zone_defended[6],0)+"||"+getTableCell(zone_defended[7],0)+"||"+getTableCell(zone_defended[8],0)+"||"+getTableCell(zone_defended[9],0)+"||");
-            writer.println("  Remates Bloqueados||"+getTableCell(zone_blocked[0],0)+"||"+getTableCell(zone_blocked[1],0)+"||"+getTableCell(zone_blocked[2],0)+"||"+getTableCell(zone_blocked[3],0)+"||"+getTableCell(zone_blocked[4],0)+"||"+getTableCell(zone_blocked[5],0)+"||"+getTableCell(zone_blocked[6],0)+"||"+getTableCell(zone_blocked[7],0)+"||"+getTableCell(zone_blocked[8],0)+"||"+getTableCell(zone_blocked[9],0)+"||");
-            writer.println("        Remates Fora||"+getTableCell(zone_out[0],0)+"||"+getTableCell(zone_out[1],0)+"||"+getTableCell(zone_out[2],0)+"||"+getTableCell(zone_out[3],0)+"||"+getTableCell(zone_out[4],0)+"||"+getTableCell(zone_out[5],0)+"||"+getTableCell(zone_out[6],0)+"||"+getTableCell(zone_out[7],0)+"||"+getTableCell(zone_out[8],0)+"||"+getTableCell(zone_out[9],0)+"||");
-            writer.println(" Remates Poste/Trave||"+getTableCell(zone_post[0],0)+"||"+getTableCell(zone_post[1],0)+"||"+getTableCell(zone_post[2],0)+"||"+getTableCell(zone_post[3],0)+"||"+getTableCell(zone_post[4],0)+"||"+getTableCell(zone_post[5],0)+"||"+getTableCell(zone_post[6],0)+"||"+getTableCell(zone_post[7],0)+"||"+getTableCell(zone_post[8],0)+"||"+getTableCell(zone_post[9],0)+"||");
-            writer.println("            Eficácia||"+getEfficciencyString(zone_goals[0],zone_all[0])+"||"+getEfficciencyString(zone_goals[1],zone_all[1])+"||"+getEfficciencyString(zone_goals[2],zone_all[2])+"||"+getEfficciencyString(zone_goals[3],zone_all[3])+"||"+getEfficciencyString(zone_goals[4],zone_all[4])+"||"+getEfficciencyString(zone_goals[5],zone_all[5])+"||"+getEfficciencyString(zone_goals[6],zone_all[6])+"||"+getEfficciencyString(zone_goals[7],zone_all[7])+"||"+getEfficciencyString(zone_goals[8],zone_all[8])+"||"+getEfficciencyString(zone_goals[9],zone_all[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("               Golos|"+getTableCell(zone_goals[0],0)+"|"+getTableCell(zone_goals[1],0)+"|"+getTableCell(zone_goals[2],0)+"|"+getTableCell(zone_goals[3],0)+"|"+getTableCell(zone_goals[4],0)+"|"+getTableCell(zone_goals[5],0)+"|"+getTableCell(zone_goals[6],0)+"|"+getTableCell(zone_goals[7],0)+"|"+getTableCell(zone_goals[8],0)+"|"+getTableCell(zone_goals[9],0)+"|");
+            writer.println("  Remates Defendidos|"+getTableCell(zone_defended[0],0)+"|"+getTableCell(zone_defended[1],0)+"|"+getTableCell(zone_defended[2],0)+"|"+getTableCell(zone_defended[3],0)+"|"+getTableCell(zone_defended[4],0)+"|"+getTableCell(zone_defended[5],0)+"|"+getTableCell(zone_defended[6],0)+"|"+getTableCell(zone_defended[7],0)+"|"+getTableCell(zone_defended[8],0)+"|"+getTableCell(zone_defended[9],0)+"|");
+            writer.println("  Remates Bloqueados|"+getTableCell(zone_blocked[0],0)+"|"+getTableCell(zone_blocked[1],0)+"|"+getTableCell(zone_blocked[2],0)+"|"+getTableCell(zone_blocked[3],0)+"|"+getTableCell(zone_blocked[4],0)+"|"+getTableCell(zone_blocked[5],0)+"|"+getTableCell(zone_blocked[6],0)+"|"+getTableCell(zone_blocked[7],0)+"|"+getTableCell(zone_blocked[8],0)+"|"+getTableCell(zone_blocked[9],0)+"|");
+            writer.println("        Remates Fora|"+getTableCell(zone_out[0],0)+"|"+getTableCell(zone_out[1],0)+"|"+getTableCell(zone_out[2],0)+"|"+getTableCell(zone_out[3],0)+"|"+getTableCell(zone_out[4],0)+"|"+getTableCell(zone_out[5],0)+"|"+getTableCell(zone_out[6],0)+"|"+getTableCell(zone_out[7],0)+"|"+getTableCell(zone_out[8],0)+"|"+getTableCell(zone_out[9],0)+"|");
+            writer.println(" Remates Poste/Trave|"+getTableCell(zone_post[0],0)+"|"+getTableCell(zone_post[1],0)+"|"+getTableCell(zone_post[2],0)+"|"+getTableCell(zone_post[3],0)+"|"+getTableCell(zone_post[4],0)+"|"+getTableCell(zone_post[5],0)+"|"+getTableCell(zone_post[6],0)+"|"+getTableCell(zone_post[7],0)+"|"+getTableCell(zone_post[8],0)+"|"+getTableCell(zone_post[9],0)+"|");
+            writer.println("            Eficácia|"+getEfficciencyString(zone_goals[0],zone_all[0])+"|"+getEfficciencyString(zone_goals[1],zone_all[1])+"|"+getEfficciencyString(zone_goals[2],zone_all[2])+"|"+getEfficciencyString(zone_goals[3],zone_all[3])+"|"+getEfficciencyString(zone_goals[4],zone_all[4])+"|"+getEfficciencyString(zone_goals[5],zone_all[5])+"|"+getEfficciencyString(zone_goals[6],zone_all[6])+"|"+getEfficciencyString(zone_goals[7],zone_all[7])+"|"+getEfficciencyString(zone_goals[8],zone_all[8])+"|"+getEfficciencyString(zone_goals[9],zone_all[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
 
 
             //////////////////////////////CONTRA ATAQUES\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-            writer.println("\n                                              ////Contra Ataques\\\\\\\\");
+            writer.println("\n                    2.1.3 - Contra Ataques");
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("               Golos||"+getTableCell(0,zone_ca_goals[0])+"||"+getTableCell(0,zone_ca_goals[1])+"||"+getTableCell(0,zone_ca_goals[2])+"||"+getTableCell(0,zone_ca_goals[3])+"||"+getTableCell(0,zone_ca_goals[4])+"||"+getTableCell(0,zone_ca_goals[5])+"||"+getTableCell(0,zone_ca_goals[6])+"||"+getTableCell(zone_goals[7],zone_ca_goals[7])+"||"+getTableCell(0,zone_ca_goals[8])+"||"+getTableCell(0,zone_ca_goals[9])+"||");
-            writer.println("  Remates Defendidos||"+getTableCell(0,zone_ca_defended[0])+"||"+getTableCell(0,zone_ca_defended[1])+"||"+getTableCell(0,zone_ca_defended[2])+"||"+getTableCell(0,zone_ca_defended[3])+"||"+getTableCell(0,zone_ca_defended[4])+"||"+getTableCell(0,zone_ca_defended[5])+"||"+getTableCell(0,zone_ca_defended[6])+"||"+getTableCell(0,zone_ca_defended[7])+"||"+getTableCell(0,zone_ca_defended[8])+"||"+getTableCell(0,zone_ca_defended[9])+"||");
-            writer.println("  Remates Bloqueados||"+getTableCell(0,zone_ca_blocked[0])+"||"+getTableCell(0,zone_ca_blocked[1])+"||"+getTableCell(0,zone_ca_blocked[2])+"||"+getTableCell(0,zone_ca_blocked[3])+"||"+getTableCell(0,zone_ca_blocked[4])+"||"+getTableCell(0,zone_ca_blocked[5])+"||"+getTableCell(0,zone_ca_blocked[6])+"||"+getTableCell(0,zone_ca_blocked[7])+"||"+getTableCell(0,zone_ca_blocked[8])+"||"+getTableCell(0,zone_ca_blocked[9])+"||");
-            writer.println("        Remates Fora||"+getTableCell(0,zone_ca_out[0])+"||"+getTableCell(0,zone_ca_out[1])+"||"+getTableCell(0,zone_ca_out[2])+"||"+getTableCell(0,zone_ca_out[3])+"||"+getTableCell(0,zone_ca_out[4])+"||"+getTableCell(0,zone_ca_out[5])+"||"+getTableCell(0,zone_ca_out[6])+"||"+getTableCell(0,zone_ca_out[7])+"||"+getTableCell(0,zone_ca_out[8])+"||"+getTableCell(0,zone_ca_out[9])+"||");
-            writer.println(" Remates Poste/Trave||"+getTableCell(0,zone_ca_post[0])+"||"+getTableCell(0,zone_ca_post[1])+"||"+getTableCell(0,zone_ca_post[2])+"||"+getTableCell(0,zone_ca_post[3])+"||"+getTableCell(0,zone_ca_post[4])+"||"+getTableCell(0,zone_ca_post[5])+"||"+getTableCell(0,zone_ca_post[6])+"||"+getTableCell(0,zone_ca_post[7])+"||"+getTableCell(zone_post[8],zone_ca_post[8])+"||"+getTableCell(0,zone_ca_post[9])+"||");
-            writer.println("            Eficácia||"+getEfficciencyString(zone_ca_goals[0],zone_ca_all[0])+"||"+getEfficciencyString(zone_ca_goals[1],zone_ca_all[1])+"||"+getEfficciencyString(zone_ca_goals[2],zone_ca_all[2])+"||"+getEfficciencyString(zone_ca_goals[3],zone_ca_all[3])+"||"+getEfficciencyString(zone_ca_goals[4],zone_ca_all[4])+"||"+getEfficciencyString(zone_ca_goals[5],zone_ca_all[5])+"||"+getEfficciencyString(zone_ca_goals[6],zone_ca_all[6])+"||"+getEfficciencyString(zone_ca_goals[7],zone_ca_all[7])+"||"+getEfficciencyString(zone_ca_goals[8],zone_ca_all[8])+"||"+getEfficciencyString(zone_ca_goals[9],zone_ca_all[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("               Golos|"+getTableCell(0,zone_ca_goals[0])+"|"+getTableCell(0,zone_ca_goals[1])+"|"+getTableCell(0,zone_ca_goals[2])+"|"+getTableCell(0,zone_ca_goals[3])+"|"+getTableCell(0,zone_ca_goals[4])+"|"+getTableCell(0,zone_ca_goals[5])+"|"+getTableCell(0,zone_ca_goals[6])+"|"+getTableCell(zone_goals[7],zone_ca_goals[7])+"|"+getTableCell(0,zone_ca_goals[8])+"|"+getTableCell(0,zone_ca_goals[9])+"|");
+            writer.println("  Remates Defendidos|"+getTableCell(0,zone_ca_defended[0])+"|"+getTableCell(0,zone_ca_defended[1])+"|"+getTableCell(0,zone_ca_defended[2])+"|"+getTableCell(0,zone_ca_defended[3])+"|"+getTableCell(0,zone_ca_defended[4])+"|"+getTableCell(0,zone_ca_defended[5])+"|"+getTableCell(0,zone_ca_defended[6])+"|"+getTableCell(0,zone_ca_defended[7])+"|"+getTableCell(0,zone_ca_defended[8])+"|"+getTableCell(0,zone_ca_defended[9])+"|");
+            writer.println("  Remates Bloqueados|"+getTableCell(0,zone_ca_blocked[0])+"|"+getTableCell(0,zone_ca_blocked[1])+"|"+getTableCell(0,zone_ca_blocked[2])+"|"+getTableCell(0,zone_ca_blocked[3])+"|"+getTableCell(0,zone_ca_blocked[4])+"|"+getTableCell(0,zone_ca_blocked[5])+"|"+getTableCell(0,zone_ca_blocked[6])+"|"+getTableCell(0,zone_ca_blocked[7])+"|"+getTableCell(0,zone_ca_blocked[8])+"|"+getTableCell(0,zone_ca_blocked[9])+"|");
+            writer.println("        Remates Fora|"+getTableCell(0,zone_ca_out[0])+"|"+getTableCell(0,zone_ca_out[1])+"|"+getTableCell(0,zone_ca_out[2])+"|"+getTableCell(0,zone_ca_out[3])+"|"+getTableCell(0,zone_ca_out[4])+"|"+getTableCell(0,zone_ca_out[5])+"|"+getTableCell(0,zone_ca_out[6])+"|"+getTableCell(0,zone_ca_out[7])+"|"+getTableCell(0,zone_ca_out[8])+"|"+getTableCell(0,zone_ca_out[9])+"|");
+            writer.println(" Remates Poste/Trave|"+getTableCell(0,zone_ca_post[0])+"|"+getTableCell(0,zone_ca_post[1])+"|"+getTableCell(0,zone_ca_post[2])+"|"+getTableCell(0,zone_ca_post[3])+"|"+getTableCell(0,zone_ca_post[4])+"|"+getTableCell(0,zone_ca_post[5])+"|"+getTableCell(0,zone_ca_post[6])+"|"+getTableCell(0,zone_ca_post[7])+"|"+getTableCell(zone_post[8],zone_ca_post[8])+"|"+getTableCell(0,zone_ca_post[9])+"|");
+            writer.println("            Eficácia|"+getEfficciencyString(zone_ca_goals[0],zone_ca_all[0])+"|"+getEfficciencyString(zone_ca_goals[1],zone_ca_all[1])+"|"+getEfficciencyString(zone_ca_goals[2],zone_ca_all[2])+"|"+getEfficciencyString(zone_ca_goals[3],zone_ca_all[3])+"|"+getEfficciencyString(zone_ca_goals[4],zone_ca_all[4])+"|"+getEfficciencyString(zone_ca_goals[5],zone_ca_all[5])+"|"+getEfficciencyString(zone_ca_goals[6],zone_ca_all[6])+"|"+getEfficciencyString(zone_ca_goals[7],zone_ca_all[7])+"|"+getEfficciencyString(zone_ca_goals[8],zone_ca_all[8])+"|"+getEfficciencyString(zone_ca_goals[9],zone_ca_all[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
-            writer.println("\n                                              ////Acções Defensivas\\\\\\\\");
+            writer.println("\n                  2.2 - Acções Defensivas");
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("              Blocos||"+getTableCell(0, zone_def_block[0])+"||"+getTableCell(0,zone_def_block[1])+"||"+getTableCell(0,zone_def_block[2])+"||"+getTableCell(0,zone_def_block[3])+"||"+getTableCell(0,zone_def_block[4])+"||"+getTableCell(0,zone_def_block[5])+"||"+getTableCell(0,zone_def_block[6])+"||"+getTableCell(zone_goals[7],zone_def_block[7])+"||"+getTableCell(0,zone_def_block[8])+"||"+getTableCell(0,zone_def_block[9])+"||");
-            writer.println("            Desarmes||"+getTableCell(0,zone_def_disarm[0])+"||"+getTableCell(0,zone_def_disarm[1])+"||"+getTableCell(0,zone_def_disarm[2])+"||"+getTableCell(0,zone_def_disarm[3])+"||"+getTableCell(0,zone_def_disarm[4])+"||"+getTableCell(0,zone_def_disarm[5])+"||"+getTableCell(0,zone_def_disarm[6])+"||"+getTableCell(0,zone_def_disarm[7])+"||"+getTableCell(0,zone_def_disarm[8])+"||"+getTableCell(0,zone_def_disarm[9])+"||");
-            writer.println("        Intercepções||"+getTableCell(0,zone_def_int[0])+"||"+getTableCell(0,zone_def_int[1])+"||"+getTableCell(0,zone_def_int[2])+"||"+getTableCell(0,zone_def_int[3])+"||"+getTableCell(0,zone_def_int[4])+"||"+getTableCell(0,zone_def_int[5])+"||"+getTableCell(0,zone_def_int[6])+"||"+getTableCell(0,zone_def_int[7])+"||"+getTableCell(0,zone_def_int[8])+"||"+getTableCell(0,zone_def_int[9])+"||");
-           writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("              Blocos|"+getTableCell(0, zone_def_block[0])+"|"+getTableCell(0,zone_def_block[1])+"|"+getTableCell(0,zone_def_block[2])+"|"+getTableCell(0,zone_def_block[3])+"|"+getTableCell(0,zone_def_block[4])+"|"+getTableCell(0,zone_def_block[5])+"|"+getTableCell(0,zone_def_block[6])+"|"+getTableCell(zone_goals[7],zone_def_block[7])+"|"+getTableCell(0,zone_def_block[8])+"|"+getTableCell(0,zone_def_block[9])+"|");
+            writer.println("            Desarmes|"+getTableCell(0,zone_def_disarm[0])+"|"+getTableCell(0,zone_def_disarm[1])+"|"+getTableCell(0,zone_def_disarm[2])+"|"+getTableCell(0,zone_def_disarm[3])+"|"+getTableCell(0,zone_def_disarm[4])+"|"+getTableCell(0,zone_def_disarm[5])+"|"+getTableCell(0,zone_def_disarm[6])+"|"+getTableCell(0,zone_def_disarm[7])+"|"+getTableCell(0,zone_def_disarm[8])+"|"+getTableCell(0,zone_def_disarm[9])+"|");
+            writer.println("        Intercepções|"+getTableCell(0,zone_def_int[0])+"|"+getTableCell(0,zone_def_int[1])+"|"+getTableCell(0,zone_def_int[2])+"|"+getTableCell(0,zone_def_int[3])+"|"+getTableCell(0,zone_def_int[4])+"|"+getTableCell(0,zone_def_int[5])+"|"+getTableCell(0,zone_def_int[6])+"|"+getTableCell(0,zone_def_int[7])+"|"+getTableCell(0,zone_def_int[8])+"|"+getTableCell(0,zone_def_int[9])+"|");
+           writer.println("                    +---------------------------------------------------------------------+");
 
 
-            writer.println("\n                                              ////Outras Acções\\\\\\\\");
+            writer.println("\n                  2.3 - Outras Acções");
             writer.println("\n                  Assistências:"+assists);
             writer.println("\n                  Falhas Técnicas:"+tecnichalFail);
             writer.println("\n                  Falhas Técnicas Adversário:"+advTecnichalFail);
@@ -363,18 +375,21 @@ protected Void doInBackground(GmailApiTaskParams... params) {
 
             zone_def_adv_all[0] = zone_def_goals[0]+zone_def_defended[0]+zone_def_post[0]+zone_def_out[0];
 
-            writer.println("\n                                              ////Acções Guarda Redes por Zona\\\\\\\\");
+            writer.println("\n                    2.4 - Acções Guarda Redes por Zona");
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("               Golos||"+getTableCell(0, zone_def_goals[0])+"||"+getTableCell(0,zone_def_goals[1])+"||"+getTableCell(0,zone_def_goals[2])+"||"+getTableCell(0,zone_def_goals[3])+"||"+getTableCell(0,zone_def_goals[4])+"||"+getTableCell(0,zone_def_goals[5])+"||"+getTableCell(0,zone_def_goals[6])+"||"+getTableCell(zone_goals[7],zone_def_goals[7])+"||"+getTableCell(0,zone_def_goals[8])+"||"+getTableCell(0,zone_def_goals[9])+"||");
-            writer.println("  Remates Defendidos||"+getTableCell(0,zone_def_defended[0])+"||"+getTableCell(0,zone_def_defended[1])+"||"+getTableCell(0,zone_def_defended[2])+"||"+getTableCell(0,zone_def_defended[3])+"||"+getTableCell(0,zone_def_defended[4])+"||"+getTableCell(0,zone_def_defended[5])+"||"+getTableCell(0,zone_def_defended[6])+"||"+getTableCell(0,zone_def_defended[7])+"||"+getTableCell(0,zone_def_defended[8])+"||"+getTableCell(0,zone_def_defended[9])+"||");
-            writer.println("       Remates Poste||"+getTableCell(0,zone_def_out[0])+"||"+getTableCell(0,zone_def_out[1])+"||"+getTableCell(0,zone_def_out[2])+"||"+getTableCell(0,zone_def_out[3])+"||"+getTableCell(0,zone_def_out[4])+"||"+getTableCell(0,zone_def_out[5])+"||"+getTableCell(0,zone_def_out[6])+"||"+getTableCell(0,zone_def_out[7])+"||"+getTableCell(0,zone_def_out[8])+"||"+getTableCell(0,zone_def_out[9])+"||");
-            writer.println("        Remates Fora||"+getTableCell(0,zone_def_post[0])+"||"+getTableCell(0,zone_def_post[1])+"||"+getTableCell(0,zone_def_post[2])+"||"+getTableCell(0,zone_def_post[3])+"||"+getTableCell(0,zone_def_post[4])+"||"+getTableCell(0,zone_def_post[5])+"||"+getTableCell(0,zone_def_post[6])+"||"+getTableCell(0,zone_def_post[7])+"||"+getTableCell(0,zone_def_post[8])+"||"+getTableCell(0,zone_def_post[9])+"||");
-            writer.println("            Eficácia||"+getReverseEfficciencyString(zone_def_goals[0], zone_def_adv_all[0])+"||"+getReverseEfficciencyString(zone_def_goals[1], zone_def_adv_all[1])+"||"+getReverseEfficciencyString(zone_def_goals[2], zone_def_adv_all[2])+"||"+getReverseEfficciencyString(zone_def_goals[3], zone_def_adv_all[3])+"||"+getReverseEfficciencyString(zone_def_goals[4], zone_def_adv_all[4])+"||"+getReverseEfficciencyString(zone_def_goals[5], zone_def_adv_all[5])+"||"+getReverseEfficciencyString(zone_def_goals[6], zone_def_adv_all[6])+"||"+getReverseEfficciencyString(zone_def_goals[7], zone_def_adv_all[7])+"||"+getReverseEfficciencyString(zone_def_goals[8], zone_def_adv_all[8])+"||"+getReverseEfficciencyString(zone_def_goals[9], zone_def_adv_all[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("               Golos|"+getTableCell(0, zone_def_goals[0])+"|"+getTableCell(0,zone_def_goals[1])+"|"+getTableCell(0,zone_def_goals[2])+"|"+getTableCell(0,zone_def_goals[3])+"|"+getTableCell(0,zone_def_goals[4])+"|"+getTableCell(0,zone_def_goals[5])+"|"+getTableCell(0,zone_def_goals[6])+"|"+getTableCell(zone_goals[7],zone_def_goals[7])+"|"+getTableCell(0,zone_def_goals[8])+"|"+getTableCell(0,zone_def_goals[9])+"|");
+            writer.println("  Remates Defendidos|"+getTableCell(0,zone_def_defended[0])+"|"+getTableCell(0,zone_def_defended[1])+"|"+getTableCell(0,zone_def_defended[2])+"|"+getTableCell(0,zone_def_defended[3])+"|"+getTableCell(0,zone_def_defended[4])+"|"+getTableCell(0,zone_def_defended[5])+"|"+getTableCell(0,zone_def_defended[6])+"|"+getTableCell(0,zone_def_defended[7])+"|"+getTableCell(0,zone_def_defended[8])+"|"+getTableCell(0,zone_def_defended[9])+"|");
+            writer.println("       Remates Poste|"+getTableCell(0,zone_def_out[0])+"|"+getTableCell(0,zone_def_out[1])+"|"+getTableCell(0,zone_def_out[2])+"|"+getTableCell(0,zone_def_out[3])+"|"+getTableCell(0,zone_def_out[4])+"|"+getTableCell(0,zone_def_out[5])+"|"+getTableCell(0,zone_def_out[6])+"|"+getTableCell(0,zone_def_out[7])+"|"+getTableCell(0,zone_def_out[8])+"|"+getTableCell(0,zone_def_out[9])+"|");
+            writer.println("        Remates Fora|"+getTableCell(0,zone_def_post[0])+"|"+getTableCell(0,zone_def_post[1])+"|"+getTableCell(0,zone_def_post[2])+"|"+getTableCell(0,zone_def_post[3])+"|"+getTableCell(0,zone_def_post[4])+"|"+getTableCell(0,zone_def_post[5])+"|"+getTableCell(0,zone_def_post[6])+"|"+getTableCell(0,zone_def_post[7])+"|"+getTableCell(0,zone_def_post[8])+"|"+getTableCell(0,zone_def_post[9])+"|");
+            writer.println("            Eficácia|"+getReverseEfficciencyString(zone_def_goals[0], zone_def_adv_all[0])+"|"+getReverseEfficciencyString(zone_def_goals[1], zone_def_adv_all[1])+"|"+getReverseEfficciencyString(zone_def_goals[2], zone_def_adv_all[2])+"|"+getReverseEfficciencyString(zone_def_goals[3], zone_def_adv_all[3])+"|"+getReverseEfficciencyString(zone_def_goals[4], zone_def_adv_all[4])+"|"+getReverseEfficciencyString(zone_def_goals[5], zone_def_adv_all[5])+"|"+getReverseEfficciencyString(zone_def_goals[6], zone_def_adv_all[6])+"|"+getReverseEfficciencyString(zone_def_goals[7], zone_def_adv_all[7])+"|"+getReverseEfficciencyString(zone_def_goals[8], zone_def_adv_all[8])+"|"+getReverseEfficciencyString(zone_def_goals[9], zone_def_adv_all[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
-
+            writer.println("\n                    3 - Disciplina");
+            writer.println("                     Cartões Amarelos: "+yellow_cards);
+            writer.println("                         Dois Minutos: "+two_mins);
+            writer.println("                    Cartões Vermelhos: "+red_cards);
 
             writer.close();
             return filename;
@@ -407,6 +422,10 @@ protected Void doInBackground(GmailApiTaskParams... params) {
         int zone_def_int[] = new int[10];
         int zone_def_all[] = new int[10];
 
+        int yellow_cards = 0;
+        int red_cards = 0;
+        int two_mins = 0;
+
         int assists = 0;
         int tecnichalFail = 0;
         int advTecnichalFail = game.getTechnicalFailAdv();
@@ -428,6 +447,13 @@ protected Void doInBackground(GmailApiTaskParams... params) {
         zone_def_disarm[0] = player.getAllDisarms();
         zone_def_int[0] = player.getAllInterceptions();
         zone_def_all[0] = player.getAllBlocked()+player.getAllDisarms()+player.getAllInterceptions();
+
+        if(player.isRedCard())
+            red_cards++;
+        if (player.isYellowCard())
+            yellow_cards++;
+        if (player.getTwoMin()>0)
+            two_mins += player.getTwoMin();
 
 
 
@@ -458,74 +484,79 @@ protected Void doInBackground(GmailApiTaskParams... params) {
         }
 
         try {
-            String filename = game.getMyTeam()+"vs"+game.getOpponent()+" -- "+player.getName()+".txt";
+            String filename = game.getMyTeam()+"_vs_"+game.getOpponent()+"--"+player.getName()+".txt";
             writer = new PrintWriter(mActivity.getApplicationContext().getFilesDir().getPath().toString() + filename, "UTF-8");
-            writer.println("                    ==================================//Dados Jogo\\\\==================================");
-            writer.println("                    "+game.getMyTeam()+" "+game.getScoreMyTeam()+":"+game.getScoreOpponent()+" "+game.getOpponent());
+            writer.println("                    1 - Dados Jogo");
+            writer.println("                    Equipas: "+game.getMyTeam()+" vs "+game.getOpponent());
+            writer.println("                    Resultado: "+game.getScoreMyTeam()+":"+game.getScoreOpponent());
             writer.println("                    Local: "+game.getLocal());
             writer.println("                    Data: "+game.getDate()+" Hora: "+game.getTime());
-            writer.println("                    ================================//Estatisticas Jogo\\\\================================");
-            writer.println("                    Jogador:"+player.getName()+" #"+player.getNumber());
-            writer.println("                                    ==============|| Acções Ofensivas ||==============");
+            writer.println("\n                    2 - Estatisticas Jogo");
+            writer.println("                    2.1 - Acções Ofensivas");
 
-            writer.println("\n                                              ////Ataques e Contra Ataques\\\\\\\\");
+            writer.println("\n                    2.1.1 - Ataques e Contra Ataques");
 
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("               Golos||"+getTableCell(zone_goals[0],zone_ca_goals[0])+"||"+getTableCell(zone_goals[1],zone_ca_goals[1])+"||"+getTableCell(zone_goals[2],zone_ca_goals[2])+"||"+getTableCell(zone_goals[3],zone_ca_goals[3])+"||"+getTableCell(zone_goals[4],zone_ca_goals[4])+"||"+getTableCell(zone_goals[5],zone_ca_goals[5])+"||"+getTableCell(zone_goals[6],zone_ca_goals[6])+"||"+getTableCell(zone_goals[7],zone_ca_goals[7])+"||"+getTableCell(zone_goals[8],zone_ca_goals[8])+"||"+getTableCell(zone_goals[9],zone_ca_goals[9])+"||");
-            writer.println("  Remates Defendidos||"+getTableCell(zone_defended[0],zone_ca_defended[0])+"||"+getTableCell(zone_defended[1],zone_ca_defended[1])+"||"+getTableCell(zone_defended[2],zone_ca_defended[2])+"||"+getTableCell(zone_defended[3],zone_ca_defended[3])+"||"+getTableCell(zone_defended[4],zone_ca_defended[4])+"||"+getTableCell(zone_defended[5],zone_ca_defended[5])+"||"+getTableCell(zone_defended[6],zone_ca_defended[6])+"||"+getTableCell(zone_defended[7],zone_ca_defended[7])+"||"+getTableCell(zone_defended[8],zone_ca_defended[8])+"||"+getTableCell(zone_defended[9],zone_ca_defended[9])+"||");
-            writer.println("  Remates Bloqueados||"+getTableCell(zone_blocked[0],zone_ca_blocked[0])+"||"+getTableCell(zone_blocked[1],zone_ca_blocked[1])+"||"+getTableCell(zone_blocked[2],zone_ca_blocked[2])+"||"+getTableCell(zone_blocked[3],zone_ca_blocked[3])+"||"+getTableCell(zone_blocked[4],zone_ca_blocked[4])+"||"+getTableCell(zone_blocked[5],zone_ca_blocked[5])+"||"+getTableCell(zone_blocked[6],zone_ca_blocked[6])+"||"+getTableCell(zone_blocked[7],zone_ca_blocked[7])+"||"+getTableCell(zone_blocked[8],zone_ca_blocked[8])+"||"+getTableCell(zone_blocked[9],zone_ca_blocked[9])+"||");
-            writer.println("        Remates Fora||"+getTableCell(zone_out[0],zone_ca_out[0])+"||"+getTableCell(zone_out[1],zone_ca_out[1])+"||"+getTableCell(zone_out[2],zone_ca_out[2])+"||"+getTableCell(zone_out[3],zone_ca_out[3])+"||"+getTableCell(zone_out[4],zone_ca_out[4])+"||"+getTableCell(zone_out[5],zone_ca_out[5])+"||"+getTableCell(zone_out[6],zone_ca_out[6])+"||"+getTableCell(zone_out[7],zone_ca_out[7])+"||"+getTableCell(zone_out[8],zone_ca_out[8])+"||"+getTableCell(zone_out[9],zone_ca_out[9])+"||");
-            writer.println(" Remates Poste/Trave||"+getTableCell(zone_post[0],zone_ca_post[0])+"||"+getTableCell(zone_post[1],zone_ca_post[1])+"||"+getTableCell(zone_post[2],zone_ca_post[2])+"||"+getTableCell(zone_post[3],zone_ca_post[3])+"||"+getTableCell(zone_post[4],zone_ca_post[4])+"||"+getTableCell(zone_post[5],zone_ca_post[5])+"||"+getTableCell(zone_post[6],zone_ca_post[6])+"||"+getTableCell(zone_post[7],zone_ca_post[7])+"||"+getTableCell(zone_post[8],zone_ca_post[8])+"||"+getTableCell(zone_post[9],zone_ca_post[9])+"||");
-            writer.println("            Eficácia||"+getReverseEfficciencyString(zone_goals[0]+zone_ca_goals[0],zone_all[0]+zone_ca_all[0])+"||"+getEfficciencyString(zone_goals[1]+zone_ca_goals[1],zone_all[1]+zone_ca_all[1])+"||"+getEfficciencyString(zone_goals[2]+zone_ca_goals[2],zone_all[2]+zone_ca_all[2])+"||"+getEfficciencyString(zone_goals[3]+zone_ca_goals[3],zone_all[3]+zone_ca_all[3])+"||"+getEfficciencyString(zone_goals[4]+zone_ca_goals[4],zone_all[4]+zone_ca_all[4])+"||"+getEfficciencyString(zone_goals[5]+zone_ca_goals[5],zone_all[5]+zone_ca_all[5])+"||"+getEfficciencyString(zone_goals[6]+zone_ca_goals[6],zone_all[6]+zone_ca_all[6])+"||"+getEfficciencyString(zone_goals[7]+zone_ca_goals[7],zone_all[7]+zone_ca_all[7])+"||"+getEfficciencyString(zone_goals[8]+zone_ca_goals[8],zone_all[8]+zone_ca_all[8])+"||"+getEfficciencyString(zone_goals[9]+zone_ca_goals[9],zone_all[9]+zone_ca_all[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("               Golos|"+getTableCell(zone_goals[0],zone_ca_goals[0])+"|"+getTableCell(zone_goals[1],zone_ca_goals[1])+"|"+getTableCell(zone_goals[2],zone_ca_goals[2])+"|"+getTableCell(zone_goals[3],zone_ca_goals[3])+"|"+getTableCell(zone_goals[4],zone_ca_goals[4])+"|"+getTableCell(zone_goals[5],zone_ca_goals[5])+"|"+getTableCell(zone_goals[6],zone_ca_goals[6])+"|"+getTableCell(zone_goals[7],zone_ca_goals[7])+"|"+getTableCell(zone_goals[8],zone_ca_goals[8])+"|"+getTableCell(zone_goals[9],zone_ca_goals[9])+"|");
+            writer.println("  Remates Defendidos|"+getTableCell(zone_defended[0],zone_ca_defended[0])+"|"+getTableCell(zone_defended[1],zone_ca_defended[1])+"|"+getTableCell(zone_defended[2],zone_ca_defended[2])+"|"+getTableCell(zone_defended[3],zone_ca_defended[3])+"|"+getTableCell(zone_defended[4],zone_ca_defended[4])+"|"+getTableCell(zone_defended[5],zone_ca_defended[5])+"|"+getTableCell(zone_defended[6],zone_ca_defended[6])+"|"+getTableCell(zone_defended[7],zone_ca_defended[7])+"|"+getTableCell(zone_defended[8],zone_ca_defended[8])+"|"+getTableCell(zone_defended[9],zone_ca_defended[9])+"|");
+            writer.println("  Remates Bloqueados|"+getTableCell(zone_blocked[0],zone_ca_blocked[0])+"|"+getTableCell(zone_blocked[1],zone_ca_blocked[1])+"|"+getTableCell(zone_blocked[2],zone_ca_blocked[2])+"|"+getTableCell(zone_blocked[3],zone_ca_blocked[3])+"|"+getTableCell(zone_blocked[4],zone_ca_blocked[4])+"|"+getTableCell(zone_blocked[5],zone_ca_blocked[5])+"|"+getTableCell(zone_blocked[6],zone_ca_blocked[6])+"|"+getTableCell(zone_blocked[7],zone_ca_blocked[7])+"|"+getTableCell(zone_blocked[8],zone_ca_blocked[8])+"|"+getTableCell(zone_blocked[9],zone_ca_blocked[9])+"|");
+            writer.println("        Remates Fora|"+getTableCell(zone_out[0],zone_ca_out[0])+"|"+getTableCell(zone_out[1],zone_ca_out[1])+"|"+getTableCell(zone_out[2],zone_ca_out[2])+"|"+getTableCell(zone_out[3],zone_ca_out[3])+"|"+getTableCell(zone_out[4],zone_ca_out[4])+"|"+getTableCell(zone_out[5],zone_ca_out[5])+"|"+getTableCell(zone_out[6],zone_ca_out[6])+"|"+getTableCell(zone_out[7],zone_ca_out[7])+"|"+getTableCell(zone_out[8],zone_ca_out[8])+"|"+getTableCell(zone_out[9],zone_ca_out[9])+"|");
+            writer.println(" Remates Poste/Trave|"+getTableCell(zone_post[0],zone_ca_post[0])+"|"+getTableCell(zone_post[1],zone_ca_post[1])+"|"+getTableCell(zone_post[2],zone_ca_post[2])+"|"+getTableCell(zone_post[3],zone_ca_post[3])+"|"+getTableCell(zone_post[4],zone_ca_post[4])+"|"+getTableCell(zone_post[5],zone_ca_post[5])+"|"+getTableCell(zone_post[6],zone_ca_post[6])+"|"+getTableCell(zone_post[7],zone_ca_post[7])+"|"+getTableCell(zone_post[8],zone_ca_post[8])+"|"+getTableCell(zone_post[9],zone_ca_post[9])+"|");
+            writer.println("            Eficácia|"+getReverseEfficciencyString(zone_goals[0] + zone_ca_goals[0], zone_all[0] + zone_ca_all[0])+"|"+getEfficciencyString(zone_goals[1] + zone_ca_goals[1], zone_all[1] + zone_ca_all[1])+"|"+getEfficciencyString(zone_goals[2] + zone_ca_goals[2], zone_all[2] + zone_ca_all[2])+"|"+getEfficciencyString(zone_goals[3] + zone_ca_goals[3], zone_all[3] + zone_ca_all[3])+"|"+getEfficciencyString(zone_goals[4] + zone_ca_goals[4], zone_all[4] + zone_ca_all[4])+"|"+getEfficciencyString(zone_goals[5] + zone_ca_goals[5], zone_all[5] + zone_ca_all[5])+"|"+getEfficciencyString(zone_goals[6] + zone_ca_goals[6], zone_all[6] + zone_ca_all[6])+"|"+getEfficciencyString(zone_goals[7] + zone_ca_goals[7], zone_all[7] + zone_ca_all[7])+"|"+getEfficciencyString(zone_goals[8] + zone_ca_goals[8], zone_all[8] + zone_ca_all[8])+"|"+getEfficciencyString(zone_goals[9] + zone_ca_goals[9], zone_all[9] + zone_ca_all[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
 
 
             //////////////////////////////ATAQUES\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            writer.println("\n                                                  ////Ataques\\\\\\\\");
+            writer.println("\n                    2.1.2 - Ataques");
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("               Golos||"+getTableCell(zone_goals[0],0)+"||"+getTableCell(zone_goals[1],0)+"||"+getTableCell(zone_goals[2],0)+"||"+getTableCell(zone_goals[3],0)+"||"+getTableCell(zone_goals[4],0)+"||"+getTableCell(zone_goals[5],0)+"||"+getTableCell(zone_goals[6],0)+"||"+getTableCell(zone_goals[7],0)+"||"+getTableCell(zone_goals[8],0)+"||"+getTableCell(zone_goals[9],0)+"||");
-            writer.println("  Remates Defendidos||"+getTableCell(zone_defended[0],0)+"||"+getTableCell(zone_defended[1],0)+"||"+getTableCell(zone_defended[2],0)+"||"+getTableCell(zone_defended[3],0)+"||"+getTableCell(zone_defended[4],0)+"||"+getTableCell(zone_defended[5],0)+"||"+getTableCell(zone_defended[6],0)+"||"+getTableCell(zone_defended[7],0)+"||"+getTableCell(zone_defended[8],0)+"||"+getTableCell(zone_defended[9],0)+"||");
-            writer.println("  Remates Bloqueados||"+getTableCell(zone_blocked[0],0)+"||"+getTableCell(zone_blocked[1],0)+"||"+getTableCell(zone_blocked[2],0)+"||"+getTableCell(zone_blocked[3],0)+"||"+getTableCell(zone_blocked[4],0)+"||"+getTableCell(zone_blocked[5],0)+"||"+getTableCell(zone_blocked[6],0)+"||"+getTableCell(zone_blocked[7],0)+"||"+getTableCell(zone_blocked[8],0)+"||"+getTableCell(zone_blocked[9],0)+"||");
-            writer.println("        Remates Fora||"+getTableCell(zone_out[0],0)+"||"+getTableCell(zone_out[1],0)+"||"+getTableCell(zone_out[2],0)+"||"+getTableCell(zone_out[3],0)+"||"+getTableCell(zone_out[4],0)+"||"+getTableCell(zone_out[5],0)+"||"+getTableCell(zone_out[6],0)+"||"+getTableCell(zone_out[7],0)+"||"+getTableCell(zone_out[8],0)+"||"+getTableCell(zone_out[9],0)+"||");
-            writer.println(" Remates Poste/Trave||"+getTableCell(zone_post[0],0)+"||"+getTableCell(zone_post[1],0)+"||"+getTableCell(zone_post[2],0)+"||"+getTableCell(zone_post[3],0)+"||"+getTableCell(zone_post[4],0)+"||"+getTableCell(zone_post[5],0)+"||"+getTableCell(zone_post[6],0)+"||"+getTableCell(zone_post[7],0)+"||"+getTableCell(zone_post[8],0)+"||"+getTableCell(zone_post[9],0)+"||");
-            writer.println("            Eficácia||"+getEfficciencyString(zone_goals[0],zone_all[0])+"||"+getEfficciencyString(zone_goals[1],zone_all[1])+"||"+getEfficciencyString(zone_goals[2],zone_all[2])+"||"+getEfficciencyString(zone_goals[3],zone_all[3])+"||"+getEfficciencyString(zone_goals[4],zone_all[4])+"||"+getEfficciencyString(zone_goals[5],zone_all[5])+"||"+getEfficciencyString(zone_goals[6],zone_all[6])+"||"+getEfficciencyString(zone_goals[7],zone_all[7])+"||"+getEfficciencyString(zone_goals[8],zone_all[8])+"||"+getEfficciencyString(zone_goals[9],zone_all[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("               Golos|"+getTableCell(zone_goals[0],0)+"|"+getTableCell(zone_goals[1],0)+"|"+getTableCell(zone_goals[2],0)+"|"+getTableCell(zone_goals[3],0)+"|"+getTableCell(zone_goals[4],0)+"|"+getTableCell(zone_goals[5],0)+"|"+getTableCell(zone_goals[6],0)+"|"+getTableCell(zone_goals[7],0)+"|"+getTableCell(zone_goals[8],0)+"|"+getTableCell(zone_goals[9],0)+"|");
+            writer.println("  Remates Defendidos|"+getTableCell(zone_defended[0],0)+"|"+getTableCell(zone_defended[1],0)+"|"+getTableCell(zone_defended[2],0)+"|"+getTableCell(zone_defended[3],0)+"|"+getTableCell(zone_defended[4],0)+"|"+getTableCell(zone_defended[5],0)+"|"+getTableCell(zone_defended[6],0)+"|"+getTableCell(zone_defended[7],0)+"|"+getTableCell(zone_defended[8],0)+"|"+getTableCell(zone_defended[9],0)+"|");
+            writer.println("  Remates Bloqueados|"+getTableCell(zone_blocked[0],0)+"|"+getTableCell(zone_blocked[1],0)+"|"+getTableCell(zone_blocked[2],0)+"|"+getTableCell(zone_blocked[3],0)+"|"+getTableCell(zone_blocked[4],0)+"|"+getTableCell(zone_blocked[5],0)+"|"+getTableCell(zone_blocked[6],0)+"|"+getTableCell(zone_blocked[7],0)+"|"+getTableCell(zone_blocked[8],0)+"|"+getTableCell(zone_blocked[9],0)+"|");
+            writer.println("        Remates Fora|"+getTableCell(zone_out[0],0)+"|"+getTableCell(zone_out[1],0)+"|"+getTableCell(zone_out[2],0)+"|"+getTableCell(zone_out[3],0)+"|"+getTableCell(zone_out[4],0)+"|"+getTableCell(zone_out[5],0)+"|"+getTableCell(zone_out[6],0)+"|"+getTableCell(zone_out[7],0)+"|"+getTableCell(zone_out[8],0)+"|"+getTableCell(zone_out[9],0)+"|");
+            writer.println(" Remates Poste/Trave|"+getTableCell(zone_post[0],0)+"|"+getTableCell(zone_post[1],0)+"|"+getTableCell(zone_post[2],0)+"|"+getTableCell(zone_post[3],0)+"|"+getTableCell(zone_post[4],0)+"|"+getTableCell(zone_post[5],0)+"|"+getTableCell(zone_post[6],0)+"|"+getTableCell(zone_post[7],0)+"|"+getTableCell(zone_post[8],0)+"|"+getTableCell(zone_post[9],0)+"|");
+            writer.println("            Eficácia|"+getEfficciencyString(zone_goals[0],zone_all[0])+"|"+getEfficciencyString(zone_goals[1],zone_all[1])+"|"+getEfficciencyString(zone_goals[2],zone_all[2])+"|"+getEfficciencyString(zone_goals[3],zone_all[3])+"|"+getEfficciencyString(zone_goals[4],zone_all[4])+"|"+getEfficciencyString(zone_goals[5],zone_all[5])+"|"+getEfficciencyString(zone_goals[6],zone_all[6])+"|"+getEfficciencyString(zone_goals[7],zone_all[7])+"|"+getEfficciencyString(zone_goals[8],zone_all[8])+"|"+getEfficciencyString(zone_goals[9],zone_all[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
 
 
             //////////////////////////////CONTRA ATAQUES\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-            writer.println("\n                                              ////Contra Ataques\\\\\\\\");
+            writer.println("\n                    2.1.3 - Contra Ataques");
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("               Golos||"+getTableCell(0,zone_ca_goals[0])+"||"+getTableCell(0,zone_ca_goals[1])+"||"+getTableCell(0,zone_ca_goals[2])+"||"+getTableCell(0,zone_ca_goals[3])+"||"+getTableCell(0,zone_ca_goals[4])+"||"+getTableCell(0,zone_ca_goals[5])+"||"+getTableCell(0,zone_ca_goals[6])+"||"+getTableCell(zone_goals[7],zone_ca_goals[7])+"||"+getTableCell(0,zone_ca_goals[8])+"||"+getTableCell(0,zone_ca_goals[9])+"||");
-            writer.println("  Remates Defendidos||"+getTableCell(0,zone_ca_defended[0])+"||"+getTableCell(0,zone_ca_defended[1])+"||"+getTableCell(0,zone_ca_defended[2])+"||"+getTableCell(0,zone_ca_defended[3])+"||"+getTableCell(0,zone_ca_defended[4])+"||"+getTableCell(0,zone_ca_defended[5])+"||"+getTableCell(0,zone_ca_defended[6])+"||"+getTableCell(0,zone_ca_defended[7])+"||"+getTableCell(0,zone_ca_defended[8])+"||"+getTableCell(0,zone_ca_defended[9])+"||");
-            writer.println("  Remates Bloqueados||"+getTableCell(0,zone_ca_blocked[0])+"||"+getTableCell(0,zone_ca_blocked[1])+"||"+getTableCell(0,zone_ca_blocked[2])+"||"+getTableCell(0,zone_ca_blocked[3])+"||"+getTableCell(0,zone_ca_blocked[4])+"||"+getTableCell(0,zone_ca_blocked[5])+"||"+getTableCell(0,zone_ca_blocked[6])+"||"+getTableCell(0,zone_ca_blocked[7])+"||"+getTableCell(0,zone_ca_blocked[8])+"||"+getTableCell(0,zone_ca_blocked[9])+"||");
-            writer.println("        Remates Fora||"+getTableCell(0,zone_ca_out[0])+"||"+getTableCell(0,zone_ca_out[1])+"||"+getTableCell(0,zone_ca_out[2])+"||"+getTableCell(0,zone_ca_out[3])+"||"+getTableCell(0,zone_ca_out[4])+"||"+getTableCell(0,zone_ca_out[5])+"||"+getTableCell(0,zone_ca_out[6])+"||"+getTableCell(0,zone_ca_out[7])+"||"+getTableCell(0,zone_ca_out[8])+"||"+getTableCell(0,zone_ca_out[9])+"||");
-            writer.println(" Remates Poste/Trave||"+getTableCell(0,zone_ca_post[0])+"||"+getTableCell(0,zone_ca_post[1])+"||"+getTableCell(0,zone_ca_post[2])+"||"+getTableCell(0,zone_ca_post[3])+"||"+getTableCell(0,zone_ca_post[4])+"||"+getTableCell(0,zone_ca_post[5])+"||"+getTableCell(0,zone_ca_post[6])+"||"+getTableCell(0,zone_ca_post[7])+"||"+getTableCell(zone_post[8],zone_ca_post[8])+"||"+getTableCell(0,zone_ca_post[9])+"||");
-            writer.println("            Eficácia||"+getEfficciencyString(zone_ca_goals[0],zone_ca_all[0])+"||"+getEfficciencyString(zone_ca_goals[1],zone_ca_all[1])+"||"+getEfficciencyString(zone_ca_goals[2],zone_ca_all[2])+"||"+getEfficciencyString(zone_ca_goals[3],zone_ca_all[3])+"||"+getEfficciencyString(zone_ca_goals[4],zone_ca_all[4])+"||"+getEfficciencyString(zone_ca_goals[5],zone_ca_all[5])+"||"+getEfficciencyString(zone_ca_goals[6],zone_ca_all[6])+"||"+getEfficciencyString(zone_ca_goals[7],zone_ca_all[7])+"||"+getEfficciencyString(zone_ca_goals[8],zone_ca_all[8])+"||"+getEfficciencyString(zone_ca_goals[9],zone_ca_all[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("               Golos|"+getTableCell(0,zone_ca_goals[0])+"|"+getTableCell(0,zone_ca_goals[1])+"|"+getTableCell(0,zone_ca_goals[2])+"|"+getTableCell(0,zone_ca_goals[3])+"|"+getTableCell(0,zone_ca_goals[4])+"|"+getTableCell(0,zone_ca_goals[5])+"|"+getTableCell(0,zone_ca_goals[6])+"|"+getTableCell(zone_goals[7],zone_ca_goals[7])+"|"+getTableCell(0,zone_ca_goals[8])+"|"+getTableCell(0,zone_ca_goals[9])+"|");
+            writer.println("  Remates Defendidos|"+getTableCell(0,zone_ca_defended[0])+"|"+getTableCell(0,zone_ca_defended[1])+"|"+getTableCell(0,zone_ca_defended[2])+"|"+getTableCell(0,zone_ca_defended[3])+"|"+getTableCell(0,zone_ca_defended[4])+"|"+getTableCell(0,zone_ca_defended[5])+"|"+getTableCell(0,zone_ca_defended[6])+"|"+getTableCell(0,zone_ca_defended[7])+"|"+getTableCell(0,zone_ca_defended[8])+"|"+getTableCell(0,zone_ca_defended[9])+"|");
+            writer.println("  Remates Bloqueados|"+getTableCell(0,zone_ca_blocked[0])+"|"+getTableCell(0,zone_ca_blocked[1])+"|"+getTableCell(0,zone_ca_blocked[2])+"|"+getTableCell(0,zone_ca_blocked[3])+"|"+getTableCell(0,zone_ca_blocked[4])+"|"+getTableCell(0,zone_ca_blocked[5])+"|"+getTableCell(0,zone_ca_blocked[6])+"|"+getTableCell(0,zone_ca_blocked[7])+"|"+getTableCell(0,zone_ca_blocked[8])+"|"+getTableCell(0,zone_ca_blocked[9])+"|");
+            writer.println("        Remates Fora|"+getTableCell(0,zone_ca_out[0])+"|"+getTableCell(0,zone_ca_out[1])+"|"+getTableCell(0,zone_ca_out[2])+"|"+getTableCell(0,zone_ca_out[3])+"|"+getTableCell(0,zone_ca_out[4])+"|"+getTableCell(0,zone_ca_out[5])+"|"+getTableCell(0,zone_ca_out[6])+"|"+getTableCell(0,zone_ca_out[7])+"|"+getTableCell(0,zone_ca_out[8])+"|"+getTableCell(0,zone_ca_out[9])+"|");
+            writer.println(" Remates Poste/Trave|"+getTableCell(0,zone_ca_post[0])+"|"+getTableCell(0,zone_ca_post[1])+"|"+getTableCell(0,zone_ca_post[2])+"|"+getTableCell(0,zone_ca_post[3])+"|"+getTableCell(0,zone_ca_post[4])+"|"+getTableCell(0,zone_ca_post[5])+"|"+getTableCell(0,zone_ca_post[6])+"|"+getTableCell(0,zone_ca_post[7])+"|"+getTableCell(zone_post[8],zone_ca_post[8])+"|"+getTableCell(0,zone_ca_post[9])+"|");
+            writer.println("            Eficácia|"+getEfficciencyString(zone_ca_goals[0],zone_ca_all[0])+"|"+getEfficciencyString(zone_ca_goals[1],zone_ca_all[1])+"|"+getEfficciencyString(zone_ca_goals[2],zone_ca_all[2])+"|"+getEfficciencyString(zone_ca_goals[3],zone_ca_all[3])+"|"+getEfficciencyString(zone_ca_goals[4],zone_ca_all[4])+"|"+getEfficciencyString(zone_ca_goals[5],zone_ca_all[5])+"|"+getEfficciencyString(zone_ca_goals[6],zone_ca_all[6])+"|"+getEfficciencyString(zone_ca_goals[7],zone_ca_all[7])+"|"+getEfficciencyString(zone_ca_goals[8],zone_ca_all[8])+"|"+getEfficciencyString(zone_ca_goals[9],zone_ca_all[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
-            writer.println("\n                                              ////Acções Defensivas\\\\\\\\");
+            writer.println("\n                  2.2 - Acções Defensivas");
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("              Blocos||"+getTableCell(0, zone_def_block[0])+"||"+getTableCell(0,zone_def_block[1])+"||"+getTableCell(0,zone_def_block[2])+"||"+getTableCell(0,zone_def_block[3])+"||"+getTableCell(0,zone_def_block[4])+"||"+getTableCell(0,zone_def_block[5])+"||"+getTableCell(0,zone_def_block[6])+"||"+getTableCell(zone_goals[7],zone_def_block[7])+"||"+getTableCell(0,zone_def_block[8])+"||"+getTableCell(0,zone_def_block[9])+"||");
-            writer.println("            Desarmes||"+getTableCell(0,zone_def_disarm[0])+"||"+getTableCell(0,zone_def_disarm[1])+"||"+getTableCell(0,zone_def_disarm[2])+"||"+getTableCell(0,zone_def_disarm[3])+"||"+getTableCell(0,zone_def_disarm[4])+"||"+getTableCell(0,zone_def_disarm[5])+"||"+getTableCell(0,zone_def_disarm[6])+"||"+getTableCell(0,zone_def_disarm[7])+"||"+getTableCell(0,zone_def_disarm[8])+"||"+getTableCell(0,zone_def_disarm[9])+"||");
-            writer.println("        Intercepções||"+getTableCell(0,zone_def_int[0])+"||"+getTableCell(0,zone_def_int[1])+"||"+getTableCell(0,zone_def_int[2])+"||"+getTableCell(0,zone_def_int[3])+"||"+getTableCell(0,zone_def_int[4])+"||"+getTableCell(0,zone_def_int[5])+"||"+getTableCell(0,zone_def_int[6])+"||"+getTableCell(0,zone_def_int[7])+"||"+getTableCell(0,zone_def_int[8])+"||"+getTableCell(0,zone_def_int[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("              Blocos|"+getTableCell(0, zone_def_block[0])+"|"+getTableCell(0,zone_def_block[1])+"|"+getTableCell(0,zone_def_block[2])+"|"+getTableCell(0,zone_def_block[3])+"|"+getTableCell(0,zone_def_block[4])+"|"+getTableCell(0,zone_def_block[5])+"|"+getTableCell(0,zone_def_block[6])+"|"+getTableCell(zone_goals[7],zone_def_block[7])+"|"+getTableCell(0,zone_def_block[8])+"|"+getTableCell(0,zone_def_block[9])+"|");
+            writer.println("            Desarmes|"+getTableCell(0,zone_def_disarm[0])+"|"+getTableCell(0,zone_def_disarm[1])+"|"+getTableCell(0,zone_def_disarm[2])+"|"+getTableCell(0,zone_def_disarm[3])+"|"+getTableCell(0,zone_def_disarm[4])+"|"+getTableCell(0,zone_def_disarm[5])+"|"+getTableCell(0,zone_def_disarm[6])+"|"+getTableCell(0,zone_def_disarm[7])+"|"+getTableCell(0,zone_def_disarm[8])+"|"+getTableCell(0,zone_def_disarm[9])+"|");
+            writer.println("        Intercepções|"+getTableCell(0,zone_def_int[0])+"|"+getTableCell(0,zone_def_int[1])+"|"+getTableCell(0,zone_def_int[2])+"|"+getTableCell(0,zone_def_int[3])+"|"+getTableCell(0,zone_def_int[4])+"|"+getTableCell(0,zone_def_int[5])+"|"+getTableCell(0,zone_def_int[6])+"|"+getTableCell(0,zone_def_int[7])+"|"+getTableCell(0,zone_def_int[8])+"|"+getTableCell(0,zone_def_int[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
 
-            writer.println("\n                                              ////Outras Acções\\\\\\\\");
+            writer.println("\n                  2.3 - Outras Acções");
             writer.println("\n                  Assistências:"+assists);
             writer.println("\n                  Falhas Técnicas:"+tecnichalFail);
             writer.println("\n                  Falhas Técnicas Adversário:"+advTecnichalFail);
+
+            writer.println("\n                    3 - Disciplina");
+            writer.println("                     Cartões Amarelos: "+yellow_cards);
+            writer.println("                         Dois Minutos: "+two_mins);
+            writer.println("                    Cartões Vermelhos: "+red_cards);
 
             int zone_def_goals[] = new int[10];
             int zone_def_defended[] = new int[10];
@@ -566,6 +597,10 @@ protected Void doInBackground(GmailApiTaskParams... params) {
         int zone_def_int[] = new int[10];
         int zone_def_all[] = new int[10];
 
+        int yellow_cards = 0;
+        int red_cards = 0;
+        int two_mins = 0;
+
         int assists = 0;
         int tecnichalFail = 0;
         int advTecnichalFail = game.getTechnicalFailAdv();
@@ -588,6 +623,13 @@ protected Void doInBackground(GmailApiTaskParams... params) {
         zone_def_disarm[0] = gk.getAllDisarms();
         zone_def_int[0] = gk.getAllInterceptions();
         zone_def_all[0] = gk.getAllBlocked()+gk.getAllDisarms()+gk.getAllInterceptions();
+
+        if(gk.isRedCard())
+            red_cards++;
+        if (gk.isYellowCard())
+            yellow_cards++;
+        if (gk.getTwoMin()>0)
+            two_mins += gk.getTwoMin();
 
 
 
@@ -620,69 +662,69 @@ protected Void doInBackground(GmailApiTaskParams... params) {
         try {
             String filename = game.getMyTeam()+"vs"+game.getOpponent()+" -- "+gk.getName()+".txt";
             writer = new PrintWriter(mActivity.getApplicationContext().getFilesDir().getPath().toString() + filename, "UTF-8");
-            writer.println("                    ==================================//Dados Jogo\\\\==================================");
-            writer.println("                    "+game.getMyTeam()+" "+game.getScoreMyTeam()+":"+game.getScoreOpponent()+" "+game.getOpponent());
+            writer.println("                    1 - Dados Jogo");
+            writer.println("                    Equipas: "+game.getMyTeam()+" vs "+game.getOpponent());
+            writer.println("                    Resultado: "+game.getScoreMyTeam()+":"+game.getScoreOpponent());
             writer.println("                    Local: "+game.getLocal());
             writer.println("                    Data: "+game.getDate()+" Hora: "+game.getTime());
-            writer.println("                    ================================//Estatisticas Jogo\\\\================================");
-            writer.println("                    "+gk.getName()+" #"+gk.getNumber());
-            writer.println("                                    ==============|| Acções Ofensivas ||==============");
+            writer.println("\n                    2 - Estatisticas Jogo");
+            writer.println("                    2.1 - Acções Ofensivas");
 
-            writer.println("\n                                              ////Ataques e Contra Ataques\\\\\\\\");
+            writer.println("\n                    2.1.1 - Ataques e Contra Ataques");
 
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("               Golos||"+getTableCell(zone_goals[0],zone_ca_goals[0])+"||"+getTableCell(zone_goals[1],zone_ca_goals[1])+"||"+getTableCell(zone_goals[2],zone_ca_goals[2])+"||"+getTableCell(zone_goals[3],zone_ca_goals[3])+"||"+getTableCell(zone_goals[4],zone_ca_goals[4])+"||"+getTableCell(zone_goals[5],zone_ca_goals[5])+"||"+getTableCell(zone_goals[6],zone_ca_goals[6])+"||"+getTableCell(zone_goals[7],zone_ca_goals[7])+"||"+getTableCell(zone_goals[8],zone_ca_goals[8])+"||"+getTableCell(zone_goals[9],zone_ca_goals[9])+"||");
-            writer.println("  Remates Defendidos||"+getTableCell(zone_defended[0],zone_ca_defended[0])+"||"+getTableCell(zone_defended[1],zone_ca_defended[1])+"||"+getTableCell(zone_defended[2],zone_ca_defended[2])+"||"+getTableCell(zone_defended[3],zone_ca_defended[3])+"||"+getTableCell(zone_defended[4],zone_ca_defended[4])+"||"+getTableCell(zone_defended[5],zone_ca_defended[5])+"||"+getTableCell(zone_defended[6],zone_ca_defended[6])+"||"+getTableCell(zone_defended[7],zone_ca_defended[7])+"||"+getTableCell(zone_defended[8],zone_ca_defended[8])+"||"+getTableCell(zone_defended[9],zone_ca_defended[9])+"||");
-            writer.println("  Remates Bloqueados||"+getTableCell(zone_blocked[0],zone_ca_blocked[0])+"||"+getTableCell(zone_blocked[1],zone_ca_blocked[1])+"||"+getTableCell(zone_blocked[2],zone_ca_blocked[2])+"||"+getTableCell(zone_blocked[3],zone_ca_blocked[3])+"||"+getTableCell(zone_blocked[4],zone_ca_blocked[4])+"||"+getTableCell(zone_blocked[5],zone_ca_blocked[5])+"||"+getTableCell(zone_blocked[6],zone_ca_blocked[6])+"||"+getTableCell(zone_blocked[7],zone_ca_blocked[7])+"||"+getTableCell(zone_blocked[8],zone_ca_blocked[8])+"||"+getTableCell(zone_blocked[9],zone_ca_blocked[9])+"||");
-            writer.println("        Remates Fora||"+getTableCell(zone_out[0],zone_ca_out[0])+"||"+getTableCell(zone_out[1],zone_ca_out[1])+"||"+getTableCell(zone_out[2],zone_ca_out[2])+"||"+getTableCell(zone_out[3],zone_ca_out[3])+"||"+getTableCell(zone_out[4],zone_ca_out[4])+"||"+getTableCell(zone_out[5],zone_ca_out[5])+"||"+getTableCell(zone_out[6],zone_ca_out[6])+"||"+getTableCell(zone_out[7],zone_ca_out[7])+"||"+getTableCell(zone_out[8],zone_ca_out[8])+"||"+getTableCell(zone_out[9],zone_ca_out[9])+"||");
-            writer.println(" Remates Poste/Trave||"+getTableCell(zone_post[0],zone_ca_post[0])+"||"+getTableCell(zone_post[1],zone_ca_post[1])+"||"+getTableCell(zone_post[2],zone_ca_post[2])+"||"+getTableCell(zone_post[3],zone_ca_post[3])+"||"+getTableCell(zone_post[4],zone_ca_post[4])+"||"+getTableCell(zone_post[5],zone_ca_post[5])+"||"+getTableCell(zone_post[6],zone_ca_post[6])+"||"+getTableCell(zone_post[7],zone_ca_post[7])+"||"+getTableCell(zone_post[8],zone_ca_post[8])+"||"+getTableCell(zone_post[9],zone_ca_post[9])+"||");
-            writer.println("            Eficácia||"+getReverseEfficciencyString(zone_goals[0] + zone_ca_goals[0], zone_all[0] + zone_ca_all[0])+"||"+getEfficciencyString(zone_goals[1] + zone_ca_goals[1], zone_all[1] + zone_ca_all[1])+"||"+getEfficciencyString(zone_goals[2] + zone_ca_goals[2], zone_all[2] + zone_ca_all[2])+"||"+getEfficciencyString(zone_goals[3] + zone_ca_goals[3], zone_all[3] + zone_ca_all[3])+"||"+getEfficciencyString(zone_goals[4] + zone_ca_goals[4], zone_all[4] + zone_ca_all[4])+"||"+getEfficciencyString(zone_goals[5] + zone_ca_goals[5], zone_all[5] + zone_ca_all[5])+"||"+getEfficciencyString(zone_goals[6] + zone_ca_goals[6], zone_all[6] + zone_ca_all[6])+"||"+getEfficciencyString(zone_goals[7] + zone_ca_goals[7], zone_all[7] + zone_ca_all[7])+"||"+getEfficciencyString(zone_goals[8] + zone_ca_goals[8], zone_all[8] + zone_ca_all[8])+"||"+getEfficciencyString(zone_goals[9] + zone_ca_goals[9], zone_all[9] + zone_ca_all[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("               Golos|"+getTableCell(zone_goals[0],zone_ca_goals[0])+"|"+getTableCell(zone_goals[1],zone_ca_goals[1])+"|"+getTableCell(zone_goals[2],zone_ca_goals[2])+"|"+getTableCell(zone_goals[3],zone_ca_goals[3])+"|"+getTableCell(zone_goals[4],zone_ca_goals[4])+"|"+getTableCell(zone_goals[5],zone_ca_goals[5])+"|"+getTableCell(zone_goals[6],zone_ca_goals[6])+"|"+getTableCell(zone_goals[7],zone_ca_goals[7])+"|"+getTableCell(zone_goals[8],zone_ca_goals[8])+"|"+getTableCell(zone_goals[9],zone_ca_goals[9])+"|");
+            writer.println("  Remates Defendidos|"+getTableCell(zone_defended[0],zone_ca_defended[0])+"|"+getTableCell(zone_defended[1],zone_ca_defended[1])+"|"+getTableCell(zone_defended[2],zone_ca_defended[2])+"|"+getTableCell(zone_defended[3],zone_ca_defended[3])+"|"+getTableCell(zone_defended[4],zone_ca_defended[4])+"|"+getTableCell(zone_defended[5],zone_ca_defended[5])+"|"+getTableCell(zone_defended[6],zone_ca_defended[6])+"|"+getTableCell(zone_defended[7],zone_ca_defended[7])+"|"+getTableCell(zone_defended[8],zone_ca_defended[8])+"|"+getTableCell(zone_defended[9],zone_ca_defended[9])+"|");
+            writer.println("  Remates Bloqueados|"+getTableCell(zone_blocked[0],zone_ca_blocked[0])+"|"+getTableCell(zone_blocked[1],zone_ca_blocked[1])+"|"+getTableCell(zone_blocked[2],zone_ca_blocked[2])+"|"+getTableCell(zone_blocked[3],zone_ca_blocked[3])+"|"+getTableCell(zone_blocked[4],zone_ca_blocked[4])+"|"+getTableCell(zone_blocked[5],zone_ca_blocked[5])+"|"+getTableCell(zone_blocked[6],zone_ca_blocked[6])+"|"+getTableCell(zone_blocked[7],zone_ca_blocked[7])+"|"+getTableCell(zone_blocked[8],zone_ca_blocked[8])+"|"+getTableCell(zone_blocked[9],zone_ca_blocked[9])+"|");
+            writer.println("        Remates Fora|"+getTableCell(zone_out[0],zone_ca_out[0])+"|"+getTableCell(zone_out[1],zone_ca_out[1])+"|"+getTableCell(zone_out[2],zone_ca_out[2])+"|"+getTableCell(zone_out[3],zone_ca_out[3])+"|"+getTableCell(zone_out[4],zone_ca_out[4])+"|"+getTableCell(zone_out[5],zone_ca_out[5])+"|"+getTableCell(zone_out[6],zone_ca_out[6])+"|"+getTableCell(zone_out[7],zone_ca_out[7])+"|"+getTableCell(zone_out[8],zone_ca_out[8])+"|"+getTableCell(zone_out[9],zone_ca_out[9])+"|");
+            writer.println(" Remates Poste/Trave|"+getTableCell(zone_post[0],zone_ca_post[0])+"|"+getTableCell(zone_post[1],zone_ca_post[1])+"|"+getTableCell(zone_post[2],zone_ca_post[2])+"|"+getTableCell(zone_post[3],zone_ca_post[3])+"|"+getTableCell(zone_post[4],zone_ca_post[4])+"|"+getTableCell(zone_post[5],zone_ca_post[5])+"|"+getTableCell(zone_post[6],zone_ca_post[6])+"|"+getTableCell(zone_post[7],zone_ca_post[7])+"|"+getTableCell(zone_post[8],zone_ca_post[8])+"|"+getTableCell(zone_post[9],zone_ca_post[9])+"|");
+            writer.println("            Eficácia|"+getReverseEfficciencyString(zone_goals[0] + zone_ca_goals[0], zone_all[0] + zone_ca_all[0])+"|"+getEfficciencyString(zone_goals[1] + zone_ca_goals[1], zone_all[1] + zone_ca_all[1])+"|"+getEfficciencyString(zone_goals[2] + zone_ca_goals[2], zone_all[2] + zone_ca_all[2])+"|"+getEfficciencyString(zone_goals[3] + zone_ca_goals[3], zone_all[3] + zone_ca_all[3])+"|"+getEfficciencyString(zone_goals[4] + zone_ca_goals[4], zone_all[4] + zone_ca_all[4])+"|"+getEfficciencyString(zone_goals[5] + zone_ca_goals[5], zone_all[5] + zone_ca_all[5])+"|"+getEfficciencyString(zone_goals[6] + zone_ca_goals[6], zone_all[6] + zone_ca_all[6])+"|"+getEfficciencyString(zone_goals[7] + zone_ca_goals[7], zone_all[7] + zone_ca_all[7])+"|"+getEfficciencyString(zone_goals[8] + zone_ca_goals[8], zone_all[8] + zone_ca_all[8])+"|"+getEfficciencyString(zone_goals[9] + zone_ca_goals[9], zone_all[9] + zone_ca_all[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
 
 
             //////////////////////////////ATAQUES\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            writer.println("\n                                                  ////Ataques\\\\\\\\");
+            writer.println("\n                    2.1.2 - Ataques");
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("               Golos||"+getTableCell(zone_goals[0],0)+"||"+getTableCell(zone_goals[1],0)+"||"+getTableCell(zone_goals[2],0)+"||"+getTableCell(zone_goals[3],0)+"||"+getTableCell(zone_goals[4],0)+"||"+getTableCell(zone_goals[5],0)+"||"+getTableCell(zone_goals[6],0)+"||"+getTableCell(zone_goals[7],0)+"||"+getTableCell(zone_goals[8],0)+"||"+getTableCell(zone_goals[9],0)+"||");
-            writer.println("  Remates Defendidos||"+getTableCell(zone_defended[0],0)+"||"+getTableCell(zone_defended[1],0)+"||"+getTableCell(zone_defended[2],0)+"||"+getTableCell(zone_defended[3],0)+"||"+getTableCell(zone_defended[4],0)+"||"+getTableCell(zone_defended[5],0)+"||"+getTableCell(zone_defended[6],0)+"||"+getTableCell(zone_defended[7],0)+"||"+getTableCell(zone_defended[8],0)+"||"+getTableCell(zone_defended[9],0)+"||");
-            writer.println("  Remates Bloqueados||"+getTableCell(zone_blocked[0],0)+"||"+getTableCell(zone_blocked[1],0)+"||"+getTableCell(zone_blocked[2],0)+"||"+getTableCell(zone_blocked[3],0)+"||"+getTableCell(zone_blocked[4],0)+"||"+getTableCell(zone_blocked[5],0)+"||"+getTableCell(zone_blocked[6],0)+"||"+getTableCell(zone_blocked[7],0)+"||"+getTableCell(zone_blocked[8],0)+"||"+getTableCell(zone_blocked[9],0)+"||");
-            writer.println("        Remates Fora||"+getTableCell(zone_out[0],0)+"||"+getTableCell(zone_out[1],0)+"||"+getTableCell(zone_out[2],0)+"||"+getTableCell(zone_out[3],0)+"||"+getTableCell(zone_out[4],0)+"||"+getTableCell(zone_out[5],0)+"||"+getTableCell(zone_out[6],0)+"||"+getTableCell(zone_out[7],0)+"||"+getTableCell(zone_out[8],0)+"||"+getTableCell(zone_out[9],0)+"||");
-            writer.println(" Remates Poste/Trave||"+getTableCell(zone_post[0],0)+"||"+getTableCell(zone_post[1],0)+"||"+getTableCell(zone_post[2],0)+"||"+getTableCell(zone_post[3],0)+"||"+getTableCell(zone_post[4],0)+"||"+getTableCell(zone_post[5],0)+"||"+getTableCell(zone_post[6],0)+"||"+getTableCell(zone_post[7],0)+"||"+getTableCell(zone_post[8],0)+"||"+getTableCell(zone_post[9],0)+"||");
-            writer.println("            Eficácia||"+getEfficciencyString(zone_goals[0],zone_all[0])+"||"+getEfficciencyString(zone_goals[1],zone_all[1])+"||"+getEfficciencyString(zone_goals[2],zone_all[2])+"||"+getEfficciencyString(zone_goals[3],zone_all[3])+"||"+getEfficciencyString(zone_goals[4],zone_all[4])+"||"+getEfficciencyString(zone_goals[5],zone_all[5])+"||"+getEfficciencyString(zone_goals[6],zone_all[6])+"||"+getEfficciencyString(zone_goals[7],zone_all[7])+"||"+getEfficciencyString(zone_goals[8],zone_all[8])+"||"+getEfficciencyString(zone_goals[9],zone_all[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("               Golos|"+getTableCell(zone_goals[0],0)+"|"+getTableCell(zone_goals[1],0)+"|"+getTableCell(zone_goals[2],0)+"|"+getTableCell(zone_goals[3],0)+"|"+getTableCell(zone_goals[4],0)+"|"+getTableCell(zone_goals[5],0)+"|"+getTableCell(zone_goals[6],0)+"|"+getTableCell(zone_goals[7],0)+"|"+getTableCell(zone_goals[8],0)+"|"+getTableCell(zone_goals[9],0)+"|");
+            writer.println("  Remates Defendidos|"+getTableCell(zone_defended[0],0)+"|"+getTableCell(zone_defended[1],0)+"|"+getTableCell(zone_defended[2],0)+"|"+getTableCell(zone_defended[3],0)+"|"+getTableCell(zone_defended[4],0)+"|"+getTableCell(zone_defended[5],0)+"|"+getTableCell(zone_defended[6],0)+"|"+getTableCell(zone_defended[7],0)+"|"+getTableCell(zone_defended[8],0)+"|"+getTableCell(zone_defended[9],0)+"|");
+            writer.println("  Remates Bloqueados|"+getTableCell(zone_blocked[0],0)+"|"+getTableCell(zone_blocked[1],0)+"|"+getTableCell(zone_blocked[2],0)+"|"+getTableCell(zone_blocked[3],0)+"|"+getTableCell(zone_blocked[4],0)+"|"+getTableCell(zone_blocked[5],0)+"|"+getTableCell(zone_blocked[6],0)+"|"+getTableCell(zone_blocked[7],0)+"|"+getTableCell(zone_blocked[8],0)+"|"+getTableCell(zone_blocked[9],0)+"|");
+            writer.println("        Remates Fora|"+getTableCell(zone_out[0],0)+"|"+getTableCell(zone_out[1],0)+"|"+getTableCell(zone_out[2],0)+"|"+getTableCell(zone_out[3],0)+"|"+getTableCell(zone_out[4],0)+"|"+getTableCell(zone_out[5],0)+"|"+getTableCell(zone_out[6],0)+"|"+getTableCell(zone_out[7],0)+"|"+getTableCell(zone_out[8],0)+"|"+getTableCell(zone_out[9],0)+"|");
+            writer.println(" Remates Poste/Trave|"+getTableCell(zone_post[0],0)+"|"+getTableCell(zone_post[1],0)+"|"+getTableCell(zone_post[2],0)+"|"+getTableCell(zone_post[3],0)+"|"+getTableCell(zone_post[4],0)+"|"+getTableCell(zone_post[5],0)+"|"+getTableCell(zone_post[6],0)+"|"+getTableCell(zone_post[7],0)+"|"+getTableCell(zone_post[8],0)+"|"+getTableCell(zone_post[9],0)+"|");
+            writer.println("            Eficácia|"+getEfficciencyString(zone_goals[0],zone_all[0])+"|"+getEfficciencyString(zone_goals[1],zone_all[1])+"|"+getEfficciencyString(zone_goals[2],zone_all[2])+"|"+getEfficciencyString(zone_goals[3],zone_all[3])+"|"+getEfficciencyString(zone_goals[4],zone_all[4])+"|"+getEfficciencyString(zone_goals[5],zone_all[5])+"|"+getEfficciencyString(zone_goals[6],zone_all[6])+"|"+getEfficciencyString(zone_goals[7],zone_all[7])+"|"+getEfficciencyString(zone_goals[8],zone_all[8])+"|"+getEfficciencyString(zone_goals[9],zone_all[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
 
 
             //////////////////////////////CONTRA ATAQUES\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-            writer.println("\n                                              ////Contra Ataques\\\\\\\\");
+            writer.println("\n                    2.1.3 - Contra Ataques");
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("               Golos||"+getTableCell(0,zone_ca_goals[0])+"||"+getTableCell(0,zone_ca_goals[1])+"||"+getTableCell(0,zone_ca_goals[2])+"||"+getTableCell(0,zone_ca_goals[3])+"||"+getTableCell(0,zone_ca_goals[4])+"||"+getTableCell(0,zone_ca_goals[5])+"||"+getTableCell(0,zone_ca_goals[6])+"||"+getTableCell(zone_goals[7],zone_ca_goals[7])+"||"+getTableCell(0,zone_ca_goals[8])+"||"+getTableCell(0,zone_ca_goals[9])+"||");
-            writer.println("  Remates Defendidos||"+getTableCell(0,zone_ca_defended[0])+"||"+getTableCell(0,zone_ca_defended[1])+"||"+getTableCell(0,zone_ca_defended[2])+"||"+getTableCell(0,zone_ca_defended[3])+"||"+getTableCell(0,zone_ca_defended[4])+"||"+getTableCell(0,zone_ca_defended[5])+"||"+getTableCell(0,zone_ca_defended[6])+"||"+getTableCell(0,zone_ca_defended[7])+"||"+getTableCell(0,zone_ca_defended[8])+"||"+getTableCell(0,zone_ca_defended[9])+"||");
-            writer.println("  Remates Bloqueados||"+getTableCell(0,zone_ca_blocked[0])+"||"+getTableCell(0,zone_ca_blocked[1])+"||"+getTableCell(0,zone_ca_blocked[2])+"||"+getTableCell(0,zone_ca_blocked[3])+"||"+getTableCell(0,zone_ca_blocked[4])+"||"+getTableCell(0,zone_ca_blocked[5])+"||"+getTableCell(0,zone_ca_blocked[6])+"||"+getTableCell(0,zone_ca_blocked[7])+"||"+getTableCell(0,zone_ca_blocked[8])+"||"+getTableCell(0,zone_ca_blocked[9])+"||");
-            writer.println("        Remates Fora||"+getTableCell(0,zone_ca_out[0])+"||"+getTableCell(0,zone_ca_out[1])+"||"+getTableCell(0,zone_ca_out[2])+"||"+getTableCell(0,zone_ca_out[3])+"||"+getTableCell(0,zone_ca_out[4])+"||"+getTableCell(0,zone_ca_out[5])+"||"+getTableCell(0,zone_ca_out[6])+"||"+getTableCell(0,zone_ca_out[7])+"||"+getTableCell(0,zone_ca_out[8])+"||"+getTableCell(0,zone_ca_out[9])+"||");
-            writer.println(" Remates Poste/Trave||"+getTableCell(0,zone_ca_post[0])+"||"+getTableCell(0,zone_ca_post[1])+"||"+getTableCell(0,zone_ca_post[2])+"||"+getTableCell(0,zone_ca_post[3])+"||"+getTableCell(0,zone_ca_post[4])+"||"+getTableCell(0,zone_ca_post[5])+"||"+getTableCell(0,zone_ca_post[6])+"||"+getTableCell(0,zone_ca_post[7])+"||"+getTableCell(zone_post[8],zone_ca_post[8])+"||"+getTableCell(0,zone_ca_post[9])+"||");
-            writer.println("            Eficácia||"+getEfficciencyString(zone_ca_goals[0],zone_ca_all[0])+"||"+getEfficciencyString(zone_ca_goals[1],zone_ca_all[1])+"||"+getEfficciencyString(zone_ca_goals[2],zone_ca_all[2])+"||"+getEfficciencyString(zone_ca_goals[3],zone_ca_all[3])+"||"+getEfficciencyString(zone_ca_goals[4],zone_ca_all[4])+"||"+getEfficciencyString(zone_ca_goals[5],zone_ca_all[5])+"||"+getEfficciencyString(zone_ca_goals[6],zone_ca_all[6])+"||"+getEfficciencyString(zone_ca_goals[7],zone_ca_all[7])+"||"+getEfficciencyString(zone_ca_goals[8],zone_ca_all[8])+"||"+getEfficciencyString(zone_ca_goals[9],zone_ca_all[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("               Golos|"+getTableCell(0,zone_ca_goals[0])+"|"+getTableCell(0,zone_ca_goals[1])+"|"+getTableCell(0,zone_ca_goals[2])+"|"+getTableCell(0,zone_ca_goals[3])+"|"+getTableCell(0,zone_ca_goals[4])+"|"+getTableCell(0,zone_ca_goals[5])+"|"+getTableCell(0,zone_ca_goals[6])+"|"+getTableCell(zone_goals[7],zone_ca_goals[7])+"|"+getTableCell(0,zone_ca_goals[8])+"|"+getTableCell(0,zone_ca_goals[9])+"|");
+            writer.println("  Remates Defendidos|"+getTableCell(0,zone_ca_defended[0])+"|"+getTableCell(0,zone_ca_defended[1])+"|"+getTableCell(0,zone_ca_defended[2])+"|"+getTableCell(0,zone_ca_defended[3])+"|"+getTableCell(0,zone_ca_defended[4])+"|"+getTableCell(0,zone_ca_defended[5])+"|"+getTableCell(0,zone_ca_defended[6])+"|"+getTableCell(0,zone_ca_defended[7])+"|"+getTableCell(0,zone_ca_defended[8])+"|"+getTableCell(0,zone_ca_defended[9])+"|");
+            writer.println("  Remates Bloqueados|"+getTableCell(0,zone_ca_blocked[0])+"|"+getTableCell(0,zone_ca_blocked[1])+"|"+getTableCell(0,zone_ca_blocked[2])+"|"+getTableCell(0,zone_ca_blocked[3])+"|"+getTableCell(0,zone_ca_blocked[4])+"|"+getTableCell(0,zone_ca_blocked[5])+"|"+getTableCell(0,zone_ca_blocked[6])+"|"+getTableCell(0,zone_ca_blocked[7])+"|"+getTableCell(0,zone_ca_blocked[8])+"|"+getTableCell(0,zone_ca_blocked[9])+"|");
+            writer.println("        Remates Fora|"+getTableCell(0,zone_ca_out[0])+"|"+getTableCell(0,zone_ca_out[1])+"|"+getTableCell(0,zone_ca_out[2])+"|"+getTableCell(0,zone_ca_out[3])+"|"+getTableCell(0,zone_ca_out[4])+"|"+getTableCell(0,zone_ca_out[5])+"|"+getTableCell(0,zone_ca_out[6])+"|"+getTableCell(0,zone_ca_out[7])+"|"+getTableCell(0,zone_ca_out[8])+"|"+getTableCell(0,zone_ca_out[9])+"|");
+            writer.println(" Remates Poste/Trave|"+getTableCell(0,zone_ca_post[0])+"|"+getTableCell(0,zone_ca_post[1])+"|"+getTableCell(0,zone_ca_post[2])+"|"+getTableCell(0,zone_ca_post[3])+"|"+getTableCell(0,zone_ca_post[4])+"|"+getTableCell(0,zone_ca_post[5])+"|"+getTableCell(0,zone_ca_post[6])+"|"+getTableCell(0,zone_ca_post[7])+"|"+getTableCell(zone_post[8],zone_ca_post[8])+"|"+getTableCell(0,zone_ca_post[9])+"|");
+            writer.println("            Eficácia|"+getEfficciencyString(zone_ca_goals[0],zone_ca_all[0])+"|"+getEfficciencyString(zone_ca_goals[1],zone_ca_all[1])+"|"+getEfficciencyString(zone_ca_goals[2],zone_ca_all[2])+"|"+getEfficciencyString(zone_ca_goals[3],zone_ca_all[3])+"|"+getEfficciencyString(zone_ca_goals[4],zone_ca_all[4])+"|"+getEfficciencyString(zone_ca_goals[5],zone_ca_all[5])+"|"+getEfficciencyString(zone_ca_goals[6],zone_ca_all[6])+"|"+getEfficciencyString(zone_ca_goals[7],zone_ca_all[7])+"|"+getEfficciencyString(zone_ca_goals[8],zone_ca_all[8])+"|"+getEfficciencyString(zone_ca_goals[9],zone_ca_all[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
-            writer.println("\n                                              ////Acções Defensivas\\\\\\\\");
+            writer.println("\n                  2.2 - Acções Defensivas");
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("              Blocos||"+getTableCell(0, zone_def_block[0])+"||"+getTableCell(0,zone_def_block[1])+"||"+getTableCell(0,zone_def_block[2])+"||"+getTableCell(0,zone_def_block[3])+"||"+getTableCell(0,zone_def_block[4])+"||"+getTableCell(0,zone_def_block[5])+"||"+getTableCell(0,zone_def_block[6])+"||"+getTableCell(zone_goals[7],zone_def_block[7])+"||"+getTableCell(0,zone_def_block[8])+"||"+getTableCell(0,zone_def_block[9])+"||");
-            writer.println("            Desarmes||"+getTableCell(0,zone_def_disarm[0])+"||"+getTableCell(0,zone_def_disarm[1])+"||"+getTableCell(0,zone_def_disarm[2])+"||"+getTableCell(0,zone_def_disarm[3])+"||"+getTableCell(0,zone_def_disarm[4])+"||"+getTableCell(0,zone_def_disarm[5])+"||"+getTableCell(0,zone_def_disarm[6])+"||"+getTableCell(0,zone_def_disarm[7])+"||"+getTableCell(0,zone_def_disarm[8])+"||"+getTableCell(0,zone_def_disarm[9])+"||");
-            writer.println("        Intercepções||"+getTableCell(0,zone_def_int[0])+"||"+getTableCell(0,zone_def_int[1])+"||"+getTableCell(0,zone_def_int[2])+"||"+getTableCell(0,zone_def_int[3])+"||"+getTableCell(0,zone_def_int[4])+"||"+getTableCell(0,zone_def_int[5])+"||"+getTableCell(0,zone_def_int[6])+"||"+getTableCell(0,zone_def_int[7])+"||"+getTableCell(0,zone_def_int[8])+"||"+getTableCell(0,zone_def_int[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("              Blocos|"+getTableCell(0, zone_def_block[0])+"|"+getTableCell(0,zone_def_block[1])+"|"+getTableCell(0,zone_def_block[2])+"|"+getTableCell(0,zone_def_block[3])+"|"+getTableCell(0,zone_def_block[4])+"|"+getTableCell(0,zone_def_block[5])+"|"+getTableCell(0,zone_def_block[6])+"|"+getTableCell(zone_goals[7],zone_def_block[7])+"|"+getTableCell(0,zone_def_block[8])+"|"+getTableCell(0,zone_def_block[9])+"|");
+            writer.println("            Desarmes|"+getTableCell(0,zone_def_disarm[0])+"|"+getTableCell(0,zone_def_disarm[1])+"|"+getTableCell(0,zone_def_disarm[2])+"|"+getTableCell(0,zone_def_disarm[3])+"|"+getTableCell(0,zone_def_disarm[4])+"|"+getTableCell(0,zone_def_disarm[5])+"|"+getTableCell(0,zone_def_disarm[6])+"|"+getTableCell(0,zone_def_disarm[7])+"|"+getTableCell(0,zone_def_disarm[8])+"|"+getTableCell(0,zone_def_disarm[9])+"|");
+            writer.println("        Intercepções|"+getTableCell(0,zone_def_int[0])+"|"+getTableCell(0,zone_def_int[1])+"|"+getTableCell(0,zone_def_int[2])+"|"+getTableCell(0,zone_def_int[3])+"|"+getTableCell(0,zone_def_int[4])+"|"+getTableCell(0,zone_def_int[5])+"|"+getTableCell(0,zone_def_int[6])+"|"+getTableCell(0,zone_def_int[7])+"|"+getTableCell(0,zone_def_int[8])+"|"+getTableCell(0,zone_def_int[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
 
-            writer.println("\n                                              ////Outras Acções\\\\\\\\");
+            writer.println("\n                  2.3 - Outras Acções");
             writer.println("\n                  Assistências:"+assists);
             writer.println("\n                  Falhas Técnicas:"+tecnichalFail);
             writer.println("\n                  Falhas Técnicas Adversário:"+advTecnichalFail);
@@ -709,16 +751,16 @@ protected Void doInBackground(GmailApiTaskParams... params) {
 
             zone_def_adv_all[0] = zone_def_goals[0]+zone_def_defended[0]+zone_def_post[0]+zone_def_out[0];
 
-            writer.println("\n                                              ////Acções Guarda Redes por Zona\\\\\\\\");
+            writer.println("\n                    2.4 - Acções Guarda Redes por Zona");
 
-            writer.println("                    ==================================================================================");
-            writer.println("                    ||Total ||Zona 1||Zona 2||Zona 3||Zona 4||Zona 5||Zona 6||Zona 7||Zona 8||Zona 9||");
-            writer.println("               Golos||"+getTableCell(0, zone_def_goals[0])+"||"+getTableCell(0,zone_def_goals[1])+"||"+getTableCell(0,zone_def_goals[2])+"||"+getTableCell(0,zone_def_goals[3])+"||"+getTableCell(0,zone_def_goals[4])+"||"+getTableCell(0,zone_def_goals[5])+"||"+getTableCell(0,zone_def_goals[6])+"||"+getTableCell(zone_goals[7],zone_def_goals[7])+"||"+getTableCell(0,zone_def_goals[8])+"||"+getTableCell(0,zone_def_goals[9])+"||");
-            writer.println("  Remates Defendidos||"+getTableCell(0,zone_def_defended[0])+"||"+getTableCell(0,zone_def_defended[1])+"||"+getTableCell(0,zone_def_defended[2])+"||"+getTableCell(0,zone_def_defended[3])+"||"+getTableCell(0,zone_def_defended[4])+"||"+getTableCell(0,zone_def_defended[5])+"||"+getTableCell(0,zone_def_defended[6])+"||"+getTableCell(0,zone_def_defended[7])+"||"+getTableCell(0,zone_def_defended[8])+"||"+getTableCell(0,zone_def_defended[9])+"||");
-            writer.println("       Remates Poste||"+getTableCell(0,zone_def_out[0])+"||"+getTableCell(0,zone_def_out[1])+"||"+getTableCell(0,zone_def_out[2])+"||"+getTableCell(0,zone_def_out[3])+"||"+getTableCell(0,zone_def_out[4])+"||"+getTableCell(0,zone_def_out[5])+"||"+getTableCell(0,zone_def_out[6])+"||"+getTableCell(0,zone_def_out[7])+"||"+getTableCell(0,zone_def_out[8])+"||"+getTableCell(0,zone_def_out[9])+"||");
-            writer.println("        Remates Fora||"+getTableCell(0,zone_def_post[0])+"||"+getTableCell(0,zone_def_post[1])+"||"+getTableCell(0,zone_def_post[2])+"||"+getTableCell(0,zone_def_post[3])+"||"+getTableCell(0,zone_def_post[4])+"||"+getTableCell(0,zone_def_post[5])+"||"+getTableCell(0,zone_def_post[6])+"||"+getTableCell(0,zone_def_post[7])+"||"+getTableCell(0,zone_def_post[8])+"||"+getTableCell(0,zone_def_post[9])+"||");
-            writer.println("            Eficácia||"+getReverseEfficciencyString(zone_def_goals[0], zone_def_adv_all[0])+"||"+getReverseEfficciencyString(zone_def_goals[1], zone_def_adv_all[1])+"||"+getReverseEfficciencyString(zone_def_goals[2], zone_def_adv_all[2])+"||"+getReverseEfficciencyString(zone_def_goals[3], zone_def_adv_all[3])+"||"+getReverseEfficciencyString(zone_def_goals[4], zone_def_adv_all[4])+"||"+getReverseEfficciencyString(zone_def_goals[5], zone_def_adv_all[5])+"||"+getReverseEfficciencyString(zone_def_goals[6], zone_def_adv_all[6])+"||"+getReverseEfficciencyString(zone_def_goals[7], zone_def_adv_all[7])+"||"+getReverseEfficciencyString(zone_def_goals[8], zone_def_adv_all[8])+"||"+getReverseEfficciencyString(zone_def_goals[9], zone_def_adv_all[9])+"||");
-            writer.println("                    ==================================================================================");
+            writer.println("                    +---------------------------------------------------------------------+");
+            writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
+            writer.println("               Golos|"+getTableCell(0, zone_def_goals[0])+"|"+getTableCell(0,zone_def_goals[1])+"|"+getTableCell(0,zone_def_goals[2])+"|"+getTableCell(0,zone_def_goals[3])+"|"+getTableCell(0,zone_def_goals[4])+"|"+getTableCell(0,zone_def_goals[5])+"|"+getTableCell(0,zone_def_goals[6])+"|"+getTableCell(zone_goals[7],zone_def_goals[7])+"|"+getTableCell(0,zone_def_goals[8])+"|"+getTableCell(0,zone_def_goals[9])+"|");
+            writer.println("  Remates Defendidos|"+getTableCell(0,zone_def_defended[0])+"|"+getTableCell(0,zone_def_defended[1])+"|"+getTableCell(0,zone_def_defended[2])+"|"+getTableCell(0,zone_def_defended[3])+"|"+getTableCell(0,zone_def_defended[4])+"|"+getTableCell(0,zone_def_defended[5])+"|"+getTableCell(0,zone_def_defended[6])+"|"+getTableCell(0,zone_def_defended[7])+"|"+getTableCell(0,zone_def_defended[8])+"|"+getTableCell(0,zone_def_defended[9])+"|");
+            writer.println("       Remates Poste|"+getTableCell(0,zone_def_out[0])+"|"+getTableCell(0,zone_def_out[1])+"|"+getTableCell(0,zone_def_out[2])+"|"+getTableCell(0,zone_def_out[3])+"|"+getTableCell(0,zone_def_out[4])+"|"+getTableCell(0,zone_def_out[5])+"|"+getTableCell(0,zone_def_out[6])+"|"+getTableCell(0,zone_def_out[7])+"|"+getTableCell(0,zone_def_out[8])+"|"+getTableCell(0,zone_def_out[9])+"|");
+            writer.println("        Remates Fora|"+getTableCell(0,zone_def_post[0])+"|"+getTableCell(0,zone_def_post[1])+"|"+getTableCell(0,zone_def_post[2])+"|"+getTableCell(0,zone_def_post[3])+"|"+getTableCell(0,zone_def_post[4])+"|"+getTableCell(0,zone_def_post[5])+"|"+getTableCell(0,zone_def_post[6])+"|"+getTableCell(0,zone_def_post[7])+"|"+getTableCell(0,zone_def_post[8])+"|"+getTableCell(0,zone_def_post[9])+"|");
+            writer.println("            Eficácia|"+getReverseEfficciencyString(zone_def_goals[0], zone_def_adv_all[0])+"|"+getReverseEfficciencyString(zone_def_goals[1], zone_def_adv_all[1])+"|"+getReverseEfficciencyString(zone_def_goals[2], zone_def_adv_all[2])+"|"+getReverseEfficciencyString(zone_def_goals[3], zone_def_adv_all[3])+"|"+getReverseEfficciencyString(zone_def_goals[4], zone_def_adv_all[4])+"|"+getReverseEfficciencyString(zone_def_goals[5], zone_def_adv_all[5])+"|"+getReverseEfficciencyString(zone_def_goals[6], zone_def_adv_all[6])+"|"+getReverseEfficciencyString(zone_def_goals[7], zone_def_adv_all[7])+"|"+getReverseEfficciencyString(zone_def_goals[8], zone_def_adv_all[8])+"|"+getReverseEfficciencyString(zone_def_goals[9], zone_def_adv_all[9])+"|");
+            writer.println("                    +---------------------------------------------------------------------+");
 
             for (int i = 1; i<10; i++){
                 zone_def_goals[i] = 0;
@@ -735,19 +777,19 @@ protected Void doInBackground(GmailApiTaskParams... params) {
 
             }
 
+            writer.println("                    2.5 - Baliza");
 
-
-            writer.println("                                                      ||Todas as Zonas||");
-            writer.println("                                                  ==========================");
-            writer.println("                                                  ||"+getGoalCellString(zone_def_goals[1],zone_def_adv_all[1])+"||"+getGoalCellString(zone_def_goals[2],zone_def_adv_all[2])+"||"+getGoalCellString(zone_def_goals[3],zone_def_adv_all[3])+"||");
-            writer.println("                                                  ||"+getReverseEfficciencyString(zone_def_goals[1],zone_def_adv_all[1])+"||"+getReverseEfficciencyString(zone_def_goals[2],zone_def_adv_all[2])+"||"+getReverseEfficciencyString(zone_def_goals[3],zone_def_adv_all[3])+"||");
-            writer.println("                                                  ==========================");
-            writer.println("                                                  ||"+getGoalCellString(zone_def_goals[4],zone_def_adv_all[4])+"||"+getGoalCellString(zone_def_goals[5],zone_def_adv_all[5])+"||"+getGoalCellString(zone_def_goals[6],zone_def_adv_all[6])+"||");
-            writer.println("                                                  ||"+getReverseEfficciencyString(zone_def_goals[4],zone_def_adv_all[4])+"||"+getReverseEfficciencyString(zone_def_goals[5],zone_def_adv_all[5])+"||"+getReverseEfficciencyString(zone_def_goals[6],zone_def_adv_all[6])+"||");
-            writer.println("                                                  ==========================");
-            writer.println("                                                  ||"+getGoalCellString(zone_def_goals[7],zone_def_adv_all[7])+"||"+getGoalCellString(zone_def_goals[8],zone_def_adv_all[8])+"||"+getGoalCellString(zone_def_goals[9],zone_def_adv_all[9])+"||");
-            writer.println("                                                  ||"+getReverseEfficciencyString(zone_def_goals[7],zone_def_adv_all[7])+"||"+getReverseEfficciencyString(zone_def_goals[8],zone_def_adv_all[8])+"||"+getReverseEfficciencyString(zone_def_goals[9],zone_def_adv_all[9])+"||");
-            writer.println("                                                  ==========================");
+            writer.println("                    2.5.1 -    |Todas as Zonas|");
+            writer.println("                            +--------------------+");
+            writer.println("                            |"+getGoalCellString(zone_def_goals[1],zone_def_adv_all[1])+"|"+getGoalCellString(zone_def_goals[2],zone_def_adv_all[2])+"|"+getGoalCellString(zone_def_goals[3],zone_def_adv_all[3])+"|");
+            writer.println("                            |"+getReverseEfficciencyString(zone_def_goals[1],zone_def_adv_all[1])+"|"+getReverseEfficciencyString(zone_def_goals[2],zone_def_adv_all[2])+"|"+getReverseEfficciencyString(zone_def_goals[3],zone_def_adv_all[3])+"|");
+            writer.println("                            +--------------------+");
+            writer.println("                            |"+getGoalCellString(zone_def_goals[4],zone_def_adv_all[4])+"|"+getGoalCellString(zone_def_goals[5],zone_def_adv_all[5])+"|"+getGoalCellString(zone_def_goals[6],zone_def_adv_all[6])+"|");
+            writer.println("                            |"+getReverseEfficciencyString(zone_def_goals[4],zone_def_adv_all[4])+"|"+getReverseEfficciencyString(zone_def_goals[5],zone_def_adv_all[5])+"|"+getReverseEfficciencyString(zone_def_goals[6],zone_def_adv_all[6])+"|");
+            writer.println("                            +--------------------+");
+            writer.println("                            |"+getGoalCellString(zone_def_goals[7],zone_def_adv_all[7])+"|"+getGoalCellString(zone_def_goals[8],zone_def_adv_all[8])+"|"+getGoalCellString(zone_def_goals[9],zone_def_adv_all[9])+"|");
+            writer.println("                            |"+getReverseEfficciencyString(zone_def_goals[7],zone_def_adv_all[7])+"|"+getReverseEfficciencyString(zone_def_goals[8],zone_def_adv_all[8])+"|"+getReverseEfficciencyString(zone_def_goals[9],zone_def_adv_all[9])+"|");
+            writer.println("                            +--------------------+");
 
 
 
@@ -761,17 +803,22 @@ protected Void doInBackground(GmailApiTaskParams... params) {
 
 
                 zone_def_adv_all[i] = zone_def_goals[i]+zone_def_defended[i];
-                writer.println("                                                    ||Zona "+i+"||");
-                writer.println("                                            ==========================");
-                writer.println("                                            ||"+getGoalCellString(zone_def_goals[1],zone_def_adv_all[1])+"||"+getGoalCellString(zone_def_goals[2],zone_def_adv_all[2])+"||"+getGoalCellString(zone_def_goals[3],zone_def_adv_all[3])+"||");
-                writer.println("                                            ||"+getReverseEfficciencyString(zone_def_goals[1],zone_def_adv_all[1])+"||"+getReverseEfficciencyString(zone_def_goals[2],zone_def_adv_all[2])+"||"+getReverseEfficciencyString(zone_def_goals[3],zone_def_adv_all[3])+"||");
-                writer.println("                                            ==========================");
-                writer.println("                                            ||"+getGoalCellString(zone_def_goals[4],zone_def_adv_all[4])+"||"+getGoalCellString(zone_def_goals[5],zone_def_adv_all[5])+"||"+getGoalCellString(zone_def_goals[6],zone_def_adv_all[6])+"||");
-                writer.println("                                            ||"+getReverseEfficciencyString(zone_def_goals[4],zone_def_adv_all[4])+"||"+getReverseEfficciencyString(zone_def_goals[5],zone_def_adv_all[5])+"||"+getReverseEfficciencyString(zone_def_goals[6],zone_def_adv_all[6])+"||");
-                writer.println("                                            ==========================");
-                writer.println("                                            ||"+getGoalCellString(zone_def_goals[7],zone_def_adv_all[7])+"||"+getGoalCellString(zone_def_goals[8],zone_def_adv_all[8])+"||"+getGoalCellString(zone_def_goals[9],zone_def_adv_all[9])+"||");
-                writer.println("                                            ||"+getReverseEfficciencyString(zone_def_goals[7],zone_def_adv_all[7])+"||"+getReverseEfficciencyString(zone_def_goals[8],zone_def_adv_all[8])+"||"+getReverseEfficciencyString(zone_def_goals[9],zone_def_adv_all[9])+"||");
-                writer.println("                                            ==========================");
+                writer.println("                    2.5."+i+1+"     -     |Zona "+i+"|");
+                writer.println("                            +--------------------+");
+                writer.println("                            |"+getGoalCellString(zone_def_goals[1],zone_def_adv_all[1])+"|"+getGoalCellString(zone_def_goals[2],zone_def_adv_all[2])+"|"+getGoalCellString(zone_def_goals[3],zone_def_adv_all[3])+"|");
+                writer.println("                            |"+getReverseEfficciencyString(zone_def_goals[1],zone_def_adv_all[1])+"|"+getReverseEfficciencyString(zone_def_goals[2],zone_def_adv_all[2])+"|"+getReverseEfficciencyString(zone_def_goals[3],zone_def_adv_all[3])+"|");
+                writer.println("                            +--------------------+");
+                writer.println("                            |"+getGoalCellString(zone_def_goals[4],zone_def_adv_all[4])+"|"+getGoalCellString(zone_def_goals[5],zone_def_adv_all[5])+"|"+getGoalCellString(zone_def_goals[6],zone_def_adv_all[6])+"|");
+                writer.println("                            |"+getReverseEfficciencyString(zone_def_goals[4],zone_def_adv_all[4])+"|"+getReverseEfficciencyString(zone_def_goals[5],zone_def_adv_all[5])+"|"+getReverseEfficciencyString(zone_def_goals[6],zone_def_adv_all[6])+"|");
+                writer.println("                            +--------------------+");
+                writer.println("                            |"+getGoalCellString(zone_def_goals[7],zone_def_adv_all[7])+"|"+getGoalCellString(zone_def_goals[8],zone_def_adv_all[8])+"|"+getGoalCellString(zone_def_goals[9],zone_def_adv_all[9])+"|");
+                writer.println("                            |"+getReverseEfficciencyString(zone_def_goals[7],zone_def_adv_all[7])+"|"+getReverseEfficciencyString(zone_def_goals[8],zone_def_adv_all[8])+"|"+getReverseEfficciencyString(zone_def_goals[9],zone_def_adv_all[9])+"|");
+                writer.println("                            +--------------------+");
+
+                writer.println("\n                    3 - Disciplina");
+                writer.println("                     Cartões Amarelos: "+yellow_cards);
+                writer.println("                         Dois Minutos: "+two_mins);
+                writer.println("                    Cartões Vermelhos: "+red_cards);
             }
 
             writer.close();
@@ -836,7 +883,7 @@ protected Void doInBackground(GmailApiTaskParams... params) {
 
         if(goal < 10&&defended<10){
             return text = " "+goal+"/"+defended+"  ";
-        }else if((goal < 10 && defended>10)||(goal > 10 && defended<10)){
+        }else if((goal < 10 && defended>10)|(goal > 10 && defended<10)){
             return text = " "+goal+"/"+defended+" ";
         }else{
             return text = ""+goal+"/"+defended+" ";

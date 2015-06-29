@@ -100,8 +100,57 @@ public class GameActivity extends GmailApiBase implements Serializable {
     String teamColor = "#FFB300";
 
 
+    Button btn_zone_1 ;
+    Button btn_zone_2 ;
+    Button btn_zone_3 ;
+    Button btn_zone_4 ;
+    Button btn_zone_5 ;
+    Button btn_zone_6 ;
+    Button btn_zone_7 ;
+    Button btn_zone_8 ;
+    Button btn_zone_9 ;
 
-    private static final String TAG = "main activity";
+    Button btn_gk_goal ;
+    Button btn_gk_def ;
+    Button btn_gk_post ;
+    Button btn_gk_out ;
+
+
+
+    Button btn_ca ;
+    Button btn_atk ;
+
+    Button btn_goal ;
+    Button btn_goalpost ;
+    Button btn_block_atk ;
+    Button btn_out ;
+    Button btn_defense;
+
+    Button btn_block_def ;
+    Button btn_disarm ;
+    Button btn_interception ;
+
+    Button btn_assist;
+    Button btn_ft;
+
+    Button btn_b1;
+    Button btn_b2;
+    Button btn_b3;
+    Button btn_b4;
+    Button btn_b5;
+    Button btn_b6;
+    Button btn_b7;
+    Button btn_b8;
+    Button btn_b9;
+
+    RelativeLayout teamPlayer;
+
+    TextView lbl_scoreMyTeam;
+    TextView lbl_scoreOpponent;
+
+
+
+    private static final String TAG = "game activity";
     private ViewPager mPager;
 
 
@@ -169,37 +218,37 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
         lbl_opponent = (TextView) findViewById(R.id.opponent);
 
-        final TextView lbl_scoreMyTeam = (TextView) findViewById(R.id.scoreMyTeam);
-        final TextView lbl_scoreOpponent = (TextView) findViewById(R.id.scoreOpponent);
+        lbl_scoreMyTeam = (TextView) findViewById(R.id.scoreMyTeam);
+        lbl_scoreOpponent = (TextView) findViewById(R.id.scoreOpponent);
         lbl_myTeam = (TextView) findViewById(R.id.myTeam);
         final TextView time = (TextView) findViewById(R.id.time);
 
 
-        final Button btn_ca = (Button) findViewById(R.id.btn_ca);
-        final Button btn_atk = (Button) findViewById(R.id.btn_attack);
+        btn_ca = (Button) findViewById(R.id.btn_ca);
+        btn_atk = (Button) findViewById(R.id.btn_attack);
 
-        final Button btn_goal = (Button) findViewById(R.id.btn_goal);
-        final Button btn_goalpost = (Button) findViewById(R.id.btn_goalpost);
-        final Button btn_block_atk = (Button) findViewById(R.id.btn_block_atk);
-        final Button btn_out = (Button) findViewById(R.id.btn_out);
-        final Button btn_defense = (Button) findViewById(R.id.btn_defense);
+        btn_goal = (Button) findViewById(R.id.btn_goal);
+        btn_goalpost = (Button) findViewById(R.id.btn_goalpost);
+        btn_block_atk = (Button) findViewById(R.id.btn_block_atk);
+        btn_out = (Button) findViewById(R.id.btn_out);
+        btn_defense = (Button) findViewById(R.id.btn_defense);
 
-        final Button btn_block_def = (Button) findViewById(R.id.btn_block_def);
-        final Button btn_disarm = (Button) findViewById(R.id.btn_unarm);
-        final Button btn_interception = (Button) findViewById(R.id.btn_interception);
+        btn_block_def = (Button) findViewById(R.id.btn_block_def);
+        btn_disarm = (Button) findViewById(R.id.btn_unarm);
+        btn_interception = (Button) findViewById(R.id.btn_interception);
 
-        final Button btn_assist = (Button) findViewById(R.id.btn_assistance);
-        final Button btn_ft = (Button) findViewById(R.id.btn_ft);
+        btn_assist = (Button) findViewById(R.id.btn_assistance);
+        btn_ft = (Button) findViewById(R.id.btn_ft);
 
-        final Button btn_b1 = (Button) findViewById(R.id.btn_b1);
-        final Button btn_b2 = (Button) findViewById(R.id.btn_b2);
-        final Button btn_b3 = (Button) findViewById(R.id.btn_b3);
-        final Button btn_b4 = (Button) findViewById(R.id.btn_b4);
-        final Button btn_b5 = (Button) findViewById(R.id.btn_b5);
-        final Button btn_b6 = (Button) findViewById(R.id.btn_b6);
-        final Button btn_b7 = (Button) findViewById(R.id.btn_b7);
-        final Button btn_b8 = (Button) findViewById(R.id.btn_b8);
-        final Button btn_b9 = (Button) findViewById(R.id.btn_b9);
+        btn_b1 = (Button) findViewById(R.id.btn_b1);
+        btn_b2 = (Button) findViewById(R.id.btn_b2);
+        btn_b3 = (Button) findViewById(R.id.btn_b3);
+        btn_b4 = (Button) findViewById(R.id.btn_b4);
+        btn_b5 = (Button) findViewById(R.id.btn_b5);
+        btn_b6 = (Button) findViewById(R.id.btn_b6);
+        btn_b7 = (Button) findViewById(R.id.btn_b7);
+        btn_b8 = (Button) findViewById(R.id.btn_b8);
+        btn_b9 = (Button) findViewById(R.id.btn_b9);
 
         final ImageButton btn_discipline = (ImageButton) findViewById(R.id.imgbtn_cards);
         final ImageButton btn_subs = (ImageButton) findViewById(R.id.imgbtn_subs);
@@ -271,7 +320,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
         final RelativeLayout offensiveAction = (RelativeLayout) findViewById(R.id.offensiveAction);
         final RelativeLayout defensiveAction = (RelativeLayout) findViewById(R.id.defensiveAction);
         final RelativeLayout otherAction = (RelativeLayout) findViewById(R.id.otherActions);
-        final RelativeLayout teamPlayer = (RelativeLayout) findViewById(R.id.players);
+        teamPlayer = (RelativeLayout) findViewById(R.id.players);
         final RelativeLayout goalkeeperZone = (RelativeLayout) findViewById(R.id.goalLayout);
         final RelativeLayout goalkeeperAction = (RelativeLayout) findViewById(R.id.goalkeeperActions);
         final RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.mainActivityLayout);
@@ -307,7 +356,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
                     Player player;
                     if ((player = getPlayerPressed(players, teamPlayer)) != null) {
                         if(player.isTwoMinOut()){
-                            Toast.makeText(getBaseContext(), "Retire o 2mins antes de substituir", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "Retire a suspensão de 2mins antes de substituir o jogador", Toast.LENGTH_SHORT).show();
                         }else {
                             ImageButton btn_selectedPlayer = isChildrenImgButtonPressed(teamPlayer);
                             showPopUpSubs(v, teamPlayer, player, btn_selectedPlayer);
@@ -588,14 +637,15 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
                             if ((goalkeeper = allPressedGoalkeeperAction(lbl_scoreOpponent, goalkeeperZone, goalkeeperAction, zones, goalkeeper1, game)) != null) {
                                 game.setStarted();
-                                Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), game.getLastAction().getText(), Toast.LENGTH_SHORT).show();
+
 
                             }
 
                             if ((player = allPressedOffensive(lbl_scoreMyTeam, offensiveAction, finalization, zones, teamPlayer, players, game)) != null) {
                                 refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                 game.setStarted();
-                                Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), game.getLastAction().getText(), Toast.LENGTH_SHORT).show();
                             }
 
                             if ((player = pressedAsist(teamPlayer, players, btn_assist)) != null) {
@@ -603,8 +653,9 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                 game.setStarted();
                                 refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                 refreshLabels(null, null, null, null, btn_assist, null, null, null);
-                                Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
-                                game.addAction(new Action(player, "assistance", null, 0, 0));
+
+                                game.addAction(new Action(player, "assistance", null, 0, 0, game.getMinutes(),game.getSeconds()));
+                                Toast.makeText(getBaseContext(), game.getLastAction().getText(), Toast.LENGTH_SHORT).show();
 
                             }
 
@@ -613,14 +664,15 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                 game.setStarted();
                                 refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                 refreshLabels(null, null, null, null, null, btn_ft, null, null);
-                                Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
+                                game.addAction(new Action(player, "tech_fail", null, 0, 0, game.getMinutes(),game.getSeconds()));
+                                Toast.makeText(getBaseContext(), game.getLastAction().getText(), Toast.LENGTH_SHORT).show();
                             }
 
 
                             if ((player = allPressedDefensive(defensiveAction, zones, teamPlayer, players)) != null) {
                                 refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                 game.setStarted();
-                                Toast.makeText(getBaseContext(), "Acção Registada", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), game.getLastAction().getText(), Toast.LENGTH_SHORT).show();
 
                             }
 
@@ -1347,6 +1399,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
                         numberShirt = "ic_shirt_" + Integer.toString((player.getNumber())) + "_yellowcard";
                         resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
                         btnPlayer.setImageResource(resourceId);
+                        game.addAction(new Action(player, "yellow_card", game.getMinutes(), game.getSeconds()));
                         return true;
 
                     case R.id.btn_redCard:
@@ -1356,6 +1409,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
                         numberShirt = "ic_shirt_" + Integer.toString((player.getNumber())) + "_redcard";
                         resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
                         btnPlayer.setImageResource(resourceId);
+                        game.addAction(new Action(player, "red_card", game.getMinutes(), game.getSeconds()));
                         return true;
 
                     case R.id.btn_2min:
@@ -1366,6 +1420,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
                         numberShirt = "ic_shirt_" + Integer.toString((player.getNumber())) + "_2min";
                         resourceId = resources.getIdentifier(numberShirt, "drawable", getPackageName());
                         btnPlayer.setImageResource(resourceId);
+                        game.addAction(new Action(player, "2min_card", game.getMinutes(), game.getSeconds()));
                         return true;
                     case R.id.remove_2min:
                         player.setTwoMinOut();
@@ -1440,12 +1495,13 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
 
         if ((btnGkAction = isChildrenButtonPressed(goalkeeperAction)) != null && (btnZone = isChildrenButtonPressed(zones))!= null) {
-            game.addAction(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
             if (btnGkAction.getTag() == "btn_gk_post") {
+                game.addAction(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0,game.getMinutes(),game.getSeconds()));
                 goalkeeper.setPost((int) btnZone.getTag());
                 refreshLabels(null, null, null, btnZone, null, null, btnGkAction, null);
                 return goalkeeper;
             } else if (btnGkAction.getTag() == "btn_gk_out") {
+                game.addAction(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0,game.getMinutes(),game.getSeconds()));
                 goalkeeper.setOut((int) btnZone.getTag());
                 refreshLabels(null, null, null, btnZone, null, null, btnGkAction, null);
                 return goalkeeper;
@@ -1454,18 +1510,18 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
         if ((btnGkZone = isChildrenButtonPressed(goalkeeperZone)) != null && (btnGkAction = isChildrenButtonPressed(goalkeeperAction)) != null && (btnZone = isChildrenButtonPressed(zones))!= null) {
 
-            game.addAction(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), Integer.valueOf(btnGkZone.getTag().toString())));
             if (btnGkAction.getTag() == "btn_gk_goal") {
                 goalkeeper.setGoal((int) btnZone.getTag(), (int) btnGkZone.getTag());
                 game.setScoreOpponent();
                 score.setText(String.valueOf(game.getScoreOpponent()));
+                game.addAction(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), Integer.valueOf(btnGkZone.getTag().toString()),game.getMinutes(),game.getSeconds()));
 
                 refreshLabels(null, null, null, btnZone, null, null, btnGkAction, btnGkZone);
                 return goalkeeper;
 
             } else if (btnGkAction.getTag() == "btn_gk_def") {
                 goalkeeper.setDefended((int) btnZone.getTag(), (int) btnGkZone.getTag());
-
+                game.addAction(new Action(goalkeeper, btnGkAction.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), Integer.valueOf(btnGkZone.getTag().toString()),game.getMinutes(),game.getSeconds()));
                 refreshLabels(null, null, null, btnZone, null, null, btnGkAction, btnGkZone);
                 return goalkeeper;
             }
@@ -1494,7 +1550,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
             for(Player player : players){
                 if(player.getNumber()== Integer.valueOf(btnPlayer.getTag().toString())){
-                    game.addAction(new Action(player, btnOffAct.getTag().toString(),btnFinalization.getTag().toString(), Integer.valueOf(btnZone.getTag().toString()), 0));
+                    game.addAction(new Action(player, btnOffAct.getTag().toString(),btnFinalization.getTag().toString(), Integer.valueOf(btnZone.getTag().toString()), 0,game.getMinutes(),game.getSeconds()));
                     player.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
                     refreshLabels(btnOffAct, null, btnFinalization, btnZone, null, null, null, null);
 
@@ -1504,7 +1560,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
             for(Goalkeeper gk : gks){
                 if(gk.getNumber()==Integer.valueOf(btnPlayer.getTag().toString())){
-                    game.addAction(new Action(gk, btnOffAct.getTag().toString(),btnFinalization.getTag().toString(), Integer.valueOf(btnZone.getTag().toString()), 0));
+                    game.addAction(new Action(gk, btnOffAct.getTag().toString(),btnFinalization.getTag().toString(), Integer.valueOf(btnZone.getTag().toString()), 0,game.getMinutes(),game.getSeconds()));
                     gk.refreshPlayerStats(btnFinalization.getTag().toString(), (int) btnZone.getTag(), btnOffAct.getTag().toString());
                     refreshLabels(btnOffAct, null, btnFinalization, btnZone, null, null, null, null);
 
@@ -1539,7 +1595,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
             for(Player player : players){
                 if(player.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())){
-                    game.addAction(new Action(player, btnDefAct.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
+                    game.addAction(new Action(player, btnDefAct.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0,game.getMinutes(),game.getSeconds()));
                     if (btnDefAct.getTag() == "btn_block_def"){
                         player.setBlock((int) btnZone.getTag());
                         game.setStarted();
@@ -1558,7 +1614,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
             for(Goalkeeper gk : gks){
                 if(gk.getNumber() == Integer.valueOf(btnPlayer.getTag().toString())){
-                    game.addAction(new Action(gk, btnDefAct.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0));
+                    game.addAction(new Action(gk, btnDefAct.getTag().toString(),null, Integer.valueOf(btnZone.getTag().toString()), 0,game.getMinutes(),game.getSeconds()));
                     if (btnDefAct.getTag() == "btn_block_def"){
                         gk.setBlock((int) btnZone.getTag());
                     } else if(btnDefAct.getTag() == "btn_disarm") {
@@ -1576,6 +1632,8 @@ public class GameActivity extends GmailApiBase implements Serializable {
     }
 
     private void refreshAttackStatistics(Button btn_tf, Button btn_assist, Button btn_ca, Button btn_atk, Button btn_goal, Button btn_out, Button btn_atk_block, Button btn_goalpost, Button btn_defense, Button btn_zone_1, Button btn_zone_2, Button btn_zone_3, Button btn_zone_4, Button btn_zone_5, Button btn_zone_6, Button btn_zone_7, Button btn_zone_8, Button btn_zone_9 , Player player){
+
+
         btn_ca.setText("Contra Ataque\n"+player.getAllActions(player.getCaShotGoal())+"/"+player.getAllCaShots());
         btn_atk.setText("Ataque\n"+player.getAllActions(player.getAtkShotGoal())+"/"+player.getAllAtkShots());
 
@@ -1937,11 +1995,18 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
         PopupMenu popupMenu = new PopupMenu(this, view);
 
+        int countSubs = 0;
+
         for(Player playerTemp : players){
             Log.i("Playing?",String.valueOf(playerTemp.getPlaying()));
-            if(!playerTemp.getPlaying()){
+            if(!playerTemp.getPlaying() && !player.isRedCard()){
+                countSubs ++;
                 popupMenu.getMenu().add(Menu.NONE,playerTemp.getNumber(),Menu.NONE,playerTemp.getName()+" #"+String.valueOf(playerTemp.getNumber()));
             }
+        }
+
+        if(countSubs == 0){
+            popupMenu.getMenu().add("Não Existem Jogadores Substitutos.").setEnabled(false);
         }
 
         MenuInflater menuInflater = popupMenu.getMenuInflater();
@@ -2127,6 +2192,8 @@ public class GameActivity extends GmailApiBase implements Serializable {
     public void clickFtAdv(View v){
         game.setTechnicalFailAdv(game.getTechnicalFailAdv() + 1);
         btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
+        game.addAction(new Action("adv_technical_fail",game.getMinutes(),game.getSeconds()));
+
     }
 
     private void refreshPlayerImage(){
@@ -2145,7 +2212,11 @@ public class GameActivity extends GmailApiBase implements Serializable {
                     numberShirt = "ic_shirt_" + Integer.toString((p.getNumber())) + "_2min";
                     if(players2min.indexOf(p) == -1)
                         players2min.add(p);
-                } else {
+
+                } else if (p.isRedCard()) {
+                    numberShirt = "ic_shirt_" + Integer.toString((p.getNumber())) + "_redcard";
+
+                }else {
                     numberShirt = "ic_shirt_" + Integer.toString((p.getNumber()));
                 }
                 Resources resources = getResources();
@@ -2350,65 +2421,135 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                 case "btn_goal":
                                     if (action.getFinalization() == "btn_atk") {
                                         action.getPlayer().removeAtkShotGoal(action.getZone());
+                                        game.removeScoreMyTeam();
+                                        game.removeLastAction();
+                                        refreshAllStats();
+
                                     } else {
                                         action.getPlayer().removeCaShotGoal(action.getZone());
+                                        game.removeScoreMyTeam();
+                                        game.removeLastAction();
+                                        refreshAllStats();
                                     }
                                     break;
                                 case "btn_out":
                                     if (action.getFinalization() == "btn_atk") {
                                         action.getPlayer().removeAtkShotOut(action.getZone());
+                                        game.removeLastAction();
+                                        refreshAllStats();
                                     } else {
                                         action.getPlayer().removeCaShotOut(action.getZone());
+                                        game.removeLastAction();
+                                        refreshAllStats();
                                     }
                                     break;
                                 case "btn_goalpost":
                                     if (action.getFinalization() == "btn_atk") {
                                         action.getPlayer().removeAtkShotPost(action.getZone());
+                                        game.removeLastAction();
+                                        refreshAllStats();
                                     } else {
                                         action.getPlayer().removeCaShotPost(action.getZone());
+                                        game.removeLastAction();
+                                        refreshAllStats();
                                     }
                                     break;
                                 case "btn_defense":
                                     if (action.getFinalization() == "btn_atk") {
                                         action.getPlayer().removeAtkShotDefended(action.getZone());
+                                        game.removeLastAction();
+                                        refreshAllStats();
                                     } else {
                                         action.getPlayer().removeCaShotDefended(action.getZone());
+                                        game.removeLastAction();
+                                        refreshAllStats();
                                     }
                                     break;
                                 case "btn_block_atk":
                                     if (action.getFinalization() == "btn_atk") {
                                         action.getPlayer().removeAtkShotBlocked(action.getZone());
+                                        game.removeLastAction();
+                                        refreshAllStats();
                                     } else {
                                         action.getPlayer().removeCaShotBlocked(action.getZone());
+                                        game.removeLastAction();
+                                        refreshAllStats();
                                     }
                                     break;
                                 case "btn_block_def":
                                     action.getPlayer().removeBlock(action.getZone());
+                                    game.removeLastAction();
+                                    refreshAllStats();
                                     break;
                                 case "btn_disarm":
                                     action.getPlayer().removeDisarm(action.getZone());
+                                    game.removeLastAction();
+                                    refreshAllStats();
                                     break;
                                 case "btn_interception":
                                     action.getPlayer().removeInterception(action.getZone());
+                                    game.removeLastAction();
+                                    refreshAllStats();
                                     break;
                                 case "btn_gk_goal":
                                     gk = (Goalkeeper) action.getPlayer();
                                     gk.removeGoal(action.getZone(), action.getGoalZone());
+                                    game.removeLastAction();
+                                    game.removeScoreOpponent();
+                                    refreshAllStats();
+
                                     break;
                                 case "btn_gk_def":
                                     gk = (Goalkeeper) action.getPlayer();
                                     gk.removeDefended(action.getZone(), action.getGoalZone());
+                                    game.removeLastAction();
+                                    refreshAllStats();
                                     break;
                                 case "btn_gk_out":
                                     gk = (Goalkeeper) action.getPlayer();
                                     gk.removeOut(action.getZone());
+                                    game.removeLastAction();
+                                    refreshAllStats();
                                     break;
                                 case "btn_gk_post":
                                     gk = (Goalkeeper) action.getPlayer();
                                     gk.removePost(action.getZone());
+                                    game.removeLastAction();
+                                    refreshAllStats();
                                     break;
                                 case "assistance":
                                     action.getPlayer().removeAssistance();
+                                    game.removeLastAction();
+                                    refreshAllStats();
+                                    break;
+                                case "tech_fail":
+                                    action.getPlayer().removeTechFail();
+                                    game.removeLastAction();
+                                    refreshAllStats();
+                                    break;
+                                case "adv_technical_fail":
+                                    game.setTechnicalFailAdv(game.getTechnicalFailAdv()-1);
+                                    btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
+                                    game.removeLastAction();
+                                    refreshAllStats();
+                                    break;
+                                case "red_card":
+                                    action.getPlayer().setRedCard();
+                                    game.removeLastAction();
+                                    refreshPlayerImage();
+                                    refreshAllStats();
+                                    break;
+                                case "yellow_card":
+                                    action.getPlayer().setYellowCard();
+                                    game.removeLastAction();
+                                    refreshPlayerImage();
+                                    refreshAllStats();
+                                    break;
+                                case "2min_card":
+                                    action.getPlayer().setTwoMinOut();
+                                    game.removeLastAction();
+                                    refreshPlayerImage();
+                                    refreshAllStats();
                                     break;
                             }
                         }
@@ -2432,6 +2573,17 @@ public class GameActivity extends GmailApiBase implements Serializable {
         GmailApiTaskParams taskParams = new GmailApiTaskParams(players, game, gks);
         new GmailApiAsyncTask(this).execute(taskParams);
     }
+
+
+    public void refreshAllStats(){
+        //Player tempPlayer = getPlayerPressed(players,teamPlayer);
+        //refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
+        //refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, tempPlayer);
+        lbl_scoreMyTeam.setText(String.valueOf(game.getScoreMyTeam()));
+        lbl_scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
+    }
+
+
 
 
 

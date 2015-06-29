@@ -634,7 +634,7 @@ public class StatisticsTeam extends Activity {
                     opponent_zoneGoalShots[i] += goalkeeper.getZoneGoalShots(i + 1, j + 1);
                 }
 
-                opponent_zoneOutShots[i] += goalkeeper.getZoneOutShots(i + 1);
+                opponent_zoneOutShots[i] += goalkeeper.getZoneOutShots(i + 1) + goalkeeper.getZonePostShots(i + 1);
 
                 int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / ((float) opponent_zoneGoalShots[i] + opponent_zoneOutShots[i]) * 100);
 
@@ -699,7 +699,7 @@ public class StatisticsTeam extends Activity {
                 opponent_zoneGoalShots[i] += goalkeeper.getZoneGoalShots(i + 1, j + 1);
             }
 
-            opponent_zoneOutShots[i] += goalkeeper.getZoneOutShots(i + 1);
+            opponent_zoneOutShots[i] += goalkeeper.getZoneOutShots(i + 1) + goalkeeper.getZonePostShots(i + 1);
 
             int effectiveness = 100 - Math.round(opponent_zoneGoals[i] / ((float) opponent_zoneGoalShots[i] + opponent_zoneOutShots[i]) * 100);
 

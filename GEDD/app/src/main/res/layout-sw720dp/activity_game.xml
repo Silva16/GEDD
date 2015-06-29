@@ -773,7 +773,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:id="@+id/pager_sheet"
-            android:src="@drawable/icon_sheet"
+            android:src="@drawable/icon_sheet_selected"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
 
