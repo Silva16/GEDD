@@ -756,6 +756,7 @@
             android:layout_height="30dp"
             android:id="@+id/pager_stats"
             android:src="@drawable/icon_field"
+            android:rotation="270"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
 

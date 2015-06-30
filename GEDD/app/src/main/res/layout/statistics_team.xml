@@ -674,7 +674,6 @@
             android:layout_height="30dp"
             android:id="@+id/stats_pager_goal"
             android:src="@drawable/icon_ball"
-            android:rotation="270"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"/>
 
@@ -692,7 +691,6 @@
             android:layout_height="30dp"
             android:id="@+id/stats_pager_sheet"
             android:src="@drawable/icon_sheet"
-            android:rotation="270"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp" />
 
@@ -701,7 +699,6 @@
             android:layout_height="30dp"
             android:id="@+id/stats_pager_home"
             android:src="@drawable/icon_home"
-            android:rotation="270"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"/>
     </LinearLayout>

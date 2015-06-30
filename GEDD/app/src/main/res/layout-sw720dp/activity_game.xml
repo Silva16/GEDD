@@ -783,6 +783,7 @@
             android:id="@+id/pager_stats"
             android:src="@drawable/icon_field"
             android:layout_marginLeft="10dp"
+            android:rotation="270"
             android:layout_marginRight="10dp"/>
 
         <ImageView

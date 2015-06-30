@@ -322,7 +322,6 @@
             android:layout_height="30dp"
             android:id="@+id/goalstats_pager_goal"
             android:src="@drawable/icon_ball_selected"
-            android:rotation="270"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp" />
 
@@ -340,7 +339,6 @@
             android:layout_height="30dp"
             android:id="@+id/goalstats_pager_sheet"
             android:src="@drawable/icon_sheet"
-            android:rotation="270"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp" />
 
