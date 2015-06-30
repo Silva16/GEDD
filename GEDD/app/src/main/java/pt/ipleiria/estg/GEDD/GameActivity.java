@@ -8,9 +8,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -33,32 +31,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.UUID;
 
 import android.os.Handler;
-
-import com.google.api.services.gmail.Gmail;
-
-import org.json.JSONObject;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import pt.ipleiria.estg.GEDD.Models.Action;
 import pt.ipleiria.estg.GEDD.Models.Game;
@@ -143,7 +125,15 @@ public class GameActivity extends GmailApiBase implements Serializable {
     Button btn_b8;
     Button btn_b9;
 
+    RelativeLayout finalization;
+    RelativeLayout offensiveAction;
+    RelativeLayout defensiveAction;
+    RelativeLayout otherAction;
     RelativeLayout teamPlayer;
+    RelativeLayout goalkeeperZone;
+    RelativeLayout goalkeeperAction;
+    RelativeLayout field;
+    RelativeLayout mainLayout;
 
     TextView lbl_scoreMyTeam;
     TextView lbl_scoreOpponent;
@@ -170,7 +160,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
         mIndicator.setViewPager(mPager);*/
 
         // ActionBar Test
-        android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
+        ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
@@ -262,7 +252,6 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
         }else{
             createGame();
-
         }*/
 
         String str = getIntent().getStringExtra("type");
@@ -291,7 +280,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
             game = (Game) getIntent().getSerializableExtra("game");
             players = game.getPlayers();
             gks = game.getGks();
-            btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
+            btn_tf_adv.setText("Falha Técnica Adversária - "+game.getTechnicalFailAdv());
 
             lbl_scoreMyTeam.setText(String.valueOf(game.getScoreMyTeam()));
             lbl_scoreOpponent.setText(String.valueOf(game.getScoreOpponent()));
@@ -315,15 +304,15 @@ public class GameActivity extends GmailApiBase implements Serializable {
         lbl_opponent.setText(game.getOpponent());
 
         final ImageButton lastAction = (ImageButton) findViewById(R.id.lastAction);
-        final RelativeLayout zones = (RelativeLayout) findViewById(R.id.zones);
-        final RelativeLayout finalization = (RelativeLayout) findViewById(R.id.finalization);
-        final RelativeLayout offensiveAction = (RelativeLayout) findViewById(R.id.offensiveAction);
-        final RelativeLayout defensiveAction = (RelativeLayout) findViewById(R.id.defensiveAction);
-        final RelativeLayout otherAction = (RelativeLayout) findViewById(R.id.otherActions);
+        field = (RelativeLayout) findViewById(R.id.zones);
+        finalization = (RelativeLayout) findViewById(R.id.finalization);
+        offensiveAction = (RelativeLayout) findViewById(R.id.offensiveAction);
+        defensiveAction = (RelativeLayout) findViewById(R.id.defensiveAction);
+        otherAction = (RelativeLayout) findViewById(R.id.otherActions);
         teamPlayer = (RelativeLayout) findViewById(R.id.players);
-        final RelativeLayout goalkeeperZone = (RelativeLayout) findViewById(R.id.goalLayout);
-        final RelativeLayout goalkeeperAction = (RelativeLayout) findViewById(R.id.goalkeeperActions);
-        final RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.mainActivityLayout);
+        goalkeeperZone = (RelativeLayout) findViewById(R.id.goalLayout);
+        goalkeeperAction = (RelativeLayout) findViewById(R.id.goalkeeperActions);
+        mainLayout = (RelativeLayout) findViewById(R.id.mainActivityLayout);
 
         offensiveAction.setBackgroundColor(Color.parseColor(offensiveColor));
         defensiveAction.setBackgroundColor(Color.parseColor(defenseColor));
@@ -331,7 +320,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
         goalkeeperZone.setBackgroundColor(Color.parseColor(goalZoneColor));
         goalkeeperAction.setBackgroundColor(Color.parseColor(goalActionColor));
         otherAction.setBackgroundColor(Color.parseColor(otherActionColor));
-        zones.setBackgroundColor(Color.parseColor(fieldColor));
+        field.setBackgroundColor(Color.parseColor(fieldColor));
 
 
         //btn_discipline.setEnabled(false);
@@ -475,7 +464,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                 btn_gk_post.setPressed(false);
                             }
 
-                            if (v.getParent() == (RelativeLayout) zones) {
+                            if (v.getParent() == (RelativeLayout) field) {
 
                                 btn_assist.setPressed(false);
                                 btn_ft.setPressed(false);
@@ -604,6 +593,8 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
                             if (v.getTag() == "btn_ft_adv") {
 
+                                btn_ft.setPressed(false);
+                                btn_assist.setPressed(false);
                                 btn_atk.setPressed(false);
                                 btn_ca.setPressed(false);
                                 btn_goal.setPressed(false);
@@ -635,14 +626,14 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                 btn_gk_post.setPressed(false);
                             }
 
-                            if ((goalkeeper = allPressedGoalkeeperAction(lbl_scoreOpponent, goalkeeperZone, goalkeeperAction, zones, goalkeeper1, game)) != null) {
+                            if ((goalkeeper = allPressedGoalkeeperAction(lbl_scoreOpponent, goalkeeperZone, goalkeeperAction, field, goalkeeper1, game)) != null) {
                                 game.setStarted();
                                 Toast.makeText(getBaseContext(), game.getLastAction().getText(), Toast.LENGTH_SHORT).show();
 
 
                             }
 
-                            if ((player = allPressedOffensive(lbl_scoreMyTeam, offensiveAction, finalization, zones, teamPlayer, players, game)) != null) {
+                            if ((player = allPressedOffensive(lbl_scoreMyTeam, offensiveAction, finalization, field, teamPlayer, players, game)) != null) {
                                 refreshAttackStatistics(btn_ft, btn_assist, btn_ca, btn_atk, btn_goal, btn_out, btn_block_atk, btn_goalpost, btn_defense, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                 game.setStarted();
                                 Toast.makeText(getBaseContext(), game.getLastAction().getText(), Toast.LENGTH_SHORT).show();
@@ -669,7 +660,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
                             }
 
 
-                            if ((player = allPressedDefensive(defensiveAction, zones, teamPlayer, players)) != null) {
+                            if ((player = allPressedDefensive(defensiveAction, field, teamPlayer, players)) != null) {
                                 refreshDefensiveStatistics(btn_block_def, btn_disarm, btn_interception, btn_zone_1, btn_zone_2, btn_zone_3, btn_zone_4, btn_zone_5, btn_zone_6, btn_zone_7, btn_zone_8, btn_zone_9, player);
                                 game.setStarted();
                                 Toast.makeText(getBaseContext(), game.getLastAction().getText(), Toast.LENGTH_SHORT).show();
@@ -1653,9 +1644,9 @@ public class GameActivity extends GmailApiBase implements Serializable {
         btn_atk_block.setText("Bloco\n" + player.getAllBlocked());
         btn_defense.setText("Defesa\n" + player.getAllShotDefended());
 
-        btn_assist.setText("Assistência - "+player.getAssistance());
+        btn_assist.setText("Assistência\n"+player.getAssistance());
 
-        btn_tf.setText("Falha Técnica - "+player.getTechnicalFailure());
+        btn_tf.setText("Falha Técnica\n"+player.getTechnicalFailure());
 
     }
 
@@ -1681,14 +1672,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
     private void refreshLabels(Button btnOffAct, Button btnDefAct, Button btnFinalization, Button btnZone, Button btnAssist, Button btnTecFail, Button btnGKAction, Button btnGKZone){
 
-        final RelativeLayout finalization = (RelativeLayout) findViewById(R.id.finalization);
-        final RelativeLayout offensiveAction = (RelativeLayout) findViewById(R.id.offensiveAction);
-        final RelativeLayout defensiveAction = (RelativeLayout) findViewById(R.id.defensiveAction);
-        final RelativeLayout otherAction = (RelativeLayout) findViewById(R.id.otherActions);
-        final RelativeLayout teamPlayer = (RelativeLayout) findViewById(R.id.players);
-        final RelativeLayout goalkeeperZone = (RelativeLayout) findViewById(R.id.goalLayout);
-        final RelativeLayout goalkeeperAction = (RelativeLayout) findViewById(R.id.goalkeeperActions);
-        final RelativeLayout fieldAction = (RelativeLayout) findViewById(R.id.zones);
+
 
         if (btnOffAct != null) {
 
@@ -1737,7 +1721,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
         goalkeeperZone.setBackgroundColor(Color.parseColor(goalZoneColor));
         goalkeeperAction.setBackgroundColor(Color.parseColor(goalActionColor));
         otherAction.setBackgroundColor(Color.parseColor(otherActionColor));
-        fieldAction.setBackgroundColor(Color.parseColor(fieldColor));
+        field.setBackgroundColor(Color.parseColor(fieldColor));
 
     }
 
@@ -2191,7 +2175,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
     public void clickFtAdv(View v){
         game.setTechnicalFailAdv(game.getTechnicalFailAdv() + 1);
-        btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
+        btn_tf_adv.setText("Falha Técnica Adversária - "+game.getTechnicalFailAdv());
         game.addAction(new Action("adv_technical_fail",game.getMinutes(),game.getSeconds()));
 
     }
@@ -2349,6 +2333,14 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
     protected void onResume(){
         super.onResume();
+        teamPlayer.setBackgroundColor(Color.parseColor(teamColor));
+        offensiveAction.setBackgroundColor(Color.parseColor(offensiveColor));
+        defensiveAction.setBackgroundColor(Color.parseColor(defenseColor));
+        finalization.setBackgroundColor(Color.parseColor(finalizationColor));
+        goalkeeperZone.setBackgroundColor(Color.parseColor(goalZoneColor));
+        goalkeeperAction.setBackgroundColor(Color.parseColor(goalActionColor));
+        otherAction.setBackgroundColor(Color.parseColor(otherActionColor));
+        field.setBackgroundColor(Color.parseColor(fieldColor));
     }
 
     public class EditGameListener implements View.OnClickListener {
@@ -2529,7 +2521,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                     break;
                                 case "adv_technical_fail":
                                     game.setTechnicalFailAdv(game.getTechnicalFailAdv()-1);
-                                    btn_tf_adv.setText("Falha Técnica Adversária "+game.getTechnicalFailAdv());
+                                    btn_tf_adv.setText("Falha Técnica Adversária - "+game.getTechnicalFailAdv());
                                     game.removeLastAction();
                                     refreshAllStats();
                                     break;
