@@ -283,9 +283,10 @@ protected Void doInBackground(GmailApiTaskParams... params) {
             }
         }
         try {
-            String filename = game.getMyTeam()+"vs"+game.getOpponent()+" -- Geral.txt";
+            String filename = game.getMyTeam()+"_vs_"+game.getOpponent()+" -- Geral.txt";
             writer = new PrintWriter(mActivity.getApplicationContext().getFilesDir().getPath().toString() + filename, "UTF-8");
-            writer.println("                    1 - Dados Jogo");
+            writer.println("                    Dados Gerais do Jogo");
+            writer.println("\n                    1 - Dados Jogo");
             writer.println("                    Equipas: "+game.getMyTeam()+" vs "+game.getOpponent());
             writer.println("                    Resultado: "+game.getScoreMyTeam()+":"+game.getScoreOpponent());
             writer.println("                    Local: "+game.getLocal());
@@ -337,7 +338,7 @@ protected Void doInBackground(GmailApiTaskParams... params) {
             writer.println("            Eficácia|"+getEfficciencyString(zone_ca_goals[0],zone_ca_all[0])+"|"+getEfficciencyString(zone_ca_goals[1],zone_ca_all[1])+"|"+getEfficciencyString(zone_ca_goals[2],zone_ca_all[2])+"|"+getEfficciencyString(zone_ca_goals[3],zone_ca_all[3])+"|"+getEfficciencyString(zone_ca_goals[4],zone_ca_all[4])+"|"+getEfficciencyString(zone_ca_goals[5],zone_ca_all[5])+"|"+getEfficciencyString(zone_ca_goals[6],zone_ca_all[6])+"|"+getEfficciencyString(zone_ca_goals[7],zone_ca_all[7])+"|"+getEfficciencyString(zone_ca_goals[8],zone_ca_all[8])+"|"+getEfficciencyString(zone_ca_goals[9],zone_ca_all[9])+"|");
             writer.println("                    +---------------------------------------------------------------------+");
 
-            writer.println("\n                  2.2 - Acções Defensivas");
+            writer.println("\n                      2.2 - Acções Defensivas");
 
             writer.println("                    +---------------------------------------------------------------------+");
             writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
@@ -347,10 +348,10 @@ protected Void doInBackground(GmailApiTaskParams... params) {
            writer.println("                    +---------------------------------------------------------------------+");
 
 
-            writer.println("\n                  2.3 - Outras Acções");
-            writer.println("\n                  Assistências:"+assists);
-            writer.println("\n                  Falhas Técnicas:"+tecnichalFail);
-            writer.println("\n                  Falhas Técnicas Adversário:"+advTecnichalFail);
+            writer.println("\n                    2.3 - Outras Acções");
+            writer.println("\n                    Assistências:"+assists);
+            writer.println("\n                    Falhas Técnicas:"+tecnichalFail);
+            writer.println("\n                    Falhas Técnicas Adversário:"+advTecnichalFail);
 
             int zone_def_goals[] = new int[10];
             int zone_def_defended[] = new int[10];
@@ -486,7 +487,8 @@ protected Void doInBackground(GmailApiTaskParams... params) {
         try {
             String filename = game.getMyTeam()+"_vs_"+game.getOpponent()+"--"+player.getName()+".txt";
             writer = new PrintWriter(mActivity.getApplicationContext().getFilesDir().getPath().toString() + filename, "UTF-8");
-            writer.println("                    1 - Dados Jogo");
+            writer.println("                    Jogador: "+player.getName()+" #"+player.getNumber());
+            writer.println("\n                    1 - Dados Jogo");
             writer.println("                    Equipas: "+game.getMyTeam()+" vs "+game.getOpponent());
             writer.println("                    Resultado: "+game.getScoreMyTeam()+":"+game.getScoreOpponent());
             writer.println("                    Local: "+game.getLocal());
@@ -538,7 +540,7 @@ protected Void doInBackground(GmailApiTaskParams... params) {
             writer.println("            Eficácia|"+getEfficciencyString(zone_ca_goals[0],zone_ca_all[0])+"|"+getEfficciencyString(zone_ca_goals[1],zone_ca_all[1])+"|"+getEfficciencyString(zone_ca_goals[2],zone_ca_all[2])+"|"+getEfficciencyString(zone_ca_goals[3],zone_ca_all[3])+"|"+getEfficciencyString(zone_ca_goals[4],zone_ca_all[4])+"|"+getEfficciencyString(zone_ca_goals[5],zone_ca_all[5])+"|"+getEfficciencyString(zone_ca_goals[6],zone_ca_all[6])+"|"+getEfficciencyString(zone_ca_goals[7],zone_ca_all[7])+"|"+getEfficciencyString(zone_ca_goals[8],zone_ca_all[8])+"|"+getEfficciencyString(zone_ca_goals[9],zone_ca_all[9])+"|");
             writer.println("                    +---------------------------------------------------------------------+");
 
-            writer.println("\n                  2.2 - Acções Defensivas");
+            writer.println("\n                    2.2 - Acções Defensivas");
 
             writer.println("                    +---------------------------------------------------------------------+");
             writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
@@ -548,10 +550,9 @@ protected Void doInBackground(GmailApiTaskParams... params) {
             writer.println("                    +---------------------------------------------------------------------+");
 
 
-            writer.println("\n                  2.3 - Outras Acções");
-            writer.println("\n                  Assistências:"+assists);
-            writer.println("\n                  Falhas Técnicas:"+tecnichalFail);
-            writer.println("\n                  Falhas Técnicas Adversário:"+advTecnichalFail);
+            writer.println("\n                    2.3 - Outras Acções");
+            writer.println("\n                    Assistências:"+assists);
+            writer.println("\n                    Falhas Técnicas:"+tecnichalFail);
 
             writer.println("\n                    3 - Disciplina");
             writer.println("                     Cartões Amarelos: "+yellow_cards);
@@ -660,9 +661,10 @@ protected Void doInBackground(GmailApiTaskParams... params) {
         }
 
         try {
-            String filename = game.getMyTeam()+"vs"+game.getOpponent()+" -- "+gk.getName()+".txt";
+            String filename = game.getMyTeam()+"_vs_"+game.getOpponent()+" -- "+gk.getName()+".txt";
             writer = new PrintWriter(mActivity.getApplicationContext().getFilesDir().getPath().toString() + filename, "UTF-8");
-            writer.println("                    1 - Dados Jogo");
+            writer.println("                    Guarda-Redes: "+gk.getName()+" #"+gk.getNumber());
+            writer.println("\n                    1 - Dados Jogo");
             writer.println("                    Equipas: "+game.getMyTeam()+" vs "+game.getOpponent());
             writer.println("                    Resultado: "+game.getScoreMyTeam()+":"+game.getScoreOpponent());
             writer.println("                    Local: "+game.getLocal());
@@ -714,7 +716,7 @@ protected Void doInBackground(GmailApiTaskParams... params) {
             writer.println("            Eficácia|"+getEfficciencyString(zone_ca_goals[0],zone_ca_all[0])+"|"+getEfficciencyString(zone_ca_goals[1],zone_ca_all[1])+"|"+getEfficciencyString(zone_ca_goals[2],zone_ca_all[2])+"|"+getEfficciencyString(zone_ca_goals[3],zone_ca_all[3])+"|"+getEfficciencyString(zone_ca_goals[4],zone_ca_all[4])+"|"+getEfficciencyString(zone_ca_goals[5],zone_ca_all[5])+"|"+getEfficciencyString(zone_ca_goals[6],zone_ca_all[6])+"|"+getEfficciencyString(zone_ca_goals[7],zone_ca_all[7])+"|"+getEfficciencyString(zone_ca_goals[8],zone_ca_all[8])+"|"+getEfficciencyString(zone_ca_goals[9],zone_ca_all[9])+"|");
             writer.println("                    +---------------------------------------------------------------------+");
 
-            writer.println("\n                  2.2 - Acções Defensivas");
+            writer.println("\n                    2.2 - Acções Defensivas");
 
             writer.println("                    +---------------------------------------------------------------------+");
             writer.println("                    |Total |Zona 1|Zona 2|Zona 3|Zona 4|Zona 5|Zona 6|Zona 7|Zona 8|Zona 9|");
@@ -724,10 +726,9 @@ protected Void doInBackground(GmailApiTaskParams... params) {
             writer.println("                    +---------------------------------------------------------------------+");
 
 
-            writer.println("\n                  2.3 - Outras Acções");
-            writer.println("\n                  Assistências:"+assists);
-            writer.println("\n                  Falhas Técnicas:"+tecnichalFail);
-            writer.println("\n                  Falhas Técnicas Adversário:"+advTecnichalFail);
+            writer.println("\n                    2.3 - Outras Acções");
+            writer.println("\n                    Assistências:"+assists);
+            writer.println("\n                    Falhas Técnicas:"+tecnichalFail);
 
             int zone_def_goals[] = new int[10];
             int zone_def_defended[] = new int[10];
@@ -803,7 +804,7 @@ protected Void doInBackground(GmailApiTaskParams... params) {
 
 
                 zone_def_adv_all[i] = zone_def_goals[i]+zone_def_defended[i];
-                writer.println("                    2.5."+i+1+"     -     |Zona "+i+"|");
+                writer.println("\n                    2.5."+i+"     -     |Zona "+i+"|");
                 writer.println("                            +--------------------+");
                 writer.println("                            |"+getGoalCellString(zone_def_goals[1],zone_def_adv_all[1])+"|"+getGoalCellString(zone_def_goals[2],zone_def_adv_all[2])+"|"+getGoalCellString(zone_def_goals[3],zone_def_adv_all[3])+"|");
                 writer.println("                            |"+getReverseEfficciencyString(zone_def_goals[1],zone_def_adv_all[1])+"|"+getReverseEfficciencyString(zone_def_goals[2],zone_def_adv_all[2])+"|"+getReverseEfficciencyString(zone_def_goals[3],zone_def_adv_all[3])+"|");
@@ -815,11 +816,13 @@ protected Void doInBackground(GmailApiTaskParams... params) {
                 writer.println("                            |"+getReverseEfficciencyString(zone_def_goals[7],zone_def_adv_all[7])+"|"+getReverseEfficciencyString(zone_def_goals[8],zone_def_adv_all[8])+"|"+getReverseEfficciencyString(zone_def_goals[9],zone_def_adv_all[9])+"|");
                 writer.println("                            +--------------------+");
 
-                writer.println("\n                    3 - Disciplina");
-                writer.println("                     Cartões Amarelos: "+yellow_cards);
-                writer.println("                         Dois Minutos: "+two_mins);
-                writer.println("                    Cartões Vermelhos: "+red_cards);
+
             }
+
+            writer.println("\n                    3 - Disciplina");
+            writer.println("                     Cartões Amarelos: "+yellow_cards);
+            writer.println("                         Dois Minutos: "+two_mins);
+            writer.println("                    Cartões Vermelhos: "+red_cards);
 
             writer.close();
             return filename;
