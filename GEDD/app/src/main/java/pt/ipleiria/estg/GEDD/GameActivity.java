@@ -873,7 +873,11 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
             @Override
             public void onClick(View v) {
-                callIntentToStatistics(game, players, gks);
+                if(players.size() > 0 && gks.size() > 0) {
+                    callIntentToStatistics(game, players, gks);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Têm de configurar a equipa primeiro.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -887,11 +891,15 @@ public class GameActivity extends GmailApiBase implements Serializable {
         mGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GameActivity.this, StatisticsGoalkeeper.class);
-                intent.putExtra("Game", game);
-                intent.putExtra("Goalkeepers", gks);
-                intent.putExtra("Players", players);
-                startActivityForResult(intent, 2);
+                if(players.size() > 0 && gks.size() > 0) {
+                    Intent intent = new Intent(GameActivity.this, StatisticsGoalkeeper.class);
+                    intent.putExtra("Game", game);
+                    intent.putExtra("Goalkeepers", gks);
+                    intent.putExtra("Players", players);
+                    startActivityForResult(intent, 2);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Têm de configurar a equipa primeiro.", Toast.LENGTH_LONG).show();
+                }
 
                 /*Intent intent = new Intent(GameActivity.this, StatisticsTeam.class);
                 intent.putExtra("Game", game);
@@ -1808,8 +1816,7 @@ public class GameActivity extends GmailApiBase implements Serializable {
                     saveFile();
                     save = false;
 
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
+                    finish();
                 }
             });
             builder.show();
