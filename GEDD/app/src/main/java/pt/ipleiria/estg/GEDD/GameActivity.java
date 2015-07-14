@@ -52,7 +52,10 @@ public class GameActivity extends GmailApiBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+
+
     boolean isStart = false;
+    boolean askToStart = true;
     int seconds = 0;
     int minutes = 0;
     String opponentName = "";
@@ -395,6 +398,30 @@ public class GameActivity extends GmailApiBase implements Serializable {
                                 Toast.LENGTH_LONG).show();
 
                     }else {
+
+                        if(isStart == false && askToStart == true){
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                                    getApplicationContext());
+
+                            // set title
+                            alertDialogBuilder.setTitle("Aviso");
+
+                            // set dialog message
+                            alertDialogBuilder
+                                    .setMessage("Está a executar uma acção com o jogo pausado!")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,int id) {
+
+                                        }
+                                    });
+
+                            // create alert dialog
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+
+                            // show it
+                            alertDialog.show();
+                        }
 
                         if (!(v.isPressed())) {
 
@@ -799,9 +826,11 @@ public class GameActivity extends GmailApiBase implements Serializable {
                             if (isStart == false) {
                                 isStart = true;
                                 start.setImageResource(R.drawable.pause);
+                                askToStart = false;
                             } else {
                                 isStart = false;
                                 start.setImageResource(R.drawable.play);
+                                askToStart = true;
                             }
                         }else{
                             Toast.makeText(getApplicationContext(), "Têm de configurar a equipa para poder registar ações.",

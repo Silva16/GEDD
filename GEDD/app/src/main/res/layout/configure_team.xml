@@ -165,7 +165,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
-                android:id="@+id/lbl_le" />
+                android:id="@+id/lbl_ld" />
 
             <EditText
                 android:width="300px"

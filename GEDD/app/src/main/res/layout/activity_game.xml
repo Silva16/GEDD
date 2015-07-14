@@ -215,7 +215,6 @@
             android:text="Acção Ofensiva"
             android:id="@+id/textView"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/imgbtn_player6"
             android:textColor="#FFFFFF" />
 
         <Button
@@ -436,8 +435,6 @@
             android:id="@+id/btn_gk_post"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/btn_gk_out"
-            android:layout_alignRight="@+id/goalLayout"
-            android:layout_alignEnd="@+id/goalLayout"
             android:background="@android:drawable/btn_default"
             android:layout_marginTop="3dp" />
 
