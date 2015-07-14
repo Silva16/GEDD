@@ -78,7 +78,6 @@ public class ConfigureTeamActivity extends ActionBarActivity implements Serializ
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_configure_team, menu);
         return true;
     }
 

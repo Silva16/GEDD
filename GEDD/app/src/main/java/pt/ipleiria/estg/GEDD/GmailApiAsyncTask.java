@@ -7,6 +7,7 @@ import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Switch;
+import android.widget.Toast;
 
 
 import com.google.android.gms.auth.GoogleAuthException;
@@ -46,7 +47,7 @@ import pt.ipleiria.estg.GEDD.Models.Goalkeeper;
 import pt.ipleiria.estg.GEDD.Models.Player;
 
 
-public class GmailApiAsyncTask extends AsyncTask<GmailApiTaskParams, Void, Void> {
+public class GmailApiAsyncTask extends AsyncTask<GmailApiTaskParams, Void, String> {
 private static GmailApiBase mActivity;
 
 
@@ -65,7 +66,7 @@ private static GmailApiBase mActivity;
  * @param params no parameters needed for this task.
  */
 @Override
-protected Void doInBackground(GmailApiTaskParams... params) {
+protected String doInBackground(GmailApiTaskParams... params) {
         try {
             LinkedList<Player> players = params[0].players;
             Game game = params[0].game;
@@ -81,7 +82,7 @@ protected Void doInBackground(GmailApiTaskParams... params) {
                 filenames.add(createGoalkeeperReport(gk,game));
             }
             Log.i(TAG, "CENA 1");
-        MimeMessage email = createEmail("andrerosado09@gmail.com","andrerosado09@gmail.com","Teste","Texto do teste", filenames);
+        MimeMessage email = createEmail("andrerosado09@gmail.com","andrerosado09@gmail.com","GEDD - Relatório de jogo "+game.getMyTeam() + " vs " + game.getOpponent(),"Relatórios do jogo "+game.getMyTeam() + " vs " + game.getOpponent(), filenames);
             sendMessage(mActivity.mService,mActivity.credential.getSelectedAccountName(),email);
             Log.i(TAG, "CENA 1");
 
@@ -103,6 +104,11 @@ protected Void doInBackground(GmailApiTaskParams... params) {
         }
     return null;
         }
+
+    @Override
+    protected void onPostExecute(String string) {
+        Toast.makeText(mActivity.getApplicationContext(), "Relatórios enviados", Toast.LENGTH_LONG).show();
+    }
 
     /**
      * Create a MimeMessage using the parameters provided.

@@ -400,8 +400,9 @@ public class GameActivity extends GmailApiBase implements Serializable {
                     }else {
 
                         if(isStart == false && askToStart == true){
+                            askToStart = false;
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                                    getApplicationContext());
+                                    GameActivity.this);
 
                             // set title
                             alertDialogBuilder.setTitle("Aviso");
